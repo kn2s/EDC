@@ -38,7 +38,7 @@ $cakeVersion = __d('cake_dev', '');
       <nav>
         <ul>
           <li><a href="services.html">Services</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
           <li><a href="#">References</a></li>
           <li><a href="#">Recent Advances</a></li>
           <li><?php echo $this->Html->link('My Account',array('controller'=>'patients','action'=>'account','full_base'=>false));?></li>
@@ -98,4 +98,3 @@ $cakeVersion = __d('cake_dev', '');
 </div>
 </body>
 </html>
-

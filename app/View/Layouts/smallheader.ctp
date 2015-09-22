@@ -47,18 +47,18 @@ if($this->Session->check('loggedpatientid')){
 			if($this->Session->check('loggedpatientid')){
 		?>
 			<li><?php echo $this->Html->link('My Dashboard',array('controller'=>'patients','action'=>'dashboard','full_base'=>false),array('class'=>'active'));?></li>
-			<li><a href="about.html">About</a></li>
-			<li><a href="#">References</a></li>
-			<li><a href="#">Recent Advances</a></li>
+			<li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
+			<li><a href="javascript:void(0)">References</a></li>
+			<li><a href="javascript:void(0)">Recent Advances</a></li>
 			<li class="userMaleCircle"><?php echo $this->Session->read('loggedpatientname');?></li>
 		<?php
 			}
 			else{
 		?>
 			<li><a href="services.html">Services</a></li>
-			<li><a href="about.html">About</a></li>
-			<li><a href="#">References</a></li>
-			<li><a href="#">Recent Advances</a></li>
+			<li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
+			<li><a href="javascript:void(0)">References</a></li>
+			<li><a href="javascript:void(0)">Recent Advances</a></li>
 			<li><?php echo $this->Html->link('My Account',array('controller'=>'patients','action'=>'account','full_base'=>false));?></li>
 		<?php
 			}
