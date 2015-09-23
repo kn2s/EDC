@@ -1,63 +1,3 @@
-<!--
-<div class="patients index">
-	<h2><?php echo __('Patients'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('email'); ?></th>
-			<th><?php echo $this->Paginator->sort('password'); ?></th>
-			<th><?php echo $this->Paginator->sort('createtime'); ?></th>
-			<th><?php echo $this->Paginator->sort('browserdetails'); ?></th>
-			<th><?php echo $this->Paginator->sort('isactive'); ?></th>
-			<th><?php echo $this->Paginator->sort('isdeleted'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($patients as $patient): ?>
-	<tr>
-		<td><?php echo h($patient['Patient']['id']); ?>&nbsp;</td>
-		<td><?php echo h($patient['Patient']['name']); ?>&nbsp;</td>
-		<td><?php echo h($patient['Patient']['email']); ?>&nbsp;</td>
-		<td><?php echo h($patient['Patient']['password']); ?>&nbsp;</td>
-		<td><?php echo h($patient['Patient']['createtime']); ?>&nbsp;</td>
-		<td><?php echo h($patient['Patient']['browserdetails']); ?>&nbsp;</td>
-		<td><?php echo h($patient['Patient']['isactive']); ?>&nbsp;</td>
-		<td><?php echo h($patient['Patient']['isdeleted']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $patient['Patient']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $patient['Patient']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $patient['Patient']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $patient['Patient']['id']))); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Patient'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Patient Details'), array('controller' => 'patient_details', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Patient Detail'), array('controller' => 'patient_details', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
--->
 
   <section class="bodyBannerSlider appear">
   	<a href="javascript:void(0)" class="banner1">
@@ -76,13 +16,13 @@
   <section class="facility" data-appear-top-offset="-150">
     <div class="container">
       <div class="box icon1 smooth">
-        <p>Connect with physicians trained in top most American institutions</p>
+        <p><?=isset($homepagecontent['Homepagecontent']['tag_one'])?$homepagecontent['Homepagecontent']['tag_one']:''?></p>
       </div>
       <div class="box icon2 smooth">
-        <p>Get cure at your door step</p>
+        <p><?=isset($homepagecontent['Homepagecontent']['tag_two'])?$homepagecontent['Homepagecontent']['tag_two']:''?></p>
       </div>
       <div class="box icon3 smooth">
-        <p>Stay informed with latest advancements of treatment</p>
+        <p><?=isset($homepagecontent['Homepagecontent']['tag_three'])?$homepagecontent['Homepagecontent']['tag_three']:''?></p>
       </div>
       <div class="clear"></div>
     </div>
@@ -117,16 +57,18 @@
   <section class="knowTheSpecialists" data-appear-top-offset="-450">
     <div class="container">
       <h3>Know The <span>Specialists</span></h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nisi lectus, viverra in placerat non, pellentesque <br>
-        nec metus. Vivamus sed enim sit amet urna</p>
+      <p><?=isset($homepagecontent['Homepagecontent']['specialisttag'])?$homepagecontent['Homepagecontent']['specialisttag']:''?></p>
       <div class="clear"></div>
-      <div class="box"><?php echo $this->Html->image('doc1.jpg',array('alt'=>'','class'=>'smooth'));?></div>
-      <div class="box"><?php echo $this->Html->image('doc1.jpg',array('alt'=>'','class'=>'smooth'));?></div>
-      <div class="box"><?php echo $this->Html->image('doc1.jpg',array('alt'=>'','class'=>'smooth'));?></div>
-      <div class="box"><?php echo $this->Html->image('doc1.jpg',array('alt'=>'','class'=>'smooth'));?></div>
-      <div class="box"><?php echo $this->Html->image('doc1.jpg',array('alt'=>'','class'=>'smooth'));?></div>
-      <div class="box"><?php echo $this->Html->image('doc1.jpg',array('alt'=>'','class'=>'smooth'));?></div>
-	  
+	  <?php 
+		if(count($doctors)>0){
+			foreach($doctors as $doctor){
+			?>
+			<div class="box"><img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" class="smooth" /></div>
+			<?php
+			}
+		}
+	  ?>
+     
       <div class="clear"></div>
     </div>
   </section>

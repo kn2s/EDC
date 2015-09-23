@@ -37,10 +37,10 @@ $cakeVersion = __d('cake_dev', '');
 			?></h1>
       <nav>
         <ul>
-          <li><a href="services.html">Services</a></li>
+          <li><a href="javascript:void(0)">Services</a></li>
           <li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
-          <li><a href="#">References</a></li>
-          <li><a href="#">Recent Advances</a></li>
+          <li><a href="javascript:void(0)">References</a></li>
+          <li><a href="javascript:void(0)">Recent Advances</a></li>
           <li><?php echo $this->Html->link('My Account',array('controller'=>'patients','action'=>'account','full_base'=>false));?></li>
         </ul>
       </nav>

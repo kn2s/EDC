@@ -105,11 +105,11 @@ $controllername = ucwords($this->params->params['controller']);
                             <a href="javascript:void(0)"><i class="fa fa-files-o fa-fw"></i> Web Pages<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="javascript:void(0)">Home Page Contants</a>
+									<?php echo $this->Html->link('Home Page Contents',array('controller'=>'homepagecontents','action'=>'add','full_base'=>true),array('escape'=>false));?>
                                 </li>
-                                <li>
+                                <!--<li>
                                     <a href="javascript:void(0)">Login Page</a>
-                                </li>
+                                </li>-->
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

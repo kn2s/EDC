@@ -35,12 +35,24 @@ if($this->Session->check('loggedpatientid')){
 <div class="Wrapper <?php echo $wappercls;?>">
   <header class="sticky">
     <div class="container">
-	  <h1 class="logo smooth"><?php echo $this->Html->link(
+		<h1 class="logo smooth">
+	<?php 
+		if(!$this->Session->check('loggedpatientid')){
+			echo $this->Html->link(
 					$this->Html->image('logo.png', array('alt' =>'EC')),
 					array('controller'=>'patients','action'=>'index','full_base'=>true),
 					array('escape'=>false)
 				);
-			?></h1>
+		}
+		else{
+			echo $this->Html->link(
+					$this->Html->image('logo.png', array('alt' =>'EC')),
+					array('controller'=>'patients','action'=>'dashboard','full_base'=>true),
+					array('escape'=>false)
+				);
+		}
+		?>
+		</h1>
       <nav class="inner">
         <ul>
 		<?php 
@@ -55,7 +67,7 @@ if($this->Session->check('loggedpatientid')){
 			}
 			else{
 		?>
-			<li><a href="services.html">Services</a></li>
+			<li><a href="javascript:void(0)">Services</a></li>
 			<li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
 			<li><a href="javascript:void(0)">References</a></li>
 			<li><a href="javascript:void(0)">Recent Advances</a></li>

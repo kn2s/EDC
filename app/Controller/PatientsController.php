@@ -22,8 +22,13 @@ class PatientsController extends AppController {
  * @return void
  */
 	public function index() {
-		//$this->Patient->recursive = 0;
-		//$this->set('patients', $this->Paginator->paginate());
+		
+		$this->loadModel('Doctor');
+		$this->loadModel('Homepagecontent');
+		$doctors = $this->Doctor->find('all',array('recursive'=>'0','limit'=>'54','order'=>array('Doctor.id'=>'asc')));
+		$this->set('doctors',$doctors);
+		$this->set('homepagecontent', $this->Homepagecontent->find('first'));
+		
 	}
 
 /**
@@ -115,15 +120,31 @@ class PatientsController extends AppController {
 						);
 						$patient = $this->Patient->find('first',array('recursive'=>'0','conditions'=>$option));
 						if(isset($patient) && is_array($patient) && count($patient)>0){
-							//valied user
-							$this->Session->write(array('loggedpatientid'=>$patient['Patient']['id'],'loggedpatientname'=>$patient['Patient']['name']));
-							if($this->userislogin()){
-								//valid user go their profile dash bord section
-								$this->redirect(array('action'=>'dashboard'));
+							//if patient 
+							if($patient['Patient']['ispatient']==1){
+								//valied user
+								$this->Session->write(array('loggedpatientid'=>$patient['Patient']['id'],'loggedpatientname'=>$patient['Patient']['name']));
+								if($this->userislogin()){
+									//valid user go their profile dash bord section
+									$this->redirect(array('action'=>'dashboard'));
+								}
+								else{
+									//session creation error
+									$this->Session->setFlash(__('sorry we have problem please try again.'));
+								}
 							}
 							else{
-								//session creation error
-								$this->Session->setFlash(__('sorry we have problem please try again.'));
+								/*//valied doctor user
+								$this->Session->write(array('loggedpatientid'=>$patient['Patient']['id'],'loggedpatientname'=>$patient['Patient']['name']));
+								if($this->userislogin()){
+									//valid user go their profile dash bord section
+									$this->redirect(array('action'=>'dashboard'));
+								}
+								else{
+									//session creation error
+									$this->Session->setFlash(__('sorry we have problem please try again.'));
+								}*/
+								$this->Session->setFlash(__('Email or password does not match.'));
 							}
 						}
 						else{
