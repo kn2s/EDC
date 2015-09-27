@@ -7,6 +7,7 @@ if($this->Session->check('loggedpatientid')){
 	$footercls="";
 	$wappercls="myDashBord";
 }
+$activecontrolleraction = $this->params->params['controller']."".$this->params->params['action'];
 ?>
 <!DOCTYPE html>
 <html class="no-js">
@@ -67,11 +68,14 @@ if($this->Session->check('loggedpatientid')){
 			}
 			else{
 		?>
-			<li><a href="javascript:void(0)">Services</a></li>
-			<li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
+			<li><?php echo $this->Html->link('Services',array('controller'=>'services','action'=>'index','full_base'=>false),
+			array('class'=>($activecontrolleraction=='servicesindex')?'active':''));?></li>
+			<li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false),
+			array('class'=>($activecontrolleraction=='aboutusindex')?'active':''));?></li>
 			<li><a href="javascript:void(0)">References</a></li>
 			<li><a href="javascript:void(0)">Recent Advances</a></li>
-			<li><?php echo $this->Html->link('My Account',array('controller'=>'patients','action'=>'account','full_base'=>false));?></li>
+			<li><?php echo $this->Html->link('My Account',array('controller'=>'patients','action'=>'account','full_base'=>false),
+			array('class'=>($activecontrolleraction=='patientsaccount')?'active':''));?></li>
 		<?php
 			}
 		?>
@@ -85,38 +89,8 @@ if($this->Session->check('loggedpatientid')){
   
   <footer class="<?php echo $footercls;?>">
     <div class="container">
-      <div class="followus">
-        <p>Follow us on</p>
-        <div class="clear"></div>
-	 <?php 
-		echo $this->Html->link(
-		$this->Html->image('s1.png', array('alt' => 'fb', 'border' => '0')),
-		'https://www.facebook.com/',
-		array('target'=>'_blank','escape'=>false,'class'=>'socialIcon')
-		);
-	  ?>
-	  <?php 
-		echo $this->Html->link(
-		$this->Html->image('s2.png', array('alt' => 'fb', 'border' => '0')),
-		'https://www.twitter.com/',
-		array('target'=>'_blank','escape'=>false,'class'=>'socialIcon')
-		);
-	  ?>
-	  <?php 
-		echo $this->Html->link(
-		$this->Html->image('s3.png', array('alt' => 'fb', 'border' => '0')),
-		'https://www.youtube.com/',
-		array('target'=>'_blank','escape'=>false,'class'=>'socialIcon')
-		);
-	  ?>
-	  <?php 
-		echo $this->Html->link(
-		$this->Html->image('s4.png', array('alt' => 'fb', 'border' => '0')),
-		'https://www.rss.com/',
-		array('target'=>'_blank','escape'=>false,'class'=>'socialIcon')
-		);
-	  ?>
-	  </div>
+		<?php echo $this->element('socialmedia')?>
+     
 	  <ul>
         <li><?php echo $this->Html->link('Contact Us',array('controller'=>'contactus','action'=>'index','full_base'=>true)); ?></li>
         <li><?php echo $this->Html->link('Privacy Police',array('controller'=>'praivacypolicy','action'=>'index','full_base'=>true)); ?></li>

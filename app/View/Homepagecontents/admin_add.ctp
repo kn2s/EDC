@@ -1,29 +1,3 @@
-<!--
-<div class="homepagecontents form">
-<?php echo $this->Form->create('Homepagecontent'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Homepagecontent'); ?></legend>
-	<?php
-		echo $this->Form->input('specialisttag');
-		echo $this->Form->input('facebook');
-		echo $this->Form->input('twitter');
-		echo $this->Form->input('youtube');
-		echo $this->Form->input('tag_one');
-		echo $this->Form->input('tag_two');
-		echo $this->Form->input('tag_three');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Homepagecontents'), array('action' => 'index')); ?></li>
-	</ul>
-</div>
--->
-
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">Home Page Content</h1>

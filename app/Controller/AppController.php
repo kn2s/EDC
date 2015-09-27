@@ -81,4 +81,12 @@ class AppController extends Controller {
 		$this->Session->delete('loggedadminemail');
 		$this->validateadminsession();
 	}
+	
+	public function socialmedialinks(){
+		if($this->request->is('requested')){
+			$this->loadModel('Homepagecontent');
+			$socialdatas = $this->Homepagecontent->find('first',array('recursive'=>'0'));
+			return $socialdatas;
+		}
+	}
 }

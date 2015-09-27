@@ -122,7 +122,7 @@ class PatientsController extends AppController {
 						if(isset($patient) && is_array($patient) && count($patient)>0){
 							//if patient 
 							if($patient['Patient']['ispatient']==1){
-								//valied user
+								//valid patient user
 								$this->Session->write(array('loggedpatientid'=>$patient['Patient']['id'],'loggedpatientname'=>$patient['Patient']['name']));
 								if($this->userislogin()){
 									//valid user go their profile dash bord section

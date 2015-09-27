@@ -107,9 +107,9 @@ $controllername = ucwords($this->params->params['controller']);
                                 <li>
 									<?php echo $this->Html->link('Home Page Contents',array('controller'=>'homepagecontents','action'=>'add','full_base'=>true),array('escape'=>false));?>
                                 </li>
-                                <!--<li>
-                                    <a href="javascript:void(0)">Login Page</a>
-                                </li>-->
+                                <li>
+                                    <?php echo $this->Html->link('Service Page Contents',array('controller'=>'services','action'=>'add','full_base'=>true),array('escape'=>false));?>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
