@@ -55,12 +55,10 @@ class PatientsController extends AppController {
 					if(trim($this->request->data['Patient']['password'])==''){
 						$validatealldata=false;
 					}
-					if(trim($this->request->data['Patient']['password'])!=trim($this->request->data['Patient']['cpassword'])){
+					if(trim($this->request->data['Patient']['cpassword'])){
 						$validatealldata=false;
 					}
-					if(!isset($this->request->data['Patient']['terms'])){
-						$validatealldata=false;
-					}
+					
 					//validation over
 					if($validatealldata){
 						//saved the user in database
@@ -99,7 +97,9 @@ class PatientsController extends AppController {
 					else{
 						//show error message
 						$this->Session->setFlash(__('All fields are mendatory.'));
-						//pr("<script>alert('All fields are mendatory')</script>");
+						if(!isset($this->request->data['Patient']['terms'])){
+							$this->Session->setFlash(__('Accept the term and condition'));
+						}
 					}
 				}
 				else{
@@ -268,8 +268,9 @@ class PatientsController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout="admin";
 		$this->Patient->recursive = 0;
-		$this->set('patients', $this->Paginator->paginate());
+		$this->set('patients', $this->Patient->find('all',array('conditions'=>array('Patient.ispatient'=>'1'))));
 	}
 
 /**

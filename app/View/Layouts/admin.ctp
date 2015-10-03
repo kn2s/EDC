@@ -98,9 +98,24 @@ $controllername = ucwords($this->params->params['controller']);
 						</li>
                         
                         <li>
-                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i> Patients</a>
+                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i> Patients<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+                                <li>
+									<?php echo $this->Html->link('All Patients',array('controller'=>'patients','action'=>'index','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                            </ul>
                         </li>
-                        
+                        <li>
+                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i> Allowed Country<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+                                <li>
+									<?php echo $this->Html->link('List',array('controller'=>'countries','action'=>'index','full_base'=>true),array('escape'=>false));?>
+                                </li>
+								<li>
+									<?php echo $this->Html->link('Add',array('controller'=>'countries','action'=>'add','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="javascript:void(0)"><i class="fa fa-files-o fa-fw"></i> Web Pages<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
