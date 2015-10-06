@@ -77,11 +77,12 @@ class PatientsController extends AppController {
 							$this->request->data['Patient']['password']=md5($this->request->data['Patient']['password']);
 							if($this->Patient->save($this->request->data)){
 								//user saved into the db successfully
-								$this->Session->write(array('loggedpatientid'=>$this->Patient->id,'loggedpatientname'=>$this->request->data['Patient']['name']));
+								//$this->Session->write(array('loggedpatientid'=>$this->Patient->id,'loggedpatientname'=>$this->request->data['Patient']['name']));
 								
 								if($this->userislogin()){
 									//valid user go their profile dash bord section
-									$this->redirect(array('action'=>'dashboard'));
+									//$this->redirect(array('action'=>'dashboard'));
+									$this->Session->setFlash(__('You are successfully registered.'));
 								}
 								else{
 									//session creation error
@@ -166,7 +167,163 @@ class PatientsController extends AppController {
 			$this->redirect(array('action'=>'dashboard'));
 		}
 	}
+/**
+ * ajaxlogin method
+ * @return array
+ */
+	public function ajaxlogin(){
+		header('Content-type:application/json');
+		$status=0;
+		$message='Invalid Request made';
+		//pr($this->request->data);
+		if($this->request->is('post')){
+			if(!filter_var($this->request->data['Patient']['email'],FILTER_VALIDATE_EMAIL)){
+				//$validatealldata=false;
+				$message="Invalid email address";
+				die(json_encode(array('status'=>$status,'message'=>$message)));
+			}
+			if(trim($this->request->data['Patient']['password'])==''){
+				//$validatealldata=false;
+				$message="Password cannot blank";
+				die(json_encode(array('status'=>$status,'message'=>$message)));
+			}
+			$validatealldata=true;
+			
+			if($validatealldata){
+				//validation of email and password
+				$option = array(
+					'Patient.email'=>$this->request->data['Patient']['email'],
+					'Patient.password'=>md5($this->request->data['Patient']['password']),
+					'Patient.isdeleted'=>'0'
+				);
+				$patient = $this->Patient->find('first',array('recursive'=>'0','conditions'=>$option));
+				if(isset($patient) && is_array($patient) && count($patient)>0){
+					//if patient 
+					if($patient['Patient']['ispatient']==1){
+						//valid patient user
+						$this->Session->write(array('loggedpatientid'=>$patient['Patient']['id'],'loggedpatientname'=>$patient['Patient']['name']));
+						if($this->userislogin()){
+							//valid user go their profile dash bord section
+							//$this->redirect(array('action'=>'dashboard'));
+							die(json_encode(array('status'=>'1','message'=>'')));
+						}
+						else{
+							//session creation error
+							//$this->Session->setFlash(__('sorry we have problem please try again.'));
+							$message="sorry we have problem please try again.";
+							die(json_encode(array('status'=>$status,'message'=>$message)));
+						}
+					}
+					else{
+						/*//valied doctor user
+						$this->Session->write(array('loggedpatientid'=>$patient['Patient']['id'],'loggedpatientname'=>$patient['Patient']['name']));
+						if($this->userislogin()){
+							//valid user go their profile dash bord section
+							$this->redirect(array('action'=>'dashboard'));
+						}
+						else{
+							//session creation error
+							$this->Session->setFlash(__('sorry we have problem please try again.'));
+						}*/
+						//$this->Session->setFlash(__('Email or password does not match.'));
+						$message="Email or password does not match.";
+						die(json_encode(array('status'=>$status,'message'=>$message)));
+					}
+				}
+				else{
+					//invald user section
+					//$this->Session->setFlash(__('Email or password does not match.'));
+					$message="Email or password does not match.";
+					die(json_encode(array('status'=>$status,'message'=>$message)));
+				}
+			}
+		}
+		die(json_encode(array('status'=>$status,'message'=>$message)));
+	}
 	
+/**
+ * ajaxsignup method
+ * @return array
+ */
+	public function ajaxsignup(){
+		header('Content-type:application/json');
+		$status=0;
+		$message='Invalid request made';
+		if($this->request->is('post')){
+			//new user registrations
+			if(trim($this->request->data['Patient']['name'])==''){
+				//$validatealldata=false;
+				$message="Name can not blank";
+				die(json_encode(array('status'=>$status,'message'=>$message)));
+			}
+			if(!filter_var($this->request->data['Patient']['email'],FILTER_VALIDATE_EMAIL)){
+				//$validatealldata=false;
+				$message="Invalid email address";
+				die(json_encode(array('status'=>$status,'message'=>$message)));
+			}
+			if(trim($this->request->data['Patient']['password'])==''){
+				//$validatealldata=false;
+				$message="Password can not blank";
+				die(json_encode(array('status'=>$status,'message'=>$message)));
+			}
+			if(trim($this->request->data['Patient']['cpassword'])!=trim($this->request->data['Patient']['password'])){
+				//$validatealldata=false;
+				$message="Confirm password can not match";
+				die(json_encode(array('status'=>$status,'message'=>$message)));
+			}
+			if(!isset($this->request->data['Patient']['terms'])){
+				//$this->Session->setFlash(__('Accept the term and condition'));
+				$message="Accept the term and condition";
+				die(json_encode(array('status'=>$status,'message'=>$message)));
+			}
+			
+			$validatealldata=true;
+			//validation over
+			if($validatealldata){
+				//saved the user in database
+				$option = array(
+					'Patient.email'=>$this->request->data['Patient']['email'],
+					'Patient.isdeleted'=>'0'
+				);
+				$patientcount = $this->Patient->find('count',array('recursive'=>'0','conditions'=>$option));
+				if($patientcount>0){
+					//email already present
+					//$this->Session->setFlash(__('This email already present.'));
+					$message="This email already registered";
+					die(json_encode(array('status'=>$status,'message'=>$message)));
+				}
+				else{
+					$this->request->data['Patient']['browserdetails']=$_SERVER['HTTP_USER_AGENT'];
+					$this->request->data['Patient']['isactive']='1';
+					$this->request->data['Patient']['password']=md5($this->request->data['Patient']['password']);
+					if($this->Patient->save($this->request->data)){
+						//user saved into the db successfully
+						/*$this->Session->write(array('loggedpatientid'=>$this->Patient->id,'loggedpatientname'=>$this->request->data['Patient']['name']));
+						
+						if($this->userislogin()){
+							//valid user go their profile dash bord section
+							//$this->redirect(array('action'=>'dashboard'));
+							$this->Session->setFlash(__('You are successfully registered.'));
+						}
+						else{
+							//session creation error
+							$this->Session->setFlash(__('sorry we have problem please try again.'));
+						}*/
+						$message="You are successfully registered";
+						die(json_encode(array('status'=>$status,'message'=>$message)));
+					}
+					else{
+						//saving error section
+						//$this->Session->setFlash(__('sorry we have problem to saveing you information please try again.'));
+						$message="Sorry we have problem to saveing you information please try again.";
+						die(json_encode(array('status'=>$status,'message'=>$message)));
+					}
+				}
+			}
+		}
+		die(json_encode(array('status'=>$status,'message'=>$message)));
+	}
+ 
 /**
  * dashboard method
  *

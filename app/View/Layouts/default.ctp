@@ -24,6 +24,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 	<script>
 		$(document).ready(function(){
 			$("#sqlsection").hide();
+			
 		});
 	</script>
 </head>

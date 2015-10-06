@@ -1,29 +1,15 @@
+
 <h2>Patients Details</h2>
 <?php echo $this->Form->create('PatientDetail',array('action'=>'add'));?>
             <div class="pertionalDetails">
-            	<!--<div class="name">
-                	<label class="blue">* Full Name</label>
-                    <input type="text" name="data[patientdetail][name]" placeholder="Full Name">
-                </div>-->
-				
+            	
 				<?php echo $this->Form->input('name',array(
 					'div'=>'name',
 					'label'=>array(
 						'class'=>'blue',
 						'text'=>'* Full Name'
 					)
-				)); ?>
-                <!--<div class="gender ml20">
-                	<label class="blue">* Gender</label>
-                    <select>
-                    	<option>Select</option>
-                    	<option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-					
-                </div>-->
-				
-				<?php 
+				));  
 					echo $this->Form->input('gender',array(
 					'options'=>array('male'=>'Male','female'=>'Female'),
 					'default'=>'male',
@@ -34,16 +20,7 @@
                 <div class="clear"></div>
                 <div class="name">
                 	<label class="blue">* Date of Birth</label>
-                    <!--<select class="oneThird">
-                    	<option>Month</option>
-                    </select>
-                    <select class="oneThird">
-                    	<option>Date</option>
-                    </select>
-                    <select class="oneThird">
-                    	<option>Year</option>
-                    </select>-->
-					
+                    
 					<?php 
 						$months=array('Month');
 						$days=array('Day');
@@ -84,11 +61,7 @@
                 <div class="clear"></div>
                 <div class="place">
                 	<label class="blue">Place</label>
-                    <!--<input type="text" placeholder="City">
-                    <input type="text" class="ml14" placeholder="State / Province">
-                    <select class="">
-                    	<option>Country</option>
-                    </select>-->
+                    
 					<?php
 					echo $this->Form->input('city',array(
 							'div'=>false,
@@ -104,7 +77,7 @@
 							'type'=>'text',
 							'placeholder'=>'State / Province'
 						));
-					$countries=array('1'=>'India');
+					//$countries=array('1'=>'India');
 					echo $this->Form->input('country_id',array(
 						'div'=>false,
 						'label'=>false,
@@ -114,15 +87,7 @@
 					?>
                 </div>
                 <div class="clear"></div>
-                <!--<div class="gender">
-                	<label class="blue">* Weight</label>
-                    <input type="text" placeholder="0.00" class="weight">
-                </div>
-                <div class="gender ml20">
-                	<label class="blue">* Height</label>
-                    <input type="text" placeholder="00" class="height">
-                </div>
-				-->
+                
 				<?php 
 					echo $this->Form->input('weight',array(
 						'div'=>'gender',
@@ -184,7 +149,8 @@
             <div class="clear35"></div>
             <a href="javascript:void(0)" class="backBtn disable">Back</a>
             <input type="submit" class="nextBtn" value="Next">
-            <!--<a href="#" class="saveBtn">Save</a>-->
-			<input type="submit" class="saveBtn" value="Save" name="save">
+			<input type="submit" class="saveBtn" value="Save" name="save" id="pdsaved">
 			
 </form>
+
+<!-- script section for this page become one page -- >

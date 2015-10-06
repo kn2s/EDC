@@ -23,6 +23,7 @@ class CountriesController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->validateadminsession();
 		$this->Country->recursive = 0;
 		$this->set('countries', $this->Country->find('all'));
 	}
@@ -48,6 +49,8 @@ class CountriesController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->validateadminsession();
+		
 		if ($this->request->is('post')) {
 			//pr($this->request->data);
 			//do validation here
