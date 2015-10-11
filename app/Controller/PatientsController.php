@@ -341,7 +341,14 @@ class PatientsController extends AppController {
 		$this->set('patient', $patient);
 		//die();
 	}
-
+/**
+ * logout method
+ * @return void
+ */
+	public function logout(){
+		$this->usersessionremove();
+		$this->userloginsessionchecked();
+	}
 /**
  * view method
  *

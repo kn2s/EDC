@@ -36,7 +36,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 <body>
 <div class="Wrapper <?php echo $wappercls;?>">
   <header class="sticky">
-    <div class="container">
+    <!--<div class="container">
 		<h1 class="logo smooth">
 	<?php 
 		if(!$this->Session->check('loggedpatientid')){
@@ -61,7 +61,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 			if($this->Session->check('loggedpatientid')){
 		?>
 			<li><?php echo $this->Html->link('My Dashboard',array('controller'=>'patients','action'=>'dashboard','full_base'=>false),array('class'=>'active'));?></li>
-			<li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
+			<li><?php echo $this->Html->link('About us',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
 			<li><a href="javascript:void(0)">References</a></li>
 			<li><a href="javascript:void(0)">Recent Advances</a></li>
 			<li class="userMaleCircle"><?php echo $this->Session->read('loggedpatientname');?></li>
@@ -83,7 +83,8 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
           
         </ul>
       </nav>
-    </div>
+    </div>-->
+	<?php echo $this->element('navigations',array("activecontrolleraction"=>$activecontrolleraction))?>
   </header>
   
   <?php echo $this->fetch('content'); ?>

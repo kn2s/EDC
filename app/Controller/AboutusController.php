@@ -23,7 +23,7 @@ class AboutusController extends AppController {
  */
 	public function index($curspecialist=0) {
 		if($this->userislogin()){
-			$this->layout="smallheader";
+			//$this->layout="smallheader";
 		}
 		$this->loadModel('Doctor');
 		$specializations = $this->Doctor->Specialization->find('list');

@@ -31,27 +31,8 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 <body>
 <div class="Wrapper">
   <header class="home smooth">
-    <div class="container">
-	  <h1 class="logo smooth">
-	  <?php echo $this->Html->link(
-			$this->Html->image('logo.png', array('alt' =>'EC')),
-			array('controller'=>'patients','action'=>'index','full_base'=>true),
-			array('escape'=>false)
-		);
-		?></h1>
-      <nav>
-        <ul>
-          <li><?php echo $this->Html->link('Services',array('controller'=>'services','action'=>'index','full_base'=>false),
-			array('class'=>($activecontrolleraction=='servicesindex')?'active':''));?></li>
-          <li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false),
-		  array('class'=>($activecontrolleraction=='aboutusindex')?'active':''));?></li>
-          <li><a href="javascript:void(0)">References</a></li>
-          <li><a href="javascript:void(0)">Recent Advances</a></li>
-          <li><?php echo $this->Html->link('My Account',array('controller'=>'patients','action'=>'account','full_base'=>false),
-		  array('class'=>($activecontrolleraction=='patientsaccount')?'active':''));?></li>
-        </ul>
-      </nav>
-    </div>
+   
+	<?php echo $this->element('navigations',array("activecontrolleraction"=>$activecontrolleraction))?>
   </header>
   
   <?php echo $this->fetch('content'); ?>
