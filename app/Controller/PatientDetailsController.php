@@ -25,10 +25,14 @@ class PatientDetailsController extends AppController {
 	public function index() {
 		/*$this->PatientDetail->recursive = 0;
 		$this->set('patientDetails', $this->Paginator->paginate());*/
-		
+		//$this->usersessionremove();
+		$this->userloginsessionchecked();
+		$conditions = array('PatientDetail.patient_id'=>$this->Session->read('loggedpatientid'));
+		$patientDetail = $this->PatientDetail->find('first',array('recursive'=>'1','conditions'=>$conditions));
 		$patients = $this->PatientDetail->Patient->find('list');
 		$countries = $this->PatientDetail->Country->find('list');
 		$this->set(compact('patients', 'countries'));
+		$this->set('patientDetail',$patientDetail);
 	}
 
 /**
@@ -53,16 +57,49 @@ class PatientDetailsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+			header("Content-type:application/json");
+			//pr($this->request->data);
+			//die();
+			$performances = array("Patient is fully active, able to carry on all pre-disease performance without restriction_0",
+"Patient is restricted in physically strenuous activity but ambulatory and able to carry out work of a light or sedentary nature,
+ e.g., light house work, office work_1",
+"Patient is ambulatory and capable of all self-care but unable to carry out any work activities. Up and about more than 50% of waking hours (excluding the normal sleeping time)_2",
+"Patient is capable of only limited self-care, confined to bed or chair more than 50% of waking hours (excluding the normal sleeping time)_3",
+"Patient is completely disabled. Cannot carry on any self-care. Totally confined to bed or chair_4");
+			if(isset($this->request->data['RadioGroup1'])){
+				$this->request->data['PatientDetail']['performance']=$performances[$this->request->data['RadioGroup1']];
+			}
+			$this->request->data['PatientDetail']['patient_id']=$this->Session->read("loggedpatientid");
 			
-			pr($this->request->data);
-			die();
-			/*$this->PatientDetail->create();
+			//$this->PatientDetail->create();
 			if ($this->PatientDetail->save($this->request->data)) {
-				$this->Session->setFlash(__('The patient detail has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				//$this->Session->setFlash(__('The patient detail has been saved.'));
+				//return $this->redirect(array('action' => 'index'));
+				// if present in alcohal 
+				$this->loadModel("DrugAlergy");
+				//remove all prev data
+				$this->DrugAlergy->deleteAll(array("DrugAlergy.patient_detail_id"=>$this->PatientDetail->id));
+				if(isset($this->request->data['pddralergyname']) && count($this->request->data['pddralergyname'])){
+					
+					for($i=0;$i<count($this->request->data['pddralergyname']);$i++){
+						$name = (isset($this->request->data['pddralergyname'][$i]) && $this->request->data['pddralergyname'][$i]!='')?$this->request->data['pddralergyname'][$i]:'';
+						$typereaction = (isset($this->request->data['pddralergyrection'][$i]) && $this->request->data['pddralergyrection'][$i]!='')?$this->request->data['pddralergyrection'][$i]:'';
+						if($name!='' && $typereaction!=''){
+							$data = array("DrugAlergy"=>array(
+								"patient_detail_id"=>$this->PatientDetail->id,
+								"name"=>$name,
+								"reaction"=>$typereaction
+							));
+							//pr($data);
+							$this->DrugAlergy->save($data);
+						}
+					}
+				}
+				die(json_encode(array("status"=>'1',"message"=>"saved successfully","id"=>$this->PatientDetail->id)));
 			} else {
-				$this->Session->setFlash(__('The patient detail could not be saved. Please, try again.'));
-			}*/
+				//$this->Session->setFlash(__('The patient detail could not be saved. Please, try again.'));
+				die(json_encode(array("status"=>'0',"message"=>"not saved")));
+			}
 		}
 		$patients = $this->PatientDetail->Patient->find('list');
 		$countries = $this->PatientDetail->Country->find('list');

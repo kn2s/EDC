@@ -38,6 +38,18 @@ class AppController extends Controller {
 		}
 		return false;
 	}
+	
+	public function userloginsessionchecked(){
+		if(!$this->Session->check('loggedpatientid')){
+			//return true;
+			$this->usersessionremove();
+			$this->redirect(array('controller'=>'patients','action'=>'index'));
+		}
+	}
+	
+	public function usersessionremove(){
+		$this->Session->delete('loggedpatientid');
+	}
 /**
  * setadminsession method
  * @param array $admin

@@ -36,7 +36,14 @@
 			success:function(response){
 				console.log(response);
 				$("#preloaderdv").hide();
-				alert(response.message);
+				//alert(response.message);
+				if(parseInt(response.status) === 1){
+					
+					window.location=baseurl+'/patients/dashboard';
+				}
+				else{	
+					alert(response.message);
+				}
 			}
 		});
 		return false;
@@ -80,15 +87,13 @@
 			data:$("#signupform").serialize(),
 			error:function(response){
 				console.log(response);
+				//alert("error");
 				$("#preloaderdv").hide();
 			},
 			success:function(response){
 				console.log(response);
 				$("#signupform")[0].reset();
 				$("#preloaderdv").hide();
-				if(response.status == '1')
-					window.location=baseurl+'/patients/dashboard';
-				
 				alert(response.message);
 			}
 		});

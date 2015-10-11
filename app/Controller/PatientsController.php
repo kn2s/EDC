@@ -205,7 +205,7 @@ class PatientsController extends AppController {
 						if($this->userislogin()){
 							//valid user go their profile dash bord section
 							//$this->redirect(array('action'=>'dashboard'));
-							die(json_encode(array('status'=>'1','message'=>'')));
+							die(json_encode(array('status'=>1,'message'=>'')));
 						}
 						else{
 							//session creation error
