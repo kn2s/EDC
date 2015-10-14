@@ -21,7 +21,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 	<?php
 		echo $this->Html->meta('icon');
 		echo $this->Html->css(array('reset.css','screen.css'));
-		echo $this->Html->script(array('modernizr.js','jquery.js','jquery.appear.js','ec.js'));
+		echo $this->Html->script(array('modernizr.js', 'jquery.js', 'jquery.appear.js', 'config.js', 'ec.js'));
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -31,6 +31,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 			$("#sqlsection").hide();
 			$("#preloaderdv").hide();
 		});
+		var baseurl = "<?php echo FULL_BASE_URL.$this->base;?>";
 	</script>
 </head>
 <body>
@@ -106,14 +107,13 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 <div id="sqlsection">
 	<?php echo $this->element('sql_dump'); ?>
 </div>
-<!-- preloader section add -->
-  <div id="preloaderdv" style="width:100%; height:100%; opacity:0.5; z-index:9999; background-color:black; top:0; position:fixed; display:none;">
-	
-		<img src="<?=FULL_BASE_URL.$this->base?>/images/preloader.gif" alt="preloader" style="position:absolute;top:50%;left:50%;margin-top:-100px;
-   margin-left:-100px;"/>
-	
-  </div>
-  <!-- preloader end -->
+
+	<!-- preloader section add -->
+	<div class="js-loader overlay">
+		<img src="<?=FULL_BASE_URL.$this->base?>/images/preloader.gif" alt="preloader" style=""/>
+	</div>
+  <!-- preloader end 
+  
 </body>
 
 </html>
