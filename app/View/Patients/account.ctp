@@ -11,15 +11,17 @@
         return expr.test(email);
     };
 	function loginvalidate(e){
-		
+		$("#loginerror").hthl("");
 		if(!ValidateEmail($("#lemail").val())){
 			$("#lemail").val('');
-			$("#lemail").attr('placeholder','Valid email address required');
+			//$("#lemail").attr('placeholder','Valid email address required');
+			$("#loginerror").hthl("Invalid email address");
 			return false;
 		}
 		
-		if($("#pass").val()==''){
-			$("#pass").attr('placeholder','Password required');
+		if($("#pass").val()=='' || $("#pass").val().lenght<4){
+			//$("#pass").attr('placeholder','Password required');
+			$("#loginerror").hthl("Invalid password formate");
 			return false;
 		}
 		
@@ -51,31 +53,36 @@
 	
 	
 	function signuuvalidate(e){
-		
-		if($("#name").val()==''){
-			$("#name").attr('placeholder','Name required');
+		$("#errormsgsg").html("");
+		if($("#name").val()=='' || $("#name").val().length<4){
+			//$("#name").attr('placeholder','Name should be at least 5 char');
+			$("#errormsgsg").html("Name should be at lease 5 char");
 			return false;
 		}
 		
 		if(!ValidateEmail($("#email").val())){
 			$("#email").val('');
-			$("#email").attr('placeholder','Valid email address required');
+			//$("#email").attr('placeholder','Invalid email address');
+			$("#errormsgsg").html("Invalid email address");
 			return false;
 		}
 		
-		if($("#spass").val()==''){
-			$("#spass").attr('placeholder','Password required');
+		if($("#spass").val()=='' || $("#spass").val().length<4){
+			//$("#spass").attr('placeholder','Password should be atleast 5 char');
+			$("#errormsgsg").html("Password should be atleast 5 char");
 			return false;
 		}
 		else{
 			if($("#spass").val()!=$("#cpass").val()){
-				$("#cpass").attr('placeholder','Password dose not match');
+				//$("#cpass").attr('placeholder','Confirm password should be same as password');
+				$("#errormsgsg").html("Confirm password shoudbe same as password");
 				return false;
 			}
 		}
 		//term and conditions
 		if(!$("#chkbtn").is(":checked")){
-			alert("Accept the term and condition");
+			//alert("Accept the term and condition");
+			$("#errormsgsg").html("Accept the term and condition");
 			return false;
 		}
 		//
@@ -115,6 +122,7 @@
                 <div class="pass bb40"><input type="password" name="data[Patient][password]" placeholder="Password" id="pass"></div>
                 <input type="submit" class="blueButton" value="Sign In" id="lsbtn">
                 <label><input type="checkbox">Keep me signed in</label>
+				<label id="loginerror" style="color:red;"></label>
 			</form>
                 <div class="clear"></div>
                 <a href="javascript:void(0)">Forgot your password?</a>
@@ -131,7 +139,8 @@
                 <div class="mailId"><input type="text" name="data[Patient][email]" placeholder="Email" id="email"></div>
                 <div class="pass"><input type="password" name="data[Patient][password]" placeholder="Password" id="spass"></div>
                 <div class="pass bb40"><input type="password" name="data[Patient][cpassword]" placeholder="Re enter" id="cpass"></div>
-                <label><input type="checkbox" name="data[Patient][terms]" value="1" id="chkbtn">Accept <a href="javascript:void(0)">terms and conditions</a></label>
+                <label id="errormsgsg" style="color:red;"></label>
+				<label><input type="checkbox" name="data[Patient][terms]" value="1" id="chkbtn">Accept <a href="javascript:void(0)">terms and conditions</a></label>
                 <input type="submit" class="blueButton" value="Register" id="ssbtn">
 			</form>
 			
