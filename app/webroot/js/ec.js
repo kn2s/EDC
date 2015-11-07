@@ -131,3 +131,102 @@ $(document).ready(function(e) {
 		$('html, body').animate({scrollTop: '0px'}, 500, 'linear');
     });
 });
+
+/* 
+* Account Page
+*/
+		
+var activeAjaxCount = 0;
+$(document).ajaxSend(function(event, xhr, options) {
+	activeAjaxCount++;
+	$(".js-loader").show();
+	$('.js-loader').height($('.Wrapper ').height());
+	$('.js-loader').css('display','block');
+
+}).ajaxComplete(function(event, xhr, options) {
+	activeAjaxCount--;
+	$('.js-loader').height($('.Wrapper').height()); 
+	$('.js-loader').css('display','none');		
+
+/* Error handling - starts */
+}).ajaxError(function(event, xhr, options, thrownError ) {			
+	
+});
+		
+
+
+$(document).on('click', '.js-signup', function(){
+	var signupForm = $(this).closest("form"),
+	isUsernameLengthCorrect = $.trim(signupForm.find("#name").val().length);
+	isEmpty = signupForm.find('input[type=text], input[type=password]').filter(function () {
+					return $(this).val().length === 0;
+				}).length,
+	errorMsg = "";
+	if(isEmpty  != 0){
+		errorMsg = msg.signup.errorMsg.errEmty;
+	}else if(isUsernameLengthCorrect<5){
+		errorMsg = msg.signup.errorMsg.errMinUsernameLength;
+	}else if(!validateEmail(signupForm.find("#email").val())){
+		errorMsg = msg.global.invaliEmail;
+	}else if($.trim(signupForm.find("#spass").val()) != $.trim(signupForm.find("#cpass").val())){
+		errorMsg = msg.signup.errorMsg.matchPass;
+	}else if(!signupForm.find("#chkbtn").is(":checked")){
+		errorMsg = msg.signup.errorMsg.acceptTerm;
+	}
+	if(errorMsg == ""){
+		//make the ajax call here
+		
+		$.ajax({
+			url:baseurl+'/patients/ajaxsignup',
+			method:'post',
+			dataType:'json',
+			data:$("#signupform").serialize(),
+			success:function(response){
+				if(response.status === "succ"){
+					errorMsg = msg.signup.succMsg;
+				}else if(response.status === "exist"){	
+					errorMsg = msg.signup.userExist;
+				}
+				signUpInErrorMsg($(".signUp"), errorMsg);
+				$('html, body').animate({
+					scrollTop: $(".signUp").offset().top
+				}, 500);
+			}
+		});
+	}else{
+		signUpInErrorMsg($(".signUp"), errorMsg);
+	}
+});
+
+function signUpInErrorMsg(obj, errorMsg){
+	var errTemplate =$("<div class='err-msg'><div>");
+	(obj.find(".err-msg").length == 0)?
+		obj.find("h2").after(errTemplate.html(errorMsg)):
+		obj.find(".err-msg").html(errorMsg);
+}
+
+function validateEmail(email) {
+	var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+	return expr.test(email);
+};
+
+$(document).on('click', '.js-signin', function(){
+	$.ajax({
+		url:baseurl+'/patients/ajaxlogin',
+		method:'post',
+		dataType:'json',
+		data:$("#loginform").serialize(),
+		success:function(response){
+			if(parseInt(response.status) === 1){
+				window.location=baseurl+'/patients/dashboard';
+			}else{	
+				signUpInErrorMsg($(".signIn"), response.message);
+				$('html, body').animate({
+					scrollTop: $(".signIn").offset().top
+				}, 500);
+			}
+		}
+	});	
+});	
+
+

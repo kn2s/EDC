@@ -290,7 +290,7 @@ class PatientsController extends AppController {
 					//email already present
 					//$this->Session->setFlash(__('This email already present.'));
 					$message="This email already registered";
-					die(json_encode(array('status'=>$status,'message'=>$message)));
+					die(json_encode(array('status'=>"exist",'message'=>$message)));
 				}
 				else{
 					$this->request->data['Patient']['browserdetails']=$_SERVER['HTTP_USER_AGENT'];
@@ -310,7 +310,7 @@ class PatientsController extends AppController {
 							$this->Session->setFlash(__('sorry we have problem please try again.'));
 						}*/
 						$message="You are successfully registered";
-						die(json_encode(array('status'=>$status,'message'=>$message)));
+						die(json_encode(array('status'=>"succ",'message'=>$message)));
 					}
 					else{
 						//saving error section

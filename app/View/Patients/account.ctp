@@ -1,3 +1,4 @@
+<!--
 <script type="text/javascript">
 	var baseurl = "<?php echo FULL_BASE_URL.$this->base;?>";
 	$(document).ready(function(){
@@ -108,6 +109,9 @@
 	}
 </script>  
   <section class="myAccountBanner"> </section>
+-->
+<section class="myAccountBanner"> </section>
+
   <section class="myAccountLogin">
   	<div class="clear"></div>
   	<div class="container940">
@@ -120,7 +124,7 @@
 			?>
             	<div class="mailId"><input type="text" placeholder="Email" name="data[Patient][email]" id="lemail"></div>
                 <div class="pass bb40"><input type="password" name="data[Patient][password]" placeholder="Password" id="pass"></div>
-                <input type="submit" class="blueButton" value="Sign In" id="lsbtn">
+                <input type="button" class="blueButton js-signin" value="Sign In" >
                 <label><input type="checkbox">Keep me signed in</label>
 				<label id="loginerror" style="color:red;"></label>
 			</form>
@@ -139,9 +143,14 @@
                 <div class="mailId"><input type="text" name="data[Patient][email]" placeholder="Email" id="email"></div>
                 <div class="pass"><input type="password" name="data[Patient][password]" placeholder="Password" id="spass"></div>
                 <div class="pass bb40"><input type="password" name="data[Patient][cpassword]" placeholder="Re enter" id="cpass"></div>
+<!--
                 <label id="errormsgsg" style="color:red;"></label>
 				<label><input type="checkbox" name="data[Patient][terms]" value="1" id="chkbtn">Accept <a href="javascript:void(0)">terms and conditions</a></label>
                 <input type="submit" class="blueButton" value="Register" id="ssbtn">
+-->
+                <label><input type="checkbox" name="data[Patient][terms]" value="1" id="chkbtn">Accept <a href="javascript:void(0)">terms and conditions</a></label>
+                <input type="button" class="blueButton js-signup" value="Register" >
+
 			</form>
 			
             </div>
