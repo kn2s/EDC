@@ -229,4 +229,127 @@ $(document).on('click', '.js-signin', function(){
 	});	
 });	
 
-
+//about us doctore results
+$(document).on('click','.js-catdoct',function(e){
+	//alert("ff");
+	e.preventDefault();
+	$crtagt = $(e.currentTarget);
+	var classes=$(e.currentTarget).attr("class").split(' ');
+	var selcat=$(e.currentTarget).attr('href').split("/");
+	if($.isArray(selcat) && selcat.length>1){
+		selcat=selcat[selcat.length-1];
+	}
+	console.log(classes+" "+selcat);
+	if(classes.length>1 && classes[1]=='active'){
+		alert("sameclass call");
+	}
+	else{
+		//alert("differ class call");
+		// now call the ajax for get the doc with this cat
+		$.ajax({
+		url:baseurl+'/aboutus/index',
+		method:'post',
+		dataType:'json',
+		data:{catid:selcat},
+		success:function(response){
+			//remove old selected section with the doc list details
+			//doctListwithdeatils
+			$($crtagt.parents('ul')).find('.active').removeClass("active");
+			$(".doctListwithdeatils").empty();
+			//now add the class here 
+			$crtagt.addClass("active");
+			//now generat the doct div sections
+			$doclisthtml='';
+			var doctlenth = response.doctors.length;
+			
+			var dtlstarind=dtlendind=0;
+			
+			if(doctlenth>0){
+				$doclisthtml='<section class="doctorLoist"><div class="container">';
+				$.each(response.doctors,function(i,docdetails){
+					if(i!=0 && i%4==0){
+						dtlendind=i;
+						$doclisthtml+='<div class="clear"></div></div></section>';
+						for(dtlstarind;dtlstarind<dtlendind;dtlstarind++){
+							var dctdtls = response.doctors[dtlstarind];
+							var doct=dctdtls.Doctor;
+							$doclisthtml+='<section class="doctorDetails" id="'+dctdtls.Doctor.id+'"><div class="container posi_global">\
+								<a href="javascript:void(0)" class="crossButton"></a><h2>About '+dctdtls.Patient.name+'</h2>\
+								<div class="box"><h5>Medical School</h5>\
+								<h4>'+dctdtls.Doctor.medical_school+'</h4><h5>Residency in '+dctdtls.Doctor.residency+'</h5>\
+								<h4>'+dctdtls.Doctor.residency_from+'</h4><h5>Fellowship in '+dctdtls.Doctor.fellowship+'</h5>\
+								<h4>'+dctdtls.Doctor.fellowship_from+'</h4><div class="clear10"></div><h4>Follow</h4>\
+								<a href="http://twitter.com/@'+dctdtls.Doctor.twitter+'" class="tweeter" target="_blank">Twitter: @'+dctdtls.Doctor.twitter+'</a>\
+								<a href="//http://facebook.com/'+dctdtls.Doctor.facebook+'" class="facebook" target="_blank">Facebook/'+dctdtls.Doctor.facebook+'</a>\
+								</div><div class="box"><p>'+dctdtls.Doctor.description_one+'</p></div><div class="box"><p>'+dctdtls.Doctor.description_two+'</p></div><div class="clear"></div></div></section>';
+						}
+						$doclisthtml+='<section class="doctorLoist"><div class="container">';
+					}
+					
+					$doclisthtml+='<div class="doctor" data-href="#'+docdetails.Doctor.id+'"><div class="picCont">\
+					<img src="'+baseurl+'/doctorimage/'+docdetails.Doctor.image+'" class="normalPic" alt="">\
+					<img src="'+baseurl+'/doctorimage/'+docdetails.Doctor.image+'" class="activePic" alt=""></div>\
+					<h3>Dr.'+docdetails.Patient.name+'</h3><h5>'+docdetails.Doctor.designation+'</h5></div>';
+					
+				});
+				$doclisthtml+='<div class="clear"></div></div></section>';
+				
+				//dtlendind = (doctlenth>dtlendind)doctlenth:dtlendind;
+				if(doctlenth>dtlendind){
+					dtlendind=doctlenth;
+				}
+				else{
+					dtlendind=dtlendind;
+				}
+		
+				for(dtlstarind;dtlstarind<dtlendind;dtlstarind++){
+					var dctdtls = response.doctors[dtlstarind];
+					var doct=dctdtls.Doctor;
+					$doclisthtml+='<section class="doctorDetails" id="'+dctdtls.Doctor.id+'"><div class="container posi_global">\
+						<a href="javascript:void(0)" class="crossButton"></a><h2>About '+dctdtls.Patient.name+'</h2>\
+						<div class="box"><h5>Medical School</h5>\
+						<h4>'+dctdtls.Doctor.medical_school+'</h4><h5>Residency in '+dctdtls.Doctor.residency+'</h5>\
+						<h4>'+dctdtls.Doctor.residency_from+'</h4><h5>Fellowship in '+dctdtls.Doctor.fellowship+'</h5>\
+						<h4>'+dctdtls.Doctor.fellowship_from+'</h4><div class="clear10"></div><h4>Follow</h4>\
+						<a href="http://twitter.com/@'+dctdtls.Doctor.twitter+'" class="tweeter" target="_blank">Twitter: @'+dctdtls.Doctor.twitter+'</a>\
+						<a href="//http://facebook.com/'+dctdtls.Doctor.facebook+'" class="facebook" target="_blank">Facebook/'+dctdtls.Doctor.facebook+'</a>\
+						</div><div class="box"><p>'+dctdtls.Doctor.description_one+'</p></div><div class="box"><p>'+dctdtls.Doctor.description_two+'</p></div><div class="clear"></div></div></section>';
+				}
+			}
+			else{
+				$doclisthtml='<section class="doctorLoist"><div class="container"></div><div class="clear"></section>';
+			}
+			
+			//console.log(doclisthtml);
+			$(".doctListwithdeatils").html($doclisthtml);
+			//animation sections
+			$('.doctorLoist .doctor:not(.appear)').each(function(i) {
+				var $li = $(this);
+				setTimeout(function() {
+				  $li.addClass('appear');
+				}, i*300); // delay 100 ms
+			});
+			
+			$(".doctorLoist .doctor").click(function(e) {
+				e.preventDefault();
+				if($(this).hasClass('active')){
+					$(".doctorLoist .doctor").removeClass('active');
+					$(".doctorDetails").slideUp(500);
+				} else {
+					$(".doctorLoist .doctor").removeClass('active');
+					$(this).addClass('active');
+					var tab = $(this).attr("data-href");
+					$(".doctorDetails").not(tab).css("display", "none");
+					$(tab).slideDown(500);
+				}
+			});
+			$('.doctorDetails a.crossButton').click(function(e) {
+				e.preventDefault();
+				$(".doctorLoist .doctor").removeClass('active');
+				$(".doctorDetails").slideUp(500);
+			});
+			
+		}
+	});
+	}
+});

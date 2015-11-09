@@ -22,9 +22,9 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 		echo $this->fetch('script');
 	?>
 	<script>
+		var baseurl = "<?php echo FULL_BASE_URL.$this->base;?>";
 		$(document).ready(function(){
 			$("#sqlsection").hide();
-			
 		});
 	</script>
 </head>
@@ -54,6 +54,10 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 <div id="sqlsection">
 	<?php echo $this->element('sql_dump'); ?>
 </div>
-
+<!-- preloader section add -->
+	<div class="js-loader overlay">
+		<img src="<?=FULL_BASE_URL.$this->base?>/images/preloader.gif" alt="preloader" style=""/>
+	</div>
+  <!-- preloader end 
 </body>
 </html>

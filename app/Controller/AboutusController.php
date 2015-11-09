@@ -26,15 +26,30 @@ class AboutusController extends AppController {
 			//$this->layout="smallheader";
 		}
 		$this->loadModel('Doctor');
-		$specializations = $this->Doctor->Specialization->find('list');
-		//pr($specializations);
-		if(count($specializations)>0 && $curspecialist==0){
-			list($curspecialist) = array_keys($specializations);
+		$specializations=array();
+		$isajaxcall=false;
+		if($this->request->is("post")){
+			$isajaxcall=true;
+			$curspecialist=(isset($this->request->data["catid"]) && $this->request->data["catid"]>0)?$this->request->data["catid"]:0;
 		}
+		else{
+			$specializations = $this->Doctor->Specialization->find('list');
+			//pr($specializations);
+			if(count($specializations)>0 && $curspecialist==0){
+				list($curspecialist) = array_keys($specializations);
+			}
+		}
+		
 		$doccond = array('Doctor.patient_id >'=>'0','Doctor.specialization_id'=>$curspecialist);
 		$doctors = $this->Doctor->find('all',array('recursive'=>'0','conditions'=>$doccond));
-		$this->set(compact('specializations'));
-		$this->set('curspecialist',$curspecialist);
-		$this->set('doctors',$doctors);
+		if($isajaxcall){
+			header('Content-type:application/json');
+			die(json_encode(array('doctors'=>$doctors)));
+		}
+		else{
+			$this->set(compact('specializations'));
+			$this->set('curspecialist',$curspecialist);
+			$this->set('doctors',$doctors);
+		}
 	}
 }

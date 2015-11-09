@@ -13,7 +13,7 @@
 						if($curspecialist==$key)
 							$actvcls="active";
 				?>
-				<li><?=$this->Html->link($val,array('controller'=>'aboutus','action'=>'index',$key),array('escape'=>false,'class'=>$actvcls))?></li>
+				<li><?=$this->Html->link($val,array('controller'=>'aboutus','action'=>'index',$key),array('escape'=>false,'class'=>'js-catdoct '.$actvcls))?></li>
 				<?php
 					}
 				}
@@ -21,6 +21,8 @@
         </ul>
     </div>
   </section>
+  <!-- doctor list and details sections-->
+  <div class="doctListwithdeatils">
   <section class="doctorLoist">
   	<div class="container">
     	<?php 
@@ -55,7 +57,7 @@
 											<div class="clear10"></div>
 											<h4>Follow</h4>
 											<a href="http://twitter.com/@<?=$dctdtls['Doctor']['twitter']?>" class="tweeter" target="_blank">Twitter: @<?=$dctdtls['Doctor']['twitter']?></a>
-											<a href="//http://facebook.com/<?=$dctdtls['Doctor']['facebook']?>" class="facebook" target="_blank">Facebook/<?=$dctdtls['Doctor']['twitter']?></a>
+											<a href="//http://facebook.com/<?=$dctdtls['Doctor']['facebook']?>" class="facebook" target="_blank">Facebook/<?=$dctdtls['Doctor']['facebook']?></a>
 										</div>
 										<div class="box">
 											<p><?=$dctdtls['Doctor']['description_one']?></p>
@@ -113,7 +115,7 @@
 						<div class="clear10"></div>
 						<h4>Follow</h4>
 						<a href="//http://twitter.com/@<?=$dctdtls['Doctor']['twitter']?>" target="_blank" class="tweeter">Twitter: @<?=$dctdtls['Doctor']['twitter']?></a>
-						<a href="//http://facebook.com/<?=$dctdtls['Doctor']['facebook']?>" target="_blank" class="facebook">Facebook/<?=$dctdtls['Doctor']['twitter']?></a>
+						<a href="//http://facebook.com/<?=$dctdtls['Doctor']['facebook']?>" target="_blank" class="facebook">Facebook/<?=$dctdtls['Doctor']['facebook']?></a>
 					</div>
 					<div class="box">
 						<p><?=$dctdtls['Doctor']['description_one']?></p>
@@ -127,3 +129,5 @@
 			<?php
 		}
   ?>
+  
+  </div>
