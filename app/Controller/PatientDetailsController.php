@@ -26,13 +26,48 @@ class PatientDetailsController extends AppController {
 		/*$this->PatientDetail->recursive = 0;
 		$this->set('patientDetails', $this->Paginator->paginate());*/
 		//$this->usersessionremove();
+		
 		$this->userloginsessionchecked();
+		//load required model
+		$this->loadModel('Socialactivity');
+		//unbind the models
+		$this->PatientDetail->unbindModel(array(
+			'belongsTo'=>array('Patient','Country')
+		));
+		//now bind the model drug allergy
+		$this->PatientDetail->bindModel(array(
+			'hasMany'=>array(
+				'DrugAlergy' => array(
+					'className' => 'DrugAlergy',
+					'foreignKey' => 'patient_detail_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				)
+			)
+		));
+		
 		$conditions = array('PatientDetail.patient_id'=>$this->Session->read('loggedpatientid'));
-		$patientDetail = $this->PatientDetail->find('first',array('recursive'=>'1','conditions'=>$conditions));
-		$patients = $this->PatientDetail->Patient->find('list');
+		$patientDetail = $this->PatientDetail->find('first',array('recursive'=>'1','conditions'=>$conditions,'order'=>array('PatientDetail.id'=>'DESC')));
+		//patients social activity
+		//remove the model
+		$this->Socialactivity->unbindModel(array('belongsTo'=>array('Patient')));
+		$saconditions=array('Socialactivity.patient_id'=>$this->Session->read('loggedpatientid'));
+		$socialactivity = $this->Socialactivity->find('first',array('recursive'=>'1','conditions'=>$saconditions,'order'=>array('Socialactivity.id'=>'DESC')));
+		
+		
 		$countries = $this->PatientDetail->Country->find('list');
-		$this->set(compact('patients', 'countries'));
-		$this->set('patientDetail',$patientDetail);
+		//$patients = $this->PatientDetail->Patient->find('list');
+		//$this->set(compact('patients', 'countries'));
+		$this->set(compact('countries'));
+		$this->set('patientDetails',$patientDetail);
+		$this->set('socialactivity',$socialactivity);
 	}
 
 /**
@@ -58,6 +93,8 @@ class PatientDetailsController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			header("Content-type:application/json");
+			//sleep(100000);
+			
 			//pr($this->request->data);
 			//die();
 			$performances = array("Patient is fully active, able to carry on all pre-disease performance without restriction_0",
@@ -79,9 +116,10 @@ class PatientDetailsController extends AppController {
 				$this->loadModel("DrugAlergy");
 				//remove all prev data
 				$this->DrugAlergy->deleteAll(array("DrugAlergy.patient_detail_id"=>$this->PatientDetail->id));
-				if(isset($this->request->data['pddralergyname']) && count($this->request->data['pddralergyname'])){
+				if(isset($this->request->data['pddralergyname']) && count($this->request->data['pddralergyname'])>0){
 					
 					for($i=0;$i<count($this->request->data['pddralergyname']);$i++){
+						$this->DrugAlergy->create();
 						$name = (isset($this->request->data['pddralergyname'][$i]) && $this->request->data['pddralergyname'][$i]!='')?$this->request->data['pddralergyname'][$i]:'';
 						$typereaction = (isset($this->request->data['pddralergyrection'][$i]) && $this->request->data['pddralergyrection'][$i]!='')?$this->request->data['pddralergyrection'][$i]:'';
 						if($name!='' && $typereaction!=''){

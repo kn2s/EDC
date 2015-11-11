@@ -239,9 +239,9 @@ $(document).on('click','.js-catdoct',function(e){
 	if($.isArray(selcat) && selcat.length>1){
 		selcat=selcat[selcat.length-1];
 	}
-	console.log(classes+" "+selcat);
+	//console.log(classes+" "+selcat);
 	if(classes.length>1 && classes[1]=='active'){
-		alert("sameclass call");
+		//alert("sameclass call");
 	}
 	else{
 		//alert("differ class call");
@@ -353,3 +353,243 @@ $(document).on('click','.js-catdoct',function(e){
 	});
 	}
 });
+
+/*
+patient details section
+*/
+
+var animateduration=3000;
+var comeaniduration=3000;
+/*$(document).ready(function(){
+	$("#addmoredrug").bind('click',addmoredrugtextarea);
+	//$("#pdsaved").bind('click',formValidationpd);
+	$("#pdnextview").bind('click',gotoSocialHistory);
+	$(".backBtn").bind('click',comebackinprevsection);
+	$("#saalcoholmore").bind('click',addmoreAlcoholsa);
+	$("#sadrugmore").bind('click',addmoredrugsdivsa);
+	$("#sasaved").bind('click',formvalidationsa); 
+	$("#sanextview").bind('click',gotoxxx);
+	
+	setalldivblockinonseposition();
+});
+function setalldivblockinonseposition(){
+	var pdtop = $("#pddetailss").offset().top;
+	
+	$("#socialActivity").attr('style','top:'+pdtop+'px; position: absolute;').hide();
+	
+}*/
+
+$(document).on('click','.js-addmoredrug',function(e){
+	e.preventDefault();
+	var fld = '<div class="drag"><input type="text" name="pddralergyname[]"></div>\
+	<div class="name ml20"><input type="text" name="pddralergyrection[]"></div><div class="clear10"></div>';		
+	$("#pddrgalergy").append(fld);
+});
+$(document).on('change','.js-patientdb',function(e){
+	var day=$("#pdday").val();
+	var month=$("#pdmonth").val();
+	var year=$("#pdyear").val();
+	var curid = $(e.currentTarget).attr('id');
+	if(curid=='pdmonth'){
+		//moth
+		var totalday=30;
+		if($.inArray([1,3,5,7,8,10,12],month)!=-1){
+			totalday=31;
+		}
+		else{
+			if(month==2){
+				if(isleepyear(year)){
+					totalday=29;
+				}
+				else{
+					totalday=28;
+				}
+			}
+			else{
+				totalday=30;
+			}
+		}
+		var options='<option value="0">Day</option>';
+		for(var i=1;i<=totalday;i++){
+			options+='<option value="'+i+'">'+i+'</option>';
+		}
+		$("#pdday").html(options).val(0);
+		//$(e.currentTarget).val(0);
+	}
+	else{
+		if(curid=='pdday'){
+			//day
+		}
+		else{
+			//year
+			if(month==2){
+				var totalday=28;
+				if(isleepyear(year)){
+					totalday=29;
+				}
+				
+				var options='<option value="0">Day</option>';
+				for(var i=1;i<=totalday;i++){
+					options+='<option value="'+i+'">'+i+'</option>';
+				}
+				$("#pdday").html(options).val(0);
+			}
+		}
+	}
+	
+});
+function isleepyear(year){
+	if(year!='' && year>0){
+		if(year%1000==0){
+			if(year%400==0){
+				return true;
+			}
+		}
+		else{
+			if(year%4==0){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+$(document).on('click','.js-pdfrmsmt',function(e){
+	e.preventDefault();
+	//form validation
+	var frmvalidate=true;
+	$.each($(".frmMfields"),function(i,items){
+		if($(items).val()=='' || $(items).val()=='0'){
+			frmvalidate=false;
+		}
+	});
+	if(frmvalidate){
+		$.ajax({
+			url:baseurl+"/PatientDetails/add",
+			method:'post',
+			dataType:'json',
+			data:$("#pddetailsfrm").serialize(),
+			error:function(response){
+				console.log(response);
+			},
+			success:function(response){
+				console.log(response);
+				if(response.status=='1'){
+					$("#pdid").val(response.id);
+				}
+				else{
+				}
+			}
+		});
+	}
+	else{
+		signUpInErrorMsg($(".pertionalcontainer"),"All * fields are mendatory");
+		$('html, body').animate({
+			scrollTop: $(".pertionalcontainer").offset().top
+		}, 500);
+	}
+	
+});
+
+/* next view coming sections*/
+$(document).on('click','.js-nextview',function(e){
+	var nxtbtnid=$(e.currentTarget).attr('id');
+	console.log(nxtbtnid);
+	if(nxtbtnid=='nextviewsa'){
+		$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+			$(".pertionalcontainer").animate({opacity:0,'z-index':9},animateduration,function(){});
+			$(".socialActivity").animate({left:devleftPosition,top:devTopPosition,'z-index':99,'position':'absolute'},comeaniduration,function(){
+			});
+		});
+	}
+});
+//
+/* back the pre view sections*/
+$(document).on('click','.js-prevdivview',function(e){
+	var nxtbtnid=$(e.currentTarget).attr('id');
+	if(nxtbtnid=='sabackbtn'){
+		$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+			$(".pertionalcontainer").animate({opacity:1,'z-index':99},animateduration,function(){});
+			$(".socialActivity").animate({left:devWidth,top:devTopPosition,'z-index':9,'position':'absolute'},comeaniduration,function(){
+			});
+		});
+	}
+});
+
+/* social activity alcohal type mode add sections*/
+$(document).on('click','.js-saalcoholmore',function(e){
+	e.preventDefault();
+	var fld ='<div class="gender"><input type="text" name="saalcohaltype[]"></div>\
+	<div class="quantity ml20"><input type="text" name="saalcohalquantity[]" placeholder="0" class="ml">\
+	<select name="saalcoholunit"><option value="0">In a Day</option></select></div><div class="clear10"></div>';
+	$("#morealcoholdiv").append(fld);
+});
+/* drug info more add in social activity*/
+$(document).on('click','.js-sadrugmore',function(e){
+	e.preventDefault();
+	var flds= '<div class="gender"><input type="text" name="samoredrugtype[]"></div>\
+	<div class="quantity ml20">\
+	<input type="text" name="samoredrugquantity[]" placeholder="0" class="ml">\
+	<select name="samoredrugunit[]"><option value="0">In a Day</option></select>\
+	</div><div class="clear10"></div>';
+	
+	$("#moredrugdiv").append(flds);
+});
+/* save the social activity*/
+$(document).on('click','.js-sasaved',function(e){
+	e.preventDefault();
+	$.ajax({
+		url:baseurl+"/Socialactivities/add",
+		method:'post',
+		dataType:'json',
+		data:$("#safrms").serialize(),
+		error:function(response){
+			console.log(response);
+		},
+		success:function(response){
+			console.log(response);
+			if(response.status=='1'){
+				$("#said").val(response.id);
+			}
+			else{
+			}
+		}
+	});
+});
+/*
+//animation sections
+function gotoSocialHistory(e){
+	var divlft = $("#pddetailss").offset().left;
+	var dicwidth = $("#pddetailss").width();
+	var animatel =parseInt(divlft)+parseInt(dicwidth); 
+	console.log("left : "+divlft+" width : "+dicwidth+" total l : "+animatel);
+	$("#pddetailss").animate({opacity:0,'z-index':9},animateduration,function(){
+		
+		$("#socialActivity").animate({opacity:1,'z-index':99999},comeaniduration,function(){
+			$("#socialActivity").show();
+		});
+	});
+}
+function comebackinprevsection(e){
+	var btnid = $(e.currentTarget).attr('id');
+	if(btnid=="sabackbtn"){
+		
+		$("#socialActivity").animate({opacity:0,'z-index':9},animateduration,function(){
+			$("#socialActivity").hide();
+			$("#pddetailss").animate({opacity:1,'z-index':999},comeaniduration,function(){
+				//$("#pddetailss").show();
+			});
+		});
+	}
+}
+
+function formvalidationsa(e){
+	e.preventDefault();
+	alert("form post pending working");
+}
+function gotoxxx(e){
+	alert("pending working");
+}*/

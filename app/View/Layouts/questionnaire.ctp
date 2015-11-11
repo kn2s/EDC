@@ -10,7 +10,7 @@ $cakeVersion = __d('cake_dev', '');
 		<?php echo $cakeDescription ?>:
 		My Questionnaire
 	</title>
-	<!--<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>-->
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>
 	<?php
 		echo $this->Html->meta('icon');
 		echo $this->Html->css(array('reset.css','screen.css'));
@@ -21,8 +21,17 @@ $cakeVersion = __d('cake_dev', '');
 	?>
 	<script>
 		var baseurl = "<?php echo FULL_BASE_URL.$this->base;?>";
+		var devWidth='';
+		var devleftPosition='';
+		var devTopPosition
 		$(document).ready(function(){
 			$("#sqlsection").hide();
+			devleftPosition=$(".pertionalcontainer").offset().left;
+			devTopPosition = $(".pertionalcontainer").offset().top;
+			//alert(devleftPosition);
+			devWidth = $(window).width();
+			//alert(devWidth);
+			$(".socialActivity").css({left:devWidth,top:devTopPosition,position:'absolute'});
 		});
 	</script>
 </head>
@@ -72,19 +81,14 @@ $cakeVersion = __d('cake_dev', '');
     </div>
   </div>
 </div>
-<!-- preloader section add -->
-  <!--<div id="preloaderdv" style="width:100%; height:100%; opacity:0.5; z-index:9999; background-color:black; top:0; position:fixed; display:none;">
-	
-		<img src="<?=FULL_BASE_URL.$this->base?>/images/preloader.gif" alt="preloader" style="position:absolute;top:50%;left:50%;margin-top:-100px;
-   margin-left:-100px;"/>
-	
-  </div>-->
+<div id="sqlsection"></div>
+
   <!-- preloader section add -->
+  
 	<div class="js-loader overlay">
 		<img src="<?=FULL_BASE_URL.$this->base?>/images/preloader.gif" alt="preloader" style=""/>
 	</div>
-  <!-- preloader end 
   <!-- preloader end -->
 </body>
-<div id="sqlsection"></div>
+
 </html>
