@@ -31,7 +31,10 @@ $cakeVersion = __d('cake_dev', '');
 			//alert(devleftPosition);
 			devWidth = $(window).width();
 			//alert(devWidth);
-			$(".socialActivity").css({left:devWidth,top:devTopPosition,position:'absolute'});
+			$(".socialActivity").css({left:devWidth,top:devTopPosition,position:'absolute',display:'none'});
+			$(".aboutillness").css({left:devWidth,top:devTopPosition,position:'absolute',display:'none'});
+			$(".pasthistory").css({left:devWidth,top:devTopPosition,position:'absolute',display:'none'});
+			$(".doccumentupload").css({left:devWidth,top:devTopPosition,position:'absolute',display:'none'});
 		});
 	</script>
 </head>

@@ -519,10 +519,281 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
             <div class="clear35"></div>
 			
             <a href="javascript:void(0)" class="backBtn js-prevdivview" id="sabackbtn">Back</a>
-            <input type="button" class="nextBtn" value="Next" id="sanextview">
+            <input type="button" class="nextBtn js-nextview" value="Next" id="nextviewill">
 			<input type="submit" class="saveBtn js-sasaved" value="Save" name="save" id="sasaved">
 			
 	</form>
 </div>
+<!-- php section -->
+<?php 
+	$aisid='';
+?>
+<!-- end php -->
+<!-- about The Illness section-->
+<div class="aboutillness" id="aboutillness">
+	<h2>About The Illness</h2>
+	<?php 
+		echo $this->Form->create('AboutIllness',array("id"=>"aisfrms"));
+		echo $this->Form->hidden('id',array('value'=>$aisid,'id'=>'aisid'));
+	?>
+		<div class="illness">
+			<div class="diagnosis">
+				<label class="blue">*Principal Diagnosis</label>
+				<select>
+					<option>Select</option>
+				</select>
+			</div>
+			<div class="datesThree ml20">
+				<label class="blue">*Date of Diagnosis</label>
+				<select class="month"><option>Month</option></select>
+				<select class="date"><option>Date</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="clear10"></div>
+			<label class="blue">*Give a detailed history of how diagnosis was made</label>
+			<div class="w700">
+				<textarea></textarea>
+			</div>
+			<div class="clear10"></div>
+			<label class="blue">What is your oncologist’s recommendation?</label>
+			<div class="w700">
+				<textarea></textarea>
+			</div>
+			<div class="clear10"></div>
+			<div class="datesThree">
+				<label class="blue">*Last Examination Date</label>
+				<select class="month"><option>Month</option></select>
+				<select class="date"><option>Date</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="clear10"></div>
+			<label class="blue">*Do you have results of any tumor markers?</label>
+			<div class="w80">
+				<label><input type="radio" name="RadioGroup1" value="radio" > Yes</label>
+			</div>
+			<div class="w80">
+				<label><input type="radio" name="RadioGroup1" value="radio" > No</label>
+			</div>
+			<div class="clear10"></div>
+			<div class="diagnosis">
+				<label class="blue">*Type of tumor marker</label>
+				<input type="text" placeholder="PSA, AFP, CEA, CA19-9, etc ">
+			</div>
+			<div class="datesTwo ml20">
+				<label class="blue">Date</label>
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="result ml20">
+				<label class="blue">*Result</label>
+				<input type="text" placeholder="">
+			</div>
+			<div class="clear10"></div>
+			<a href="#" class="greenText">+ Add More</a>
+			<div class="clear"></div>
+		</div>
+		<div class="clear35"></div>
+		
+		<a href="javascript:void(0)" class="backBtn js-prevdivview" id="illbackbtn">Back</a>
+        <input type="button" class="nextBtn js-nextview" value="Next" id="nextviewpsthis">
+		<input type="submit" class="saveBtn js-illsaved" value="Save" name="save" id="illsaved">
+	</form>
+</div>
+<!-- Illness end section-->
+<?php 
+$psthisid='';
+?>
+<!-- past history -->
+<div class="pasthistory" id="pasthistory">
+	<h2>Past History</h2>
+	<?php 
+		echo $this->Form->create('PastHistory',array("id"=>"psthisfrms"));
+		echo $this->Form->hidden('id',array('value'=>$psthisid,'id'=>'psthisid'));
+	?>
+		<div class="history">
+			<div class="clear20"></div>
+			<h3>Any past medical or cancer history?</h3>
+			<div class="diagnosis">
+				<label class="blue">Diagnosis</label>
+				<input type="text" placeholder="Blood Cancer">
+			</div>
+			<div class="datesTwo ml20">
+				<label class="blue">Date of Diagnosis</label>
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<a href="#" class="greenText ml20 mt37">+ Add More</a>
+			<div class="clear50"></div>
+			<h3>Any past surgical history?</h3>
+			<div class="diagnosis">
+				<label class="blue">Surgery</label>
+				<input type="text">
+			</div>
+			<div class="datesTwo ml20">
+				<label class="blue">Date of Surgery</label>
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<a href="#" class="greenText ml20 mt37">+ Add More</a>
+			<div class="clear50"></div>
+			<h3>Any other hospitalizations?</h3>
+			<div class="diagnosis">
+				<label class="blue">Reason</label>
+				<input type="text">
+			</div>
+			<div class="datesTwo ml20">
+				<label class="blue">Date of hospitalizations</label>
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="diagnosis ml20">
+				<label class="blue">Period of hospitalizations</label>
+				<input type="text" placeholder="0" class="days">
+			</div>
+			<a href="#" class="greenText ml20 mt37 mobileNoML">+ Add More</a>
+			<div class="clear50"></div>
+			<h3>Any history of cancer in family?</h3>
+			<div class="diagnosis">
+				<label class="blue">Relation with patient </label>
+				<input type="text">
+			</div>
+			<div class="diagnosis ml20">
+				<label class="blue">Type of cancer </label>
+				<input type="text">
+			</div>
+			<div class="diagnosis ml20">
+				<label class="blue">At what age it was diagnosed?</label>
+				<input type="text" placeholder="0" class="year">
+			</div>
+			<a href="#" class="greenText ml20 mt37 mobileNoML">+ Add More</a>
+			<div class="clear30"></div>
+			<div class="w700">
+				<label class="blue">Any specific comment about your medical history</label>
+				<textarea class="h225"></textarea>
+			</div>
+		</div>
+		<div class="clear35"></div>
+			
+		<a href="javascript:void(0)" class="backBtn js-prevdivview" id="psthisbackbtn">Back</a>
+        <input type="button" class="nextBtn js-nextview" value="Next" id="nextviewupddoc">
+		<input type="submit" class="saveBtn js-illsaved" value="Save" name="save" id="psthissaved">
+	</form>		
+</div>
+<!-- past history end -->
 
-<!-- script section for this page become one page -->
+<?php 
+$docupid='';
+?>
+<!-- upload doc section -->
+<div class="doccumentupload" id="doccumentupload">
+	<h2>Upload Documents</h2>
+	<?php 
+		echo $this->Form->create('PastHistory',array("id"=>"docupfrms"));
+		echo $this->Form->hidden('id',array('value'=>$docupid,'id'=>'docupid'));
+	?>	
+		<div class="whatTest">
+			<h4>What are the tests have been done?</h4>
+			<p>Please provide the following details and upload the available reports.</p>
+		</div>
+		<div class="whatTest">
+			<h3>Blood &amp; Laboratory Tests (Hemoglobin, CBC, BMP etc.)</h3>
+			<div class="gender">
+				<label class="blue">Test</label>
+				<input type="text" placeholder="Hint Text">
+			</div>
+			<div class="datesTwo ml20">
+				<label class="blue">Date</label>
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="report ml20">
+				<label class="blue">Report</label>
+				<a href="#" class="uploadReport">Upload report</a>
+				<label class="noreport ml14"><input type="checkbox" name="RadioGroup1" value="checkbox" >Not available</label>
+			</div>
+			<div class="clear10"></div>
+			<div class="gender">
+				<input type="text" placeholder="Hint Text">
+			</div>
+			<div class="datesTwo ml20">
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="report ml20">
+				<label class="noreport"><input type="checkbox" name="RadioGroup1" value="checkbox" checked >Not available</label>
+				<div class="w300 ml20"><input type="text" placeholder="What was the result?"></div>
+			</div>
+			<div class="clear10"></div>
+			<a href="#" class="greenText">+ Add More</a>
+			<div class="clear"></div>
+		</div>
+		<div class="whatTest">
+			<h3>Imaging Tests (X-Ray, CT Scan, MRI etc.)</h3>
+			<div class="gender">
+				<label class="blue">Test</label>
+				<input type="text" placeholder="Hint Text">
+			</div>
+			<div class="datesTwo ml20">
+				<label class="blue">Date</label>
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="report ml20">
+				<label class="blue">Report</label>
+				<span class="reportCard">Lorem ipsum dolor...pdf</span>
+				<a href="#" class="reportCardDel">X</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="whatTest">
+			<h3>Pathology Tests (Biopsy, FNA etc.)</h3>
+			<div class="gender">
+				<label class="blue">Test</label>
+				<input type="text" placeholder="Hint Text">
+			</div>
+			<div class="datesTwo ml20">
+				<label class="blue">Date</label>
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="report ml20">
+				<label class="blue">Report</label>
+				<a href="#" class="uploadReport">Upload report</a>
+				<label class="noreport ml14"><input type="checkbox" name="RadioGroup1" value="checkbox" >Not available</label>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="whatTest">
+			<h3>Others</h3>
+			<div class="gender">
+				<label class="blue">Test</label>
+				<input type="text" placeholder="Hint Text">
+			</div>
+			<div class="datesTwo ml20">
+				<label class="blue">Date</label>
+				<select class="month"><option>Month</option></select>
+				<select class="year"><option>Year</option></select>
+			</div>
+			<div class="report ml20">
+				<label class="blue">Report</label>
+				<a href="#" class="uploadReport">Upload report</a>
+				<label class="noreport ml14"><input type="checkbox" name="RadioGroup1" value="checkbox" >Not available</label>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="whatTest">
+			<div class="w700">
+				<label class="blue">Any specific questions you want to ask the doctor</label>
+				<textarea class="h225"></textarea>
+			</div>
+			<div class="clear10"></div>
+		</div>
+		<div class="clear35"></div>
+		
+	<a href="javascript:void(0)" class="backBtn js-prevdivview" id="docupbackbtn">Back</a>
+    <input type="button" class="nextBtn js-nextview" value="Next" id="nextviewxx">
+	<input type="submit" class="saveBtn js-docupssaved" value="Save" name="save" id="docupssaved">
+	</form>
+</div>
+
+<!-- upload doc end -->

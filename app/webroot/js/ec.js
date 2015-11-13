@@ -500,20 +500,84 @@ $(document).on('click','.js-nextview',function(e){
 		}, 0,function(){
 			$(".pertionalcontainer").animate({opacity:0,'z-index':9},animateduration,function(){});
 			$(".socialActivity").animate({left:devleftPosition,top:devTopPosition,'z-index':99,'position':'absolute'},comeaniduration,function(){
-			});
+			}).show();
+		});
+	}
+	
+	if(nxtbtnid=='nextviewill'){
+		$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+			$(".socialActivity").animate({opacity:0,'z-index':9},animateduration,function(){});
+			$(".aboutillness").animate({left:devleftPosition,top:devTopPosition,'z-index':99,'position':'absolute'},comeaniduration,function(){
+			}).show();
+		});
+	}
+	
+	//pasthistory
+	if(nxtbtnid=='nextviewpsthis'){
+		$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+			$(".aboutillness").animate({opacity:0,'z-index':9},animateduration,function(){});
+			$(".pasthistory").animate({left:devleftPosition,top:devTopPosition,'z-index':99,'position':'absolute'},comeaniduration,function(){
+			}).show();
+		});
+	}
+	//nextviewupddoc
+	if(nxtbtnid=='nextviewupddoc'){
+		$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+			$(".pasthistory").animate({opacity:0,'z-index':9},animateduration,function(){});
+			$(".doccumentupload").animate({left:devleftPosition,top:devTopPosition,'z-index':99,'position':'absolute'},comeaniduration,function(){
+			}).show();
 		});
 	}
 });
 //
 /* back the pre view sections*/
 $(document).on('click','.js-prevdivview',function(e){
-	var nxtbtnid=$(e.currentTarget).attr('id');
-	if(nxtbtnid=='sabackbtn'){
+	var bckbtnid=$(e.currentTarget).attr('id');
+	if(bckbtnid=='sabackbtn'){
 		$('html, body').animate({
 			scrollTop:0
 		}, 0,function(){
 			$(".pertionalcontainer").animate({opacity:1,'z-index':99},animateduration,function(){});
 			$(".socialActivity").animate({left:devWidth,top:devTopPosition,'z-index':9,'position':'absolute'},comeaniduration,function(){
+				$(".socialActivity").hide();
+			});
+		});
+	}
+	if(bckbtnid=='illbackbtn'){
+		$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+			$(".socialActivity").animate({opacity:1,'z-index':99},animateduration,function(){});
+			$(".aboutillness").animate({left:devWidth,top:devTopPosition,'z-index':9,'position':'absolute',display:'none'},comeaniduration,function(){
+				$(".aboutillness").hide();
+			});
+		});
+	}
+	//pasthistory
+	if(bckbtnid=='psthisbackbtn'){
+		$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+			$(".aboutillness").animate({opacity:1,'z-index':99},animateduration,function(){});
+			$(".pasthistory").animate({left:devWidth,top:devTopPosition,'z-index':9,'position':'absolute',display:'none'},comeaniduration,function(){
+				$(".pasthistory").hide();
+			});
+		});
+	}
+	//docupbackbtn
+	if(bckbtnid=='docupbackbtn'){
+		$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+			$(".pasthistory").animate({opacity:1,'z-index':99},animateduration,function(){});
+			$(".doccumentupload").animate({left:devWidth,top:devTopPosition,'z-index':9,'position':'absolute',display:'none'},comeaniduration,function(){
+				$(".doccumentupload").hide();
 			});
 		});
 	}
@@ -538,6 +602,7 @@ $(document).on('click','.js-sadrugmore',function(e){
 	
 	$("#moredrugdiv").append(flds);
 });
+
 /* save the social activity*/
 $(document).on('click','.js-sasaved',function(e){
 	e.preventDefault();
@@ -559,37 +624,71 @@ $(document).on('click','.js-sasaved',function(e){
 		}
 	});
 });
-/*
-//animation sections
-function gotoSocialHistory(e){
-	var divlft = $("#pddetailss").offset().left;
-	var dicwidth = $("#pddetailss").width();
-	var animatel =parseInt(divlft)+parseInt(dicwidth); 
-	console.log("left : "+divlft+" width : "+dicwidth+" total l : "+animatel);
-	$("#pddetailss").animate({opacity:0,'z-index':9},animateduration,function(){
-		
-		$("#socialActivity").animate({opacity:1,'z-index':99999},comeaniduration,function(){
-			$("#socialActivity").show();
-		});
-	});
-}
-function comebackinprevsection(e){
-	var btnid = $(e.currentTarget).attr('id');
-	if(btnid=="sabackbtn"){
-		
-		$("#socialActivity").animate({opacity:0,'z-index':9},animateduration,function(){
-			$("#socialActivity").hide();
-			$("#pddetailss").animate({opacity:1,'z-index':999},comeaniduration,function(){
-				//$("#pddetailss").show();
-			});
-		});
-	}
-}
 
-function formvalidationsa(e){
+/*about the illness section*/
+$(document).on('click','.js-illsaved',function(e){
 	e.preventDefault();
-	alert("form post pending working");
-}
-function gotoxxx(e){
-	alert("pending working");
-}*/
+	$.ajax({
+		url:baseurl+"/illness/add",
+		method:'post',
+		dataType:'json',
+		data:$("#aisfrms").serialize(),
+		error:function(response){
+			console.log(response);
+		},
+		success:function(response){
+			console.log(response);
+			if(response.status=='1'){
+				$("#aisid").val(response.id);
+			}
+			else{
+			}
+		}
+	});
+});
+
+/* saved past history section*/
+
+$(document).on('click','.js-psthissaved',function(e){
+	e.preventDefault();
+	$.ajax({
+		url:baseurl+"/pasthistory/add",
+		method:'post',
+		dataType:'json',
+		data:$("#psthisfrms").serialize(),
+		error:function(response){
+			console.log(response);
+		},
+		success:function(response){
+			console.log(response);
+			if(response.status=='1'){
+				$("#psthisid").val(response.id);
+			}
+			else{
+			}
+		}
+	});
+});
+
+/* saved uploaded doc section*/
+
+$(document).on('click','.js-docupssaved',function(e){
+	e.preventDefault();
+	$.ajax({
+		url:baseurl+"/uploadeddoc/add",
+		method:'post',
+		dataType:'json',
+		data:$("#docupfrms").serialize(),
+		error:function(response){
+			console.log(response);
+		},
+		success:function(response){
+			console.log(response);
+			if(response.status=='1'){
+				$("#docupid").val(response.id);
+			}
+			else{
+			}
+		}
+	});
+});
