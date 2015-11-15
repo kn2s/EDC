@@ -38,7 +38,7 @@
 			<li><a href="javascript:void(0)">References</a></li>
 			<li><a href="javascript:void(0)">Recent Advances</a></li>
 			<!--<li class="userMaleCircle"><?php echo $this->Session->read('loggedpatientname');?></li>-->
-			<li class="userMaleCircle"><?php echo $this->Html->link($this->Session->read('loggedpatientname'),array('controller'=>'patients','action'=>'logout','full_base'=>false));?></li>
+			<li class="userMaleCircle"><?php echo $this->Html->link($this->Session->read('loggedpatientname'),array('controller'=>'patients','action'=>'dashboard','full_base'=>false));?></li>
 		<?php
 			}
 			else{

@@ -49,7 +49,7 @@ $patientallhistory = array('PatientDetail'=>'Patient Details',
         </div>
         <h3><?=($totalcompletedper*20)?>%</h3>
 		<?php 
-			switch($totalcompletedper){
+			/*switch($totalcompletedper){
 				case 0:
 				echo $this->Html->link('Finish',array('controller'=>'patientdetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton'));
 				break;
@@ -67,7 +67,8 @@ $patientallhistory = array('PatientDetail'=>'Patient Details',
 				break;
 				default:
 				break;
-			}
+			}*/
+			echo $this->Html->link('Finish',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton'));
 		?>
         <!--<a href="#" class="finishButton">Finish</a>-->
     </div>
