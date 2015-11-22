@@ -28,6 +28,7 @@ class PatientDetailsController extends AppController {
 		//$this->usersessionremove();
 		
 		$this->userloginsessionchecked();
+		/*
 		//load required model
 		$this->loadModel('Socialactivity');
 		//unbind the models
@@ -68,8 +69,142 @@ class PatientDetailsController extends AppController {
 		$this->set(compact('countries'));
 		$this->set('patientDetails',$patientDetail);
 		$this->set('socialactivity',$socialactivity);
+		*/
+		
+		$this->set('patientinfo','0');
 	}
 
+/**
+ * basicdetails method
+ */
+	public function basicdetails(){
+		$this->layout="blanks";
+		$this->PatientDetail->unbindModel(array(
+			'belongsTo'=>array('Patient','Country')
+		));
+		//now bind the model drug allergy
+		$this->PatientDetail->bindModel(array(
+			'hasMany'=>array(
+				'DrugAlergy' => array(
+					'className' => 'DrugAlergy',
+					'foreignKey' => 'patient_detail_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				)
+			)
+		));
+		
+		$conditions = array('PatientDetail.patient_id'=>$this->Session->read('loggedpatientid'));
+		$patientDetail = $this->PatientDetail->find('first',array('recursive'=>'1','conditions'=>$conditions,'order'=>array('PatientDetail.id'=>'DESC')));
+		
+		$countries = $this->PatientDetail->Country->find('list');
+		$this->set(compact('countries'));
+		$this->set('patientDetails',$patientDetail);
+		$this->datesection();
+	}
+	
+	function datesection(){
+		$months=array('Month');
+		$days=array('Day');
+		$years=array('Year');
+		for($i=1;$i<13;$i++){
+			//array_push($months,$i);
+			$months[$i]=$i;
+		}
+		for($j=1;$j<32;$j++){
+			//array_push($days,$j);
+			$days[$j]=$j;
+		}
+		for($k=(date('Y')-90);$k<date('Y');$k++){
+			//array_push($years,$k);
+			$years[$k]=$k;
+		}
+		$this->set(compact('countries','months','days','years'));
+	}
+	
+/**
+ * socialdetails method
+ */
+	public function socialdetails(){
+		$this->layout="blanks";
+		//load required model
+		$this->loadModel('Socialactivity');
+		$months=array('Month');
+		$days=array('Day');
+		$years=array('Year');
+		for($i=1;$i<13;$i++){
+			//array_push($months,$i);
+			$months[$i]=$i;
+		}
+		for($j=1;$j<32;$j++){
+			//array_push($days,$j);
+			$days[$j]=$j;
+		}
+		for($k=(date('Y')-90);$k<date('Y');$k++){
+			//array_push($years,$k);
+			$years[$k]=$k;
+		}
+		//patients social activity
+		//remove the model
+		$this->Socialactivity->unbindModel(array('belongsTo'=>array('Patient')));
+		$saconditions=array('Socialactivity.patient_id'=>$this->Session->read('loggedpatientid'));
+		$socialactivity = $this->Socialactivity->find('first',array('recursive'=>'1','conditions'=>$saconditions,'order'=>array('Socialactivity.id'=>'DESC')));
+		$countries = $this->PatientDetail->Country->find('list');
+		$this->set(compact('countries','months','days','years'));
+		$this->set('socialactivity',$socialactivity);
+	}
+	
+/**
+ * illness method
+ */
+ public function illness(){
+	$this->layout="blanks";
+	$months=array('Month');
+	$days=array('Day');
+	$years=array('Year');
+	for($i=1;$i<13;$i++){
+		//array_push($months,$i);
+		$months[$i]=$i;
+	}
+	for($j=1;$j<32;$j++){
+		//array_push($days,$j);
+		$days[$j]=$j;
+	}
+	for($k=(date('Y')-90);$k<date('Y');$k++){
+		//array_push($years,$k);
+		$years[$k]=$k;
+	}
+	$this->set(compact('months','days','years'));
+	
+	// get if the data available in the table
+	$this->loadModel('AboutIllness');
+	$conditions = array('AboutIllness.patient_id'=>$this->Session->read('loggedpatientid'));
+	$aboutIllnesses = $this->AboutIllness->find('first',array('recursive'=>'1','conditions'=>$conditions,'order'=>array('AboutIllness.id'=>'DESC'),'limit'=>'1'));
+	
+	$this->set('aboutIllnesses',$aboutIllnesses);
+ }
+ 
+/**
+ * pasthistory method
+ */
+ public function pasthistory(){
+	 $this->layout="blanks";
+ }
+ 
+/**
+ * document method
+ */
+ public function document(){
+	 $this->layout="blanks";
+ }
+ 
 /**
  * view method
  *

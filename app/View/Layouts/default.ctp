@@ -12,7 +12,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 		<?php echo $cakeDescription ?>:
 		<?php echo $this->fetch('title'); ?>
 	</title>
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>
+	<!--<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>-->
 	<?php
 		echo $this->Html->meta('icon');
 		echo $this->Html->css(array('reset.css','owl.carousel.css','screen.css'));

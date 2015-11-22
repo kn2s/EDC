@@ -229,6 +229,43 @@ $(document).on('click', '.js-signin', function(){
 	});	
 });	
 
+//ditect key press on acount page
+$(document).on('keyup','html body',function(e){
+	var keycode = e.keyCode;
+	if(keycode==13){
+		if($(document).find("#loginform").length>0){
+			//console.log("login found");
+			//sign up and login page open
+			var isLginfrmPost=true;
+			var issignUpfrmPost=false;
+			
+			//checked the login form has value or not 
+			$.each($(".lginfld"),function(i,item){
+				if($(item).val()==''){
+					isLginfrmPost=false;
+				}
+			});
+			
+			//if login false then checked sign up form
+			if(isLginfrmPost){
+				$('.js-signin').trigger('click');
+			}
+			else{
+				$.each($(".sgnufld"),function(i,item){
+					if($(item).val()!=''){
+						issignUpfrmPost=true;
+					}
+				});
+				
+				if(issignUpfrmPost){
+					$('.js-signup').trigger('click');
+				}
+			}
+			
+		}
+	}
+});
+
 //about us doctore results
 $(document).on('click','.js-catdoct',function(e){
 	//alert("ff");
@@ -379,6 +416,53 @@ function setalldivblockinonseposition(){
 	
 }*/
 
+/*questianaries form load sections*/
+
+function questianariesformload(){
+	var fucurl='';
+	switch(parseInt(pagefor)){
+		case 0:
+			//alert("0");
+			fucurl=baseurl+'/patientDetails/basicdetails';
+		break;
+		case 1:
+			//alert("1");
+			fucurl=baseurl+'/patientDetails/socialdetails';
+		break;
+		case 2:
+			//alert("2");
+			fucurl=baseurl+'/patientDetails/illness';
+		break;
+		case 3:
+			//alert("3");
+			fucurl=baseurl+'/patientDetails/pasthistory';
+		break;
+		case 4:
+			//alert("4");
+			fucurl=baseurl+'/patientDetails/document';
+		break;
+		default:
+			alert("amni");
+		break;
+	}
+	console.log(fucurl);
+	
+	$.ajax({
+		url:fucurl,
+		method:'post',
+		dataType:'text',
+		data:{},
+		success:function(response){
+			console.log(response);
+			$(".mmm").html(response);
+		},
+		error:function(response){
+			console.log(response);
+			
+		}
+	});
+}
+
 $(document).on('click','.js-addmoredrug',function(e){
 	e.preventDefault();
 	var fld = '<div class="drag"><input type="text" name="pddralergyname[]"></div>\
@@ -462,6 +546,7 @@ $(document).on('click','.js-pdfrmsmt',function(e){
 			frmvalidate=false;
 		}
 	});
+	var callfrom = $(e.currentTarget).attr('id');
 	if(frmvalidate){
 		$.ajax({
 			url:baseurl+"/PatientDetails/add",
@@ -475,6 +560,10 @@ $(document).on('click','.js-pdfrmsmt',function(e){
 				console.log(response);
 				if(response.status=='1'){
 					$("#pdid").val(response.id);
+					if(callfrom=='nextviewsa'){
+						pagefor=parseInt(pagefor)+1;
+						questianariesformload();
+					}
 				}
 				else{
 				}
@@ -538,7 +627,7 @@ $(document).on('click','.js-nextview',function(e){
 //
 /* back the pre view sections*/
 $(document).on('click','.js-prevdivview',function(e){
-	var bckbtnid=$(e.currentTarget).attr('id');
+	/*var bckbtnid=$(e.currentTarget).attr('id');
 	if(bckbtnid=='sabackbtn'){
 		$('html, body').animate({
 			scrollTop:0
@@ -580,7 +669,7 @@ $(document).on('click','.js-prevdivview',function(e){
 				$(".doccumentupload").hide();
 			});
 		});
-	}
+	}*/
 });
 
 /* social activity alcohal type mode add sections*/
@@ -606,6 +695,8 @@ $(document).on('click','.js-sadrugmore',function(e){
 /* save the social activity*/
 $(document).on('click','.js-sasaved',function(e){
 	e.preventDefault();
+	var callFrom=$(e.currentTarget).attr('id');
+	alert(callFrom);
 	$.ajax({
 		url:baseurl+"/Socialactivities/add",
 		method:'post',
@@ -618,6 +709,11 @@ $(document).on('click','.js-sasaved',function(e){
 			console.log(response);
 			if(response.status=='1'){
 				$("#said").val(response.id);
+				if(callFrom =='nextviewill'){
+					pagefor=parseInt(pagefor)+1;
+					alert(pagefor);
+					questianariesformload();
+				}
 			}
 			else{
 			}
@@ -628,8 +724,11 @@ $(document).on('click','.js-sasaved',function(e){
 /*about the illness section*/
 $(document).on('click','.js-illsaved',function(e){
 	e.preventDefault();
+	//$(".js-loader").css({height:$(window).height,"z-index":9999});
+	var clkid = $(e.currentTarget).attr('id');
+	
 	$.ajax({
-		url:baseurl+"/illness/add",
+		url:baseurl+"/AboutIllnesses/add",
 		method:'post',
 		dataType:'json',
 		data:$("#aisfrms").serialize(),
@@ -640,6 +739,12 @@ $(document).on('click','.js-illsaved',function(e){
 			console.log(response);
 			if(response.status=='1'){
 				$("#aisid").val(response.id);
+				if(clkid=='nextviewpsthis'){
+					//for go to the next form
+					pagefor = parseInt(pagefor)+1;
+					console.log(pagefor);
+					questianariesformload();
+				}
 			}
 			else{
 			}
@@ -691,4 +796,130 @@ $(document).on('click','.js-docupssaved',function(e){
 			}
 		}
 	});
+});
+
+/*
+about illness page script here 
+*/
+$(document).on('change','.js-illnessdate',function(e){
+	var day=$("#startdiagoday").val();
+	var month=$("#startdiagomonth").val();
+	var year=$("#startdiagoyear").val();
+	var curid = $(e.currentTarget).attr('id');
+	if(curid=='startdiagomonth'){
+		//moth
+		var totalday=30;
+		if($.inArray([1,3,5,7,8,10,12],month)!=-1){
+			totalday=31;
+		}
+		else{
+			if(month==2){
+				if(isleepyear(year)){
+					totalday=29;
+				}
+				else{
+					totalday=28;
+				}
+			}
+			else{
+				totalday=30;
+			}
+		}
+		var options='<option value="0">Day</option>';
+		for(var i=1;i<=totalday;i++){
+			options+='<option value="'+i+'">'+i+'</option>';
+		}
+		$("#startdiagoday").html(options).val(0);
+		//$(e.currentTarget).val(0);
+	}
+	else{
+		if(curid=='pdday'){
+			//day
+		}
+		else{
+			//year
+			if(month==2){
+				var totalday=28;
+				if(isleepyear(year)){
+					totalday=29;
+				}
+				
+				var options='<option value="0">Day</option>';
+				for(var i=1;i<=totalday;i++){
+					options+='<option value="'+i+'">'+i+'</option>';
+				}
+				$("#startdiagoday").html(options).val(0);
+			}
+		}
+	}
+	
+});
+//js-illnessenddate
+
+$(document).on('change','.js-illnessenddate',function(e){
+	var day=$("#enddiagoday").val();
+	var month=$("#enddiagomonth").val();
+	var year=$("#enddiagoyear").val();
+	var curid = $(e.currentTarget).attr('id');
+	if(curid=='startdiagomonth'){
+		//moth
+		var totalday=30;
+		if($.inArray([1,3,5,7,8,10,12],month)!=-1){
+			totalday=31;
+		}
+		else{
+			if(month==2){
+				if(isleepyear(year)){
+					totalday=29;
+				}
+				else{
+					totalday=28;
+				}
+			}
+			else{
+				totalday=30;
+			}
+		}
+		var options='<option value="0">Day</option>';
+		for(var i=1;i<=totalday;i++){
+			options+='<option value="'+i+'">'+i+'</option>';
+		}
+		$("#enddiagoday").html(options).val(0);
+		//$(e.currentTarget).val(0);
+	}
+	else{
+		if(curid=='pdday'){
+			//day
+		}
+		else{
+			//year
+			if(month==2){
+				var totalday=28;
+				if(isleepyear(year)){
+					totalday=29;
+				}
+				
+				var options='<option value="0">Day</option>';
+				for(var i=1;i<=totalday;i++){
+					options+='<option value="'+i+'">'+i+'</option>';
+				}
+				$("#enddiagoday").html(options).val(0);
+			}
+		}
+	}
+	
+});
+//more tumor details add section 
+$(document).on('click','.js-addtumore',function(e){
+	e.preventDefault();
+	var mothhtml = $(".month").html();
+	var yearhtml = $(".year").html();
+	//console.log(mothhtml);
+	var fld = '<div class="diagnosis"><input type="text" placeholder="PSA, AFP, CEA, CA19-9, etc " name="data[TumarMarker][name][]"></div>\
+	<div class="datesTwo ml20">\
+		<select class="month" name="data[TumarMarker][tumormonth][]">'+mothhtml+'</select>\
+		<select class="year" name="data[TumarMarker][tumoryear][]">'+yearhtml+'</select></div>\
+		<div class="result ml20"><input type="text" placeholder="" name="data[TumarMarker][tumorresult][]"></div><div class="clear10"></div>';
+			
+	$("#moretumorecontainer").append(fld);
 });

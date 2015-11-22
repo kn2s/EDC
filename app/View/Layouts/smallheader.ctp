@@ -17,7 +17,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 		<?php echo $cakeDescription ?>:
 		<?php echo $this->fetch('title'); ?>
 	</title>
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>
+	<!--<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>-->
 	<?php
 		echo $this->Html->meta('icon');
 		echo $this->Html->css(array('reset.css','screen.css'));
@@ -104,6 +104,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
   </footer>
 </div>
 <div class="clear"></div>
+
 <div id="sqlsection">
 	<?php echo $this->element('sql_dump'); ?>
 </div>
@@ -112,7 +113,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 	<div class="js-loader overlay">
 		<img src="<?=FULL_BASE_URL.$this->base?>/images/preloader.gif" alt="preloader" style=""/>
 	</div>
-  <!-- preloader end 
+  <!-- preloader end -->
   
 </body>
 

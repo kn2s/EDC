@@ -23,18 +23,18 @@ $cakeVersion = __d('cake_dev', '');
 		var baseurl = "<?php echo FULL_BASE_URL.$this->base;?>";
 		var devWidth='';
 		var devleftPosition='';
-		var devTopPosition='0';
-		var pagefor="<?=$patientinfo?>";
+		var devTopPosition
 		$(document).ready(function(){
 			$("#sqlsection").hide();
-			//devleftPosition=$(".pertionalcontainer").offset().left;
-			//devTopPosition = $(".pertionalcontainer").offset().top;
+			devleftPosition=$(".pertionalcontainer").offset().left;
+			devTopPosition = $(".pertionalcontainer").offset().top;
 			//alert(devleftPosition);
 			devWidth = $(window).width();
 			//alert(devWidth);
-			
-			//alert(pagefor);
-			questianariesformload();
+			$(".socialActivity").css({left:devWidth,top:devTopPosition,position:'absolute',display:'none'});
+			$(".aboutillness").css({left:devWidth,top:devTopPosition,position:'absolute',display:'none'});
+			$(".pasthistory").css({left:devWidth,top:devTopPosition,position:'absolute',display:'none'});
+			$(".doccumentupload").css({left:devWidth,top:devTopPosition,position:'absolute',display:'none'});
 		});
 	</script>
 </head>
@@ -57,18 +57,34 @@ $cakeVersion = __d('cake_dev', '');
   </div>
   <div class="questionnaireBody">
   	<a href="javascript:void(0)" class="top"></a>
-  	<div class="container mmm">
-
+  	<div class="container">
+    	<div class="statusPart">
+        	<ul>
+            	<li><?php echo $this->Html->link('Patient Details',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'current')); ?>
+               <!-- <li><a href="#" class="done">Social History</a></li>
+                <li><a href="#" class="done">About The Illness</a></li>
+                <li><a href="#" class="done">Past History</a></li>
+                <li><a href="#" class="done">Upload Documents</a></li>
+                <li><a href="#" class="current">Review</a></li>-->
+				
+				<li><a href="#">Social History</a></li>
+                <li><a href="#">About The Illness</a></li>
+                <li><a href="#">Past History</a></li>
+                <li><a href="#">Upload Documents</a></li>
+                <li><a href="#">Review</a></li>
+            </ul>
+        </div>
+		
+        <div class="questionPart">
 		
 		<?php echo $this->fetch('content'); ?>
 		
-        
+        </div>
         <div class="clear"></div>
     </div>
   </div>
 </div>
-<div id="sqlsection">
-</div>
+<div id="sqlsection"></div>
 
   <!-- preloader section add -->
   

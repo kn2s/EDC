@@ -10,8 +10,8 @@
 			<?php echo $this->Form->create('Patient',array('inputDefaults' => array('label' => false,'div' => false),'id'=>'loginform')); 
 				echo $this->Form->hidden('signuporlogin',array('value'=>'0'));
 			?>
-            	<div class="mailId"><input type="text" placeholder="Email" name="data[Patient][email]" id="lemail"></div>
-                <div class="pass bb40"><input type="password" name="data[Patient][password]" placeholder="Password" id="pass"></div>
+            	<div class="mailId"><input type="text" placeholder="Email" name="data[Patient][email]" id="lemail" class="lginfld"></div>
+                <div class="pass bb40"><input type="password" name="data[Patient][password]" placeholder="Password" id="pass" class="lginfld"></div>
                 <input type="button" class="blueButton js-signin" value="Sign In" >
                 <label><input type="checkbox">Keep me signed in</label>
 				<label id="loginerror" style="color:red;"></label>
@@ -27,10 +27,10 @@
 			<?php echo $this->Form->create('Patient',array('inputDefaults' => array('label' => false,'div' => false),'id'=>'signupform'));
 				echo $this->Form->hidden('signuporlogin',array('value'=>'1'));
 			?>
-            	<div class="userName"><input type="text" name="data[Patient][name]" placeholder="Name" id="name"></div>
-                <div class="mailId"><input type="text" name="data[Patient][email]" placeholder="Email" id="email"></div>
-                <div class="pass"><input type="password" name="data[Patient][password]" placeholder="Password" id="spass"></div>
-                <div class="pass bb40"><input type="password" name="data[Patient][cpassword]" placeholder="Re enter" id="cpass"></div>
+            	<div class="userName"><input type="text" name="data[Patient][name]" placeholder="Name" id="name" class="sgnufld"></div>
+                <div class="mailId"><input type="text" name="data[Patient][email]" placeholder="Email" id="email" class="sgnufld"></div>
+                <div class="pass"><input type="password" name="data[Patient][password]" placeholder="Password" id="spass" class="sgnufld"></div>
+                <div class="pass bb40"><input type="password" name="data[Patient][cpassword]" placeholder="Re enter" id="cpass" class="sgnufld"></div>
                 <label><input type="checkbox" name="data[Patient][terms]" value="1" id="chkbtn">Accept <a href="javascript:void(0)">terms and conditions</a></label>
                 <input type="button" class="blueButton js-signup" value="Register" >
 
