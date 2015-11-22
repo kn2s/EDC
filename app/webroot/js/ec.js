@@ -626,7 +626,18 @@ $(document).on('click','.js-nextview',function(e){
 });
 //
 /* back the pre view sections*/
-$(document).on('click','.js-prevdivview',function(e){
+$(document).on('click','.js-preview',function(e){
+	var bcksec = parseInt($(e.currentTarget).attr('sec'));
+	
+	bcksec=bcksec-1;
+	if(bcksec>0){
+		pagefor = bcksec;
+	}
+	else{
+		pagefor=0;
+	}
+	questianariesformload();
+	
 	/*var bckbtnid=$(e.currentTarget).attr('id');
 	if(bckbtnid=='sabackbtn'){
 		$('html, body').animate({
@@ -670,6 +681,7 @@ $(document).on('click','.js-prevdivview',function(e){
 			});
 		});
 	}*/
+	
 });
 
 /* social activity alcohal type mode add sections*/
@@ -696,7 +708,6 @@ $(document).on('click','.js-sadrugmore',function(e){
 $(document).on('click','.js-sasaved',function(e){
 	e.preventDefault();
 	var callFrom=$(e.currentTarget).attr('id');
-	alert(callFrom);
 	$.ajax({
 		url:baseurl+"/Socialactivities/add",
 		method:'post',
@@ -711,7 +722,6 @@ $(document).on('click','.js-sasaved',function(e){
 				$("#said").val(response.id);
 				if(callFrom =='nextviewill'){
 					pagefor=parseInt(pagefor)+1;
-					alert(pagefor);
 					questianariesformload();
 				}
 			}

@@ -1,9 +1,12 @@
 <div class="statusPart">
 	<ul>
-		<li><?php echo $this->Html->link('Patient Details',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
+		<!--<li><?php echo $this->Html->link('Patient Details',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
 		<li><?php echo $this->Html->link('Social History',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
-		<li><?php echo $this->Html->link('About The Illness',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'current'));?>
+		<li><?php echo $this->Html->link('About The Illness',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'current'));?>-->
 	   
+		<li><a href="javascript:void(0)" class="js-preview done" sec="1">Patient Details</a></li>
+		<li><a href="javascript:void(0)" class="js-preview done" sec="2">Social History</a></li>
+		<li><a href="javascript:void(0)" class="current" sec="3">About The Illness</a></li>
 		<li><a href="javascript:void(0)">Past History</a></li>
 		<li><a href="javascript:void(0)">Upload Documents</a></li>
 		<li><a href="javascript:void(0)">Review</a></li>
@@ -277,7 +280,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 		</div>
 		<div class="clear35"></div>
 		
-		<a href="javascript:void(0)" class="backBtn js-prevdivview" id="illbackbtn">Back</a>
+		<a href="javascript:void(0)" class="backBtn js-preview"  sec="2" id="illbackbtn">Back</a>
         <input type="button" class="nextBtn js-illsaved" value="Next" id="nextviewpsthis">
 		<input type="submit" class="saveBtn js-illsaved" value="Save" name="save" id="illsaved">
 	</form>

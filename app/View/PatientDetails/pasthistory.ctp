@@ -1,16 +1,14 @@
 <div class="statusPart">
 	<ul>
-		<li><?php echo $this->Html->link('Patient Details',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
+		<!--<li><?php echo $this->Html->link('Patient Details',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
 		<li><?php echo $this->Html->link('Social History',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
 		<li><?php echo $this->Html->link('About The Illness',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
-		<li><?php echo $this->Html->link('Past History',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'current'));?>
+		<li><?php echo $this->Html->link('Past History',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'current'));?>-->
 	   
-	   <!-- <li><a href="#" class="done"></a></li>
-		<li><a href="#" class="done">About The Illness</a></li>
-		<li><a href="#" class="done">Past History</a></li>
-		<li><a href="#" class="done">Upload Documents</a></li>
-		<li><a href="#" class="current">Review</a></li>-->
-		
+		<li><a href="javascript:void(0)" class="js-preview done" sec="1">Patient Details</a></li>
+		<li><a href="javascript:void(0)" class="js-preview done" sec="2">Social History</a></li>
+		<li><a href="javascript:void(0)" class="js-preview done" sec="3">About The Illness</a></li>
+		<li><a href="javascript:void(0)" class="current" sec="4">Past History</a></li>
 		<li><a href="javascript:void(0)">Upload Documents</a></li>
 		<li><a href="javascript:void(0)">Review</a></li>
 	</ul>
@@ -93,7 +91,7 @@
 		</div>
 		<div class="clear35"></div>
 			
-		<a href="javascript:void(0)" class="backBtn js-prevdivview" id="psthisbackbtn">Back</a>
+		<a href="javascript:void(0)" class="backBtn js-preview"  sec="3" id="psthisbackbtn">Back</a>
         <input type="button" class="nextBtn js-nextview" value="Next" id="nextviewupddoc">
 		<input type="submit" class="saveBtn js-illsaved" value="Save" name="save" id="psthissaved">
 	</form>		

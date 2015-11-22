@@ -44,18 +44,13 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
 
 <div class="statusPart">
 	<ul>
-		<li><?php echo $this->Html->link('Patient Details',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>$clss)); ?>
-	   <!-- <li><a href="#" class="done">Social History</a></li>
-		<li><a href="#" class="done">About The Illness</a></li>
-		<li><a href="#" class="done">Past History</a></li>
-		<li><a href="#" class="done">Upload Documents</a></li>
-		<li><a href="#" class="current">Review</a></li>-->
-		
-		<li><a href="#">Social History</a></li>
-		<li><a href="#">About The Illness</a></li>
-		<li><a href="#">Past History</a></li>
-		<li><a href="#">Upload Documents</a></li>
-		<li><a href="#">Review</a></li>
+		<!--<li><?php echo $this->Html->link('Patient Details',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>$clss)); ?>-->
+		<li><a href="javascript:void(0)" class="<?=$clss?>" sec="1">Patient Details</a></li>
+		<li><a href="javascript:void(0)">Social History</a></li>
+		<li><a href="javascript:void(0)">About The Illness</a></li>
+		<li><a href="javascript:void(0)">Past History</a></li>
+		<li><a href="javascript:void(0)">Upload Documents</a></li>
+		<li><a href="javascript:void(0)">Review</a></li>
 	</ul>
 </div>
 
