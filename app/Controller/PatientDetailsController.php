@@ -71,7 +71,7 @@ class PatientDetailsController extends AppController {
 		$this->set('socialactivity',$socialactivity);
 		*/
 		
-		$this->set('patientinfo','3');
+		$this->set('patientinfo','0');
 	}
 
 /**
