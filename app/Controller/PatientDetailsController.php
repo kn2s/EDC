@@ -71,7 +71,7 @@ class PatientDetailsController extends AppController {
 		$this->set('socialactivity',$socialactivity);
 		*/
 		
-		$this->set('patientinfo','0');
+		$this->set('patientinfo','3');
 	}
 
 /**
@@ -196,6 +196,24 @@ class PatientDetailsController extends AppController {
  */
  public function pasthistory(){
 	 $this->layout="blanks";
+	 //load the model
+	 $this->loadModel('PatientPastHistory');
+	$months=array('Month');
+	
+	$years=array('Year');
+	for($i=1;$i<13;$i++){
+		//array_push($months,$i);
+		$months[$i]=$i;
+	}
+	
+	for($k=(date('Y')-90);$k<date('Y');$k++){
+		//array_push($years,$k);
+		$years[$k]=$k;
+	}
+	$this->set(compact('months','years'));
+	$cond = array('PatientPastHistory.patient_id'=>$this->Session->read('loggedpatientid'));
+	$PatientPastHistories = $this->PatientPastHistory->find('first',array('recursive'=>'1','conditions'=>$cond,'order'=>array('PatientPastHistory.id'=>'DESC'),'limit'=>'1'));
+	$this->set('PatientPastHistories',$PatientPastHistories);
  }
  
 /**

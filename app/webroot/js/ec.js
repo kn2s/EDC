@@ -752,7 +752,7 @@ $(document).on('click','.js-illsaved',function(e){
 				if(clkid=='nextviewpsthis'){
 					//for go to the next form
 					pagefor = parseInt(pagefor)+1;
-					console.log(pagefor);
+					//console.log(pagefor);
 					questianariesformload();
 				}
 			}
@@ -766,8 +766,9 @@ $(document).on('click','.js-illsaved',function(e){
 
 $(document).on('click','.js-psthissaved',function(e){
 	e.preventDefault();
+	var clkid = $(e.currentTarget).attr('id');
 	$.ajax({
-		url:baseurl+"/pasthistory/add",
+		url:baseurl+"/PatientPastHistories/add",
 		method:'post',
 		dataType:'json',
 		data:$("#psthisfrms").serialize(),
@@ -778,6 +779,13 @@ $(document).on('click','.js-psthissaved',function(e){
 			console.log(response);
 			if(response.status=='1'){
 				$("#psthisid").val(response.id);
+				if(clkid=='nextviewupddoc'){
+					
+					//for go to the next form
+					pagefor = parseInt(pagefor)+1;
+					//console.log(pagefor);
+					questianariesformload();
+				}
 			}
 			else{
 			}
@@ -932,4 +940,52 @@ $(document).on('click','.js-addtumore',function(e){
 		<div class="result ml20"><input type="text" placeholder="" name="data[TumarMarker][tumorresult][]"></div><div class="clear10"></div>';
 			
 	$("#moretumorecontainer").append(fld);
+});
+
+//past history of the patient
+$(document).on('click','.js-morepastdetails',function(e){
+	e.preventDefault();
+	var ids = $(e.currentTarget).attr('id');
+	var mothhtml = $(".month").html();
+	var yearhtml = $(".year").html();
+	var htmls ='';
+	if(ids=='cancer'){
+		htmls = '<div class="clear10">\
+		</div><div class="diagnosis">\
+		<input type="text" placeholder="Blood Cancer" name="data[CancerDetails][diagnosis_name][]">\
+		</div><div class="datesTwo ml20"><select class="month" name="data[CancerDetails][diagnosis_month][]">'+mothhtml+'</select>\
+		<select class="year" name="data[CancerDetails][diagnosis_year][]">'+yearhtml+'</select></div>';
+		$("#cancermore").append(htmls);
+	}
+	
+	if(ids=="surgeries"){
+		//surgeries surgerymorediv
+		htmls = '<div class="clear10"></div>\<div class="diagnosis">\
+		<input type="text" name="data[SurgeryDetail][surgery_name][]"></div>\
+		<div class="datesTwo ml20">\
+		<select class="month" name="data[SurgeryDetail][surgery_month][]">'+mothhtml+'</select>\
+		<select class="year" name="data[SurgeryDetail][surgery_year][]">'+yearhtml+'</select></div>';
+		
+		$("#surgerymorediv").append(htmls);
+	}
+	if(ids == 'hostmoreanc'){
+		htmls = '<div class="clear10"></div><div class="diagnosis">\
+		<input type="text" name="data[HostpitalDetails][hospitaliz_resone][]"></div><div class="datesTwo ml20">\
+		<select class="month" name="data[HostpitalDetails][hospitaliz_month][]">'+mothhtml+'</select>\
+		<select class="year" name="data[HostpitalDetails][hospitaliz_year][]">'+yearhtml+'</select></div>\
+		<div class="diagnosis ml20">\
+		<input type="text" placeholder="0" class="days" name="data[HostpitalDetails][hospitaliz_days]"></div>';
+		$("#hostMore").append(htmls);
+	}
+	if(ids == 'cancerfmanc'){
+		htmls = '<div class="clear10"></div><div class="diagnosis">\
+		<input type="text" name="data[FamilyCancer][relation_with][]">\
+		</div><div class="diagnosis ml20">\
+		<input type="text" name="data[FamilyCancer][cancer_type][]"></div>\
+		<div class="diagnosis ml20">\
+		<input type="text" placeholder="0" class="year" name="data[FamilyCancer][age_of_diagonisis][]"></div>';
+		
+		$("#familycancermore").append(htmls);
+	}
+	
 });
