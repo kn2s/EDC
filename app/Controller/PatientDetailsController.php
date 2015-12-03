@@ -71,7 +71,7 @@ class PatientDetailsController extends AppController {
 		$this->set('socialactivity',$socialactivity);
 		*/
 		
-		$this->set('patientinfo','0');
+		$this->set('patientinfo','4');
 	}
 
 /**
@@ -195,9 +195,9 @@ class PatientDetailsController extends AppController {
  * pasthistory method
  */
  public function pasthistory(){
-	 $this->layout="blanks";
-	 //load the model
-	 $this->loadModel('PatientPastHistory');
+	$this->layout="blanks";
+	//load the model
+	$this->loadModel('PatientPastHistory');
 	$months=array('Month');
 	
 	$years=array('Year');
@@ -220,7 +220,25 @@ class PatientDetailsController extends AppController {
  * document method
  */
  public function document(){
-	 $this->layout="blanks";
+	$this->layout="blanks";
+	//load the model
+	$this->loadModel('PatientDocument');
+	$months=array('Month');
+	$years=array('Year');
+	
+	for($i=1;$i<13;$i++){
+		//array_push($months,$i);
+		$months[$i]=$i;
+	}
+	
+	for($k=(date('Y')-90);$k<date('Y');$k++){
+		//array_push($years,$k);
+		$years[$k]=$k;
+	}
+	$this->set(compact('months','years'));
+	$cond = array('PatientDocument.patient_id'=>$this->Session->read('loggedpatientid'));
+	$PatientDocuments = $this->PatientDocument->find('first',array('recursive'=>'1','conditions'=>$cond,'order'=>array('PatientDocument.id'=>'DESC'),'limit'=>'1'));
+	$this->set('PatientDocuments',$PatientDocuments);
  }
  
 /**

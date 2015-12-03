@@ -1,3 +1,34 @@
+<script>
+var doctsobj = [];
+var timeouts='';
+var imagecount=6;
+var lastind=imagecount;
+var fstind=0;
+$(document).ready(function(){
+	$.each($(".js-docts"),function(i,item){
+		doctsobj.push(item);
+	});
+	if(doctsobj.length>imagecount){
+		$(".doctsimages").html('');
+		
+		timeouts = setInterval(function(){
+			$(".doctsimages").html('');
+			fstind = lastind;
+			lastind = lastind+imagecount;
+			if(lastind>doctsobj.length){
+				//clearInterval(timeouts);
+				fstind = 0;
+				lastind =imagecount;
+			}
+			
+			for(var i = fstind;i<lastind;i++){
+				$(doctsobj[i]).addClass("appear");
+				$(".doctsimages").append(doctsobj[i]);
+			}
+		},1000);
+	}
+});
+</script>
 
   <section class="bodyBannerSlider appear">
   	<a href="javascript:void(0)" class="banner1">
@@ -59,16 +90,24 @@
       <h3>Know The <span>Specialists</span></h3>
       <p><?=isset($homepagecontent['Homepagecontent']['specialisttag'])?$homepagecontent['Homepagecontent']['specialisttag']:''?></p>
       <div class="clear"></div>
+	  <div class="doctsimages">
 	  <?php 
 		if(count($doctors)>0){
+			$i=0;
 			foreach($doctors as $doctor){
+				$i++;
+				$cls='';
+				if($i>6){
+					$cls='style="display:none;"';
+					$cls='hh';
+				}
 			?>
-			<div class="box"><img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" class="smooth" /></div>
+			<div class="box js-docts" <?=$cls?>><img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" class="smooth" /></div>
 			<?php
 			}
 		}
 	  ?>
-     
+     </div>
       <div class="clear"></div>
     </div>
   </section>

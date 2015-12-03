@@ -16,12 +16,12 @@
 
 <?php 
 	// datas 
-	//pr($PatientPastHistories);
+	pr($PatientPastHistories);
 	$psthisid='';
-	$cancer_details = array(array('diagnosis_name'=>'','diagnosis_month'=>'','diagnosis_year'=>''));
-	$surgical_details = array(array('surgery_name'=>'','surgery_month'=>'','surgery_year'=>''));
-	$hospitalization_details = array(array('hospitaliz_resone'=>'','hospitaliz_month'=>'','hospitaliz_year'=>'','hospitaliz_days'=>''));
-	$family_cancer_details = array(array('relation_with'=>'','cancer_type'=>'','age_of_diagonisis'=>''));
+	$cancer_details = array('diagnosis_name'=>array(''),'diagnosis_month'=>array(''),'diagnosis_year'=>array(''));
+	$surgical_details = array('surgery_name'=>array(''),'surgery_month'=>array(''),'surgery_year'=>array(''));
+	$hospitalization_details = array('hospitaliz_resone'=>array(''),'hospitaliz_month'=>array(''),'hospitaliz_year'=>array(''),'hospitaliz_days'=>array(''));
+	$family_cancer_details = array('relation_with'=>array(''),'cancer_type'=>array(''),'age_of_diagonisis'=>array(''));
 	$comments=''; 
 	if(isset($PatientPastHistories['PatientPastHistory']) && is_array($PatientPastHistories['PatientPastHistory']) && count($PatientPastHistories['PatientPastHistory'])>0){
 		$cancer_details = unserialize($PatientPastHistories['PatientPastHistory']['cancer_history']);
