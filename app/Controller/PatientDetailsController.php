@@ -70,8 +70,12 @@ class PatientDetailsController extends AppController {
 		$this->set('patientDetails',$patientDetail);
 		$this->set('socialactivity',$socialactivity);
 		*/
-		
-		$this->set('patientinfo','4');
+		$this->loadModel('Patient');
+		$this->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
+		$cond = array('Patient.id'=>$this->Session->read('loggedpatientid'));
+		$patientalldeatils = $this->Patient->find('first',array('recursive'=>'0','conditions'=>$cond));
+		$formnumber = isset($patientalldeatils['Patient']['detailsformsubmit'])?$patientalldeatils['Patient']['detailsformsubmit']:0;
+		$this->set('patientinfo',$formnumber);
 	}
 
 /**
@@ -240,6 +244,198 @@ class PatientDetailsController extends AppController {
 	$PatientDocuments = $this->PatientDocument->find('first',array('recursive'=>'1','conditions'=>$cond,'order'=>array('PatientDocument.id'=>'DESC'),'limit'=>'1'));
 	$this->set('PatientDocuments',$PatientDocuments);
  }
+ 
+ /**
+ * patientsummery method
+ */
+ public function patientsummery(){
+	$this->layout="blanks";
+	$this->loadMOdel('Patient');
+	//bind the patiend model with other as has one
+	$this->Patient->unbindModel(array(
+		'hasMany'=>array('PatientDetail')
+	));
+	$this->Patient->bindModel(array(
+		'hasOne'=>array(
+			'PatientDetail' => array(
+				'className' => 'PatientDetail',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('PatientDetail.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'PatientDocument' => array(
+				'className' => 'PatientDocument',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('PatientDocument.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'PatientPastHistory' => array(
+				'className' => 'PatientPastHistory',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('PatientPastHistory.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'Socialactivity' => array(
+				'className' => 'Socialactivity',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('Socialactivity.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'AboutIllness' => array(
+				'className' => 'AboutIllness',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('AboutIllness.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+		)
+	));
+	//unbind
+	$this->Patient->PatientDetail->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->PatientDocument->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->PatientPastHistory->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->Socialactivity->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->AboutIllness->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	//now bind the model drug allergy
+	$this->Patient->PatientDetail->bindModel(array(
+		'hasMany'=>array(
+			'DrugAlergy' => array(
+				'className' => 'DrugAlergy',
+				'foreignKey' => 'patient_detail_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			)
+		)
+	));
+	
+	$cond = array('Patient.id'=>$this->Session->read('loggedpatientid'));
+	$patientalldeatils = $this->Patient->find('first',array('recursive'=>'2','conditions'=>$cond));
+	//pr($patientalldeatils);
+	//die();
+	$this->set('patientalldeatils',$patientalldeatils);
+ }
+ 
+ /**
+ * detailsdone method
+ */
+ public function detailsdone(){
+	//now update the form submit count in patient tables
+	$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
+	$this->PatientDetail->Patient->saveField('detailsformsubmit','5');
+	die(json_encode(array('status'=>'1','message'=>'')));
+ }
+ 
+ /**
+ * patientconsultant method
+ */
+ public function patientconsultant(){
+	$this->layout="questionnarydone";
+	$this->loadModel('DoctorCase');
+	$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1');
+	$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'0','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
+	if(isset($doctorCase['DoctorCase']) && count($doctorCase['DoctorCase'])>0){
+		//all ready case puted and payment done
+		
+	}
+	else{
+		//calculate the doctor availability and send to the view
+		$doctorCase = $this->consultantdetailscalculation();
+	}
+	$this->set('doctorCase',$doctorCase);
+ }
+ 
+ /**
+  * consultantdetailscalculation method
+  * @return array
+  */
+	public function consultantdetailscalculation(){
+		$datails=array();
+		return $datails;
+	}
+ 
+ /**
+  * payments method
+  */
+	public function payments(){
+		$this->loadModel('DoctorCase');
+		$doctor_id='2';
+		$consultant_fee="80";
+		$data = array('DoctorCase'=>array(
+			'patient_id'=>$this->Session->read("loggedpatientid"),
+			'doctor_id'=>$doctor_id,
+			'casecode'=>rand(10000,9999999999),
+			'opinion_due_date'=>date("Y-m-d"),
+			'available_date'=>date("Y-m-d"),
+			'consultant_fee'=>$consultant_fee,
+			'ispaymentdone'=>'1'
+		));
+		$caseid='0';
+		if($this->DoctorCase->save($data)){
+			$caseid=$this->DoctorCase->id;
+		}
+		if($caseid>0){
+			//now update the form submit count in patient tables
+			$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
+			$this->PatientDetail->Patient->saveField('detailsformsubmit','6');
+			//$this->Session->setFlash(__('The consultants saved.'));
+			$this->redirect(array('controller'=>'patients','action'=>'dashboard'));
+		}
+		else{
+			//$this->Session->setFlash(__('The details could not saved. Please, try again.'));
+			$this->redirect(array('action'=>'patientconsultant'));
+		}
+	}
  
 /**
  * view method

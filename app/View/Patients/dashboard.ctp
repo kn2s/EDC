@@ -14,10 +14,12 @@ $patientallhistory = array('PatientDetail'=>'Patient Details',
         <div class="completedStatus">
 		<?php 
 			$i=0;
-			$totalcompletedper=0;
+			$totalcompletedper=($patient['Patient']['detailsformsubmit']>5)?5:$patient['Patient']['detailsformsubmit'];
+			
+			$totalpercent = $patient['Patient']['detailsubmitpercent'];
 			foreach($patientallhistory as $key=>$val){
 				$clsdone="";
-				$cmpwidth=0;
+				$cmpwidth=$totalpercent;
 				$frst="";
 				if($i==0){
 					$frst="First";
@@ -26,15 +28,40 @@ $patientallhistory = array('PatientDetail'=>'Patient Details',
 					$frst="Last";
 				}
 				$i++;
-				if(isset($patient[$key]) && count($patient[$key])>0){
+				/*if(isset($patient[$key]) && count($patient[$key])>0){
 					$clsdone="";
 					$cmpwidth = (isset($patient[$key]['completepercent']))?$patient[$key]['completepercent']:"0";
 					if($cmpwidth==100){
 						$clsdone="done";
 						$totalcompletedper++;
 					}
+				}*/
+				//newsection
+				$clsdone="";
+				if($key=='PatientDetail' && $totalcompletedper>0){
+					$clsdone="done";
+					$cmpwidth='100';
 				}
-				
+				elseif($key=='SocialHistory' && $totalcompletedper>1){
+					$clsdone="done";
+					$cmpwidth='100';
+				}
+				elseif($key=='AboutTheIllness' && $totalcompletedper>2){
+					$clsdone="done";
+					$cmpwidth='100';
+				}
+				elseif($key=='PastHistory' && $totalcompletedper>3){
+					$clsdone="done";
+					$cmpwidth='100';
+				}
+				elseif($key=='TestReport' && $totalcompletedper>4){
+					$clsdone="done";
+					$cmpwidth='100';
+				}
+				else{
+					//$clsdone="done";
+					//$cmpwidth='0';
+				}
 			?>
 				<div class="step <?=$frst?> <?=$clsdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$cmpwidth?>%"></span></span><span class="TextPart"><?=$val?></span></div>
 			<?php

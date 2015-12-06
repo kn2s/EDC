@@ -39,6 +39,13 @@ class AppController extends Controller {
 		return false;
 	}
 	
+	public function doctuserislogin(){
+		if($this->Session->check('loggeddoctid') && $this->Session->read('loggeddoctid')>0){
+			return true;
+		}
+		return false;
+	}
+	
 	public function userloginsessionchecked(){
 		if(!$this->Session->check('loggedpatientid')){
 			//return true;
@@ -51,6 +58,21 @@ class AppController extends Controller {
 		$this->Session->delete('loggedpatientid');
 		$this->Session->delete('loggedpatientname');
 	}
+	
+	public function doctuserloginsessionchecked(){
+		if(!$this->Session->check('loggeddoctid')){
+			//return true;
+			$this->doctusersessionremove();
+			
+			$this->redirect(array('controller'=>'patients','action'=>'account'));
+		}
+	}
+	
+	public function doctusersessionremove(){
+		$this->Session->delete('loggeddoctid');
+		$this->Session->delete('loggeddocttname');
+	}
+	
 /**
  * setadminsession method
  * @param array $admin

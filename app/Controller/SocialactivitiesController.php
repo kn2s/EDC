@@ -110,6 +110,11 @@ class SocialactivitiesController extends AppController {
 				}
 				$message="save your information";
 				$status=1;
+				
+				//now update the form submit count in patient tables
+				$this->Socialactivity->Patient->id=$this->Session->read("loggedpatientid");
+				$this->Socialactivity->Patient->saveField('detailsformsubmit','1');
+				
 				//$this->Session->setFlash(__('The socialactivity has been saved.'));
 				//return $this->redirect(array('action' => 'index'));
 			} else {

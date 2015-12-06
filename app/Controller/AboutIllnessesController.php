@@ -85,6 +85,9 @@ class AboutIllnessesController extends AppController {
 						}
 					}
 					$status=1;
+					//now update the form submit count in patient tables
+					$this->AboutIllness->Patient->id=$this->Session->read("loggedpatientid");
+					$this->AboutIllness->Patient->saveField('detailsformsubmit','2');
 				}
 				/*$this->Session->setFlash(__('The about illness has been saved.'));
 				return $this->redirect(array('action' => 'index'));*/

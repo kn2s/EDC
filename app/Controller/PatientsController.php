@@ -217,16 +217,19 @@ class PatientsController extends AppController {
 						}
 					}
 					else{
-						/*//valied doctor user
-						$this->Session->write(array('loggedpatientid'=>$patient['Patient']['id'],'loggedpatientname'=>$patient['Patient']['name']));
-						if($this->userislogin()){
+						//valied doctor user
+						$this->Session->write(array('loggeddoctid'=>$patient['Patient']['id'],'loggeddocttname'=>$patient['Patient']['name']));
+						if($this->doctuserislogin()){
 							//valid user go their profile dash bord section
-							$this->redirect(array('action'=>'dashboard'));
+							//$this->redirect(array('controller'=>'doctors','action'=>'dashboard'));
+							die(json_encode(array('status'=>'2','message'=>$message)));
 						}
 						else{
 							//session creation error
-							$this->Session->setFlash(__('sorry we have problem please try again.'));
-						}*/
+							//$this->Session->setFlash(__('sorry we have problem please try again.'));
+							$message="sorry we have problem please try again.";
+							die(json_encode(array('status'=>$status,'message'=>$message)));
+						}
 						//$this->Session->setFlash(__('Email or password does not match.'));
 						$message="Email or password does not match.";
 						die(json_encode(array('status'=>$status,'message'=>$message)));
@@ -336,6 +339,7 @@ class PatientsController extends AppController {
 		if(!$this->userislogin()){
 			$this->redirect(array('action'=>'account'));
 		}
+		$this->Patient->unbindModel(array("hasMany"=>array("PatientDetail")));
 		//get user details
 		$poption = array('Patient.id'=>$this->Session->read('loggedpatientid'));
 		$patient = $this->Patient->find('first',array('recursive'=>'1','conditions'=>$poption));

@@ -48,16 +48,33 @@ class PatientDocumentsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+			//pr($this->request->data);
+			$status=0;
+			$message="";
 			$this->PatientDocument->create();
+			$docid=isset($this->request->data['PatientDocument']['id'])?:'0';
+			$this->request->data['PatientDocument']['patient_id']=$this->Session->read('loggedpatientid');
+			$this->request->data['PatientDocument']['bloodreport'] = serialize($this->request->data['BloodTest']);
+			$this->request->data['PatientDocument']['imagingreport'] = serialize($this->request->data['ImagingTest']);
+			$this->request->data['PatientDocument']['pathologyreport'] = serialize($this->request->data['Pathology']);
+			$this->request->data['PatientDocument']['otherreport'] = serialize($this->request->data['OtherTest']);
+			
 			if ($this->PatientDocument->save($this->request->data)) {
-				$this->Session->setFlash(__('The patient document has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				//$this->Session->setFlash(__('The patient document has been saved.'));
+				//return $this->redirect(array('action' => 'index'));
+				$docid = $this->PatientDocument->id;
+				$status='1';
+				//now update the form submit count in patient tables
+				$this->PatientDocument->Patient->id=$this->Session->read("loggedpatientid");
+				$this->PatientDocument->Patient->saveField('detailsformsubmit','4');
+				
 			} else {
-				$this->Session->setFlash(__('The patient document could not be saved. Please, try again.'));
+				//$this->Session->setFlash(__('The patient document could not be saved. Please, try again.'));
 			}
+			die(json_encode(array('status'=>$status,'message'=>$message,'id'=>$docid)));
 		}
-		$patients = $this->PatientDocument->Patient->find('list');
-		$this->set(compact('patients'));
+		/*$patients = $this->PatientDocument->Patient->find('list');
+		$this->set(compact('patients'));*/
 	}
 
 /**
@@ -107,6 +124,9 @@ class PatientDocumentsController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
+/**
+ADMIN SECTIONS START FROM HERE
+**/
 /**
  * admin_index method
  *
@@ -197,4 +217,37 @@ class PatientDocumentsController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+	
+/**
+ * imageupload method 
+ */
+  public function imageupload(){
+	  $message="";
+	  $status=0;
+	  $filename='';
+	 // pr($_FILES);
+	  if(isset($_FILES['docfile']['size']) && $_FILES['docfile']['size']>0){
+		  $filename = trim(time().str_replace("&,#, ,*","_",$_FILES['docfile']['name']));
+		  if(move_uploaded_file($_FILES['docfile']['tmp_name'],WWW_ROOT."/patientdocts/".$filename)){
+			 $message="file upload done";
+			  $status="1"; 
+		  }
+		  else{
+			  $filename='';
+			  $message="file upload error";
+			  $status="0";
+		  }
+	  }
+	  die(json_encode(array("status"=>$status,"message"=>$message,"filename"=>$filename)));
+  }
+  
+  /**
+   * imageuploadremove method 
+   */
+   public function imageuploadremove(){
+	  $message="";
+	  $status=1;
+	  //file remove section done here also
+	  die(json_encode(array("status"=>$status,"message"=>$message)));
+   }
 }

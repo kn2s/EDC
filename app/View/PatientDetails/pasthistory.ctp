@@ -16,7 +16,7 @@
 
 <?php 
 	// datas 
-	pr($PatientPastHistories);
+	//pr($PatientPastHistories);
 	$psthisid='';
 	$cancer_details = array('diagnosis_name'=>array(''),'diagnosis_month'=>array(''),'diagnosis_year'=>array(''));
 	$surgical_details = array('surgery_name'=>array(''),'surgery_month'=>array(''),'surgery_year'=>array(''));
@@ -139,7 +139,6 @@
 					$surgery_names =$surgical_details['surgery_name'];
 					$surgery_months =$surgical_details['surgery_month'];
 					$surgery_years =$surgical_details['surgery_year'];
-					$surgery_names =$surgical_details['surgery_name'];
 					
 					for($j=0;$j<count($surgery_names);$j++){
 						$surgery_name = $surgery_names[$j];

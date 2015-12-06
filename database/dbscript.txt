@@ -1,3 +1,9 @@
 today(11-11-15):
 ================
 ALTER TABLE `ec_socialactivities` ADD `alcohalstartmonth` INT(11) NOT NULL AFTER `comment`, ADD `alcohalstartyear` INT(11) NOT NULL AFTER `alcohalstartmonth`, ADD `alcohalendmonth` INT(11) NOT NULL AFTER `alcohalstartyear`, ADD `alcohalendyear` INT(11) NOT NULL AFTER `alcohalendmonth`;
+
+today(06-12-15):
+================
+ALTER TABLE `ec_patients` ADD `detailsformsubmit` INT(2) NOT NULL DEFAULT '0' COMMENT 'patient which form submit at last' AFTER `ispatient`;
+
+ALTER TABLE `ec_patients` ADD `detailsubmitpercent` DOUBLE NOT NULL COMMENT 'form details fillup percentage' AFTER `detailsformsubmit`;

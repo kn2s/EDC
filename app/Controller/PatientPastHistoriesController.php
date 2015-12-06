@@ -62,6 +62,9 @@ class PatientPastHistoriesController extends AppController {
 			if ($this->PatientPastHistory->save($this->request->data)) {
 				$ids = $this->PatientPastHistory->id;
 				$status='1';
+				//now update the form submit count in patient tables
+				$this->PatientPastHistory->Patient->id=$this->Session->read("loggedpatientid");
+				$this->PatientPastHistory->Patient->saveField('detailsformsubmit','3');
 			} else {
 				
 			}

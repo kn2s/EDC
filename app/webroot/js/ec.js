@@ -220,10 +220,16 @@ $(document).on('click', '.js-signin', function(){
 			if(parseInt(response.status) === 1){
 				window.location=baseurl+'/patients/dashboard';
 			}else{	
-				signUpInErrorMsg($(".signIn"), response.message);
-				$('html, body').animate({
-					scrollTop: $(".signIn").offset().top
-				}, 500);
+				if(parseInt(response.status) === 2){
+					//doctor log in
+					window.location=baseurl+'/doctors/dashboard';
+				}
+				else{
+					signUpInErrorMsg($(".signIn"), response.message);
+					$('html, body').animate({
+						scrollTop: $(".signIn").offset().top
+					}, 500);
+				}
 			}
 		}
 	});	
@@ -420,6 +426,7 @@ function setalldivblockinonseposition(){
 
 function questianariesformload(){
 	var fucurl='';
+	var isreload=false;
 	switch(parseInt(pagefor)){
 		case 0:
 			//alert("0");
@@ -441,12 +448,24 @@ function questianariesformload(){
 			//alert("4");
 			fucurl=baseurl+'/patientDetails/document';
 		break;
+		case 5:
+			//alert("5");
+			fucurl=baseurl+'/patientDetails/patientsummery';
+		break;
+		case 6:
+			//alert("5");
+			fucurl=baseurl+'/patientDetails/patientconsultant ';
+			window.location=fucurl;
+			isreload=true;
+		break;
 		default:
 			alert("amni");
 		break;
 	}
-	console.log(fucurl);
-	
+	//console.log(fucurl);
+	if(isreload){
+		return false;
+	}
 	$.ajax({
 		url:fucurl,
 		method:'post',
@@ -797,8 +816,9 @@ $(document).on('click','.js-psthissaved',function(e){
 
 $(document).on('click','.js-docupssaved',function(e){
 	e.preventDefault();
+	var clkid = $(e.currentTarget).attr('id');
 	$.ajax({
-		url:baseurl+"/uploadeddoc/add",
+		url:baseurl+"/PatientDocuments/add",
 		method:'post',
 		dataType:'json',
 		data:$("#docupfrms").serialize(),
@@ -809,6 +829,11 @@ $(document).on('click','.js-docupssaved',function(e){
 			console.log(response);
 			if(response.status=='1'){
 				$("#docupid").val(response.id);
+				if(clkid=='nextviewxx'){
+					//for go to the next form
+					pagefor = parseInt(pagefor)+1;
+					questianariesformload();
+				}
 			}
 			else{
 			}
@@ -989,3 +1014,244 @@ $(document).on('click','.js-morepastdetails',function(e){
 	}
 	
 });
+
+// patient docunemt
+$(document).on('click','.js-addmorebloodtest',function(e){
+	//alert("jj");
+	var mothhtml = $(".month").html();
+	var yearhtml = $(".year").html();
+	var htmls = '<div class="gender"><input type="text" placeholder="Hint Text" name="data[BloodTest][test][]"></div>\
+	<div class="datesTwo ml20">\
+	<select class="month" name="data[BloodTest][month][]">'+mothhtml+'</select>\
+	<select class="year" name="data[BloodTest][year][]">'+yearhtml+'</select>\
+	</div>\
+	<div class="report ml20">\
+	<a href="javascript:void(0)" class="uploadReport js-imageupload">Upload report</a>\
+	<input class="flnamecontain" type="hidden" name="data[BloodTest][flname][]"/>\
+	<label class="noreport ml14"><input type="checkbox" class="js-docchk" name="checkbos" >Not available</label>\
+	<input type="hidden" class="chkvalue" name="data[BloodTest][flispresent][]" value="0" />\
+	</div><div class="clear10"></div>';
+	//<div class="w300 ml20"><input type="text" placeholder="What was the result?"></div>
+	$(".blodtestingmore").append(htmls);
+});
+//image upload parend 
+var imageuploadParent='';
+//doc uploading sections
+$(document).on('click','.js-imageupload',function(e){
+	//
+	$("#docfile").trigger('click');
+	imageuploadParent = $(e.currentTarget).parent(".report");
+});
+$(document).on('change','#docfile',function(e){
+	//alert("kk");
+	//now upload the selected image 
+	var frmData = new FormData();
+	frmData.append('docfile',$(e.currentTarget).prop('files')[0]);
+	$.ajax({
+		url:baseurl+"/PatientDocuments/imageupload",
+		method:'post',
+		dataType:'json',
+		data:frmData,
+		processData: false, // important
+		contentType: false, // important
+		error:function(response){
+			console.log(response);
+		},
+		success:function(response){
+			console.log(response);
+			if(response.status=='1'){
+				$(e.currentTarget).val("");
+				$($(imageuploadParent).find(".js-imageupload")).remove();
+				$($(imageuploadParent).find(".noreport")).remove();
+				
+				$($(imageuploadParent).find(".flnamecontain")).val(response.filename);
+				var htn ='<span class="reportCard">'+response.filename+'</span><a href="javascript:void(0)" class="reportCardDel js-removeDoct" value="'+response.filename+'">X</a>';
+				$(imageuploadParent).prepend(htn);
+				if($(imageuploadParent).find(".blue").length>0){
+					$($(imageuploadParent).find(".blue")).remove();
+					$(imageuploadParent).prepend('<label class="blue">Report</label>');
+				}
+				if($(imageuploadParent).find(".chkvalue").length>0){
+					$($(imageuploadParent).find(".chkvalue")).val(0);
+				}
+				imageuploadParent='';
+			}
+			else{
+			}
+		}
+	});
+});
+
+//remove the uploaded file 
+$(document).on('click','.js-removeDoct',function(e){
+	var filename = $(e.currentTarget).attr('value');
+	imageuploadParent = $(e.currentTarget).parent(".report");
+	if(filename!=''){
+		var frmData = new FormData();
+		frmData.append('docfile',filename);
+		$.ajax({
+			url:baseurl+"/PatientDocuments/imageuploadremove",
+			method:'post',
+			dataType:'json',
+			data:frmData,
+			processData: false, // important
+			contentType: false, // important
+			error:function(response){
+				console.log(response);
+			},
+			success:function(response){
+				console.log(response);
+				if(response.status=='1'){
+					$(e.currentTarget).remove();
+					$($(imageuploadParent).find(".reportCard")).remove();
+					$($(imageuploadParent).find(".flnamecontain")).val("");
+					
+					var html = '<a href="javascript:void(0)" class="uploadReport js-imageupload">Upload report</a>\
+					<label class="noreport ml14"><input type="checkbox" class="js-docchk" name="checkbos" >Not available</label>\
+					</div>';
+					$(imageuploadParent).prepend(html);
+					if($(imageuploadParent).find(".blue").length>0){
+						$($(imageuploadParent).find(".blue")).remove();
+						$(imageuploadParent).prepend('<label class="blue">Report</label>');
+					}
+					if($(imageuploadParent).find(".chkvalue").length>0){
+						$($(imageuploadParent).find(".chkvalue")).val(0);
+					}
+					imageuploadParent='';
+				}
+				else{
+					//NOTHING DONE FOR HERE
+				}
+			}
+		});
+	}
+	else{
+		
+	}
+});
+
+//document not present chk click
+$(document).on('click','.js-docchk',function(e){
+	imageuploadParent =  $(e.currentTarget).parents(".report");
+	if($(e.currentTarget).is(":checked")){
+		if($(imageuploadParent).find(".chkvalue").length>0){
+			$($(imageuploadParent).find(".chkvalue")).val("1");
+		}
+	}
+	else{
+		if($(imageuploadParent).find(".chkvalue").length>0){
+			$($(imageuploadParent).find(".chkvalue")).val("0");
+		}
+	}
+	imageuploadParent='';
+});
+
+//print the patient all data 
+$(document).on('click','.js-printdocs',function(e){
+	//alert("kk");
+	var restorepage = document.body.innerHTML;
+	var printcontent = $(".questionPart").html();
+	document.body.innerHTML = printcontent;
+	window.print();
+	document.body.innerHTML = restorepage;
+});
+
+$(document).on('click','.js-patientsummetybtn',function(e){
+	
+	$.ajax({
+		url:baseurl+"/PatientDetails/detailsdone",
+		method:'post',
+		dataType:'json',
+		data:'',
+		error:function(response){
+			console.log(response);
+		},
+		success:function(response){
+			console.log(response);
+			if(response.status=='1'){
+				//for go to the next form
+				pagefor = parseInt(pagefor)+1;
+				questianariesformload();
+			}
+			else{
+			}
+		}
+	});
+});
+
+//doctore section scripting
+$(document).on('click','.js-doccasedetail',function(e){
+	e.preventDefault();
+	var caseid = $(e.currentTarget).attr('vals');
+	window.location=baseurl+"/doctors/casedetail/"+caseid;
+});
+
+$(document).on('click','.js-opinionpanel',function(e){
+	var immparent  = $(e.currentTarget).parent(".sendOpinionBox");
+	$(immparent).hide();
+});
+
+
+$(document).on('click','.js-doctoptions',function(e){
+	var vals = $(e.currentTarget).attr('vals');
+	var immparent = $(e.currentTarget).parents("ul");
+	if(parseInt(vals)==4){
+		//opinion click
+		$(".sendOpinionBox").show();
+	}
+	else{
+		if($(immparent).find(".current").length>0){
+			$($(immparent).find(".current")).addClass("js-doctoptions").removeClass("current");
+		}
+		$(e.currentTarget).removeClass("js-doctoptions").addClass("current");
+		viewfor=parseInt(vals);
+		doctorcaseviewload();
+	}
+});
+
+function doctorcaseviewload(){
+	//console.log(viewfor);
+	var fucurl='';
+	var isreload=false;
+	switch(parseInt(viewfor)){
+		case 1:
+			//alert("1");
+			fucurl=baseurl+'/doctors/patientsummery';
+		break;
+		case 2:
+			//alert("2");
+			fucurl=baseurl+'/doctors/communication';
+		break;
+		case 3:
+			//alert("3");
+			fucurl=baseurl+'/doctors/refer';
+		break;
+		default:
+			alert("amni doct");
+		break;
+	}
+	
+	if(isreload){
+		return false;
+	}
+	console.log(fucurl);
+	//make a form data 
+	var frmdata = new FormData();
+	frmdata.append('caseid',doctcaseid);	
+	
+	$.ajax({
+		url:fucurl,
+		method:'post',
+		dataType:'text',
+		data:frmdata,
+		processData: false, // important
+		contentType: false, // important
+		success:function(response){
+			console.log(response);
+			$(".dymamichtmldata").html(response);
+		},
+		error:function(response){
+			console.log(response);
+		}
+	});
+}
