@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `ec_case_communications` (
   `doctor_case_id` int(11) NOT NULL,
   `patient_id` int(11) NOT NULL,
   `comment` text NOT NULL,
-  `createdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `createdate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

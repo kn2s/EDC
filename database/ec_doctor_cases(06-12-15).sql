@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `eradicate_cancer_db`
+-- Database: `a9907288_edcc`
 --
 
 -- --------------------------------------------------------
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `ec_doctor_cases` (
   `satatus` int(2) NOT NULL DEFAULT '0' COMMENT '0=un read,1=pending,2=awating input,3=opnion due,4=delay',
   `diagonisis` varchar(256) NOT NULL,
   `ispaymentdone` int(1) NOT NULL DEFAULT '0',
-  `createdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `createdate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
