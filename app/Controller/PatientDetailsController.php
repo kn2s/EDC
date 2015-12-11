@@ -75,7 +75,7 @@ class PatientDetailsController extends AppController {
 		$cond = array('Patient.id'=>$this->Session->read('loggedpatientid'));
 		$patientalldeatils = $this->Patient->find('first',array('recursive'=>'0','conditions'=>$cond));
 		$formnumber = isset($patientalldeatils['Patient']['detailsformsubmit'])?$patientalldeatils['Patient']['detailsformsubmit']:0;
-		$formnumber=2;
+		//$formnumber=2;
 		$this->set('patientinfo',$formnumber);
 	}
 
