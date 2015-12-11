@@ -135,14 +135,14 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 			<div class="w700">
 				
 				<?php 
-						echo $this->Form->input('diagodetails',array("type"=>"textarea","value"=>$diagodetails));
+						echo $this->Form->input('diagodetails',array("type"=>"textarea","value"=>$diagodetails,'label'=>''));
 				?>
 			</div>
 			<div class="clear10"></div>
 			<label class="blue">What is your oncologist’s recommendation?</label>
 			<div class="w700">
 				<?php 
-						echo $this->Form->input('diagorecomandation',array("type"=>"textarea","value"=>$diagorecomandation));
+						echo $this->Form->input('diagorecomandation',array("type"=>"textarea","value"=>$diagorecomandation,'label'=>''));
 				?>
 			</div>
 			<div class="clear10"></div>
@@ -182,7 +182,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 				
 			</div>
 			<div class="clear10"></div>
-			<label class="blue">*Do you have results of any tumor markers?</label>
+			<label class="blue">*Do you have results of any tumor markers? <a href="javascript:void(0)" title="">what is tumor marker?</a></label>
 			<div class="w80">
 				<label><input type="radio" name="data[AboutIllness][istumarmarker]" value="1" <?=($istumarmarker==1)?"checked":""?> > Yes</label>
 			</div>

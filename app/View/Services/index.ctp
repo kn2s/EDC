@@ -1,12 +1,34 @@
+<script>
+	
+	$(document).ready(function(){
+		var stttt = ""+window.location;
+		var str='';
+		var urlss = stttt.split("#");
+		if( $.isArray(urlss) && urlss.length>1){
+			str = urlss[1];
+			$($('.tabSwitch')[1]).trigger("click");
+		}
+		//alert(str);
+	});
+</script>
 <section class="serviceTypeCont">
   	<div class="container">
     	<a href="#patientService" class="patient tabSwitch">
-        	<img src="images/patientNor.jpg" class="normal" alt="">
-            <img src="images/patientActive.jpg" class="active" alt="">
+        	<!--<img src="images/patientNor.jpg" class="normal" alt="">
+			<img src="images/patientActive.jpg" class="active" alt="">
+			-->
+			<?php echo $this->Html->image('patientNor.jpg',array('alt'=>'','class'=>'normal'));
+				echo $this->Html->image('patientActive.jpg',array('alt'=>'','class'=>'active'));
+			?>
+            
         </a>
         <a href="#doctorService" class="doctor tabSwitch">
-        	<img src="images/doctorNor.jpg" class="normal" alt="">
-            <img src="images/doctorActive.jpg" class="active" alt="" style="display:none;">
+        	<!--<img src="images/doctorNor.jpg" class="normal" alt="">
+            <img src="images/doctorActive.jpg" class="active" alt="" style="display:none;">-->
+			<?php 
+				echo $this->Html->image('doctorNor.jpg',array('alt'=>'','class'=>'normal'));
+				echo $this->Html->image('doctorActive.jpg',array('alt'=>'','class'=>'active','style'=>'display:none;'));
+			?>
         </a>
     </div>
 </section>

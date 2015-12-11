@@ -95,9 +95,9 @@ $patientallhistory = array('PatientDetail'=>'Patient Details',
 				default:
 				break;
 			}*/
-			echo $this->Html->link('Finish',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton'));
+			echo $this->Html->link('Enter questionnaire',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton'));
 		?>
-        <!--<a href="#" class="finishButton">Finish</a>-->
+        <!--<a href="#" class="finishButton">Enter questionnaire</a>-->
     </div>
     <div class="rightHIW">
     	<ul class="bxslider">

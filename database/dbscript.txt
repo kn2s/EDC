@@ -7,3 +7,12 @@ today(06-12-15):
 ALTER TABLE `ec_patients` ADD `detailsformsubmit` INT(2) NOT NULL DEFAULT '0' COMMENT 'patient which form submit at last' AFTER `ispatient`;
 
 ALTER TABLE `ec_patients` ADD `detailsubmitpercent` DOUBLE NOT NULL COMMENT 'form details fillup percentage' AFTER `detailsformsubmit`;
+
+
+today(12-12-15):
+================
+ALTER TABLE `ec_alcohols` ADD `alcoholunit` VARCHAR(254) NOT NULL AFTER `quantity`;
+
+ALTER TABLE `ec_drugs` ADD `drugunit` VARCHAR(254) NOT NULL AFTER `quantity`;
+
+ALTER TABLE `ec_smokings` ADD `smkunit` VARCHAR(254) NOT NULL AFTER `toyear`;
