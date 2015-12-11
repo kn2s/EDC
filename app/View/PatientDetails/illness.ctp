@@ -83,7 +83,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 					echo $this->Form->input('AboutIllness.principle_diagonisises_id',array(
 						'div'=>false,
 						'label'=>false,
-						'options'=>$months,
+						'options'=>$Specializations,
 						'default'=>'0',
 						'class'=>'savaliedatefields',
 						'id'=>'principle_diagonisises_id',

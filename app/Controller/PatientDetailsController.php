@@ -192,8 +192,9 @@ class PatientDetailsController extends AppController {
 	$this->loadModel('AboutIllness');
 	$conditions = array('AboutIllness.patient_id'=>$this->Session->read('loggedpatientid'));
 	$aboutIllnesses = $this->AboutIllness->find('first',array('recursive'=>'1','conditions'=>$conditions,'order'=>array('AboutIllness.id'=>'DESC'),'limit'=>'1'));
-	
+	$Specializations = $this->AboutIllness->Specialization->find('list');
 	$this->set('aboutIllnesses',$aboutIllnesses);
+	$this->set('Specializations',$Specializations);
  }
  
 /**
