@@ -26,7 +26,8 @@
 	$sasmkstartyear=0;
 	$sasmkendmonth=0;
 	$sasmkendyear=0;
-	
+	$smokingunit="in a day";
+	$saalcoholunit = "in a day";
 	$saalcohals=array(array('alcoholname'=>'','quantity'=>0,'takingunit'=>0));
 	
 	$sadrugs =array(array('drugname'=>'','quantity'=>''));
@@ -55,6 +56,7 @@
 		$sasmkstartyear=$smiking['fromyear'];
 		$sasmkendmonth=$smiking['tomonth'];
 		$sasmkendyear=$smiking['toyear'];
+		$smokingunit = $smiking['smkunit'];
 	}
 ?>
 
@@ -74,8 +76,11 @@
                 <div class="quantity">
                 	<label class="blue">Quantity</label>
                     <input type="text" placeholder="0" name="data[Smoking][quantity]" class="savaliedatefields" value="<?=$sasmkquantity?>">
-                    <select>
-                    	<option value="0">In a Day</option>
+                    <select name="data[Smoking][smkunit]">
+                    	<option value="in a day" <?php if($smokingunit=="in a day"){ echo "selected";}?> >In a Day</option>
+                    	<option value="in a week" <?php if($smokingunit=="in a week"){ echo "selected";}?> >In a Week</option>
+                    	<option value="in a month" <?php if($smokingunit=="in a month"){ echo "selected";}?> >In a Month</option>
+                    	<option value="in a year" <?php if($smokingunit=="in a year"){ echo "selected";}?> >In a Year</option>
                     </select>
                 </div>
                 <div class="period ml20">
@@ -147,7 +152,10 @@
 									<label class="blue">Quantity</label>
 									<input type="text" name="saalcohalquantity[]" placeholder="0" class="ml" value="<?=$alcohalsdtls['quantity']?>" >
 									<select name="saalcoholunit[]">
-										<option value="0">In a Day</option>
+										<option value="in a day" <?php if($alcohalsdtls['alcoholunit']=='in a day'){ echo 'selected';}?> >In a Day</option>
+										<option value="in a week" <?php if($alcohalsdtls['alcoholunit']=='in a week'){ echo 'selected';}?> >In a Week</option>
+										<option value="in a month" <?php if($alcohalsdtls['alcoholunit']=='in a month'){ echo 'selected';}?> >In a Month</option>
+										<option value="in a year" <?php if($alcohalsdtls['alcoholunit']=='in a year'){ echo 'selected';}?> >In a Year</option>
 									</select>
 								</div>
 								<div class="clear10"></div>
@@ -162,7 +170,10 @@
 								<div class="quantity ml20">
 									<input type="text" name="saalcohalquantity[]" placeholder="0" class="ml" value="<?=$alcohalsdtls['quantity']?>">
 									<select name="saalcoholunit[]">
-										<option value="0">In a Day</option>
+										<option value="in a day" <?php if($alcohalsdtls['alcoholunit']=='in a day'){ echo 'selected';}?> >In a Day</option>
+										<option value="in a week" <?php if($alcohalsdtls['alcoholunit']=='in a week'){ echo 'selected';}?> >In a Week</option>
+										<option value="in a month" <?php if($alcohalsdtls['alcoholunit']=='in a month'){ echo 'selecte';}?> >In a Month</option>
+										<option value="in a year" <?php if($alcohalsdtls['alcoholunit']=='in a year'){ echo 'selected';}?> >In a Year</option>
 									</select>
 								</div>
 								<div class="clear10"></div>
@@ -243,9 +254,12 @@
 								</div>
 								<div class="quantity ml20">
 									<label class="blue">Quantity</label>
-									<input type="text" name="samoredrugquantity[]" placeholder="0" class="ml" value="<?=$drag['quantity']?>">
+									<input type="text" name="samoredrugquantity[]" placeholder="0" class="" value="<?=$drag['quantity']?>">
 									<select name="samoredrugunit[]">
-										<option value="0">In a Day</option>
+										<option value="in a day" <?php if($drag['drugunit']=='in a day'){echo 'selected';}?> > In a Day</option>
+										<option value="in a week" <?php if($drag["drugunit"]=='in a week'){echo 'selected';}?> >In a Week</option>
+										<option value="in a month" <?php if($drag["drugunit"]=='in a month'){echo 'selected';}?> >In a Month</option>
+										<option value="in a year" <?php if($drag["drugunit"]=='in a year'){echo 'selected';}?> >In a Year</option>
 									</select>
 								</div>
 								<div class="clear10"></div>
@@ -260,9 +274,12 @@
 									<input type="text" name="samoredrugtype[]" value="<?=$drag['drugname']?>">
 								</div>
 								<div class="quantity ml20">
-									<input type="text" name="samoredrugquantity[]" placeholder="0" class="ml" value="<?=$drag['quantity']?>">
+									<input type="text" name="samoredrugquantity[]" placeholder="0" class="" value="<?=$drag['quantity']?>">
 									<select name="samoredrugunit[]">
-										<option value="0">In a Day</option>
+										<option value="in a day" <?php if($drag['drugunit']=='in a day'){echo 'selected';}?> >In a Day</option>
+										<option value="in a week" <?php if($drag['drugunit']=='in a week'){echo 'selected';}?> >In a Week</option>
+										<option value="in a month" <?php if($drag['drugunit']=='in a month'){echo 'selected';}?> >In a Month</option>
+										<option value="in a year" <?php if($drag['drugunit']=='in a year'){echo 'selected';}?> >In a Year</option>
 									</select>
 								</div>
 								<div class="clear10"></div>
@@ -280,7 +297,7 @@
 			<div class="additional">
             	<div class="w540">
                 	<label class="blue">Additional Comments</label>
-                	<p>Do you want to tell us anyhing about the addiction</p>
+                	<p>Do you want to tell us anyhing else</p>
           
 					<?php 
 						echo $this->Form->input('comment',array("type"=>"textarea","value"=>$sacomment));

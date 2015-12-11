@@ -31,13 +31,13 @@ $(document).ready(function(){
 </script>
 
   <section class="bodyBannerSlider appear">
-  	<a href="javascript:void(0)" class="banner1">
+  	<a href="<?=FULL_BASE_URL.$this->base?>/services" class="banner1">
     	<div class="container">
     		<h3 class="smooth2">Fighiting Cancer?</h3>
         	<h4 class="smooth2">Consult with the <span>specialists</span> across the globe</h4>
         </div>
     </a>
-    <a href="javascript:void(0)" class="banner2">
+    <a href="<?=FULL_BASE_URL.$this->base?>/services#doctoreService" class="banner2">
     	<div class="container">
     		<h3 class="smooth2">Collaborate Globally</h3>
         	<h4 class="smooth2">To <span>eradicate cancer</span></h4>
@@ -86,6 +86,7 @@ $(document).ready(function(){
   
   
   <section class="knowTheSpecialists" data-appear-top-offset="-450">
+  <a href="<?=FULL_BASE_URL.$this->base?>/aboutus">
     <div class="container">
       <h3>Know The <span>Specialists</span></h3>
       <p><?=isset($homepagecontent['Homepagecontent']['specialisttag'])?$homepagecontent['Homepagecontent']['specialisttag']:''?></p>
@@ -109,6 +110,6 @@ $(document).ready(function(){
 	  ?>
      </div>
       <div class="clear"></div>
-    </div>
+    </div></a>
   </section>
   

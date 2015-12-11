@@ -31,13 +31,20 @@ class AboutIllness extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'PrincipleDiagonisises' => array(
-			'className' => 'PrincipleDiagonisises',
+		'Specialization' => array(
+			'className' => 'Specialization',
 			'foreignKey' => 'principle_diagonisises_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
+		/*'PrincipleDiagonisises' => array(
+			'className' => 'PrincipleDiagonisises',
+			'foreignKey' => 'principle_diagonisises_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)*/
 	);
 	
 /**

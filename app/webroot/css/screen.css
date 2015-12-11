@@ -217,9 +217,9 @@ nav ul li.userMaleCircle{ margin-left:50px; margin-top:-10px; background:url(../
 .questionPart .name{ width:300px; float:left}
 .questionPart .gender{ width:140px; float:left}
 .questionPart .place{ width:460px; float:left}
-.questionPart input[type="text"]{ width:100%; border:1px solid #c9c9c9; height:28px; line-height:28px; font-size:14px; color:#8f8f8f; text-indent:10px;}
-.questionPart textarea{ width:100%; border:1px solid #c9c9c9; height:100px; line-height:25px; font-size:14px; color:#8f8f8f; text-indent:10px; resize:none; font-family: 'Lato', sans-serif;}
-.questionPart select{ width:100%; border:1px solid #c9c9c9; height:30px; line-height:28px; font-size:14px; color:#8f8f8f;}
+.questionPart input[type="text"]{ width:100%; border:1px solid #c9c9c9; height:28px; line-height:28px; font-size:14px; color:#000; text-indent:10px;}
+.questionPart textarea{ width:100%; border:1px solid #c9c9c9; height:100px; line-height:25px; font-size:14px; color:#000; text-indent:10px; resize:none; font-family: 'Lato', sans-serif;}
+.questionPart select{ width:100%; border:1px solid #c9c9c9; height:30px; line-height:28px; font-size:14px; color:#000;}
 .questionPart .oneThird{ width:33.3%; float:left;}
 .questionPart .place input[type="text"]{ width:140px !important;}
 .questionPart .place select{ width:140px !important;}

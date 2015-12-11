@@ -708,7 +708,8 @@ $(document).on('click','.js-saalcoholmore',function(e){
 	e.preventDefault();
 	var fld ='<div class="gender"><input type="text" name="saalcohaltype[]"></div>\
 	<div class="quantity ml20"><input type="text" name="saalcohalquantity[]" placeholder="0" class="ml">\
-	<select name="saalcoholunit"><option value="0">In a Day</option></select></div><div class="clear10"></div>';
+	<select name="saalcoholunit"><option value="in a day">In a Day</option><option value="in a week">In a Week</option>\
+	<option value="in a month">In a Month</option><option value="in a year">In a Year</option></select></div><div class="clear10"></div>';
 	$("#morealcoholdiv").append(fld);
 });
 /* drug info more add in social activity*/
@@ -716,8 +717,9 @@ $(document).on('click','.js-sadrugmore',function(e){
 	e.preventDefault();
 	var flds= '<div class="gender"><input type="text" name="samoredrugtype[]"></div>\
 	<div class="quantity ml20">\
-	<input type="text" name="samoredrugquantity[]" placeholder="0" class="ml">\
-	<select name="samoredrugunit[]"><option value="0">In a Day</option></select>\
+	<input type="text" name="samoredrugquantity[]" placeholder="0" class="">\
+	<select name="samoredrugunit[]"><option value="in a day">In a Day</option><option value="in a week">In a Week</option>\
+	<option value="in a month">In a Month</option><option value="in a year">In a Year</option></select>\
 	</div><div class="clear10"></div>';
 	
 	$("#moredrugdiv").append(flds);

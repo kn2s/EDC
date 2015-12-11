@@ -75,16 +75,18 @@ class SocialactivitiesController extends AppController {
 				if(isset($this->request->data['saalcohalquantity']) && isset($this->request->data['saalcohaltype'])){
 					$altypes = $this->request->data['saalcohaltype'];
 					$alquanty=$this->request->data['saalcohalquantity'];
-					$unit = $this->request->data['saalcoholunit'];
+					$units = $this->request->data['saalcoholunit'];
 					
 					for($i=0;$i<count($altypes);$i++){
 						$type = (isset($altypes[$i]))?$altypes[$i]:'';
 						$quan = (isset($alquanty[$i]))?$alquanty[$i]:'0';
+						$unit = (isset($units[$i]))?$units[$i]:'in a day';
 						$this->Socialactivity->Alcohol->create();
 						$aldatas = array('Alcohol'=>array(
 							'alcoholname'=>$type,
 							'quantity'=>$quan,
-							'socialactivity_id'=>$activityid
+							'socialactivity_id'=>$activityid,
+							'alcoholunit'=>$unit
 						));
 						//pr($aldatas);
 						$this->Socialactivity->Alcohol->save($aldatas);
@@ -94,15 +96,17 @@ class SocialactivitiesController extends AppController {
 				if(isset($this->request->data['samoredrugtype']) && isset($this->request->data['samoredrugquantity'])){
 					$altypes = $this->request->data['samoredrugtype'];
 					$alquanty=$this->request->data['samoredrugquantity'];
-					$unit = $this->request->data['samoredrugunit'];
+					$units = $this->request->data['samoredrugunit'];
 					for($i=0;$i<count($altypes);$i++){
 						$type = (isset($altypes[$i]))?$altypes[$i]:'';
 						$quan = (isset($alquanty[$i]))?$alquanty[$i]:'0';
+						$unit = (isset($units[$i]))?$units[$i]:'in a day';
 						$this->Socialactivity->Drug->create();
 						$aldatas = array('Drug'=>array(
 							'drugname'=>$type,
 							'quantity'=>$quan,
-							'socialactivity_id'=>$activityid
+							'socialactivity_id'=>$activityid,
+							'drugunit'=>$unit,
 						));
 						//pr($aldatas);
 						$this->Socialactivity->Drug->save($aldatas);
