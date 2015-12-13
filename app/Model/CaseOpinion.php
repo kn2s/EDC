@@ -1,12 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * CaseCommunication Model
+ * CaseOpinion Model
  *
  * @property DoctorCase $DoctorCase
- * @property Patient $Patient
  */
-class CaseCommunication extends AppModel {
+class CaseOpinion extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -23,21 +22,6 @@ class CaseCommunication extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'Patient' => array(
-			'className' => 'Patient',
-			'foreignKey' => 'patient_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Doct' => array(
-			'className' => 'Patient',
-			'foreignKey' => 'doct_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
-		
 	);
 }

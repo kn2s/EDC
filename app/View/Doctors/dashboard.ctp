@@ -7,7 +7,30 @@
 			$caseid = isset($doctorCase['DoctorCase']['id'])?$doctorCase['DoctorCase']['id']:'0';
 			$duedate = isset($doctorCase['DoctorCase']['opinion_due_date'])?$doctorCase['DoctorCase']['opinion_due_date']:date("Y-m-d");
 			$status = isset($doctorCase['DoctorCase']['satatus'])?$doctorCase['DoctorCase']['satatus']:'0';
-			$status = "AWAITING INPUT";
+			switch($status){
+				case 1:
+					$status = "Pending"; //Opened, sitting idle
+					break;
+				case 2:
+					$status = "AWAITING INPUT"; //When Doctor has sent message in communication and waiting for the reply from the Patient
+					break;
+				case 3:
+					$status = "INPUT RECEIVED"; //When received any input
+					break;
+				case 4:
+					$status = "OPINION SENT"; //when sent an opinion
+					break;
+				case 5:
+					$status = "DELETED"; //where everything stays for 3 months [After deleted from admin]
+					break;
+				case 6:
+					$status = "ARCHIVED"; //only opinion stays for 1 year [after 1 year automatically it will go to archive folder ]
+					break;
+				default:
+					$status = "Unread";
+					break;
+			}
+			
 			$diagonisis = isset($doctorCase['DoctorCase']['diagonisis'])?$doctorCase['DoctorCase']['diagonisis']:'Blood Cancer';
 			//$diagonisis="Blood Cancer";
 			if($diagonisis==''){

@@ -16,3 +16,12 @@ ALTER TABLE `ec_alcohols` ADD `alcoholunit` VARCHAR(254) NOT NULL AFTER `quantit
 ALTER TABLE `ec_drugs` ADD `drugunit` VARCHAR(254) NOT NULL AFTER `quantity`;
 
 ALTER TABLE `ec_smokings` ADD `smkunit` VARCHAR(254) NOT NULL AFTER `toyear`;
+
+
+today(13-12-15):
+================
+ALTER TABLE `ec_case_communications` ADD `doct_id` INT(11) NOT NULL AFTER `doctor_case_id`;
+
+ALTER TABLE `ec_case_communications` ADD `isdoctoresent` INT(1) NOT NULL DEFAULT '0' AFTER `comment`, ADD `isquestionaryedit` INT(1) NOT NULL DEFAULT '0' AFTER `isdoctoresent`;
+
+ALTER TABLE `ec_case_opinions` ADD `attachementname` VARCHAR(254) NOT NULL AFTER `comment`;

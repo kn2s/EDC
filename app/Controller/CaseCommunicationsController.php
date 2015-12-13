@@ -48,17 +48,40 @@ class CaseCommunicationsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+			$status=0;
+			$message='';
+			$commid=0;
+			$postdate=date("Y-m-d G:i:s");
+			//pr($this->request->data);
 			$this->CaseCommunication->create();
-			if ($this->CaseCommunication->save($this->request->data)) {
+			if(isset($this->request->data['CaseCommunication']['isquestionaryedit'])){
+				$this->request->data['CaseCommunication']['isquestionaryedit']=1;
+			}
+			
+			$this->request->data['CaseCommunication']['createdate']=$postdate;
+			if($this->Session->read('loggeddoctid')>0){
+				$this->request->data['CaseCommunication']['doct_id']=$this->Session->read('loggeddoctid');
+				$this->request->data['CaseCommunication']['isdoctoresent']=1;
+				if ($this->CaseCommunication->save($this->request->data)) {
+					$status=1;
+					$commid = $this->CaseCommunication->id;
+					$postdate = date("G:i - d M Y");
+					//now update the case with Awaiting Input (2)
+					$this->CaseCommunication->DoctorCase->updateAll(array("DoctorCase.satatus"=>'2'),array('DoctorCase.id'=>$this->request->data['CaseCommunication']['doctor_case_id']));
+				}
+			}
+			
+			/*if ($this->CaseCommunication->save($this->request->data)) {
 				$this->Session->setFlash(__('The case communication has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The case communication could not be saved. Please, try again.'));
-			}
+			}*/
+			die(json_encode(array('status'=>$status,'message'=>$message,'communicationid'=>$commid,"postdate"=>$postdate)));
 		}
-		$doctorCases = $this->CaseCommunication->DoctorCase->find('list');
+		/*$doctorCases = $this->CaseCommunication->DoctorCase->find('list');
 		$patients = $this->CaseCommunication->Patient->find('list');
-		$this->set(compact('doctorCases', 'patients'));
+		$this->set(compact('doctorCases', 'patients'));*/
 	}
 
 /**

@@ -3,16 +3,28 @@
 	//pr($doctorCases);
 	$imagepath="images/docActive.jpg";
 	$doctname = "";
+	$patient_id=0;
+	$doctor_id=0;
+	$patientname='';
 	if(isset($doctcaseDetail['Doctor']['DoctorDetail']['image']) && $doctcaseDetail['Doctor']['DoctorDetail']['image']!=''){
 		//image found
 		$imagepath = FULL_BASE_URL.$this->base."/doctorimage/".$doctcaseDetail['Doctor']['DoctorDetail']['image'];
 	}
 	
 	if(isset($doctcaseDetail['Doctor']['name']) && $doctcaseDetail['Doctor']['name']!=''){
-		//image found
+		//name found
 		$doctname = $doctcaseDetail['Doctor']['name'];
 	}
 	
+	if(isset($doctcaseDetail['Patient']['PatientDetail']['name']) && $doctcaseDetail['Patient']['PatientDetail']['name']!=''){
+		//name found
+		$patientname = $doctcaseDetail['Patient']['PatientDetail']['name'];
+	}
+	if(isset($doctcaseDetail['DoctorCase']['patient_id']) ){
+		//patient id
+		$patient_id = $doctcaseDetail['DoctorCase']['patient_id'];
+		$doctor_id = $doctcaseDetail['DoctorCase']['doctor_id'];
+	}
 	$communications = (isset($doctcaseDetail['CaseCommunication']))?$doctcaseDetail['CaseCommunication']:array();
 ?>
 <h2>Communication</h2>
@@ -20,16 +32,29 @@
 <div class="comunication">
 <?php 
 	if(is_array($communications) && count($communications)>0){
-		foreach($communications as $communication){
-			$datetm = isset($communication['caseCommunication']['createdate'])?$communication['caseCommunication']['createdate']:date();
-			$comment = isset($communication['caseCommunication']['comment'])?$communication['caseCommunication']['comment']:'';
+		foreach($communications as $key=>$communication){
+			$datetm = isset($communication['createdate'])?$communication['createdate']:date();
+			$comment = isset($communication['comment'])?$communication['comment']:'';
+			$postername="";
+			if($communication['isdoctoresent']==1){
+				$coomimage=$imagepath;
+				$postername="Dr. ".$doctname;
+			}
+			else{
+				$coomimage = FULL_BASE_URL.$this->base."/images/man.png";
+				$postername =$patientname;
+			}
+			$clslast='';
+			if($key==(count($communications)-1)){
+				$clslast="last";
+			}
 			?>
-			<div class="talk">
+			<div class="talk <?=$clslast?>">
 				<div class="picCont">
-					<img src="images/docActive.jpg" alt="">
+					<img src="<?=$coomimage?>" alt="">
 				</div>
 				<div class="textCont">
-					<h3>Dr. Abhimanyu Ghosh <span><?=date("H:i - d M Y",strtotime($datetm))?></span></h3>
+					<h3><?=$postername?> <span><?=date("H:i - d M Y",strtotime($datetm))?></span></h3>
 					<p><?=$comment?></p>
 				</div>
 				<div class="clear"></div>
@@ -80,17 +105,26 @@
 		<div class="clear"></div>
 	</div>-->
 	
-	<div class="talk">
+	<div class="talk comentpostsection">
 		<div class="picCont">
 			<img src="<?=$imagepath?>" alt="doct image">
 		</div>
 		<div class="textCont">
-			<h3>Dr. <?=$doctname?></h3>
-			<textarea class="commentpost">Type your comment</textarea>
+			<h3 id="dctnameid">Dr. <?=$doctname?></h3>
+			
+			<?php 	
+				echo $this->Form->create('CaseCommunication',array("action"=>"add","id"=>"doctcomment"));
+				echo $this->Form->hidden('doctor_case_id',array('value'=>$doctcaseid,'id'=>'caseid'));
+				echo $this->Form->hidden('patient_id',array('value'=>$patient_id,'id'=>'patient_id'));
+				echo $this->Form->hidden('doct_id',array('value'=>$doctor_id,'id'=>'doct_id'));
+				echo $this->Form->hidden('isdoctoresent',array('value'=>'1','id'=>'isdoctoresent'));
+			?>
+			<textarea class="commentpost js-communicationcomment" id="communicationcomment" name="data[CaseCommunication][comment]">Type your comment</textarea>
 			<div class="clear10"></div>
-			<label><input type="checkbox" id="allowedit">Allow to edit the questionnaire</label>
+			<label><input type="checkbox" id="allowedit" name="data[CaseCommunication][isquestionaryedit]">Allow to edit the questionnaire</label>
 			<div class="clear20"></div>
 			<input type="submit" class="submitBtn js-doctCommentPost" value="Send">
+			</form>
 			<div class="clear20"></div>
 		</div>
 	</div>

@@ -42,32 +42,41 @@ $cakeVersion = __d('cake_dev', '');
   </header>
   
   <div class="sendOpinionBox" style="display:none;">
+  <?php 
+	echo $this->Form->create('CaseOpinion',array('action'=>'add','id'=>'caseopinionfrm'));
+	echo $this->Form->hidden('doctor_case_id',array('value'=>$doctcaseid,'id'=>'opinioncaseid'));
+  ?>
   	<h2>Send Opinion</h2>
     <a href="javascript:void(0)" class="close js-opinionpanel"></a>
     <a href="javascript:void(0)" class="minimize js-opinionpanel"></a>
     <div class="clear"></div>
     <div class="block">
     	<label>Assessment &amp; Explanation</label>
-        <input type="text" placeholder="Type Something">
+        <input type="text" placeholder="Type Something" name="data[CaseOpinion][assessment]" >
+		
     </div>
     <div class="block">
     	<label>Prognosis</label>
-        <input type="text" placeholder="Type Something">
+        <input type="text" placeholder="Type Something" name="data[CaseOpinion][prognosis]" >
     </div>
     <div class="block">
     	<label>Best Treatment Strategy</label>
-        <input type="text" placeholder="Type Something">
+        <input type="text" placeholder="Type Something" name="data[CaseOpinion][treatmentstrategy]" >
     </div>
     <div class="block">
     	<label>Alternative Strategy</label>
-        <input type="text" placeholder="Type Something">
+        <input type="text" placeholder="Type Something" name="data[CaseOpinion][alternativestrategy]" >
     </div>
     <div class="block">
     	<label>Comment</label>
-        <textarea>Type Something</textarea>
+        <textarea name="data[CaseOpinion][comment]" class="js-opinioncomments" >Type Something</textarea>
     </div>
-    <input type="submit" class="blueButton" value="SEND">
-    <a href="javascript:void(0)" class="attachButton">Attach</a>
+	<input type="file" name="opiniondoct" class="js-opiniondoc" style="display:none;">
+	<input type="hidden" name="data[CaseOpinion][attachementname]" id="attachementname">
+	
+    <input type="submit" class="blueButton js-caseopinionpost" value="SEND">
+    <a href="javascript:void(0)" class="attachButton js-attachedopinionfile">Attach</a>
+	</form>
   </div>
   
   

@@ -1257,3 +1257,146 @@ function doctorcaseviewload(){
 		}
 	});
 }
+
+//doctore communication 
+$(document).on('focus','.js-communicationcomment',function(e){
+	var txtval = $(e.currentTarget).val();
+	//alert(txtval);
+	if(txtval=="Type your comment"){
+		$(e.currentTarget).val('');
+	}
+	
+});
+$(document).on('focusout','.js-communicationcomment',function(e){
+	var txtval = $(e.currentTarget).val();
+	//alert(txtval);
+	if(txtval==""){
+		$(e.currentTarget).val('Type your comment');
+	}
+	
+});
+
+$(document).on('click','.js-doctCommentPost',function(e){
+	e.preventDefault();
+	var comm = $("#communicationcomment").val();
+	var posteddiv = $(e.currentTarget).parents('.comentpostsection');
+	
+	var postedname='';
+	var posterimage='';
+	if($(posteddiv).find(".picCont").length>0){
+		posterimage = $($(posteddiv).find(".picCont")).html();
+	}
+	/*if($(posteddiv).find(".textCont h3").length>0){
+		postedname = $($(posteddiv).find(".textCont h3")).html();
+	}*/
+	postedname=$("#dctnameid").html();
+	//alert(comm);
+	if(comm=="Type your comment" || comm==""){
+		return false;
+	}
+	else{
+		$.ajax({
+		url:baseurl+"/CaseCommunications/add",
+		method:'post',
+		dataType:'json',
+		data:$("#doctcomment").serialize(),
+		//processData: false, // important
+		//contentType: false, // important
+		success:function(response){
+			console.log(response);
+			if(parseInt(response.status)==1){
+				$(".last").removeClass("last");
+				
+				var hmlt = '<div class="talk last"><div class="picCont">'+posterimage+'</div>\
+				<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
+				<p>'+comm+'</p></div><div class="clear"></div></div>';
+				
+				$(".comentpostsection").before(hmlt);
+				posteddiv='';
+				$("#communicationcomment").val('Type your comment');
+			}
+			else{
+				console.log('not saved the data');
+			}
+		},
+		error:function(response){
+			console.log(response);
+		}
+	});
+	}
+});
+
+//case opinion post sections
+
+$(document).on('focus','.js-opinioncomments',function(e){
+	var txtval = $(e.currentTarget).val();
+	//alert(txtval);
+	if(txtval=="Type Something"){
+		$(e.currentTarget).val('');
+	}
+	
+});
+$(document).on('focusout','.js-opinioncomments',function(e){
+	var txtval = $(e.currentTarget).val();
+	//alert(txtval);
+	if(txtval==""){
+		$(e.currentTarget).val('Type Something');
+	}
+	
+});
+
+//document attached
+$(document).on('click','.js-attachedopinionfile',function(e){
+	e.preventDefault();
+	alert("hh");
+	$(".js-opiniondoc").trigger("click");
+});
+
+$(document).on('change','.js-opiniondoc',function(e){
+	var frmData = new FormData();
+	frmData.append('docfile',$(e.currentTarget).prop('files')[0]);
+	$.ajax({
+		url:baseurl+"/CaseOpinions/imageupload",
+		method:'post',
+		dataType:'json',
+		data:frmData,
+		processData: false, // important
+		contentType: false, // important
+		error:function(response){
+			console.log(response);
+		},
+		success:function(response){
+			console.log(response);
+			if(parseInt(response.status)==1){
+				$("#attachementname").val(response.attachementname);
+			}
+			else{
+			}
+		}
+	});
+});
+
+$(document).on('click','.js-caseopinionpost',function(e){
+	e.preventDefault();
+	$.ajax({
+		url:baseurl+"/CaseOpinions/add",
+		method:'post',
+		dataType:'json',
+		data:$("#caseopinionfrm").serialize(),
+		//processData: false, // important
+		//contentType: false, // important
+		success:function(response){
+			console.log(response);
+			if(parseInt(response.status)==1){
+				
+				$(".js-opinionpanel").trigger("click");
+			}
+			else{
+				console.log('not saved the data');
+			}
+		},
+		error:function(response){
+			console.log(response);
+		}
+	});
+});

@@ -98,6 +98,11 @@ $patientallhistory = array('PatientDetail'=>'Patient Details',
 			echo $this->Html->link('Enter questionnaire',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton'));
 		?>
         <!--<a href="#" class="finishButton">Enter questionnaire</a>-->
+		<div style="margin-top:288px;margin-left:20px;">
+			<a href="javascript:void(0)">Opinion</a>
+			<a href="javascript:void(0)">Message</a>
+			<a href="javascript:void(0)">Questionary</a>
+		</div>
     </div>
     <div class="rightHIW">
     	<ul class="bxslider">

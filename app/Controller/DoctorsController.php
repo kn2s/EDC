@@ -202,12 +202,35 @@ class DoctorsController extends AppController {
 			$this->set('caseCommunications',$caseCommunications);*/
 			
 			$this->loadModel('DoctorCase');
-			$this->DoctorCase->unbindModel(array(
+			/*$this->DoctorCase->unbindModel(array(
 				'belongsTo'=>array('Patient')
+			));*/
+			
+			$this->DoctorCase->Patient->unbindModel(array(
+				'hasMany'=>array('PatientDetail')
 			));
 			$this->DoctorCase->Doctor->unbindModel(array(
 				'hasMany'=>array('PatientDetail')
 			));
+			
+			$this->DoctorCase->Patient->bindModel(array(
+				'hasOne'=>array(
+					'PatientDetail'=>array(
+						'className' => 'PatientDetail',
+						'foreignKey' => 'patient_id',
+						'dependent' => false,
+						'conditions' => '',
+						'fields' => '',
+						'order' => '',
+						'limit' => '',
+						'offset' => '',
+						'exclusive' => '',
+						'finderQuery' => '',
+						'counterQuery' => ''
+					)
+				)
+			));
+			
 			$this->DoctorCase->Doctor->bindModel(array(
 				'hasOne'=>array(
 					'DoctorDetail'=>array(
@@ -243,10 +266,14 @@ class DoctorsController extends AppController {
 					)
 				)
 			));
-			
+			//remove model from caseCommunications
+			$this->DoctorCase->CaseCommunication->unbindModel(array(
+				'belongsTo'=>array('DoctorCase','Patient','Doct')
+			));
 			$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.id'=>$caseid);
 			$doctcaseDetail  = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 			$this->set('doctcaseDetail',$doctcaseDetail);
+			$this->set('doctcaseid',$caseid);
 		}
 	}
 	
