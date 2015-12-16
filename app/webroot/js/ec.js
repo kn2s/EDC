@@ -1276,6 +1276,7 @@ $(document).on('focusout','.js-communicationcomment',function(e){
 	
 });
 
+//doctore post comment
 $(document).on('click','.js-doctCommentPost',function(e){
 	e.preventDefault();
 	var comm = $("#communicationcomment").val();
@@ -1325,7 +1326,54 @@ $(document).on('click','.js-doctCommentPost',function(e){
 	});
 	}
 });
-
+//patient post comments
+$(document).on('click','.js-doctCommentPost',function(e){
+	e.preventDefault();
+	var comm = $("#pcommunicationcomment").val();
+	var posteddiv = $(e.currentTarget).parents('.comentpostsection');
+	
+	var postedname='';
+	var posterimage='';
+	if($(posteddiv).find(".picCont").length>0){
+		posterimage = $($(posteddiv).find(".picCont")).html();
+	}
+	
+	postedname=$("#ptnnameid").html();
+	//alert(comm);
+	if(comm=="Type your comment" || comm==""){
+		return false;
+	}
+	else{
+		$.ajax({
+		url:baseurl+"/CaseCommunications/add",
+		method:'post',
+		dataType:'json',
+		data:$("#patientcomment").serialize(),
+		//processData: false, // important
+		//contentType: false, // important
+		success:function(response){
+			console.log(response);
+			if(parseInt(response.status)==1){
+				$(".last").removeClass("last");
+				
+				var hmlt = '<div class="talk last"><div class="picCont">'+posterimage+'</div>\
+				<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
+				<p>'+comm+'</p></div><div class="clear"></div></div>';
+				
+				$(".comentpostsection").before(hmlt);
+				posteddiv='';
+				$("#pcommunicationcomment").val('Type your comment');
+			}
+			else{
+				console.log('not saved the data');
+			}
+		},
+		error:function(response){
+			console.log(response);
+		}
+	});
+	}
+});
 //case opinion post sections
 
 $(document).on('focus','.js-opinioncomments',function(e){

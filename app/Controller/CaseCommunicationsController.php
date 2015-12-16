@@ -59,7 +59,8 @@ class CaseCommunicationsController extends AppController {
 			}
 			
 			$this->request->data['CaseCommunication']['createdate']=$postdate;
-			if($this->Session->read('loggeddoctid')>0){
+			
+			if($this->Session->read('loggeddoctid')>0 && $this->request->data['CaseCommunication']['isdoctoresent']==1){
 				$this->request->data['CaseCommunication']['doct_id']=$this->Session->read('loggeddoctid');
 				$this->request->data['CaseCommunication']['isdoctoresent']=1;
 				if ($this->CaseCommunication->save($this->request->data)) {
@@ -68,6 +69,18 @@ class CaseCommunicationsController extends AppController {
 					$postdate = date("G:i - d M Y");
 					//now update the case with Awaiting Input (2)
 					$this->CaseCommunication->DoctorCase->updateAll(array("DoctorCase.satatus"=>'2'),array('DoctorCase.id'=>$this->request->data['CaseCommunication']['doctor_case_id']));
+				}
+			}
+			elseif($this->Session->read('loggedpatientid')>0){
+				//post by patients
+				$this->request->data['CaseCommunication']['patient_id']=$this->Session->read('loggedpatientid');
+				$this->request->data['CaseCommunication']['isdoctoresent']=0;
+				if ($this->CaseCommunication->save($this->request->data)) {
+					$status=1;
+					$commid = $this->CaseCommunication->id;
+					$postdate = date("G:i - d M Y");
+					//now update the case with Input Recieved(3)
+					$this->CaseCommunication->DoctorCase->updateAll(array("DoctorCase.satatus"=>'3'),array('DoctorCase.id'=>$this->request->data['CaseCommunication']['doctor_case_id']));
 				}
 			}
 			

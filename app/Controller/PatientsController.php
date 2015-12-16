@@ -347,6 +347,85 @@ class PatientsController extends AppController {
 		$this->set('patient', $patient);
 		//die();
 	}
+	
+/**
+ * communication method
+ */
+	public function communication(){
+		$this->layout="patientdoctcommunication";
+		$caseid = isset($this->request->data['caseid'])?$this->request->data['caseid']:'0';
+		
+		$this->loadModel('DoctorCase');
+		
+		$this->DoctorCase->Patient->unbindModel(array(
+			'hasMany'=>array('PatientDetail')
+		));
+		$this->DoctorCase->Doctor->unbindModel(array(
+			'hasMany'=>array('PatientDetail')
+		));
+		
+		$this->DoctorCase->Patient->bindModel(array(
+			'hasOne'=>array(
+				'PatientDetail'=>array(
+					'className' => 'PatientDetail',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				)
+			)
+		));
+		
+		$this->DoctorCase->Doctor->bindModel(array(
+			'hasOne'=>array(
+				'DoctorDetail'=>array(
+					'className' => 'Doctor',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				)
+			)
+		));
+		//now bind the communication sections
+		$this->DoctorCase->bindModel(array(
+			'hasMany'=>array(
+				'CaseCommunication' => array(
+					'className' => 'CaseCommunication',
+					'foreignKey' => 'doctor_case_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				)
+			)
+		));
+		//remove model from caseCommunications
+		$this->DoctorCase->CaseCommunication->unbindModel(array(
+			'belongsTo'=>array('DoctorCase','Patient','Doct')
+		));
+		$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1');
+		$doctcaseDetail  = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC'),'limit'=>'1'));
+		$this->set('doctcaseDetail',$doctcaseDetail);
+		$this->set('doctcaseid',$caseid);
+	}
 /**
  * logout method
  * @return void
