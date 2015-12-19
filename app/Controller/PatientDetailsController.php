@@ -76,6 +76,9 @@ class PatientDetailsController extends AppController {
 		$patientalldeatils = $this->Patient->find('first',array('recursive'=>'0','conditions'=>$cond));
 		$formnumber = isset($patientalldeatils['Patient']['detailsformsubmit'])?$patientalldeatils['Patient']['detailsformsubmit']:0;
 		//$formnumber=2;
+		if($this->Session->check("quesformno") && $this->Session->read("quesformno")>0){
+			$formnumber = $this->Session->read("quesformno");
+		}
 		$this->set('patientinfo',$formnumber);
 	}
 
@@ -157,6 +160,8 @@ class PatientDetailsController extends AppController {
 			$years[$k]=$k;
 		}
 		//patients social activity
+		// set into the session 
+		$this->Session->write("quesformno","1");
 		//remove the model
 		$this->Socialactivity->unbindModel(array('belongsTo'=>array('Patient')));
 		$saconditions=array('Socialactivity.patient_id'=>$this->Session->read('loggedpatientid'));
@@ -187,7 +192,7 @@ class PatientDetailsController extends AppController {
 		$years[$k]=$k;
 	}
 	$this->set(compact('months','days','years'));
-	
+	$this->Session->write("quesformno","2");
 	// get if the data available in the table
 	$this->loadModel('AboutIllness');
 	$conditions = array('AboutIllness.patient_id'=>$this->Session->read('loggedpatientid'));
@@ -216,6 +221,7 @@ class PatientDetailsController extends AppController {
 		//array_push($years,$k);
 		$years[$k]=$k;
 	}
+	$this->Session->write("quesformno","3");
 	$this->set(compact('months','years'));
 	$cond = array('PatientPastHistory.patient_id'=>$this->Session->read('loggedpatientid'));
 	$PatientPastHistories = $this->PatientPastHistory->find('first',array('recursive'=>'1','conditions'=>$cond,'order'=>array('PatientPastHistory.id'=>'DESC'),'limit'=>'1'));
@@ -242,6 +248,7 @@ class PatientDetailsController extends AppController {
 		$years[$k]=$k;
 	}
 	$this->set(compact('months','years'));
+	$this->Session->write("quesformno","4");
 	$cond = array('PatientDocument.patient_id'=>$this->Session->read('loggedpatientid'));
 	$PatientDocuments = $this->PatientDocument->find('first',array('recursive'=>'1','conditions'=>$cond,'order'=>array('PatientDocument.id'=>'DESC'),'limit'=>'1'));
 	$this->set('PatientDocuments',$PatientDocuments);
@@ -257,6 +264,7 @@ class PatientDetailsController extends AppController {
 	$this->Patient->unbindModel(array(
 		'hasMany'=>array('PatientDetail')
 	));
+	$this->Session->write("quesformno","5");
 	$this->Patient->bindModel(array(
 		'hasOne'=>array(
 			'PatientDetail' => array(
@@ -386,13 +394,53 @@ class PatientDetailsController extends AppController {
 	$this->loadModel('DoctorCase');
 	$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1');
 	$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'0','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
+	$this->Session->write("quesformno","6");
 	if(isset($doctorCase['DoctorCase']) && count($doctorCase['DoctorCase'])>0){
 		//all ready case puted and payment done
 		
 	}
 	else{
 		//calculate the doctor availability and send to the view
-		$doctorCase = $this->consultantdetailscalculation();
+		$availavledoct = $this->consultantdetailscalculation();
+		//pr($availavledoct);
+		if(is_array($availavledoct) && count($availavledoct)>0){
+			//get the diagonishhis of that patients 
+			$this->loadModel('AboutIllness');
+			$this->AboutIllness->unbindModel(array(
+				"belongsTo"=>array("Patient"),
+				"hasMany"=>array("TumarMarker")
+			));
+			$conditions = array('AboutIllness.patient_id'=>$this->Session->read('loggedpatientid'));
+			$aboutIllnesses = $this->AboutIllness->find('first',array('recursive'=>'1','conditions'=>$conditions,'order'=>array('AboutIllness.id'=>'DESC'),'limit'=>'1'));
+			//pr($aboutIllnesses);
+			$diagonisis='';
+			if(isset($aboutIllnesses['Specialization']['name'])){
+				$diagonisis = $aboutIllnesses['Specialization']['name'];
+			}
+			
+			//now add that search 
+			$doctid = isset($availavledoct['ScheduleDoctor']['doct_id'])?$availavledoct['ScheduleDoctor']['doct_id']:0;
+			$availdate = isset($availavledoct['WorkSchedule']['workday'])?$availavledoct['WorkSchedule']['workday']:0;
+			$casdtl = array("DoctorCase"=>array(
+				"patient_id"=>$this->Session->read("loggedpatientid"),
+				"doctor_id"=>$doctid,
+				"consultant_fee"=>"80",
+				"available_date"=>$availdate,
+				"opinion_due_date"=>date("Y-m-d",strtotime("+15 day",strtotime($availdate))),
+				"satatus"=>'0',
+				"ispaymentdone"=>'0',
+				"createdate"=>date("Y-m-d G:i:s"),
+				"diagonisis"=>"'".$diagonisis."'"
+			));
+			//pr($casdtl);
+			//die();
+			if($doctid>0){
+				if($this->DoctorCase->save($casdtl)){
+					$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'0','DoctorCase.id'=>$this->DoctorCase->id);
+					$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'0','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
+				}
+			}
+		}
 	}
 	$this->set('doctorCase',$doctorCase);
  }
@@ -402,8 +450,22 @@ class PatientDetailsController extends AppController {
   * @return array
   */
 	public function consultantdetailscalculation(){
-		$datails=array();
-		return $datails;
+		$this->loadModel('ScheduleDoctor');
+		$strdate = date("Y-m-d",strtotime("+1 day"));
+		$enddate = date("Y-m-d",strtotime("+3 month"));
+		
+		$conditions = array(
+			'WorkSchedule.workday BETWEEN ? AND ?'=>array($strdate,$enddate),
+			'WorkSchedule.isdoctorschedulecreated'=>'1'
+		);
+		$workschedules = $this->ScheduleDoctor->WorkSchedule->find('list',array('conditions'=>$conditions));
+		$conds = array("ScheduleDoctor.isonholiday"=>'0',"ScheduleDoctor.assignment < "=>'3');
+		if(is_array($workschedules) && count($workschedules)>0){
+			$conds["ScheduleDoctor.work_schedule_id"]=array_values($workschedules);
+		}
+		
+		$availdoctore = $this->ScheduleDoctor->find("first",array("recursive"=>'1',"conditions"=>$conds));
+		return $availdoctore;
 	}
  
  /**

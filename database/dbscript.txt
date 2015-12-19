@@ -25,3 +25,11 @@ ALTER TABLE `ec_case_communications` ADD `doct_id` INT(11) NOT NULL AFTER `docto
 ALTER TABLE `ec_case_communications` ADD `isdoctoresent` INT(1) NOT NULL DEFAULT '0' AFTER `comment`, ADD `isquestionaryedit` INT(1) NOT NULL DEFAULT '0' AFTER `isdoctoresent`;
 
 ALTER TABLE `ec_case_opinions` ADD `attachementname` VARCHAR(254) NOT NULL AFTER `comment`;
+
+
+today(17-12-15):
+================
+
+ALTER TABLE `ec_work_schedules` ADD `isdoctorschedulecreated` INT(1) NOT NULL DEFAULT '0' AFTER `isholiday`;
+
+ALTER TABLE `ec_work_schedules` ADD `doctschedulecreatedate` DATETIME NOT NULL AFTER `isdoctorschedulecreated`;

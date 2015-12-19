@@ -128,6 +128,26 @@ $controllername = ucwords($this->params->params['controller']);
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+						
+						<li>
+                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i> Yearlly Schedules<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<?php echo $this->Html->link('Day Schedules',array('controller'=>'WorkSchedules','action'=>'index','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                                <li>
+                                    <?php echo $this->Html->link('Create Day Schedules',array('controller'=>'WorkSchedules','action'=>'add','full_base'=>true),array('escape'=>false));?>
+                                </li>
+								
+								<li>
+									<?php echo $this->Html->link('Doctor Schedules',array('controller'=>'ScheduleDoctors','action'=>'index','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                                <li>
+                                    <?php echo $this->Html->link('Create Doctor Schedules',array('controller'=>'ScheduleDoctors','action'=>'add','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
