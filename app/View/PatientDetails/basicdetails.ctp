@@ -62,6 +62,7 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
 <h2>Patients Details</h2>
 <?php echo $this->Form->create('PatientDetail',array('action'=>'add','id'=>'pddetailsfrm'));
 	echo $this->Form->hidden('id',array("id"=>"pdid","value"=>$pdid));
+	echo $this->Form->hidden('completed_per',array("id"=>"completed_per","value"=>'0'));
 ?>
             
 			<div class="pertionalDetails">

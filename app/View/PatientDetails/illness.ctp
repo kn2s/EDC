@@ -72,13 +72,12 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 	<?php 
 		echo $this->Form->create('AboutIllness',array("id"=>"aisfrms"));
 		echo $this->Form->hidden('id',array('value'=>$aisid,'id'=>'aisid'));
+		echo $this->Form->hidden('completed_per',array("id"=>"completed_per","value"=>'0'));
 	?>
 		<div class="illness">
 			<div class="diagnosis">
 				<label class="blue">*Principal Diagnosis</label>
-				<!--<select>
-					<option>Select</option>
-				</select>-->
+				
 				<?php 
 					echo $this->Form->input('AboutIllness.principle_diagonisises_id',array(
 						'div'=>false,
@@ -87,15 +86,13 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'default'=>'0',
 						'class'=>'savaliedatefields',
 						'id'=>'principle_diagonisises_id',
-						'value'=>$principle_diagonisises_id
+						'value'=>$principle_diagonisises_id,
+						'required'=>'required'
 					));
 				?>
 			</div>
 			<div class="datesThree ml20">
 				<label class="blue">*Date of Diagnosis</label>
-				<!--<select class="month"><option>Month</option></select>
-				<select class="date"><option>Day</option></select>
-				<select class="year"><option>Year</option></select>-->
 				
 				<?php 
 					echo $this->Form->input('AboutIllness.startdiagomonth',array(
@@ -105,7 +102,8 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'default'=>'0',
 						'class'=>'month savaliedatefields js-illnessdate',
 						'id'=>'startdiagomonth',
-						'value'=>$startdiagomonth
+						'value'=>$startdiagomonth,
+						'required'=>'required'
 					));
 					echo $this->Form->input('AboutIllness.startdiagoday',array(
 						'div'=>false,
@@ -114,7 +112,8 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'default'=>'0',
 						'class'=>'date savaliedatefields js-illnessdate',
 						'id'=>'startdiagoday',
-						'value'=>$startdiagoday
+						'value'=>$startdiagoday,
+						'required'=>'required'
 					));
 					
 					echo $this->Form->input('AboutIllness.startdiagoyear',array(
@@ -124,7 +123,8 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'default'=>'0',
 						'class'=>'year savaliedatefields js-illnessdate',
 						'id'=>'startdiagoyear',
-						'value'=>$startdiagoyear
+						'value'=>$startdiagoyear,
+						'required'=>'required'
 					));
 				
 				?>
@@ -135,7 +135,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 			<div class="w700">
 				
 				<?php 
-						echo $this->Form->input('diagodetails',array("type"=>"textarea","value"=>$diagodetails,'label'=>''));
+						echo $this->Form->input('diagodetails',array("type"=>"textarea","value"=>$diagodetails,'label'=>'','required'=>'required'));
 				?>
 			</div>
 			<div class="clear10"></div>
@@ -156,7 +156,8 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'default'=>'0',
 						'class'=>'month savaliedatefields js-illnessenddate',
 						'id'=>'enddiagomonth',
-						'value'=>$enddiagomonth
+						'value'=>$enddiagomonth,
+						'required'=>'required'
 					));
 					echo $this->Form->input('enddiagoday',array(
 						'div'=>false,
@@ -165,7 +166,8 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'default'=>'0',
 						'class'=>'date savaliedatefields js-illnessenddate',
 						'id'=>'enddiagoday',
-						'value'=>$enddiagoday
+						'value'=>$enddiagoday,
+						'required'=>'required'
 					));
 					
 					echo $this->Form->input('enddiagoyear',array(
@@ -175,7 +177,8 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'default'=>'0',
 						'class'=>'year savaliedatefields js-illnessenddate',
 						'id'=>'enddiagoyear',
-						'value'=>$enddiagoyear
+						'value'=>$enddiagoyear,
+						'required'=>'required'
 					));
 				
 				?>
@@ -197,7 +200,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 					if($i==0){
 					?>
 						<div class="diagnosis">
-							<label class="blue">*Type of tumor marker</label>
+							<label class="blue">Type of tumor marker</label>
 							<input type="text" placeholder="PSA, AFP, CEA, CA19-9, etc " name="data[TumarMarker][name][]" value="<?=$markresult['name']?>">
 						</div>
 						<div class="datesTwo ml20">
@@ -226,7 +229,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 							-->
 						</div>
 						<div class="result ml20">
-							<label class="blue">*Result</label>
+							<label class="blue">Result</label>
 							<input type="text" placeholder="" name="data[TumarMarker][tumorresult][]" value="<?=$markresult['tumorresult']?>">
 						</div>
 						<div class="clear10"></div>

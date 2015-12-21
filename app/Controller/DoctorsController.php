@@ -137,7 +137,7 @@ class DoctorsController extends AppController {
 				)
 			)
 		);
-		$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1');
+		$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0');
 		$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 		/* pr($conds);
 		pr($doctorCases);
@@ -174,8 +174,9 @@ class DoctorsController extends AppController {
 				)
 			)
 		);
-		$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.id'=>$id);
+		$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.id'=>$id,'DoctorCase.isclosed'=>'0');
 		$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
+		
 		if(is_array($doctorCase) && count($doctorCase)>0){
 			$this->set('doctorCases',$doctorCase);
 			$this->set("parientviewinfo",'1');
@@ -270,7 +271,7 @@ class DoctorsController extends AppController {
 			$this->DoctorCase->CaseCommunication->unbindModel(array(
 				'belongsTo'=>array('DoctorCase','Patient','Doct')
 			));
-			$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.id'=>$caseid);
+			$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.id'=>$caseid,'DoctorCase.isclosed'=>'0');
 			$doctcaseDetail  = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 			$this->set('doctcaseDetail',$doctcaseDetail);
 			$this->set('doctcaseid',$caseid);
@@ -287,7 +288,7 @@ class DoctorsController extends AppController {
 			$caseid = isset($this->request->data['caseid'])?$this->request->data['caseid']:'0';
 			$patientid="0";
 			$this->loadModel('DoctorCase');
-			$conds = array('DoctorCase.id'=>$caseid,'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1');
+			$conds = array('DoctorCase.id'=>$caseid,'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0');
 			$casedetail  = $this->DoctorCase->find('first',array('recursive'=>'0','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 			if(isset($casedetail['DoctorCase']['patient_id'])){
 				$patientid = $casedetail['DoctorCase']['patient_id'];

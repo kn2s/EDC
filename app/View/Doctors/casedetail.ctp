@@ -1,6 +1,6 @@
 
 <div class="patientDetails">
-	<?php echo $this->element('casesummery',array("casedetails"=>$doctorCases))?>
+	<?php echo $this->element('casesummery',array("casedetails"=>$doctorCases,"ispatient"=>'1'))?>
 </div>
 
 <div class="dymamichtmldata">
@@ -10,8 +10,8 @@
 <!-- 
 
 <h2 class="fleft">Questionnaire</h2>
-            <a href="#" class="downloadBtn"></a>
-            <a href="#" class="printBtn"></a>
+            <a href="javascript:void(0)" class="downloadBtn"></a>
+            <a href="javascript:void(0)" class="printBtn"></a>
             <div class="clear"></div>
 			<div class="details">
             	<div class="heiding">

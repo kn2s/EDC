@@ -76,7 +76,7 @@ class PatientDetailsController extends AppController {
 		$patientalldeatils = $this->Patient->find('first',array('recursive'=>'0','conditions'=>$cond));
 		$formnumber = isset($patientalldeatils['Patient']['detailsformsubmit'])?$patientalldeatils['Patient']['detailsformsubmit']:0;
 		//$formnumber=2;
-		if($this->Session->check("quesformno") && $this->Session->read("quesformno")>0){
+		if($this->Session->check("quesformno")){
 			$formnumber = $this->Session->read("quesformno");
 		}
 		$this->set('patientinfo',$formnumber);
@@ -108,6 +108,8 @@ class PatientDetailsController extends AppController {
 				)
 			)
 		));
+		// set into the session 
+		$this->Session->write("quesformno","0");
 		
 		$conditions = array('PatientDetail.patient_id'=>$this->Session->read('loggedpatientid'));
 		$patientDetail = $this->PatientDetail->find('first',array('recursive'=>'1','conditions'=>$conditions,'order'=>array('PatientDetail.id'=>'DESC')));
@@ -381,8 +383,14 @@ class PatientDetailsController extends AppController {
  */
  public function detailsdone(){
 	//now update the form submit count in patient tables
-	$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
-	$this->PatientDetail->Patient->saveField('detailsformsubmit','5');
+	/*$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
+	$this->PatientDetail->Patient->saveField('detailsformsubmit','5');*/
+	
+	//update the completions status
+	$uparray = array('Patient.detailsformsubmit'=>'5','Patient.detailsubmitpercent'=>'100');
+	$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
+	$this->PatientDetail->Patient->updateAll($uparray,$upcond);
+	
 	die(json_encode(array('status'=>'1','message'=>'')));
  }
  
@@ -429,8 +437,8 @@ class PatientDetailsController extends AppController {
 				"opinion_due_date"=>date("Y-m-d",strtotime("+15 day",strtotime($availdate))),
 				"satatus"=>'0',
 				"ispaymentdone"=>'0',
-				"createdate"=>date("Y-m-d G:i:s"),
-				"diagonisis"=>"'".$diagonisis."'"
+				"createdate"=>date("Y-m-d H:i:s"),
+				"diagonisis"=>$diagonisis
 			));
 			//pr($casdtl);
 			//die();
@@ -524,10 +532,7 @@ class PatientDetailsController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			header("Content-type:application/json");
-			//sleep(100000);
 			
-			//pr($this->request->data);
-			//die();
 			$performances = array("Patient is fully active, able to carry on all pre-disease performance without restriction_0",
 "Patient is restricted in physically strenuous activity but ambulatory and able to carry out work of a light or sedentary nature,
  e.g., light house work, office work_1",
@@ -564,15 +569,21 @@ class PatientDetailsController extends AppController {
 						}
 					}
 				}
+				
+				//update the completions status
+				$uparray = array('Patient.detailsformsubmit'=>'0','Patient.detailsubmitpercent'=>$this->request->data['PatientDetail']['completed_per']);
+				$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
+				$this->PatientDetail->Patient->updateAll($uparray,$upcond);
+				
 				die(json_encode(array("status"=>'1',"message"=>"saved successfully","id"=>$this->PatientDetail->id)));
 			} else {
 				//$this->Session->setFlash(__('The patient detail could not be saved. Please, try again.'));
 				die(json_encode(array("status"=>'0',"message"=>"not saved")));
 			}
 		}
-		$patients = $this->PatientDetail->Patient->find('list');
+		/*$patients = $this->PatientDetail->Patient->find('list');
 		$countries = $this->PatientDetail->Country->find('list');
-		$this->set(compact('patients', 'countries'));
+		$this->set(compact('patients', 'countries'));*/
 	}
 
 /**

@@ -67,6 +67,7 @@
 	<?php 
 		echo $this->Form->create('Socialactivity',array("id"=>"safrms"));
 		echo $this->Form->hidden('id',array('value'=>$said,'id'=>'said'));
+		echo $this->Form->hidden('completed_per',array("id"=>"completed_per","value"=>'0'));
 	?>
 	<h2>Social History</h2>
             <div class="Smoking">
@@ -300,7 +301,7 @@
                 	<p>Do you want to tell us anyhing else</p>
           
 					<?php 
-						echo $this->Form->input('comment',array("type"=>"textarea","value"=>$sacomment));
+						echo $this->Form->input('comment',array("type"=>"textarea","value"=>$sacomment,"label"=>''));
 					?>
                 </div>
             </div>

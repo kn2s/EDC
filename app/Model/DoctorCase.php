@@ -27,7 +27,7 @@ class DoctorCase extends AppModel {
 		'Doctor' => array(
 			'className' => 'Patient',
 			'foreignKey' => 'doctor_id',
-			'conditions' => array('Doctor.ispatient'=>'0'),
+			'conditions' => array('Doctor.ispatient'=>'0','Doctor.isdeleted'=>'0'),
 			'fields' => '',
 			'order' => ''
 		)

@@ -421,7 +421,7 @@ class PatientsController extends AppController {
 		$this->DoctorCase->CaseCommunication->unbindModel(array(
 			'belongsTo'=>array('DoctorCase','Patient','Doct')
 		));
-		$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1');
+		$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0');
 		$doctcaseDetail  = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC'),'limit'=>'1'));
 		$this->set('doctcaseDetail',$doctcaseDetail);
 		$this->set('doctcaseid',$caseid);

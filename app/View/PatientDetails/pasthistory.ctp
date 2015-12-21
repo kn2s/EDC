@@ -43,6 +43,7 @@
 	<?php 
 		echo $this->Form->create('PatientPastHistory',array("id"=>"psthisfrms"));
 		echo $this->Form->hidden('id',array('value'=>$psthisid,'id'=>'psthisid'));
+		echo $this->Form->hidden('completed_per',array("id"=>"completed_per","value"=>'0'));
 	?>
 		<div class="history">
 			<div class="clear20"></div>

@@ -116,8 +116,13 @@ class SocialactivitiesController extends AppController {
 				$status=1;
 				
 				//now update the form submit count in patient tables
-				$this->Socialactivity->Patient->id=$this->Session->read("loggedpatientid");
-				$this->Socialactivity->Patient->saveField('detailsformsubmit','1');
+				/*$this->Socialactivity->Patient->id=$this->Session->read("loggedpatientid");
+				$this->Socialactivity->Patient->saveField('detailsformsubmit','1');*/
+				
+				//update the completions status
+				$uparray = array('Patient.detailsformsubmit'=>'1','Patient.detailsubmitpercent'=>$this->request->data['Socialactivity']['completed_per']);
+				$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
+				$this->Socialactivity->Patient->updateAll($uparray,$upcond);
 				
 				//$this->Session->setFlash(__('The socialactivity has been saved.'));
 				//return $this->redirect(array('action' => 'index'));

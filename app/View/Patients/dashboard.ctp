@@ -61,6 +61,10 @@ $patientallhistory = array('PatientDetail'=>'Patient Details',
 				else{
 					//$clsdone="done";
 					//$cmpwidth='0';
+					
+					if($cmpwidth==100){
+						$clsdone="done";
+					}
 				}
 			?>
 				<div class="step <?=$frst?> <?=$clsdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$cmpwidth?>%"></span></span><span class="TextPart"><?=$val?></span></div>

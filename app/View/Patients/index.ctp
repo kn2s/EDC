@@ -4,15 +4,19 @@ var timeouts='';
 var imagecount=6;
 var lastind=imagecount;
 var fstind=0;
+
 $(document).ready(function(){
 	$.each($(".js-docts"),function(i,item){
+		$(item).addClass("onebyoneappear");
 		doctsobj.push(item);
 	});
+	
 	if(doctsobj.length>imagecount){
 		$(".doctsimages").html('');
 		
 		timeouts = setInterval(function(){
 			$(".doctsimages").html('');
+			//$(".onebyoneappear").removeClass("appear");
 			fstind = lastind;
 			lastind = lastind+imagecount;
 			if(lastind>doctsobj.length){
@@ -22,10 +26,20 @@ $(document).ready(function(){
 			}
 			
 			for(var i = fstind;i<lastind;i++){
-				$(doctsobj[i]).addClass("appear");
+				$(doctsobj[i]).removeClass("appear");
 				$(".doctsimages").append(doctsobj[i]);
 			}
-		},1000);
+			
+			$('.doctsimages .onebyoneappear:not(.appear)').each(function(k) {
+				//console.log("k : "+k);
+				var $li = $(this);
+				setTimeout(function() {
+				  $li.addClass('appear');
+				  
+				}, k*300); // delay 100 ms
+			});
+			
+		},3000);
 	}
 });
 </script>

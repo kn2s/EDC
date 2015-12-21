@@ -65,8 +65,13 @@ class PatientDocumentsController extends AppController {
 				$docid = $this->PatientDocument->id;
 				$status='1';
 				//now update the form submit count in patient tables
-				$this->PatientDocument->Patient->id=$this->Session->read("loggedpatientid");
-				$this->PatientDocument->Patient->saveField('detailsformsubmit','4');
+				/*$this->PatientDocument->Patient->id=$this->Session->read("loggedpatientid");
+				$this->PatientDocument->Patient->saveField('detailsformsubmit','4');*/
+				
+				//update the completions status
+				$uparray = array('Patient.detailsformsubmit'=>'4','Patient.detailsubmitpercent'=>$this->request->data['PatientDocument']['completed_per']);
+				$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
+				$this->PatientDocument->Patient->updateAll($uparray,$upcond);
 				
 			} else {
 				//$this->Session->setFlash(__('The patient document could not be saved. Please, try again.'));

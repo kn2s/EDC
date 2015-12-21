@@ -33,3 +33,22 @@ today(17-12-15):
 ALTER TABLE `ec_work_schedules` ADD `isdoctorschedulecreated` INT(1) NOT NULL DEFAULT '0' AFTER `isholiday`;
 
 ALTER TABLE `ec_work_schedules` ADD `doctschedulecreatedate` DATETIME NOT NULL AFTER `isdoctorschedulecreated`;
+
+
+today(21-12-15):
+================
+
+ALTER TABLE `ec_patient_details` ADD `completed_per` INT(3) NOT NULL DEFAULT '0' AFTER `performance_comment`;
+
+ALTER TABLE `ec_socialactivities` ADD `completed_per` INT(3) NOT NULL DEFAULT '0' AFTER `alcohalendyear`;
+
+ALTER TABLE `ec_about_illness` ADD `completed_per` INT(3) NOT NULL DEFAULT '0' AFTER `tumarresult`;
+
+ALTER TABLE `ec_patient_past_histories` ADD `completed_per` INT(3) NOT NULL DEFAULT '0' AFTER `comments`;
+
+ALTER TABLE `ec_patient_documents` ADD `completed_per` INT(3) NOT NULL DEFAULT '0' AFTER `comment`;
+
+ALTER TABLE `ec_doctor_cases` ADD `isclosed` INT(1) NOT NULL DEFAULT '0' AFTER `createdate`, ADD `closedate` DATE NOT NULL AFTER `isclosed`;
+
+
+

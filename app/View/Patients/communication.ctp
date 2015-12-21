@@ -31,6 +31,9 @@
 	}
 	$communications = (isset($doctcaseDetail['CaseCommunication']))?$doctcaseDetail['CaseCommunication']:array();
 ?>
+<div class="patientDetails">
+	<?php echo $this->element('casesummery',array("casedetails"=>$doctcaseDetail,'ispatient'=>'0'))?>
+</div>
 <h2>Communication</h2>
 <div class="clear"></div>
 <div class="comunication">

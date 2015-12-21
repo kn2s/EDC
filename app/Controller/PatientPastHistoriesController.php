@@ -63,8 +63,13 @@ class PatientPastHistoriesController extends AppController {
 				$ids = $this->PatientPastHistory->id;
 				$status='1';
 				//now update the form submit count in patient tables
-				$this->PatientPastHistory->Patient->id=$this->Session->read("loggedpatientid");
-				$this->PatientPastHistory->Patient->saveField('detailsformsubmit','3');
+				/*$this->PatientPastHistory->Patient->id=$this->Session->read("loggedpatientid");
+				$this->PatientPastHistory->Patient->saveField('detailsformsubmit','3');*/
+				
+				//update the completions status
+				$uparray = array('Patient.detailsformsubmit'=>'3','Patient.detailsubmitpercent'=>$this->request->data['PatientPastHistory']['completed_per']);
+				$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
+				$this->PatientPastHistory->Patient->updateAll($uparray,$upcond);
 			} else {
 				
 			}

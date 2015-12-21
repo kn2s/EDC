@@ -481,7 +481,19 @@ function questianariesformload(){
 		}
 	});
 }
-
+var totalReqFields=0;
+var totalEntered=0;
+//questionaries form field fillup sections
+function isAlRequiredFieldEntered(formObj){
+	totalReqFields = formObj.find('input,textarea,select').filter('[required]:visible').length;
+	totalEntered = formObj.find('input,textarea,select').filter('[required]:visible').filter(function() {return this.value;}).length;
+	formObj.find('input,textarea,select').filter('[required]:visible').filter(function() {return (!this.value);}).css("border", "1px solid red");
+	console.log("Total entarable field : "+totalReqFields);
+	console.log("Total entered field : "+totalEntered);
+	frmFieldFillPer();
+	return (totalEntered == totalReqFields) ? true : false;
+	
+}
 $(document).on('click','.js-addmoredrug',function(e){
 	e.preventDefault();
 	var fld = '<div class="drag"><input type="text" name="pddralergyname[]"></div>\
@@ -556,6 +568,23 @@ function isleepyear(year){
 	}
 	return false;
 }
+
+//total field fill up percent
+function frmFieldFillPer(){
+	var pers=0;
+	if(totalReqFields>0){
+		pers = ((totalEntered/totalReqFields)*100);
+	}
+	else{
+		if(totalReqFields==totalReqFields){
+			pers=100;
+		}
+	}
+	
+	$("#completed_per").val(pers);
+	//return pers;
+}
+
 $(document).on('click','.js-pdfrmsmt',function(e){
 	e.preventDefault();
 	//form validation
@@ -566,6 +595,13 @@ $(document).on('click','.js-pdfrmsmt',function(e){
 		}
 	});
 	var callfrom = $(e.currentTarget).attr('id');
+	// checked all fields are field or not
+	var isAllFieldsField = isAlRequiredFieldEntered($("#pddetailsfrm"));
+	
+	if(!isAllFieldsField){
+		return false;
+	}
+	
 	if(frmvalidate){
 		$.ajax({
 			url:baseurl+"/PatientDetails/add",
@@ -580,8 +616,13 @@ $(document).on('click','.js-pdfrmsmt',function(e){
 				if(response.status=='1'){
 					$("#pdid").val(response.id);
 					if(callfrom=='nextviewsa'){
-						pagefor=parseInt(pagefor)+1;
-						questianariesformload();
+						if(isAllFieldsField){
+							pagefor=parseInt(pagefor)+1;
+							questianariesformload();
+						}
+						else{
+							alert("Need to fill all fields");
+						}
 					}
 				}
 				else{
@@ -729,6 +770,14 @@ $(document).on('click','.js-sadrugmore',function(e){
 $(document).on('click','.js-sasaved',function(e){
 	e.preventDefault();
 	var callFrom=$(e.currentTarget).attr('id');
+	
+	// checked all fields are field or not
+	var isAllFieldsField = isAlRequiredFieldEntered($("#safrms"));
+	
+	if(!isAllFieldsField){
+		return false;
+	}
+	
 	$.ajax({
 		url:baseurl+"/Socialactivities/add",
 		method:'post',
@@ -742,8 +791,10 @@ $(document).on('click','.js-sasaved',function(e){
 			if(response.status=='1'){
 				$("#said").val(response.id);
 				if(callFrom =='nextviewill'){
-					pagefor=parseInt(pagefor)+1;
-					questianariesformload();
+					if(isAllFieldsField){
+						pagefor=parseInt(pagefor)+1;
+						questianariesformload();
+					}
 				}
 			}
 			else{
@@ -757,6 +808,13 @@ $(document).on('click','.js-illsaved',function(e){
 	e.preventDefault();
 	//$(".js-loader").css({height:$(window).height,"z-index":9999});
 	var clkid = $(e.currentTarget).attr('id');
+	
+	// checked all fields are field or not
+	var isAllFieldsField = isAlRequiredFieldEntered($("#aisfrms"));
+	
+	if(!isAllFieldsField){
+		return false;
+	}
 	
 	$.ajax({
 		url:baseurl+"/AboutIllnesses/add",
@@ -772,9 +830,10 @@ $(document).on('click','.js-illsaved',function(e){
 				$("#aisid").val(response.id);
 				if(clkid=='nextviewpsthis'){
 					//for go to the next form
-					pagefor = parseInt(pagefor)+1;
-					//console.log(pagefor);
-					questianariesformload();
+					if(isAllFieldsField){
+						pagefor = parseInt(pagefor)+1;
+						questianariesformload();
+					}
 				}
 			}
 			else{
@@ -788,6 +847,14 @@ $(document).on('click','.js-illsaved',function(e){
 $(document).on('click','.js-psthissaved',function(e){
 	e.preventDefault();
 	var clkid = $(e.currentTarget).attr('id');
+	
+	// checked all fields are field or not
+	var isAllFieldsField = isAlRequiredFieldEntered($("#psthisfrms"));
+	
+	if(!isAllFieldsField){
+		return false;
+	}
+	
 	$.ajax({
 		url:baseurl+"/PatientPastHistories/add",
 		method:'post',
@@ -801,11 +868,12 @@ $(document).on('click','.js-psthissaved',function(e){
 			if(response.status=='1'){
 				$("#psthisid").val(response.id);
 				if(clkid=='nextviewupddoc'){
-					
-					//for go to the next form
-					pagefor = parseInt(pagefor)+1;
-					//console.log(pagefor);
-					questianariesformload();
+					if(isAllFieldsField){
+						//for go to the next form
+						pagefor = parseInt(pagefor)+1;
+						//console.log(pagefor);
+						questianariesformload();
+					}
 				}
 			}
 			else{
@@ -819,6 +887,14 @@ $(document).on('click','.js-psthissaved',function(e){
 $(document).on('click','.js-docupssaved',function(e){
 	e.preventDefault();
 	var clkid = $(e.currentTarget).attr('id');
+	
+	// checked all fields are field or not
+	var isAllFieldsField = isAlRequiredFieldEntered($("#docupfrms"));
+	
+	if(!isAllFieldsField){
+		return false;
+	}
+	
 	$.ajax({
 		url:baseurl+"/PatientDocuments/add",
 		method:'post',
@@ -833,8 +909,10 @@ $(document).on('click','.js-docupssaved',function(e){
 				$("#docupid").val(response.id);
 				if(clkid=='nextviewxx'){
 					//for go to the next form
-					pagefor = parseInt(pagefor)+1;
-					questianariesformload();
+					if(isAllFieldsField){
+						pagefor = parseInt(pagefor)+1;
+						questianariesformload();
+					}
 				}
 			}
 			else{

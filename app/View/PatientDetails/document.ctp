@@ -51,6 +51,7 @@
 	<?php 
 		echo $this->Form->create('PatientDocument',array("id"=>"docupfrms"));
 		echo $this->Form->hidden('id',array('value'=>$docupid,'id'=>'docupid'));
+		echo $this->Form->hidden('completed_per',array("id"=>"completed_per","value"=>'0'));
 	?>	
 		
 		<div class="whatTest">
