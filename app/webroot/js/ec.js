@@ -1526,3 +1526,91 @@ $(document).on('click','.js-caseopinionpost',function(e){
 		}
 	});
 });
+
+//filter doctor case with status 
+$(document).on('click','.js-casefilter',function(e){
+	e.preventDefault();
+	var fltfor = $(e.currentTarget).attr("val");
+	//call ajax section
+	$.ajax({
+		url:baseurl+"/Doctors/dashboardfilter",
+		method:'post',
+		dataType:'json',
+		data:{filterfor:fltfor},
+		success:function(response){
+			console.log(response);
+			var gencalss = "man";
+			$(".leftPart").empty();
+			
+			if(parseInt(response.status)==1){
+				for(var i=0; i<response.doctcases.length;i++){
+					var doccase = response.doctcases[i];
+					if(doccase.gender=="femail"){
+						gencalss="woman";
+					}
+					var fhhl = '<div class="patientBox"><a href="javascript:void(0)" class="js-doccasedetail" vals="'+doccase.caseid+'">\
+					<div class="whitePart">\
+					<h2 class="'+gencalss+'">'+doccase.name+'</h2>\
+					<p class="status"><span class="awatingGreen">'+doccase.status+'</span></p>\
+					<p class="blueText fleft">'+doccase.diagonisis+'</p>\
+					<p class="blueText fright">Case #'+doccase.caseid+'</p>\
+					<div class="clear"></div>\
+					<p class="dueDate">Due Date</p>\
+					<h3>'+doccase.duedate+'</h3>\
+					</div>\
+					</a></div>';
+					
+					$(".leftPart").append(fhhl);
+				}
+			}
+		},
+		error:function(response){
+			console.log(response);
+		}
+	});
+});
+
+//doctor case search sections
+$(document).on('click','.js-searchcases',function(e){
+	e.preventDefault();
+	var serachtxt = $("#doccasesearch").val();
+	if(serachtxt!=''){
+		//call ajax section
+		$.ajax({
+			url:baseurl+"/Doctors/dashboardsearch",
+			method:'post',
+			dataType:'json',
+			data:{serachtxt:serachtxt},
+			success:function(response){
+				console.log(response);
+				var gencalss = "man";
+				$(".leftPart").empty();
+				
+				if(parseInt(response.status)==1){
+					for(var i=0; i<response.doctcases.length;i++){
+						var doccase = response.doctcases[i];
+						if(doccase.gender=="femail"){
+							gencalss="woman";
+						}
+						var fhhl = '<div class="patientBox"><a href="javascript:void(0)" class="js-doccasedetail" vals="'+doccase.caseid+'">\
+						<div class="whitePart">\
+						<h2 class="'+gencalss+'">'+doccase.name+'</h2>\
+						<p class="status"><span class="awatingGreen">'+doccase.status+'</span></p>\
+						<p class="blueText fleft">'+doccase.diagonisis+'</p>\
+						<p class="blueText fright">Case #'+doccase.caseid+'</p>\
+						<div class="clear"></div>\
+						<p class="dueDate">Due Date</p>\
+						<h3>'+doccase.duedate+'</h3>\
+						</div>\
+						</a></div>';
+						
+						$(".leftPart").append(fhhl);
+					}
+				}
+			},
+			error:function(response){
+				console.log(response);
+			}
+		});
+	}
+});

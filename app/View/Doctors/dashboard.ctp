@@ -6,6 +6,8 @@
 			$name = isset($doctorCase['Patient']['PatientDetail']['name'])?$doctorCase['Patient']['PatientDetail']['name']:'';
 			$caseid = isset($doctorCase['DoctorCase']['id'])?$doctorCase['DoctorCase']['id']:'0';
 			$duedate = isset($doctorCase['DoctorCase']['opinion_due_date'])?$doctorCase['DoctorCase']['opinion_due_date']:date("Y-m-d");
+			
+			$diagonisis = isset($doctorCase['DoctorCase']['diagonisis'])?$doctorCase['DoctorCase']['diagonisis']:'';
 			$status = isset($doctorCase['DoctorCase']['satatus'])?$doctorCase['DoctorCase']['satatus']:'0';
 			switch($status){
 				case 1:
@@ -31,11 +33,6 @@
 					break;
 			}
 			
-			$diagonisis = isset($doctorCase['DoctorCase']['diagonisis'])?$doctorCase['DoctorCase']['diagonisis']:'Blood Cancer';
-			//$diagonisis="Blood Cancer";
-			if($diagonisis==''){
-				$diagonisis="Blood Cancer";
-			}
 			$gencalss = "man";
 			if($gender=="femail"){
 				$gencalss="woman";

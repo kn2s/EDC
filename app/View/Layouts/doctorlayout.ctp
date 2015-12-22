@@ -53,22 +53,22 @@ $cakeVersion = __d('cake_dev', '');
         	<div class="search">
             	<h3>Search Case</h3>
                 <div class="searcBox">
-                	<input type="submit" class="searchBtn" value="">
-                    <input type="text" class="searchText" placeholder="Patient name, case #">
+                	<input type="submit" class="searchBtn js-searchcases" value="">
+                    <input type="text" id="doccasesearch" class="searchText" placeholder="Patient name, case #">
                 </div>
             </div>
             <div class="filter">
             	<h3>SHOW</h3>
-                <a href="javascript:void(0)" class="active">Current<span>7</span></a>
+                <a href="javascript:void(0)" class="active">Current<span><?=$nwdoctorCases?></span></a>
                 <a href="javascript:void(0)">Archived</a>
             </div>
             <div class="filter last">
             	<h3>Filter by status</h3>
-                <a href="javascript:void(0)">Un Read</a>
-                <a href="javascript:void(0)">Pending</a>          
-				<a href="javascript:void(0)">Awaiting input</a>
-                <a href="javascript:void(0)">Opinion Due</a>          
-				<a href="javascript:void(0)">Deleied</a>
+                <a href="javascript:void(0)" class="js-casefilter" val="0">Un Read</a>
+                <a href="javascript:void(0)" class="js-casefilter" val="1">Pending</a>          
+				<a href="javascript:void(0)" class="js-casefilter" val="2">Awaiting input</a>
+                <a href="javascript:void(0)" class="js-casefilter" val="4">Opinion Due</a>          
+				<a href="javascript:void(0)" class="js-casefilter" val="5">Deleied</a>
             </div>
         </div>
 		

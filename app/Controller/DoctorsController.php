@@ -139,12 +139,211 @@ class DoctorsController extends AppController {
 		);
 		$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0');
 		$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
-		/* pr($conds);
-		pr($doctorCases);
-		die() */;
+		
+		//get current case post
+		$conds['DoctorCase.satatus']='0';
+		$conds['DATE(DoctorCase.createdate) BETWEEN ? AND ?']=array(date("Y-m-d",strtotime("-2 day")),date("Y-m-d"));
+		$this->DoctorCase->unbindModel(array(
+			'belongsTo'=>array('Doctor')
+		));
+		$nwdoctorCases = $this->DoctorCase->find('count',array('recursive'=>'0','conditions'=>$conds));
 		$this->set('doctorCases',$doctorCases);
+		$this->set('nwdoctorCases',$nwdoctorCases);
 	}
 	
+/**
+ * dashboardsearch method
+ */
+	public function dashboardsearch(){
+		$resstatus=0;
+		$doctcases=array();
+		if($this->request->is("post")){
+			$searchby = isset($this->request->data['serachtxt'])?$this->request->data['serachtxt']:'';
+			$this->loadModel('DoctorCase');
+			$this->DoctorCase->unbindModel(array(
+				'belongsTo'=>array('Doctor')
+			));
+			$this->DoctorCase->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
+			$this->DoctorCase->Patient->bindModel(array(
+					'hasOne'=>array(
+						'PatientDetail' => array(
+							'className' => 'PatientDetail',
+							'foreignKey' => 'patient_id',
+							'dependent' => false,
+							'conditions' => '',
+							'fields' => '',
+							'order' => array('PatientDetail.id'=>'DESC'),
+							'limit' => '1',
+							'offset' => '',
+							'exclusive' => '',
+							'finderQuery' => '',
+							'counterQuery' => ''
+						)
+					)
+				)
+			);
+			
+			$joins = array(
+				array(
+					'table' => 'ec_patient_details',
+					'alias' => 'PatientDetailS',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'PatientDetailS.patient_id = DoctorCase.patient_id',
+					)
+				)
+			);
+			
+			$conds = array(
+				'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),
+				'DoctorCase.ispaymentdone'=>'1',
+				'DoctorCase.isclosed'=>'0',
+				'OR'=>array(
+					'DoctorCase.id LIKE'=>'%'.$searchby.'%',
+					'PatientDetailS.name LIKE'=>'%'.$searchby.'%'
+				)
+				);
+			//pr($conds);	
+			$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'2','joins'=>$joins,'conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC'),"group"=>'DoctorCase.id'));
+			//pr($doctorCases);
+			if(is_array($doctorCases) && count($doctorCases)>0){
+				$resstatus=1;
+				foreach($doctorCases as $doctorCase){
+					$gender = isset($doctorCase['Patient']['PatientDetail']['gender'])?$doctorCase['Patient']['PatientDetail']['gender']:'';
+					$name = isset($doctorCase['Patient']['PatientDetail']['name'])?$doctorCase['Patient']['PatientDetail']['name']:'';
+					$caseid = isset($doctorCase['DoctorCase']['id'])?$doctorCase['DoctorCase']['id']:'0';
+					$duedate = isset($doctorCase['DoctorCase']['opinion_due_date'])?$doctorCase['DoctorCase']['opinion_due_date']:date("Y-m-d");
+					$diagonisis = isset($doctorCase['DoctorCase']['diagonisis'])?$doctorCase['DoctorCase']['diagonisis']:'';
+					$status = isset($doctorCase['DoctorCase']['satatus'])?$doctorCase['DoctorCase']['satatus']:'0';
+					switch($status){
+						case 1:
+							$status = "Pending"; //Opened, sitting idle
+							break;
+						case 2:
+							$status = "AWAITING INPUT"; //When Doctor has sent message in communication and waiting for the reply from the Patient
+							break;
+						case 3:
+							$status = "INPUT RECEIVED"; //When received any input
+							break;
+						case 4:
+							$status = "OPINION SENT"; //when sent an opinion
+							break;
+						case 5:
+							$status = "DELETED"; //where everything stays for 3 months [After deleted from admin]
+							break;
+						case 6:
+							$status = "ARCHIVED"; //only opinion stays for 1 year [after 1 year automatically it will go to archive folder ]
+							break;
+						default:
+							$status = "Unread";
+							break;
+					}
+					
+					$datas = array(
+						'name'=>$name,
+						'caseid'=>$caseid,
+						'gender'=>$gender,
+						'duedate'=>date("d M Y",strtotime($duedate)),
+						'diagonisis'=>$diagonisis,
+						'status'=>$status
+					);
+					
+					if($name!=''){
+						array_push($doctcases,$datas);
+					}
+					
+				}
+			}
+		}
+		die(json_encode(array("status"=>$resstatus,"doctcases"=>$doctcases,'doctorCases'=>$doctorCases)));
+	}
+ 
+/**
+ * dashboardfilter method
+ */
+	public function dashboardfilter(){
+		$resstatus=0;
+		$doctcases=array();
+		if($this->request->is("post")){
+			$filterby = isset($this->request->data['filterfor'])?$this->request->data['filterfor']:'0';
+			$this->loadModel('DoctorCase');
+			$this->DoctorCase->unbindModel(array(
+				'belongsTo'=>array('Doctor')
+			));
+			$this->DoctorCase->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
+			$this->DoctorCase->Patient->bindModel(array(
+					'hasOne'=>array(
+						'PatientDetail' => array(
+							'className' => 'PatientDetail',
+							'foreignKey' => 'patient_id',
+							'dependent' => false,
+							'conditions' => '',
+							'fields' => '',
+							'order' => array('PatientDetail.id'=>'DESC'),
+							'limit' => '1',
+							'offset' => '',
+							'exclusive' => '',
+							'finderQuery' => '',
+							'counterQuery' => ''
+						)
+					)
+				)
+			);
+			$conds = array(
+				'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),
+				'DoctorCase.ispaymentdone'=>'1',
+				'DoctorCase.isclosed'=>'0',
+				'DoctorCase.satatus'=>$filterby);
+			//pr($conds);	
+			$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
+			//pr($doctorCases);
+			if(is_array($doctorCases) && count($doctorCases)>0){
+				$resstatus=1;
+				foreach($doctorCases as $doctorCase){
+					$gender = isset($doctorCase['Patient']['PatientDetail']['gender'])?$doctorCase['Patient']['PatientDetail']['gender']:'';
+					$name = isset($doctorCase['Patient']['PatientDetail']['name'])?$doctorCase['Patient']['PatientDetail']['name']:'';
+					$caseid = isset($doctorCase['DoctorCase']['id'])?$doctorCase['DoctorCase']['id']:'0';
+					$duedate = isset($doctorCase['DoctorCase']['opinion_due_date'])?$doctorCase['DoctorCase']['opinion_due_date']:date("Y-m-d");
+					$diagonisis = isset($doctorCase['DoctorCase']['diagonisis'])?$doctorCase['DoctorCase']['diagonisis']:'';
+					$status = isset($doctorCase['DoctorCase']['satatus'])?$doctorCase['DoctorCase']['satatus']:'0';
+					switch($status){
+						case 1:
+							$status = "Pending"; //Opened, sitting idle
+							break;
+						case 2:
+							$status = "AWAITING INPUT"; //When Doctor has sent message in communication and waiting for the reply from the Patient
+							break;
+						case 3:
+							$status = "INPUT RECEIVED"; //When received any input
+							break;
+						case 4:
+							$status = "OPINION SENT"; //when sent an opinion
+							break;
+						case 5:
+							$status = "DELETED"; //where everything stays for 3 months [After deleted from admin]
+							break;
+						case 6:
+							$status = "ARCHIVED"; //only opinion stays for 1 year [after 1 year automatically it will go to archive folder ]
+							break;
+						default:
+							$status = "Unread";
+							break;
+					}
+					
+					$datas = array(
+						'name'=>$name,
+						'caseid'=>$caseid,
+						'gender'=>$gender,
+						'duedate'=>date("d M Y",strtotime($duedate)),
+						'diagonisis'=>$diagonisis,
+						'status'=>$status
+					);
+					array_push($doctcases,$datas);
+				}
+			}
+		}
+		die(json_encode(array("status"=>$resstatus,"doctcases"=>$doctcases)));
+	}
 /**
  * casedetail method
  */
