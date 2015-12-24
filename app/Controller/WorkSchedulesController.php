@@ -104,6 +104,11 @@ class WorkSchedulesController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
+	/**
+	*
+	* ADMIN SECTION WORK HERE
+	*
+	**/
 /**
  * admin_index method
  *
@@ -225,5 +230,26 @@ class WorkSchedulesController extends AppController {
 			$this->Session->setFlash(__('The work schedule could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+	
+	//extra section
+	
+/**
+ * admin_makeholidayornot method
+ */
+	public function admin_makeholidayornot(){
+		$status=0;
+		$message="";
+		if($this->request->is("post")){
+			$curpos = (isset($this->request->data['curstatus']) && $this->request->data['curstatus']==0)?1:0;
+			$dayid = (isset($this->request->data['dayid']) && $this->request->data['dayid']>0)?$this->request->data['dayid']:0;
+			$uparay = array('WorkSchedule.isholiday'=>$curpos);
+			$upcond = array('WorkSchedule.id'=>$dayid);
+			if($dayid>0){
+				$this->WorkSchedule->updateAll($uparay,$upcond);
+				$status=1;
+			}
+		}
+		die(json_encode(array("status"=>$status,"message"=>$message)));
 	}
 }

@@ -28,6 +28,7 @@ $cakeVersion = __d('cake_dev', '');
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 	<script>
+		var baseUrl = "<?=FULL_BASE_URL.$this->base."/admin"?>";
 		$(document).ready(function(){
 			$("#sqlsection").hide();
 		});

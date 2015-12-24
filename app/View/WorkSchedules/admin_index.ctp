@@ -77,7 +77,8 @@
 						?>
 							<tr class="odd gradeX">
 								<td><?php echo h($workSchedule['WorkSchedule']['workday']); ?></td>
-								<td><a class="js-holidaychange" scdlid="<?=h($workSchedule['WorkSchedule']['id'])?>"><?php echo (h($workSchedule['WorkSchedule']['isholiday'])?"Yes":"No"); ?></a></td>
+								<td><a class="js-holidaychange" scdlid="<?=h($workSchedule['WorkSchedule']['id'])?>" cursts="<?=h($workSchedule['WorkSchedule']['isholiday'])?>" title="click to change">
+								<?php echo h($workSchedule['WorkSchedule']['isholiday'])?"Yes":"No"; ?></a></td>
 								<td></td>
 							</tr>
 						<?php

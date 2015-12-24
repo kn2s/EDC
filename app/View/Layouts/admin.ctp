@@ -31,6 +31,7 @@ $controllername = ucwords($this->params->params['controller']);
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 	<script>
+		var baseUrl = "<?=FULL_BASE_URL.$this->base."/admin"?>";
 		$(document).ready(function(){
 			$("#sqlsection").hide();
 		});
@@ -145,6 +146,17 @@ $controllername = ucwords($this->params->params['controller']);
                                 <li>
                                     <?php echo $this->Html->link('Create Doctor Schedules',array('controller'=>'ScheduleDoctors','action'=>'add','full_base'=>true),array('escape'=>false));?>
                                 </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+						
+						<li>
+                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Doctor Cases<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<?php echo $this->Html->link('Cases',array('controller'=>'DoctorCases','action'=>'index','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                                
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

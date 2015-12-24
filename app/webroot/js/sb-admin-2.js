@@ -34,3 +34,37 @@ $(function() {
         element.addClass('active');
     }
 });
+
+//work schedult holiday setActive
+$(document).on('click','.js-holidaychange',function(e){
+	//alert(baseUrl);
+	e.preventDefault();
+	var partw=$(e.currentTarget);
+	var dayid = $(e.currentTarget).attr('scdlid');
+	var curstatus = $(e.currentTarget).attr('cursts');
+	//now cal ajax
+	$.ajax({
+		url:baseUrl+"/WorkSchedules/makeholidayornot",
+		method:"post",
+		dataType:"json",
+		data:{dayid:dayid,curstatus:curstatus},
+		success:function(response){
+			console.log(response);
+			if(parseInt(response.status)==1){
+				if(parseInt(curstatus)==1){
+					curstatus='0';
+					$(partw).html("No");
+				}
+				else{
+					curstatus='1';
+					$(partw).html("Yes");
+				}
+				
+				$(partw).attr("cursts",curstatus);
+			}
+		},
+		error:function(response){
+			console.log(response);
+		}
+	});
+});

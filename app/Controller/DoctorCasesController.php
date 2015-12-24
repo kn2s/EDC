@@ -115,8 +115,23 @@ class DoctorCasesController extends AppController {
  * @return void
  */
 	public function admin_index() {
-		$this->DoctorCase->recursive = 0;
-		$this->set('doctorCases', $this->Paginator->paginate());
+		$this->layout="admin";
+		$this->DoctorCase->recursive = 2;
+		$this->DoctorCase->Patient->unbindModel(array("hasMany"=>array("PatientDetail")));
+		$this->DoctorCase->Doctor->unbindModel(array("hasMany"=>array("PatientDetail")));
+		$this->DoctorCase->Patient->bindModel(array(
+			"hasOne"=>array(
+				"PatientDetail"=>array(
+					'className' => 'PatientDetail',
+					'foreignKey' => 'patient_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
+				)
+			)
+		));
+		$cond = array("DoctorCase.ispaymentdone"=>'1');
+		$this->set('doctorCases', $this->Paginator->paginate($cond));
 	}
 
 /**
