@@ -84,17 +84,19 @@ $controllername = ucwords($this->params->params['controller']);
 								<li>
 									<?php echo $this->Html->link('Add',array('controller'=>'doctors','action'=>'add','full_base'=>true),array('escape'=>false));?>
                                 </li>
+								
                             </ul>
                         </li>
 						<li>
                             <a href="<?=FULL_BASE_URL.$this->base?>/admin/specializations"><i class="fa fa-dashboard fa-fw"></i>Specializations <span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
                                 <li>
-									<?php echo $this->Html->link('List',array('controller'=>'specializations','action'=>'index','full_base'=>true),array('escape'=>false));?>
+									<?php echo $this->Html->link('List',array('controller'=>'Specializations','action'=>'index','full_base'=>true),array('escape'=>false));?>
                                 </li>
 								<li>
-									<?php echo $this->Html->link('Add',array('controller'=>'specializations','action'=>'add','full_base'=>true),array('escape'=>false));?>
+									<?php echo $this->Html->link('Add',array('controller'=>'Specializations','action'=>'add','full_base'=>true),array('escape'=>false));?>
                                 </li>
+								
                             </ul>
 						</li>
                         

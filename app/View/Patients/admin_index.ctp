@@ -1,4 +1,5 @@
 <div class="row">
+	<center><?php echo $this->Session->flash(); ?></center>
 	<div class="col-lg-12">
 		<h1 class="page-header">Patients</h1>
 	</div>
@@ -9,7 +10,7 @@
 
 <div class="col-lg-12">
 	<div class="panel panel-default">
-		<?php echo $this->Session->flash(); ?>
+		
 		<!-- /.panel-heading -->
 		<div class="panel-body">
 			<div class="dataTable_wrapper">
@@ -37,8 +38,8 @@
 							
 							<td class="actions">
 								
-								<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $patient['Patient']['id']),array('class'=>'btn btn-default')); ?>
-								<?php echo $this->Html->link(__('View'), array('action' => 'view', $patient['Patient']['id']),array('class'=>'btn btn-default')); ?>
+								<?php //echo $this->Html->link(__('Edit'), array('action' => 'edit', $patient['Patient']['id']),array('class'=>'btn btn-default')); ?>
+								<?php echo $this->Html->link(__('Quetionary'), array('action' => 'quetionary', $patient['Patient']['id']),array('class'=>'btn btn-default')); ?>
 								<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $patient['Patient']['id']), array('class'=>'btn btn-default','confirm' => __('Are you sure you want to delete patient # %s?', $patient['Patient']['id']))); ?>
 							</td>
 						</tr>

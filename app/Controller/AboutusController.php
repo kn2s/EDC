@@ -33,7 +33,8 @@ class AboutusController extends AppController {
 			$curspecialist=(isset($this->request->data["catid"]) && $this->request->data["catid"]>0)?$this->request->data["catid"]:0;
 		}
 		else{
-			$specializations = $this->Doctor->Specialization->find('list');
+			$spccond = array("Specialization.isactive"=>'1','Specialization.isdeleted'=>'0');
+			$specializations = $this->Doctor->Specialization->find('list',array('conditions'=>$spccond));
 			//pr($specializations);
 			if(count($specializations)>0 && $curspecialist==0){
 				list($curspecialist) = array_keys($specializations);

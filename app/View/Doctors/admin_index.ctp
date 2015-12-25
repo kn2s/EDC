@@ -22,7 +22,7 @@
                                             <th>Specialization</th>
                                             <th>Qualification</th>
                                             <th>Image</th>
-											<th></th>
+											<th>Action</th>
                                         </tr>
                                     </thead>
 									<tbody>
@@ -36,7 +36,18 @@
                                             <td><?=$doctor['Specialization']['name']?></td>
                                             <td><?=$doctor['Doctor']['designation']?></td>
                                             <td><img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" width="80" height="80" /></td>
-											<td></td>
+											<td><?php
+												if($doctor['Patient']['isactive']){
+													echo $this->Html->link(__('InActive'), array('action' => 'activeinactive', $doctor['Patient']['id'],'0'),array("class"=>"btn btn-default"));
+												}
+												else{
+													echo $this->Html->link(__('Active'), array('action' => 'activeinactive', $doctor['Patient']['id'],'1'),array("class"=>"btn btn-default"));
+												}
+												echo "&nbsp;&nbsp";
+												echo $this->Html->link(__('Edit'), array('action' => 'edit', $doctor['Patient']['id']),array("class"=>"btn btn-default"));
+												echo "&nbsp;&nbsp";
+												echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $doctor['Patient']['id']), array('confirm' => __('Are you sure you want to delete # %s? Doctor', $doctor['Patient']['id']),"class"=>"btn btn-default"));
+											?></td>
 										</tr>
 									<?php
 										}

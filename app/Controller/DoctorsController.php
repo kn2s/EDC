@@ -646,7 +646,7 @@ ADMIN SECTION START FROM HERE
 		
 		$this->layout='admin';
 		$this->validateadminsession();
-		$findcondition = array('Doctor.patient_id >'=>'0');
+		$findcondition = array('Doctor.patient_id >'=>'0','Patient.ispatient'=>'0','Patient.isdeleted'=>'0');
 		$doctors = $this->Doctor->find('all',array('recursive'=>'0','conditions'=>$findcondition));
 		$this->set('doctors',$doctors);
 	}
@@ -710,8 +710,34 @@ ADMIN SECTION START FROM HERE
 			}
 		}
 		//$patients = $this->Doctor->Patient->find('list');
-		$specializations = $this->Doctor->Specialization->find('list');
+		$spccond = array('Specialization.isdeleted'=>'0');
+		$specializations = $this->Doctor->Specialization->find('list',array('conditions'=>$spccond));
 		$this->set(compact('specializations'));
+	}
+	
+/**
+ * admin_activeinactive method
+ **/
+	public function admin_activeinactive($id=0,$custat=0){
+		$ispostcall=false;
+		$status=0;
+		if($this->request->is("post")){
+			$id = (isset($this->request->data["ptnid"]) && $this->request->data["ptnid"]>0)?$this->request->data["ptnid"]:0;
+			$custat = (isset($this->request->data["custat"]) && $this->request->data["custat"]>0)?1:0;
+			$ispostcall=true;
+		}
+		if($id>0){
+			$updata = array("Patient.isactive"=>$custat);
+			$upcond = array("Patient.id"=>$id);
+			$this->Doctor->Patient->updateAll($updata,$upcond);
+			$status=1;
+		}
+		if($ispostcall){
+			die(json_encode(array("status"=>$status)));
+		}
+		else{
+			return $this->redirect(array('action' => 'index'));
+		}
 	}
 
 /**
@@ -722,23 +748,49 @@ ADMIN SECTION START FROM HERE
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout='admin';
+		$this->validateadminsession();
+		
 		if (!$this->Doctor->exists($id)) {
 			throw new NotFoundException(__('Invalid doctor'));
 		}
+		
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Doctor->save($this->request->data)) {
-				$this->Session->setFlash(__('The doctor has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The doctor could not be saved. Please, try again.'));
+			//imge
+			//pr($this->request->data);
+			//die();
+			if($this->request->data['Doctor']['image']['size']>0){
+				$filename = time().trim(str_replace("&,#, ,*","",$this->request->data['Doctor']['image']['name']));
+				$uploaddirectory = WWW_ROOT."\doctorimage\\".$filename;
+				if(move_uploaded_file($this->request->data['Doctor']['image']['tmp_name'],$uploaddirectory)){
+						$this->request->data['Doctor']['image'] = $filename;
+				}
+				else{
+					$this->request->data['Doctor']['image'] = $this->request->data['Doctor']['old_image'];
+				}
 			}
+			else{
+				$this->request->data['Doctor']['image'] = $this->request->data['Doctor']['old_image'];
+			}
+			if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
+				if ($this->Doctor->save(array("Doctor"=>$this->request->data["Doctor"]))) {
+					
+					
+				} else {
+					
+				}
+			}
+			return $this->redirect(array('action' => 'index'));
 		} else {
-			$options = array('conditions' => array('Doctor.' . $this->Doctor->primaryKey => $id));
+			//$findcondition = array('Doctor.patient_id >'=>'0','Patient.ispatient'=>'0','Patient.isdeleted'=>'0');
+			$options = array('conditions' => array('Patient.' . $this->Doctor->Patient->primaryKey => $id));
 			$this->request->data = $this->Doctor->find('first', $options);
 		}
-		$patients = $this->Doctor->Patient->find('list');
-		$specializations = $this->Doctor->Specialization->find('list');
-		$this->set(compact('patients', 'specializations'));
+		//$patients = $this->Doctor->Patient->find('list');
+		$spccond = array('Specialization.isdeleted'=>'0');
+		$specializations = $this->Doctor->Specialization->find('list',array('conditions'=>$spccond));
+		$this->set(compact('specializations'));
+		//$this->set(compact('patients', 'specializations'));
 	}
 
 /**
@@ -749,16 +801,19 @@ ADMIN SECTION START FROM HERE
  * @return void
  */
 	public function admin_delete($id = null) {
-		$this->Doctor->id = $id;
-		if (!$this->Doctor->exists()) {
+		$this->Doctor->Patient->id = $id;
+		if (!$this->Doctor->Patient->exists()) {
 			throw new NotFoundException(__('Invalid doctor'));
 		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Doctor->delete()) {
+		/*if ($this->Doctor->delete()) {
 			$this->Session->setFlash(__('The doctor has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The doctor could not be deleted. Please, try again.'));
-		}
+		}*/
+		$updata = array("Patient.isdeleted"=>'1');
+		$upcond = array("Patient.id"=>$id);
+		$this->Doctor->Patient->updateAll($updata,$upcond);
 		return $this->redirect(array('action' => 'index'));
 	}
 }

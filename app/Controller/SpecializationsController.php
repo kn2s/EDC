@@ -111,7 +111,8 @@ class SpecializationsController extends AppController {
 	public function admin_index() {
 		$this->layout = 'admin';
 		$this->Specialization->recursive = 0;
-		$this->set('specializations', $this->Paginator->paginate());
+		$cond = array("Specialization.isdeleted"=>'0');
+		$this->set('specializations', $this->Paginator->paginate($cond));
 	}
 
 /**
@@ -130,6 +131,30 @@ class SpecializationsController extends AppController {
 	}
 
 /**
+ * admin_activeinactive method
+ **/
+	public function admin_activeinactive($id=0,$custat=0){
+		$ispostcall=false;
+		$status=0;
+		if($this->request->is("post")){
+			$id = (isset($this->request->data["spcid"]) && $this->request->data["spcid"]>0)?$this->request->data["spcid"]:0;
+			$custat = (isset($this->request->data["custat"]) && $this->request->data["custat"]>0)?1:0;
+			$ispostcall=true;
+		}
+		if($id>0){
+			$updata = array("Specialization.isactive"=>$custat);
+			$upcond = array("Specialization.id"=>$id);
+			$this->Specialization->updateAll($updata,$upcond);
+			$status=1;
+		}
+		if($ispostcall){
+			die(json_encode(array("status"=>$status)));
+		}
+		else{
+			return $this->redirect(array('action' => 'index'));
+		}
+	}
+/**
  * admin_add method
  *
  * @return void
@@ -141,7 +166,7 @@ class SpecializationsController extends AppController {
 			$this->request->data['Specialization']['createdon']=time();
 			if ($this->Specialization->save($this->request->data)) {
 				$this->Session->setFlash(__('The specialization has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'add'));
 			} else {
 				$this->Session->setFlash(__('The specialization could not be saved. Please, try again.'));
 			}
@@ -156,15 +181,16 @@ class SpecializationsController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout = 'admin';
 		if (!$this->Specialization->exists($id)) {
 			throw new NotFoundException(__('Invalid specialization'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Specialization->save($this->request->data)) {
-				$this->Session->setFlash(__('The specialization has been saved.'));
+				//$this->Session->setFlash(__('The specialization has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The specialization could not be saved. Please, try again.'));
+				//$this->Session->setFlash(__('The specialization could not be saved. Please, try again.'));
 			}
 		} else {
 			$options = array('conditions' => array('Specialization.' . $this->Specialization->primaryKey => $id));
@@ -185,11 +211,14 @@ class SpecializationsController extends AppController {
 			throw new NotFoundException(__('Invalid specialization'));
 		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Specialization->delete()) {
+		/*if ($this->Specialization->delete()) {
 			$this->Session->setFlash(__('The specialization has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The specialization could not be deleted. Please, try again.'));
-		}
+		}*/
+		$updata = array("Specialization.isdeleted"=>'1');
+		$upcond = array("Specialization.id"=>$id);
+		$this->Specialization->updateAll($updata,$upcond);
 		return $this->redirect(array('action' => 'index'));
 	}
 }

@@ -128,8 +128,8 @@
 								<td><?php echo h($doctorCase['DoctorCase']['ispaymentdone']); ?>&nbsp;</td>
 								<td><?php echo h($doctorCase['DoctorCase']['createdate']); ?>&nbsp;</td>
 								<td class="actions">
-									<?php echo $this->Html->link(__('Details'), array('action' => 'view', $doctorCase['DoctorCase']['id'])); ?>
-									<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $doctorCase['DoctorCase']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $doctorCase['DoctorCase']['id']))); ?>
+									<?php echo $this->Html->link(__('Details'), array('action' => 'view', $doctorCase['DoctorCase']['id']),array("class"=>"btn btn-default")); ?>
+									<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $doctorCase['DoctorCase']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $doctorCase['DoctorCase']['id']),"class"=>"btn btn-default")); ?>
 								</td>
 							</tr>
 						<?php

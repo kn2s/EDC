@@ -21,7 +21,7 @@
                                         <tr>
                                             <th>Name</th>
                                             
-											<th></th>
+											<th>action</th>
                                         </tr>
                                     </thead>
 									<tbody>
@@ -31,7 +31,18 @@
 									?>
 										<tr class="odd gradeX">
                                             <td><?=$specialization['Specialization']['name']?></td>
-                                            <td></td>
+                                            <td><?php
+												if($specialization['Specialization']['isactive']){
+													echo $this->Html->link(__('InActive'), array('action' => 'activeinactive', $specialization['Specialization']['id'],'0'),array("class"=>"btn btn-default"));
+												}
+												else{
+													echo $this->Html->link(__('Active'), array('action' => 'activeinactive', $specialization['Specialization']['id'],'1'),array("class"=>"btn btn-default"));
+												}
+												echo "&nbsp;&nbsp";
+												echo $this->Html->link(__('Edit'), array('action' => 'edit', $specialization['Specialization']['id']),array("class"=>"btn btn-default"));
+												echo "&nbsp;&nbsp";
+												echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $specialization['Specialization']['id']), array('confirm' => __('Are you sure you want to delete # %s? Specialization', $specialization['Specialization']['id']),"class"=>"btn btn-default"));
+											?></td>
 										</tr>
 									<?php
 										}

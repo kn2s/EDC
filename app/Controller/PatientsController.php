@@ -518,8 +518,9 @@ class PatientsController extends AppController {
  */
 	public function admin_index() {
 		$this->layout="admin";
+		$this->validateadminsession();
 		$this->Patient->recursive = 0;
-		$this->set('patients', $this->Patient->find('all',array('conditions'=>array('Patient.ispatient'=>'1'))));
+		$this->set('patients', $this->Patient->find('all',array('conditions'=>array('Patient.ispatient'=>'1','Patient.isdeleted'=>'0'))));
 	}
 
 /**
@@ -530,6 +531,7 @@ class PatientsController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->validateadminsession();
 		if (!$this->Patient->exists($id)) {
 			throw new NotFoundException(__('Invalid patient'));
 		}
@@ -543,6 +545,7 @@ class PatientsController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->validateadminsession();
 		if ($this->request->is('post')) {
 			$this->Patient->create();
 			if ($this->Patient->save($this->request->data)) {
@@ -562,6 +565,7 @@ class PatientsController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->validateadminsession();
 		if (!$this->Patient->exists($id)) {
 			throw new NotFoundException(__('Invalid patient'));
 		}
@@ -586,6 +590,7 @@ class PatientsController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->validateadminsession();
 		$this->Patient->id = $id;
 		if (!$this->Patient->exists()) {
 			throw new NotFoundException(__('Invalid patient'));
@@ -597,5 +602,18 @@ class PatientsController extends AppController {
 			$this->Session->setFlash(__('The patient could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+	
+/**
+ * admin_quetionary method
+ */
+	public function admin_quetionary($id=null){
+		$this->layout="admin";
+		$this->validateadminsession();
+		$this->Patient->id = $id;
+		if (!$this->Patient->exists()) {
+			throw new NotFoundException(__('Invalid patient'));
+		}
+		$this->set('patients',array());
 	}
 }
