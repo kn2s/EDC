@@ -18,8 +18,8 @@ $controllername = ucwords($this->params->params['controller']);
 	<?php
 		echo $this->Html->meta('icon');
 		
-		echo $this->Html->css(array('bootstrap.min.css','metisMenu.min.css','timeline.css','sb-admin-2.css','font-awesome.min.css'));
-		echo $this->Html->script(array('jquery.min.js','bootstrap.min.js','metisMenu.min.js','sb-admin-2.js','raphael-min.js'));
+		echo $this->Html->css(array('bootstrap.min.css','metisMenu.min.css','timeline.css','sb-admin-2.css','font-awesome.min.css','jquery-ui.min.css'));
+		echo $this->Html->script(array('jquery.min.js','bootstrap.min.js','metisMenu.min.js','sb-admin-2.js','raphael-min.js','jquery-ui.min.js'));
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -157,6 +157,23 @@ $controllername = ucwords($this->params->params['controller']);
                             <ul class="nav nav-second-level">
                                 <li>
 									<?php echo $this->Html->link('Cases',array('controller'=>'DoctorCases','action'=>'index','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+						
+						<li>
+                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Holidays<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<?php echo $this->Html->link('Common Holidays',array('controller'=>'CommonHolidays','action'=>'index','full_base'=>true),array('escape'=>false));?>
+                                </li>
+								<li>
+									<?php echo $this->Html->link('Add Common Holiday',array('controller'=>'CommonHolidays','action'=>'add','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                                <li>
+									<?php echo $this->Html->link('Add Doctor Holiday',array('controller'=>'DoctorHolidays','action'=>'add','full_base'=>true),array('escape'=>false));?>
                                 </li>
                                 
                             </ul>

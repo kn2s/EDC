@@ -46,7 +46,12 @@
 												echo "&nbsp;&nbsp";
 												echo $this->Html->link(__('Edit'), array('action' => 'edit', $doctor['Patient']['id']),array("class"=>"btn btn-default"));
 												echo "&nbsp;&nbsp";
+												echo $this->Html->link(__('Add Holiday'), array('controller'=>'DoctorHolidays','action' => 'add', $doctor['Patient']['id']),array("class"=>"btn btn-default"));
+												echo "&nbsp;&nbsp";
 												echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $doctor['Patient']['id']), array('confirm' => __('Are you sure you want to delete # %s? Doctor', $doctor['Patient']['id']),"class"=>"btn btn-default"));
+												echo "</br> </br>";
+												echo $this->Html->link(__('All Holidays'), array('controller'=>'DoctorHolidays','action' => 'view', $doctor['Patient']['id']),array("class"=>"btn btn-default"));
+												echo "&nbsp;&nbsp";
 											?></td>
 										</tr>
 									<?php

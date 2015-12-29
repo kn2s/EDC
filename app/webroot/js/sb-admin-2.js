@@ -68,3 +68,5 @@ $(document).on('click','.js-holidaychange',function(e){
 		}
 	});
 });
+
+//doctor hiliday sections

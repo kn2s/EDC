@@ -39,6 +39,9 @@
 <div class="col-lg-12">
 	<div class="panel panel-default">
 		<!-- /.panel-heading -->
+		<div class="panel-heading">
+			Patient Basic Details
+		</div>
 		<div class="panel-body">
 			<div class="dataTable_wrapper">
 				<table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -64,7 +67,7 @@
 					else{
 				?>
 						<tr class="odd gradeX">
-							<td colspan='2'>No country added yet </td>
+							<td colspan='2'>Questionary not added </td>
 						</tr>
 				<?php
 					}

@@ -142,6 +142,7 @@ class DoctorCasesController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->layout="admin";
 		if (!$this->DoctorCase->exists($id)) {
 			throw new NotFoundException(__('Invalid doctor case'));
 		}

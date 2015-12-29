@@ -52,3 +52,6 @@ ALTER TABLE `ec_doctor_cases` ADD `isclosed` INT(1) NOT NULL DEFAULT '0' AFTER `
 
 
 
+today(30-12-15):
+================
+ALTER TABLE `ec_doctor_holidays` CHANGE `holidaydate` `holidaydate` DATE NOT NULL;
