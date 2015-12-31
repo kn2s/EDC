@@ -78,10 +78,11 @@
 			?>
 		<div class="doctor" data-href="#<?=$doctor['Doctor']['id']?>">
         	<div class="picCont">
-            	<img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" class="normalPic" alt="">
+            	<img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" class="normalPic" alt="" width="190" height="190">
           
-				<img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" class="activePic" alt="">
-            </div>
+				<img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" class="activePic" alt="" width="190" height="190">
+				<div class="js-imagehov normalPic" style="background-color:#b86647; opacity:0.5; width:inherit; height:inherit; position:absolute; top:0px; display:none; border-radius:50%;"></div>
+			</div>
             <h3>Dr.<?=$doctor['Patient']['name']?></h3>
             <h5><?=$doctor['Doctor']['designation']?></h5>
         </div>

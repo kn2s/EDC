@@ -65,7 +65,7 @@
 							echo $this->Form->input('image',array('type'=>'file','div'=>'form-group','label'=>'Doctor Image'));
 							echo $this->Form->input('old_image',array('type'=>'hidden','div'=>'','label'=>'','value'=>$this->request->data['Doctor']['image']));
 							echo $this->Form->input('designation',array('type'=>'text','div'=>'form-group','label'=>'Doctorate In','class'=>'form-control', 'placeholder'=>'Doctorate In'));
-							echo $this->Form->input('medical_school',array('type'=>'text','div'=>'form-group','label'=>'Doctorate School','class'=>'form-control', 'placeholder'=>'Doctorate School'));
+							echo $this->Form->input('medical_school',array('type'=>'text','div'=>'form-group','label'=>'Medical School','class'=>'form-control', 'placeholder'=>'Doctorate School'));
 							echo $this->Form->input('residency',array('type'=>'text','div'=>'form-group','label'=>'Residency In','class'=>'form-control', 'placeholder'=>'Residency In'));
 							echo $this->Form->input('residency_from',array('type'=>'text','div'=>'form-group','label'=>'Residency From','class'=>'form-control', 'placeholder'=>'Residency From'));
 			

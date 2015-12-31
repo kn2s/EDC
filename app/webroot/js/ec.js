@@ -132,6 +132,22 @@ $(document).ready(function(e) {
     });
 });
 
+
+//about us page 
+$(document).on('mouseover','.picCont img',function(e){
+	var par = $(e.currentTarget).parents(".picCont");
+	if($(par).find(".js-imagehov").length){
+		$($(par).find(".js-imagehov")).show();
+	}
+});
+$(document).on('mouseout','.js-imagehov',function(e){
+	$(e.currentTarget).hide();
+	//alert("out");
+	/*var par = $(e.currentTarget);
+	if($(par).find(".js-imagehov").length){
+		$($(par).find(".js-imagehov")).hide();
+	}*/
+});
 /* 
 * Account Page
 */
