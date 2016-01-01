@@ -704,7 +704,7 @@ ADMIN SECTION START FROM HERE
 				
 				if ($this->Doctor->save(array('Doctor'=>$this->request->data['Doctor']))) {
 					//now create the schedule for this doct 
-					//$this->createDoctoreSchedule($patient_id);
+					$this->admin_createDoctoreSchedule($patient_id);
 					$this->Session->setFlash(__('The doctor has been saved.'));
 					return $this->redirect(array('action' => 'index'));
 				} else {
@@ -719,25 +719,53 @@ ADMIN SECTION START FROM HERE
 	}
 	
 /**
- * createDoctoreSchedule method
+ * admin_createDoctoreSchedule method
  */
-	public function createDoctoreSchedule($patient_id=0){
+	public function admin_createDoctoreSchedule($patient_id=0){
 		if($patient_id>0){
 			$this->loadMOdel("ScheduleDoctor");
+			$this->loadModel('DoctorHoliday');
 			$curdate = date("Y-m-d");
-		
-			$tilldate = date("Y-m-d",strtotime("+3 month"));
-		
-			$conditions = array('WorkSchedule.workday BETWEEN ? AND ?'=>array($curdate,$tilldate),'WorkSchedule.isdoctorschedulecreated'=>'0');
-			$updatearray = array('WorkSchedule.isdoctorschedulecreated'=>'1','WorkSchedule.doctschedulecreatedate'=>'"'.date("Y-m-d H:i:s").'"');
+			$conditions = array('WorkSchedule.workday >'=>$curdate,'WorkSchedule.isdoctorschedulecreated'=>'1');
 			
 			$this->ScheduleDoctor->WorkSchedule->unbindModel(array(
 				'hasMany'=>array('ScheduleDoctor')
 			));
+			
 			$workschedules = $this->ScheduleDoctor->WorkSchedule->find('all',array('recursive'=>'0','conditions'=>$conditions));
 			//pr($workschedules);
 			//die();
+			//get all available doctors
 			
+			$this->DoctorHoliday->unbindModel(array(
+				'belongsTo'=>array('Doct')
+			));
+			
+			if(is_array($workschedules) && count($workschedules)>0){
+				foreach($workschedules as $workschedule){
+					//echo $workscheduleid;
+					//echo "\n";
+					$workscheduleid=$workschedule['WorkSchedule']['id'];
+					$workday=$workschedule['WorkSchedule']['workday'];
+					$isholiday = $workschedule['WorkSchedule']['isholiday'];
+					$this->ScheduleDoctor->create();
+					//checked if the day was holiday or not
+					$docholicon = array('DoctorHoliday.holidaydate'=>$workday,'DoctorHoliday.doct_id'=>$patient_id);
+					$doctholiday = $this->DoctorHoliday->find('first',array('conditions'=>$docholicon));
+					$isonholiday=0;
+					if(is_array($doctholiday) && count($doctholiday)>0){
+						$isonholiday=1;
+					}
+					//now save the doct in the doct schedule table
+					$svdata = array("ScheduleDoctor"=>array(
+						"work_schedule_id"=>$workscheduleid,
+						"doct_id"=>$patient_id,
+						"isonholiday"=>$isonholiday,
+						"assignment"=>'0'
+					));
+					$this->ScheduleDoctor->save($svdata);
+				}
+			}
 		}
 	}
 	

@@ -77,3 +77,14 @@ $(document).on('click','.js-holidaychange',function(e){
 $(document).on('change','.js_daychange',function(e){
 	window.location =baseUrl+"/ScheduleDoctors/index/"+$(e.currentTarget).val();
 });
+
+//doctor case filter doctor wise
+$(document).on('change','.js_doctchange',function(e){
+	var ids = $(e.currentTarget).val();
+	if(ids>0){
+		window.location =baseUrl+"/DoctorCases/index/"+ids;
+	}
+	else{
+		window.location =baseUrl+"/DoctorCases";
+	}
+});

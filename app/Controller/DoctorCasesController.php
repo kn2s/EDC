@@ -114,7 +114,7 @@ class DoctorCasesController extends AppController {
  *
  * @return void
  */
-	public function admin_index() {
+	public function admin_index($doctid=0) {
 		$this->layout="admin";
 		$this->DoctorCase->recursive = 2;
 		$this->DoctorCase->Patient->unbindModel(array("hasMany"=>array("PatientDetail")));
@@ -130,8 +130,20 @@ class DoctorCasesController extends AppController {
 				)
 			)
 		));
+		
 		$cond = array("DoctorCase.ispaymentdone"=>'1');
+		if($doctid>0){
+			$cond["DoctorCase.doctor_id"]=$doctid;
+		}
+		
 		$this->set('doctorCases', $this->Paginator->paginate($cond));
+		//get all active doctore
+		$pcond = array("Doctor.ispatient"=>'0','Doctor.isdeleted'=>'0','Doctor.isactive'=>'1');
+		$dfltdoct = array("0"=>"choose Doctor");
+		$doctors = $this->DoctorCase->Doctor->find('list',array('conditions'=>$pcond));
+		$doctors = array_merge($dfltdoct,$doctors);
+		$this->set('doctors',$doctors);
+		$this->set('doctid',$doctid);
 	}
 
 /**

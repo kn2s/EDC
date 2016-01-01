@@ -158,6 +158,7 @@ class CommonHolidaysController extends AppController {
 				else{
 					$this->CommonHoliday->create();
 					if ($this->CommonHoliday->save($this->request->data)) {
+						$this->workscheduleholidayupdate($valdate,1);
 						$this->Session->setFlash(__('The common holiday has been saved.'));
 						return $this->redirect(array('action' => 'add'));
 					} else {
@@ -168,6 +169,18 @@ class CommonHolidaysController extends AppController {
 			else{
 				$this->Session->setFlash(__('The common holiday date not set.'));
 			}
+		}
+	}
+	
+/**
+ * workscheduleholidayupdate method
+ */
+	public function workscheduleholidayupdate($valdate='',$isholiday=0){
+		if($valdate!=''){
+			$this->loadModel("WorkSchedule");
+			$upfld = array('WorkSchedule.isholiday'=>$isholiday);
+			$upcond = array('WorkSchedule.workday'=>$valdate);
+			$this->WorkSchedule->updateAll($upfld,$upcond);
 		}
 	}
 
@@ -197,7 +210,15 @@ class CommonHolidaysController extends AppController {
 					$this->Session->setFlash(__('The common holiday date already set to another holiday.'));
 				}
 				else{
+					//get old holiday date
+					$prevholiday = $this->CommonHoliday->find('first',array('conditions'=>array('CommonHoliday.id'=>$id)));
+					if(is_array($prevholiday) && count($prevholiday)>0){
+						//remove old date holiday section from workschedule
+						$olddate = $prevholiday['CommonHoliday']['holidaydate'];
+						$this->workscheduleholidayupdate($olddate,0);
+					}
 					if ($this->CommonHoliday->save($this->request->data)) {
+						$this->workscheduleholidayupdate($valdate,1);
 						$this->Session->setFlash(__('The common holiday has been saved.'));
 						return $this->redirect(array('action' => 'index'));
 					} else {
@@ -229,6 +250,14 @@ class CommonHolidaysController extends AppController {
 		}
 		$this->request->allowMethod('post', 'delete');
 		//after delete this update delete 
+		//get old holiday date
+		$prevholiday = $this->CommonHoliday->find('first',array('conditions'=>array('CommonHoliday.id'=>$id)));
+		if(is_array($prevholiday) && count($prevholiday)>0){
+			//remove old date holiday section from workschedule
+			$olddate = $prevholiday['CommonHoliday']['holidaydate'];
+			$this->workscheduleholidayupdate($olddate,0);
+		}
+		
 		if ($this->CommonHoliday->delete()) {
 			$this->Session->setFlash(__('The common holiday has been deleted.'));
 		} else {

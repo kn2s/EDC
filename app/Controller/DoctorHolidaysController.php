@@ -168,10 +168,10 @@ class DoctorHolidaysController extends AppController {
 					//update the doctore holiday table
 					$cond = array('ScheduleDoctor.doct_id'=>$doct_id,'WorkSchedule.workday'=>$curday);
 					$doctoreholiday = $this->ScheduleDoctor->find('first',array('conditions'=>$cond));
-					pr($doctoreholiday);
+					//pr($doctoreholiday);
 					if(is_array($doctoreholiday) && count($doctoreholiday)>0){
 						$upval = array('ScheduleDoctor.isonholiday'=>'1');//assignment
-						$upcond = array('ScheduleDoctor.id'=>$doctoreholiday['ScheduleDoctor']['id'])
+						$upcond = array('ScheduleDoctor.id'=>$doctoreholiday['ScheduleDoctor']['id']);
 						$this->ScheduleDoctor->updateAll($upval,$upcond);
 					}
 					$curday = date("Y-m-d",strtotime("+1day",strtotime($curday)));

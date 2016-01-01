@@ -77,6 +77,11 @@
 	<div class="col-lg-12">
 		<h1 class="page-header">Doctor Cases</h1>
 	</div>
+	<div style="width:200px;">
+	<?php 
+		echo $this->Form->input("doctorchoose",array("options"=>$doctors,"value"=>$doctid,"class"=>"form-control js_doctchange","lable"=>"Doctor Choose","div"=>"form-group"));
+	?>
+	</div>
 </div>
 <div class="row">			
 	<div class="col-lg-12">
@@ -91,7 +96,7 @@
 								<th><?php echo $this->Paginator->sort('id'); ?></th>
 								<th><?php echo $this->Paginator->sort('patient_id'); ?></th>
 								<th><?php echo $this->Paginator->sort('doctor_id'); ?></th>
-								<!--<th><?php echo $this->Paginator->sort('casecode'); ?></th>-->
+								
 								<th><?php echo $this->Paginator->sort('opinion_due_date'); ?></th>
 								<th><?php echo $this->Paginator->sort('available_date'); ?></th>
 								<th><?php echo $this->Paginator->sort('consultant_fee'); ?></th>
@@ -99,6 +104,7 @@
 								<th><?php echo $this->Paginator->sort('diagonisis'); ?></th>
 								<th><?php echo $this->Paginator->sort('ispaymentdone'); ?></th>
 								<th><?php echo $this->Paginator->sort('createdate'); ?></th>
+								<th><?php echo $this->Paginator->sort('isclosed'); ?></th>
 								<th class="actions"><?php echo __('Actions'); ?></th>
 							</tr>
 						</thead>
@@ -127,6 +133,7 @@
 								<td><?php echo h($doctorCase['DoctorCase']['diagonisis']); ?>&nbsp;</td>
 								<td><?php echo h($doctorCase['DoctorCase']['ispaymentdone']); ?>&nbsp;</td>
 								<td><?php echo h($doctorCase['DoctorCase']['createdate']); ?>&nbsp;</td>
+								<td><?php echo (h($doctorCase['DoctorCase']['isclosed']))?"Yes":"No"; ?>&nbsp;</td>
 								<td class="actions">
 									<?php echo $this->Html->link(__('Details'), array('action' => 'view', $doctorCase['DoctorCase']['id']),array("class"=>"btn btn-default")); ?>
 									<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $doctorCase['DoctorCase']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $doctorCase['DoctorCase']['id']),"class"=>"btn btn-default")); ?>
@@ -138,7 +145,7 @@
 						else{
 					?>
 							<tr class="odd gradeX">
-								<td colspan='5'>No schedule created </td>
+								<td colspan='12'>No case found for the doctors</td>
 							</tr>
 					<?php
 						}
