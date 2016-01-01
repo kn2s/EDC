@@ -53,12 +53,34 @@
 	$family_cancer_details = array('relation_with'=>array(''),'cancer_type'=>array(''),'age_of_diagonisis'=>array(''));
 	$comments=''; 
 	if(isset($PatientPastHistories['PatientPastHistory']) && is_array($PatientPastHistories['PatientPastHistory']) && count($PatientPastHistories['PatientPastHistory'])>0){
-		$cancer_details = unserialize($PatientPastHistories['PatientPastHistory']['cancer_history']);
-		$surgical_details = unserialize($PatientPastHistories['PatientPastHistory']['surgical_history']);
-		$hospitalization_details = unserialize($PatientPastHistories['PatientPastHistory']['hospitalization']);
-		$family_cancer_details = unserialize($PatientPastHistories['PatientPastHistory']['family_cancer_history']);
+		if($PatientPastHistories['PatientPastHistory']['cancer_history']!=''){
+			$cancer_details = unserialize($PatientPastHistories['PatientPastHistory']['cancer_history']);
+			if(!is_array($cancer_details)){
+				$cancer_details = array('diagnosis_name'=>array(''),'diagnosis_month'=>array(''),'diagnosis_year'=>array(''));
+			}
+		}
+		if($PatientPastHistories['PatientPastHistory']['surgical_history']!=''){
+			$surgical_details = unserialize($PatientPastHistories['PatientPastHistory']['surgical_history']);
+			if(!is_array($surgical_details)){
+				$surgical_details = array('surgery_name'=>array(''),'surgery_month'=>array(''),'surgery_year'=>array(''));
+			}
+		}
+		if($PatientPastHistories['PatientPastHistory']['hospitalization']!=''){
+			$hospitalization_details = unserialize($PatientPastHistories['PatientPastHistory']['hospitalization']);
+			if(!is_array($hospitalization_details)){
+				$hospitalization_details = array('hospitaliz_resone'=>array(''),'hospitaliz_month'=>array(''),'hospitaliz_year'=>array(''),'hospitaliz_days'=>array(''));
+			}
+		}
+		if($PatientPastHistories['PatientPastHistory']['family_cancer_history']!=''){
+			$family_cancer_details = unserialize($PatientPastHistories['PatientPastHistory']['family_cancer_history']);
+			if(!is_array($family_cancer_details)){
+				$family_cancer_details = array('relation_with'=>array(''),'cancer_type'=>array(''),'age_of_diagonisis'=>array(''));
+			}
+		}
+		
 		$comments = $PatientPastHistories['PatientPastHistory']['comments'];
 	}
+	
 	/*pr($cancer_details);
 	pr($surgical_details);
 	pr($hospitalization_details);

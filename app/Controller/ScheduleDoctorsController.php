@@ -178,10 +178,12 @@ class ScheduleDoctorsController extends AppController {
 		$condi = array('WorkSchedule.isdoctorschedulecreated'=>'1',
 		'WorkSchedule.workday BETWEEN ? and ?'=>array($strday,$tillday));
 		$workSchedules = $this->ScheduleDoctor->WorkSchedule->find('list',array('conditions'=>$condi));
+		
 		//pr($workSchedules);
 		/*$sdcon = array('ScheduleDoctor.work_schedule_id'=>array_keys($workSchedules));
 		$scheduledoctors = $this->ScheduleDoctor->find("all",array("recursive"=>'1',"conditions"=>$sdcon));
 		pr($scheduledoctors);*/
+		
 		$this->Patient->unbindModel(array("hasMany"=>array('PatientDetail')));
 		$this->Patient->bindModel(array(
 			'hasMany'=>array(
@@ -196,10 +198,10 @@ class ScheduleDoctorsController extends AppController {
 		));
 		$doccond = array("Patient.ispatient"=>'0','Patient.isdeleted'=>'0','Patient.isactive'=>'1');
 		$doctoreSceduls = $this->Patient->find("all",array("recursive"=>'1',"conditions"=>$doccond,"fields"=>array("Patient.id","Patient.name")));
-		//pr($doctoreSceduls);
+		
 		$this->set("doctoreSceduls",$doctoreSceduls);
 		$this->set("workSchedules",$workSchedules);
-		//die();
+		
 	}
 
 /**
@@ -224,17 +226,6 @@ class ScheduleDoctorsController extends AppController {
  * @return void
  */
 	public function admin_add() {
-		/*if ($this->request->is('post')) {
-			$this->ScheduleDoctor->create();
-			if ($this->ScheduleDoctor->save($this->request->data)) {
-				$this->Session->setFlash(__('The schedule doctor has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The schedule doctor could not be saved. Please, try again.'));
-			}
-		}
-		$workSchedules = $this->ScheduleDoctor->WorkSchedule->find('list');
-		$this->set(compact('workSchedules'));*/
 		
 		$this->validateadminsession();
 		//load patient model 

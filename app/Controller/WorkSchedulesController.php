@@ -147,15 +147,7 @@ class WorkSchedulesController extends AppController {
  * @return void
  */
 	public function admin_add() {
-		/*if ($this->request->is('post')) {
-			$this->WorkSchedule->create();
-			if ($this->WorkSchedule->save($this->request->data)) {
-				$this->Session->setFlash(__('The work schedule has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The work schedule could not be saved. Please, try again.'));
-			}
-		}*/
+		
 		$this->validateadminsession();
 		//unbind models
 		$this->WorkSchedule->unbindModel(array(
@@ -163,27 +155,23 @@ class WorkSchedulesController extends AppController {
 		));
 		//find the lat entry of the schedule
 		$year=date("Y");
-		$conditions = array('YEAR(WorkSchedule.workday)'=>$year);
-		$lastrecord = $this->WorkSchedule->find('first',array('recursive'=>'0','conditions'=>$conditions,'order'=>array('WorkSchedule.id'=>'DESC')));
-		//pr($lastrecord);
-		$workday=date("Y-m-d");
-		//$workenddate=date("Y-m-d",strtotime("+1 day"));
-		$workenddate = ($year+1)."-01-01";
+		//$conditions = array('YEAR(WorkSchedule.workday)'=>$year); 'conditions'=>$conditions,
+		$lastrecord = $this->WorkSchedule->find('first',array('recursive'=>'0','order'=>array('WorkSchedule.id'=>'DESC')));
 		
-		/*$datediff =  date_diff(date_create($workenddate),date_create($workday));
-		pr($datediff);*/
+		$workday=date("Y-m-d");
+		//$workenddate = ($year+1)."-01-01";
 		
 		//get all commone holiday day
 		$this->loadModel('CommonHoliday');
 		$consholiday = array("YEAR(CommonHoliday.holidaydate)"=>$year,'CommonHoliday.isdeleted'=>'0');
 		$commoneHolidays = $this->CommonHoliday->find('all',array('recursive'=>'1','conditions'=>$consholiday));
-		pr($commoneHolidays);
+		//pr($commoneHolidays);
 		$allholidays = array();
 		foreach($commoneHolidays as $holiday){
 				array_push($allholidays,$holiday['CommonHoliday']['holidaydate']);
 		}
 		//pr($allholidays);
-		$monthdays=array(1=>31,2=>28,3=>31,4=>30,5=>31,6=>30,7=>31,8=>31,9=>30,10=>31,11=>30,12=>31);
+		//$monthdays=array(1=>31,2=>28,3=>31,4=>30,5=>31,6=>30,7=>31,8=>31,9=>30,10=>31,11=>30,12=>31);
 		if(is_array($lastrecord) && count($lastrecord)>0){
 			//die();
 			$workday = ($lastrecord['WorkSchedule']['workday']!='')?date("Y-m-d",strtotime("+1 day",strtotime($lastrecord['WorkSchedule']['workday']))):$workday;
@@ -213,7 +201,11 @@ class WorkSchedulesController extends AppController {
 				}
 			}*/
 		}
-		// new section 
+		// new section
+		
+		//last day afret 0ne year 
+		$workenddate = date("Y-m-d",strtotime("+1 year",strtotime($workday)));
+		
 		while(strtotime($workday)<strtotime($workenddate)){
 			$isholiday=0;
 			if(in_array($workday,$allholidays)){
@@ -230,7 +222,9 @@ class WorkSchedulesController extends AppController {
 			$workday=date("Y-m-d",strtotime("+1 day",strtotime($workday)));
 		}
 		//$this->redirect(array("controllers"=>"WorkSchedules","action"=>"index"));
-		return $this->redirect(array('action' => 'index'));
+		//return $this->redirect(array('action' => 'index'));
+		$this->Session->setFlash(__('You created Day Schedule for next 1 year.'));
+		return $this->redirect(array('action' => 'schedule'));
 	}
 
 /**
@@ -326,5 +320,61 @@ class WorkSchedulesController extends AppController {
 			}
 		}
 		die(json_encode(array("status"=>$status,"message"=>$message)));
+	}
+	
+/**
+ * admin_schedule method
+ **/
+	public function admin_schedule(){
+		
+		$this->validateadminsession();
+		$isenabledayschedule='0';
+		$isenabledoctschedule='0';
+		$timefram="Upto ".date("Y-m-d",strtotime("+3 month"));
+		//day schedule sections
+		$year=date("Y");
+		$month=date("m");
+		$daytimeperiod=$year."-01-01 To ".$year."-12-31";
+		
+		//day schedule
+		//$conditions = array('YEAR(WorkSchedule.workday)'=>$year);
+		
+		$lastrecord = $this->WorkSchedule->find('first',array('recursive'=>'0','order'=>array('WorkSchedule.id'=>'DESC')));
+		if(is_array($lastrecord) && count($lastrecord)>0){
+			$lastday = ($lastrecord['WorkSchedule']['workday']!='')?$lastrecord['WorkSchedule']['workday']:date("Y-m-d");
+			$strdate=date("Y-m-d",strtotime("-1 year",strtotime($lastday)));
+			$daytimeperiod = $strdate." To ".$lastday;
+			//is enable or not to create the scheule
+			$lastmonth = date("Ym",strtotime($lastday));
+			$yearmonth = $year.$month;
+			if($lastmonth==$yearmonth){
+				$isenabledayschedule='1';
+			}
+		}
+		else{
+			$isenabledayschedule='1';
+		}
+		//doctore schedule
+		$doctcon = array('WorkSchedule.isdoctorschedulecreated'=>'1');
+		$lastrecorddoct = $this->WorkSchedule->find('first',array('recursive'=>'0','conditions'=>$doctcon,'order'=>array('WorkSchedule.id'=>'DESC')));
+		if(is_array($lastrecorddoct) && count($lastrecorddoct)>0){
+			$lastday = ($lastrecorddoct['WorkSchedule']['workday']!='')?$lastrecorddoct['WorkSchedule']['workday']:date("Y-m-d");
+			$strdate=date("Y-m-d",strtotime("-3 month",strtotime($lastday)));
+			$timefram = $strdate." To ".$lastday;
+			//is enable or not to create the scheule
+			$lastmonth = date("Ym",strtotime($lastday));
+			$yearmonth = $year.$month;
+			if($lastmonth==$yearmonth){
+				$isenabledoctschedule='1';
+			}
+		}
+		else{
+			$isenabledoctschedule='1';
+		}
+		$this->set("isenabledayschedule",$isenabledayschedule);
+		$this->set("isenabledoctschedule",$isenabledoctschedule);
+		$this->set("daytimeperiod",$daytimeperiod);
+		$this->set("timefram",$timefram);
+		
 	}
 }

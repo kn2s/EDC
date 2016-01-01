@@ -497,6 +497,14 @@ function questianariesformload(){
 		}
 	});
 }
+
+//scroll goto top 
+function scrollgototop(){
+	$('html, body').animate({
+			scrollTop:0
+		}, 0,function(){
+		});
+}
 var totalReqFields=0;
 var totalEntered=0;
 //questionaries form field fillup sections
@@ -619,6 +627,8 @@ $(document).on('click','.js-pdfrmsmt',function(e){
 	}
 	
 	if(frmvalidate){
+		scrollgototop();
+		
 		$.ajax({
 			url:baseurl+"/PatientDetails/add",
 			method:'post',
@@ -793,6 +803,7 @@ $(document).on('click','.js-sasaved',function(e){
 	if(!isAllFieldsField){
 		return false;
 	}
+	scrollgototop();
 	
 	$.ajax({
 		url:baseurl+"/Socialactivities/add",
@@ -831,6 +842,8 @@ $(document).on('click','.js-illsaved',function(e){
 	if(!isAllFieldsField){
 		return false;
 	}
+	
+	scrollgototop();
 	
 	$.ajax({
 		url:baseurl+"/AboutIllnesses/add",
@@ -871,6 +884,8 @@ $(document).on('click','.js-psthissaved',function(e){
 		return false;
 	}
 	
+	scrollgototop();
+	
 	$.ajax({
 		url:baseurl+"/PatientPastHistories/add",
 		method:'post',
@@ -910,6 +925,8 @@ $(document).on('click','.js-docupssaved',function(e){
 	if(!isAllFieldsField){
 		return false;
 	}
+	
+	scrollgototop();
 	
 	$.ajax({
 		url:baseurl+"/PatientDocuments/add",

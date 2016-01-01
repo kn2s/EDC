@@ -133,9 +133,9 @@ $controllername = ucwords($this->params->params['controller']);
                         </li>
 						
 						<li>
-                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i> Yearlly Schedules<span class="fa arrow"></span></a>
+                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Scheduler<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
+                                <!--<li>
 									<?php echo $this->Html->link('Day Schedules',array('controller'=>'WorkSchedules','action'=>'index','full_base'=>true),array('escape'=>false));?>
                                 </li>
                                 <li>
@@ -145,11 +145,14 @@ $controllername = ucwords($this->params->params['controller']);
 								<li>
 									<?php echo $this->Html->link('Doctor Schedules',array('controller'=>'ScheduleDoctors','action'=>'index','full_base'=>true),array('escape'=>false));?>
                                 </li>
-								<li>
-									<?php echo $this->Html->link('Doctor Assingments',array('controller'=>'ScheduleDoctors','action'=>'schedule','full_base'=>true),array('escape'=>false));?>
-                                </li>
                                 <li>
                                     <?php echo $this->Html->link('Create Doctor Schedules',array('controller'=>'ScheduleDoctors','action'=>'add','full_base'=>true),array('escape'=>false));?>
+                                </li>-->
+								<li>
+									<?php echo $this->Html->link('Create Scheduler',array('controller'=>'WorkSchedules','action'=>'schedule','full_base'=>true),array('escape'=>false));?>
+                                </li>
+								<li>
+									<?php echo $this->Html->link('View Appointements',array('controller'=>'ScheduleDoctors','action'=>'schedule','full_base'=>true),array('escape'=>false));?>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
