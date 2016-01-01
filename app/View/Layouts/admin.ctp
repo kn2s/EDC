@@ -145,6 +145,9 @@ $controllername = ucwords($this->params->params['controller']);
 								<li>
 									<?php echo $this->Html->link('Doctor Schedules',array('controller'=>'ScheduleDoctors','action'=>'index','full_base'=>true),array('escape'=>false));?>
                                 </li>
+								<li>
+									<?php echo $this->Html->link('Doctor Assingments',array('controller'=>'ScheduleDoctors','action'=>'schedule','full_base'=>true),array('escape'=>false));?>
+                                </li>
                                 <li>
                                     <?php echo $this->Html->link('Create Doctor Schedules',array('controller'=>'ScheduleDoctors','action'=>'add','full_base'=>true),array('escape'=>false));?>
                                 </li>

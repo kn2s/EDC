@@ -164,6 +164,43 @@ class ScheduleDoctorsController extends AppController {
 		$this->set("workSchedules",$workSchedules);
 		$this->set("workday",$workdayid);
 	}
+	
+	public function admin_schedule(){
+		$this->validateadminsession();
+		$this->loadModel('Patient');
+		$this->ScheduleDoctor->recursive = 0;
+		$tday=date("Y-m-d");
+		
+		//$tday = date("Y-m-d");
+		$strday =date("Y-m-d");
+		$tillday =date("Y-m-d",strtotime("+1 month"));
+		$this->ScheduleDoctor->WorkSchedule->displayField="workday";
+		$condi = array('WorkSchedule.isdoctorschedulecreated'=>'1',
+		'WorkSchedule.workday BETWEEN ? and ?'=>array($strday,$tillday));
+		$workSchedules = $this->ScheduleDoctor->WorkSchedule->find('list',array('conditions'=>$condi));
+		//pr($workSchedules);
+		/*$sdcon = array('ScheduleDoctor.work_schedule_id'=>array_keys($workSchedules));
+		$scheduledoctors = $this->ScheduleDoctor->find("all",array("recursive"=>'1',"conditions"=>$sdcon));
+		pr($scheduledoctors);*/
+		$this->Patient->unbindModel(array("hasMany"=>array('PatientDetail')));
+		$this->Patient->bindModel(array(
+			'hasMany'=>array(
+				'ScheduleDoctor'=>array(
+					'className' => 'ScheduleDoctor',
+					'foreignKey' => 'doct_id',
+					'conditions' =>array('ScheduleDoctor.work_schedule_id'=>array_keys($workSchedules)) ,
+					'fields' => '',
+					'order' => ''
+				)
+			)
+		));
+		$doccond = array("Patient.ispatient"=>'0','Patient.isdeleted'=>'0','Patient.isactive'=>'1');
+		$doctoreSceduls = $this->Patient->find("all",array("recursive"=>'1',"conditions"=>$doccond,"fields"=>array("Patient.id","Patient.name")));
+		//pr($doctoreSceduls);
+		$this->set("doctoreSceduls",$doctoreSceduls);
+		$this->set("workSchedules",$workSchedules);
+		//die();
+	}
 
 /**
  * admin_view method
