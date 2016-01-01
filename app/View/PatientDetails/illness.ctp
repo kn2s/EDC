@@ -4,12 +4,45 @@
 		<li><?php echo $this->Html->link('Social History',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
 		<li><?php echo $this->Html->link('About The Illness',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'current'));?>-->
 	   
+	   <?php
+			$clsss = "js-preview done";
+			$pasthis='';
+			$updocts='';
+			$review='';
+			
+			switch($lastquestionformno){
+				case 0:
+					break;
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					$pasthis=$clsss;
+					break;
+				case 4:
+					$pasthis=$updocts=$clsss;
+					break;
+				case 5:
+					$pasthis=$updocts=$review=$clsss;
+					break;
+				default:
+					
+					break;
+			}
+		?>
+		
+	   
 		<li><a href="javascript:void(0)" class="js-preview done" sec="1">Patient Details</a></li>
 		<li><a href="javascript:void(0)" class="js-preview done" sec="2">Social History</a></li>
 		<li><a href="javascript:void(0)" class="current" sec="3">About The Illness</a></li>
-		<li><a href="javascript:void(0)">Past History</a></li>
+		<li><a href="javascript:void(0)" class="<?=$pasthis?>" sec="4">Past History</a></li>
+		<li><a href="javascript:void(0)" class="<?=$updocts?>" sec="5">Upload Documents</a></li>
+		<li><a href="javascript:void(0)" class="<?=$review?>" sec="6">Review</a></li>
+		
+		<!--<li><a href="javascript:void(0)">Past History</a></li>
 		<li><a href="javascript:void(0)">Upload Documents</a></li>
-		<li><a href="javascript:void(0)">Review</a></li>
+		<li><a href="javascript:void(0)">Review</a></li>-->
 	</ul>
 </div>
 

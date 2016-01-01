@@ -105,7 +105,16 @@ $patientallhistory = array('PatientDetail'=>'Patient Details',
 		<div style="margin-top:288px;margin-left:20px;">
 			<a href="javascript:void(0)">Opinion</a>
 			<?php echo $this->Html->link('Message',array('controller'=>'Patients','action'=>'communication','full_base'=>false),array('escape'=>false));?>
+			<?php 
+				if($totalcompletedper==5){
+					echo $this->Html->link('Questionary',array('controller'=>'Patients','action'=>'questionary','full_base'=>false),array('escape'=>false));
+				}
+				else{
+			?>
 			<a href="javascript:void(0)">Questionary</a>
+			<?php
+				}
+			?>
 		</div>
     </div>
     <div class="rightHIW">

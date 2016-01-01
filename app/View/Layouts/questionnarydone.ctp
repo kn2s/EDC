@@ -39,6 +39,8 @@ $cakeVersion = __d('cake_dev', '');
     </div>
   </div>
   <div class="payment">
+	<?php echo $this->Session->flash(); ?>
+	
   	<?php echo $this->fetch('content'); ?>
   </div>
 </div>

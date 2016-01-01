@@ -53,6 +53,9 @@
 				$images = FULL_BASE_URL.$this->base."/images/".$images;
 			}
 		}
+		else{
+			$images = FULL_BASE_URL.$this->base."/images/".$images;
+		}
 	}
 ?>
 

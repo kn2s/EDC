@@ -339,6 +339,9 @@ class PatientsController extends AppController {
 		if(!$this->userislogin()){
 			$this->redirect(array('action'=>'account'));
 		}
+		if($this->Session->check("quesformno")){
+			$this->Session->delete("quesformno");
+		}
 		$this->Patient->unbindModel(array("hasMany"=>array("PatientDetail")));
 		//get user details
 		$poption = array('Patient.id'=>$this->Session->read('loggedpatientid'));
@@ -348,6 +351,16 @@ class PatientsController extends AppController {
 		//die();
 	}
 	
+/**
+ * questionary method
+ */
+	public function questionary(){
+		if(!$this->userislogin()){
+			$this->redirect(array('action'=>'account'));
+		}
+		$this->Session->write("quesformno",'5');
+		return $this->redirect(array('controller'=>'PatientDetails','action'=>'index'));
+	}
 /**
  * communication method
  */
@@ -423,8 +436,12 @@ class PatientsController extends AppController {
 		));
 		$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0');
 		$doctcaseDetail  = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC'),'limit'=>'1'));
+		if(count($doctcaseDetail)==0){
+			return $this->redirect(array('action'=>'dashboard'));
+		}
 		$this->set('doctcaseDetail',$doctcaseDetail);
 		$this->set('doctcaseid',$caseid);
+		
 	}
 /**
  * logout method

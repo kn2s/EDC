@@ -114,6 +114,7 @@ class DoctorHolidaysController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->validateadminsession();
 		$this->DoctorHoliday->recursive = 0;
 		$this->set('doctorHolidays', $this->Paginator->paginate());
 	}
@@ -126,6 +127,7 @@ class DoctorHolidaysController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->validateadminsession();
 		$this->layout="admin";
 		if (!$this->DoctorHoliday->Doct->exists($id)) {
 			//throw new NotFoundException(__('Invalid doctor holiday'));
@@ -144,9 +146,10 @@ class DoctorHolidaysController extends AppController {
  * @return void
  */
 	public function admin_add($id = null) {
+		$this->validateadminsession();
 		$this->layout="admin";
 		if ($this->request->is('post')) {
-			
+			$this->loadModel('ScheduleDoctor');
 			//pr($this->request->data);
 			if(isset($this->request->data['DoctorHoliday']['holidaydatetill']) && $this->request->data['DoctorHoliday']['holidaydatetill']!=''){
 				$curday = $this->request->data['DoctorHoliday']['holidaydate'];
@@ -162,6 +165,15 @@ class DoctorHolidaysController extends AppController {
 					//pr($postdata);
 					$this->DoctorHoliday->create();
 					$this->DoctorHoliday->save($postdata);
+					//update the doctore holiday table
+					$cond = array('ScheduleDoctor.doct_id'=>$doct_id,'WorkSchedule.workday'=>$curday);
+					$doctoreholiday = $this->ScheduleDoctor->find('first',array('conditions'=>$cond));
+					pr($doctoreholiday);
+					if(is_array($doctoreholiday) && count($doctoreholiday)>0){
+						$upval = array('ScheduleDoctor.isonholiday'=>'1');//assignment
+						$upcond = array('ScheduleDoctor.id'=>$doctoreholiday['ScheduleDoctor']['id'])
+						$this->ScheduleDoctor->updateAll($upval,$upcond);
+					}
 					$curday = date("Y-m-d",strtotime("+1day",strtotime($curday)));
 				}
 				$this->Session->setFlash(__('The doctor holiday has been saved.'));

@@ -58,11 +58,13 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Schedules</h1>
+		<h1 class="page-header">Doctor's Schedules</h1>
 	</div>
+	<div style="width:200px;">
 	<?php 
-		echo $this->Form->input("daychoose",array("options"=>$workSchedules));
+		echo $this->Form->input("daychoose",array("options"=>$workSchedules,"value"=>$workday,"class"=>"form-control js_daychange","lable"=>"Day Choose","div"=>"form-group"));
 	?>
+	</div>
 </div>
 <div class="row">			
 	<div class="col-lg-12">
@@ -79,14 +81,16 @@
 								<th><?php echo $this->Paginator->sort('assignment','Case assign'); ?></th>-->
 								
 								<th>Doctor Id</th>
+								<th>Doctor Name</th>
 								<th>On Holiday</th>
 								<th>Case assign</th>
-								<th></th>
+								
 							</tr>
 						</thead>
 						<tbody>
 					<?php
 						if(count($scheduleDoctors)>0){
+							//pr($scheduleDoctors);
 							foreach($scheduleDoctors as $scheduleDoctor){
 						?>
 							<tr class="odd gradeX">
@@ -95,9 +99,10 @@
 								<td><?php echo h($scheduleDoctor['ScheduleDoctor']['assignment']); ?>&nbsp;</td>-->
 								
 								<td><?php echo h($scheduleDoctor['doct_id']); ?>&nbsp;</td>
+								<td><?php echo h($scheduleDoctor['Doct']['name']); ?>&nbsp;</td>
 								<td><?php echo (h($scheduleDoctor['isonholiday']))?"Yes":"No"; ?>&nbsp;</td>
 								<td><?php echo h($scheduleDoctor['assignment']); ?>&nbsp;</td>
-								<td></td>
+								
 							</tr>
 						<?php
 							}
@@ -105,7 +110,7 @@
 						else{
 					?>
 							<tr class="odd gradeX">
-								<td colspan='5'>No doctor schedule created </td>
+								<td colspan='5'>Doctor schedule not available for today. </td>
 							</tr>
 					<?php
 						}

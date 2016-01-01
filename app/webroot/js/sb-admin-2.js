@@ -42,12 +42,14 @@ $(document).on('click','.js-holidaychange',function(e){
 	var partw=$(e.currentTarget);
 	var dayid = $(e.currentTarget).attr('scdlid');
 	var curstatus = $(e.currentTarget).attr('cursts');
+	var partr = $(e.currentTarget).parents("tr");
+	var dt = $($(partr).children("td")[0]).html();
 	//now cal ajax
 	$.ajax({
 		url:baseUrl+"/WorkSchedules/makeholidayornot",
 		method:"post",
 		dataType:"json",
-		data:{dayid:dayid,curstatus:curstatus},
+		data:{dayid:dayid,curstatus:curstatus,dt:dt},
 		success:function(response){
 			console.log(response);
 			if(parseInt(response.status)==1){
@@ -70,3 +72,8 @@ $(document).on('click','.js-holidaychange',function(e){
 });
 
 //doctor hiliday sections
+
+//doctor schedule day filter
+$(document).on('change','.js_daychange',function(e){
+	window.location =baseUrl+"/ScheduleDoctors/index/"+$(e.currentTarget).val();
+});

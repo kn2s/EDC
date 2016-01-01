@@ -22,6 +22,7 @@ class AboutIllnessesController extends AppController {
  * @return void
  */
 	public function index() {
+		$this->userloginsessionchecked();
 		$this->AboutIllness->recursive = 0;
 		$this->set('aboutIllnesses', $this->Paginator->paginate());
 	}
@@ -34,6 +35,7 @@ class AboutIllnessesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$this->userloginsessionchecked();
 		if (!$this->AboutIllness->exists($id)) {
 			throw new NotFoundException(__('Invalid about illness'));
 		}
@@ -90,6 +92,12 @@ class AboutIllnessesController extends AppController {
 					$this->AboutIllness->Patient->saveField('detailsformsubmit','2');*/
 					
 					//update the completions status
+					if($this->Session->read('lastquestionformno')>2){
+						$uparray = array('Patient.detailsubmitpercent'=>$this->request->data['AboutIllness']['completed_per']);
+					}
+					else{
+						$uparray = array('Patient.detailsformsubmit'=>'2','Patient.detailsubmitpercent'=>$this->request->data['AboutIllness']['completed_per']);
+					}
 					$uparray = array('Patient.detailsformsubmit'=>'2','Patient.detailsubmitpercent'=>$this->request->data['AboutIllness']['completed_per']);
 					$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
 					$this->AboutIllness->Patient->updateAll($uparray,$upcond);

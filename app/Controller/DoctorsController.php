@@ -659,6 +659,7 @@ ADMIN SECTION START FROM HERE
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->validateadminsession();
 		if (!$this->Doctor->exists($id)) {
 			throw new NotFoundException(__('Invalid doctor'));
 		}
@@ -702,6 +703,8 @@ ADMIN SECTION START FROM HERE
 				}
 				
 				if ($this->Doctor->save(array('Doctor'=>$this->request->data['Doctor']))) {
+					//now create the schedule for this doct 
+					//$this->createDoctoreSchedule($patient_id);
 					$this->Session->setFlash(__('The doctor has been saved.'));
 					return $this->redirect(array('action' => 'index'));
 				} else {
@@ -714,6 +717,30 @@ ADMIN SECTION START FROM HERE
 		$specializations = $this->Doctor->Specialization->find('list',array('conditions'=>$spccond));
 		$this->set(compact('specializations'));
 	}
+	
+/**
+ * createDoctoreSchedule method
+ */
+	public function createDoctoreSchedule($patient_id=0){
+		if($patient_id>0){
+			$this->loadMOdel("ScheduleDoctor");
+			$curdate = date("Y-m-d");
+		
+			$tilldate = date("Y-m-d",strtotime("+3 month"));
+		
+			$conditions = array('WorkSchedule.workday BETWEEN ? AND ?'=>array($curdate,$tilldate),'WorkSchedule.isdoctorschedulecreated'=>'0');
+			$updatearray = array('WorkSchedule.isdoctorschedulecreated'=>'1','WorkSchedule.doctschedulecreatedate'=>'"'.date("Y-m-d H:i:s").'"');
+			
+			$this->ScheduleDoctor->WorkSchedule->unbindModel(array(
+				'hasMany'=>array('ScheduleDoctor')
+			));
+			$workschedules = $this->ScheduleDoctor->WorkSchedule->find('all',array('recursive'=>'0','conditions'=>$conditions));
+			//pr($workschedules);
+			//die();
+			
+		}
+	}
+	
 	
 /**
  * admin_activeinactive method

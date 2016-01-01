@@ -116,6 +116,12 @@ class WorkSchedulesController extends AppController {
  */
 	public function admin_index() {
 		$this->WorkSchedule->recursive = 0;
+		$this->validateadminsession();
+		$conditions = array('YEAR(WorkSchedule.workday)'=>date("Y"));
+		$this->Paginator->settings=array(
+			'limit'=>10,
+			'conditions'=>$conditions
+		);
 		$this->set('workSchedules', $this->Paginator->paginate());
 	}
 
@@ -127,6 +133,7 @@ class WorkSchedulesController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->validateadminsession();
 		if (!$this->WorkSchedule->exists($id)) {
 			throw new NotFoundException(__('Invalid work schedule'));
 		}
@@ -149,17 +156,40 @@ class WorkSchedulesController extends AppController {
 				$this->Session->setFlash(__('The work schedule could not be saved. Please, try again.'));
 			}
 		}*/
+		$this->validateadminsession();
+		//unbind models
+		$this->WorkSchedule->unbindModel(array(
+			'hasMany'=>array('ScheduleDoctor')
+		));
 		//find the lat entry of the schedule
-		$conditions = array('YEAR(WorkSchedule.workday)'=>date("Y"));
+		$year=date("Y");
+		$conditions = array('YEAR(WorkSchedule.workday)'=>$year);
 		$lastrecord = $this->WorkSchedule->find('first',array('recursive'=>'0','conditions'=>$conditions,'order'=>array('WorkSchedule.id'=>'DESC')));
 		//pr($lastrecord);
-		$year=date("Y");
+		$workday=date("Y-m-d");
+		//$workenddate=date("Y-m-d",strtotime("+1 day"));
+		$workenddate = ($year+1)."-01-01";
+		
+		/*$datediff =  date_diff(date_create($workenddate),date_create($workday));
+		pr($datediff);*/
+		
+		//get all commone holiday day
+		$this->loadModel('CommonHoliday');
+		$consholiday = array("YEAR(CommonHoliday.holidaydate)"=>$year,'CommonHoliday.isdeleted'=>'0');
+		$commoneHolidays = $this->CommonHoliday->find('all',array('recursive'=>'1','conditions'=>$consholiday));
+		pr($commoneHolidays);
+		$allholidays = array();
+		foreach($commoneHolidays as $holiday){
+				array_push($allholidays,$holiday['CommonHoliday']['holidaydate']);
+		}
+		//pr($allholidays);
 		$monthdays=array(1=>31,2=>28,3=>31,4=>30,5=>31,6=>30,7=>31,8=>31,9=>30,10=>31,11=>30,12=>31);
 		if(is_array($lastrecord) && count($lastrecord)>0){
 			//die();
+			$workday = ($lastrecord['WorkSchedule']['workday']!='')?date("Y-m-d",strtotime("+1 day",strtotime($lastrecord['WorkSchedule']['workday']))):$workday;
 		}
 		else{
-			foreach($monthdays as $month=>$days){
+			/*foreach($monthdays as $month=>$days){
 				if($month==2){
 					//validate the year is leep year or not
 					$isleepyear = ($year%1000==0)?(($year%400==0)?true:false):(($year%4==0)?true:false);
@@ -181,7 +211,23 @@ class WorkSchedulesController extends AppController {
 					
 					}
 				}
+			}*/
+		}
+		// new section 
+		while(strtotime($workday)<strtotime($workenddate)){
+			$isholiday=0;
+			if(in_array($workday,$allholidays)){
+				$isholiday=1;
 			}
+			$instdata = array('WorkSchedule'=>array(
+				'workday'=>$workday,
+				'isholiday'=>$isholiday
+			));
+			//pr($instdata);
+			$this->WorkSchedule->create();
+			$this->WorkSchedule->save($instdata);
+			
+			$workday=date("Y-m-d",strtotime("+1 day",strtotime($workday)));
 		}
 		//$this->redirect(array("controllers"=>"WorkSchedules","action"=>"index"));
 		return $this->redirect(array('action' => 'index'));
@@ -195,6 +241,7 @@ class WorkSchedulesController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->validateadminsession();
 		if (!$this->WorkSchedule->exists($id)) {
 			throw new NotFoundException(__('Invalid work schedule'));
 		}
@@ -240,6 +287,8 @@ class WorkSchedulesController extends AppController {
 	public function admin_makeholidayornot(){
 		$status=0;
 		$message="";
+		$this->loadModel('CommonHoliday');
+		
 		if($this->request->is("post")){
 			$curpos = (isset($this->request->data['curstatus']) && $this->request->data['curstatus']==0)?1:0;
 			$dayid = (isset($this->request->data['dayid']) && $this->request->data['dayid']>0)?$this->request->data['dayid']:0;
@@ -248,6 +297,32 @@ class WorkSchedulesController extends AppController {
 			if($dayid>0){
 				$this->WorkSchedule->updateAll($uparay,$upcond);
 				$status=1;
+				// add remove from commone holiday list
+				$isalreadypresent=false;
+				$chdate = $this->request->data['dt'];
+				$commonholidays = $this->CommonHoliday->find('first',array('conditions'=>array('CommonHoliday.holidaydate'=>$chdate,'CommonHoliday.isdeleted'=>'0')));
+				if(is_array($commonholidays) && count($commonholidays)>0){
+					$isalreadypresent=true;
+				}
+				
+				if($curpos==1){
+					//add
+					if(!$isalreadypresent){
+						$datas = array(
+							'CommonHoliday'=>array(
+								'holidaydate'=>$chdate
+							)
+						);
+						$this->CommonHoliday->save($datas);
+					}
+				}
+				else{
+					//remove
+					if($isalreadypresent){
+						$delcond = array('CommonHoliday.holidaydate'=>$chdate);
+						$this->CommonHoliday->deleteAll($delcond);
+					}
+				}
 			}
 		}
 		die(json_encode(array("status"=>$status,"message"=>$message)));

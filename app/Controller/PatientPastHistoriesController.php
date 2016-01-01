@@ -22,6 +22,7 @@ class PatientPastHistoriesController extends AppController {
  * @return void
  */
 	public function index() {
+		$this->userloginsessionchecked();
 		$this->PatientPastHistory->recursive = 0;
 		$this->set('patientPastHistories', $this->Paginator->paginate());
 	}
@@ -34,6 +35,7 @@ class PatientPastHistoriesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$this->userloginsessionchecked();
 		if (!$this->PatientPastHistory->exists($id)) {
 			throw new NotFoundException(__('Invalid patient past history'));
 		}
@@ -67,7 +69,13 @@ class PatientPastHistoriesController extends AppController {
 				$this->PatientPastHistory->Patient->saveField('detailsformsubmit','3');*/
 				
 				//update the completions status
-				$uparray = array('Patient.detailsformsubmit'=>'3','Patient.detailsubmitpercent'=>$this->request->data['PatientPastHistory']['completed_per']);
+				if($this->Session->read('lastquestionformno')>3){
+					$uparray = array('Patient.detailsubmitpercent'=>$this->request->data['PatientPastHistory']['completed_per']);
+				}
+				else{
+					$uparray = array('Patient.detailsformsubmit'=>'3','Patient.detailsubmitpercent'=>$this->request->data['PatientPastHistory']['completed_per']);
+				}
+				
 				$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
 				$this->PatientPastHistory->Patient->updateAll($uparray,$upcond);
 			} else {

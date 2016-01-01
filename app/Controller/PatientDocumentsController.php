@@ -22,6 +22,7 @@ class PatientDocumentsController extends AppController {
  * @return void
  */
 	public function index() {
+		$this->userloginsessionchecked();
 		$this->PatientDocument->recursive = 0;
 		$this->set('patientDocuments', $this->Paginator->paginate());
 	}
@@ -34,6 +35,7 @@ class PatientDocumentsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$this->userloginsessionchecked();
 		if (!$this->PatientDocument->exists($id)) {
 			throw new NotFoundException(__('Invalid patient document'));
 		}
@@ -69,7 +71,12 @@ class PatientDocumentsController extends AppController {
 				$this->PatientDocument->Patient->saveField('detailsformsubmit','4');*/
 				
 				//update the completions status
-				$uparray = array('Patient.detailsformsubmit'=>'4','Patient.detailsubmitpercent'=>$this->request->data['PatientDocument']['completed_per']);
+				if($this->Session->read('lastquestionformno')>4){
+					$uparray = array('Patient.detailsubmitpercent'=>$this->request->data['PatientDocument']['completed_per']);
+				}
+				else{
+					$uparray = array('Patient.detailsformsubmit'=>'4','Patient.detailsubmitpercent'=>$this->request->data['PatientDocument']['completed_per']);
+				}
 				$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
 				$this->PatientDocument->Patient->updateAll($uparray,$upcond);
 				

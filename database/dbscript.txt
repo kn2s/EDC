@@ -55,3 +55,9 @@ ALTER TABLE `ec_doctor_cases` ADD `isclosed` INT(1) NOT NULL DEFAULT '0' AFTER `
 today(30-12-15):
 ================
 ALTER TABLE `ec_doctor_holidays` CHANGE `holidaydate` `holidaydate` DATE NOT NULL;
+
+today(31-12-15):
+================
+ALTER TABLE `ec_schedule_doctors` ADD `lastangajtime` TIME NOT NULL AFTER `assignment`;
+ALTER TABLE `ec_schedule_doctors` CHANGE `lastangajtime` `lastangajtime` BIGINT(11) NOT NULL;
+ALTER TABLE `ec_doctor_cases` ADD `schedule_doctor_id` INT(11) UNSIGNED NOT NULL AFTER `doctor_id`;

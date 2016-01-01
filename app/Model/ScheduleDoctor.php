@@ -22,6 +22,13 @@ class ScheduleDoctor extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+		/*'Doct' => array(
+			'className' => 'Patient',
+			'foreignKey' => 'doct_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)*/
 	);
 }

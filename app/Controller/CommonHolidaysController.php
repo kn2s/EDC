@@ -109,6 +109,7 @@ class CommonHolidaysController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->validateadminsession();
 		$this->layout="admin";
 		$this->CommonHoliday->recursive = 0;
 		$cond = array('YEAR(CommonHoliday.holidaydate)'=>date("Y"),'CommonHoliday.isdeleted'=>'0');
@@ -124,7 +125,7 @@ class CommonHolidaysController extends AppController {
  */
 	public function admin_view($id = null) {
 		$this->layout="admin";
-		
+		$this->validateadminsession();
 		if (!$this->CommonHoliday->Doct->exists($id)) {
 			throw new NotFoundException(__('Invalid common holiday'));
 		}
@@ -138,6 +139,7 @@ class CommonHolidaysController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->validateadminsession();
 		$this->layout="admin";
 		if ($this->request->is('post')) {
 			
@@ -177,6 +179,7 @@ class CommonHolidaysController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->validateadminsession();
 		$this->layout="admin";
 		if (!$this->CommonHoliday->exists($id)) {
 			throw new NotFoundException(__('Invalid common holiday'));
@@ -219,11 +222,13 @@ class CommonHolidaysController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->validateadminsession();
 		$this->CommonHoliday->id = $id;
 		if (!$this->CommonHoliday->exists()) {
 			throw new NotFoundException(__('Invalid common holiday'));
 		}
 		$this->request->allowMethod('post', 'delete');
+		//after delete this update delete 
 		if ($this->CommonHoliday->delete()) {
 			$this->Session->setFlash(__('The common holiday has been deleted.'));
 		} else {

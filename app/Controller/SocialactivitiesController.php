@@ -22,6 +22,7 @@ class SocialactivitiesController extends AppController {
  * @return void
  */
 	public function index() {
+		$this->userloginsessionchecked();
 		$this->Socialactivity->recursive = 0;
 		$this->set('socialactivities', $this->Paginator->paginate());
 	}
@@ -34,6 +35,7 @@ class SocialactivitiesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$this->userloginsessionchecked();
 		if (!$this->Socialactivity->exists($id)) {
 			throw new NotFoundException(__('Invalid socialactivity'));
 		}
@@ -120,7 +122,12 @@ class SocialactivitiesController extends AppController {
 				$this->Socialactivity->Patient->saveField('detailsformsubmit','1');*/
 				
 				//update the completions status
-				$uparray = array('Patient.detailsformsubmit'=>'1','Patient.detailsubmitpercent'=>$this->request->data['Socialactivity']['completed_per']);
+				if($this->Session->read('lastquestionformno')>1){
+					$uparray = array('Patient.detailsubmitpercent'=>$this->request->data['Socialactivity']['completed_per']);
+				}
+				else{
+					$uparray = array('Patient.detailsformsubmit'=>'1','Patient.detailsubmitpercent'=>$this->request->data['Socialactivity']['completed_per']);
+				}
 				$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
 				$this->Socialactivity->Patient->updateAll($uparray,$upcond);
 				

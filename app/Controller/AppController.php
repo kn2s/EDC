@@ -58,6 +58,7 @@ class AppController extends Controller {
 		$this->Session->delete('loggedpatientid');
 		$this->Session->delete('loggedpatientname');
 		$this->Session->delete('quesformno');
+		$this->Session->delete('lastquestionformno');
 	}
 	
 	public function doctuserloginsessionchecked(){
