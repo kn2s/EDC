@@ -343,9 +343,36 @@ class PatientsController extends AppController {
 			$this->Session->delete("quesformno");
 		}
 		$this->Patient->unbindModel(array("hasMany"=>array("PatientDetail")));
+		//bind model section
+		$this->Patient->bindModel(array(
+			'hasOne'=>array(
+				'PatientCase'=>array(
+					'className'=>'DoctorCase',
+					'foreignKey'=>'patient_id',
+					'conditions'=>array('PatientCase.doctor_id >'=>'0','PatientCase.isclosed'=>'0'),
+					'order'=>array('PatientCase.id'=>'DESC')
+				)
+			)
+		));
+		//unbind model lavel 2
+		$this->Patient->PatientCase->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		//lavel 3 undind and bind
+		$this->Patient->PatientCase->Doctor->unbindModel(array('hasMany'=>array('PatientDetail')));
+		$this->Patient->PatientCase->Doctor->bindModel(array(
+			"hasOne"=>array(
+				'DoctorDetail'=>array(
+					'className'=>'Doctor',
+					'foreignKey'=>'patient_id',
+					'fields'=>array('DoctorDetail.image','DoctorDetail.id')
+				)
+			)
+		));
 		//get user details
+		$fields = array('Patient.id','Patient.name','Patient.email','Patient.detailsformsubmit','Patient.detailsubmitpercent');
 		$poption = array('Patient.id'=>$this->Session->read('loggedpatientid'));
-		$patient = $this->Patient->find('first',array('recursive'=>'1','conditions'=>$poption));
+		$patient = $this->Patient->find('first',array('recursive'=>'3','conditions'=>$poption,"fields"=>$fields));
 		//pr($patient);
 		$this->set('patient', $patient);
 		//die();

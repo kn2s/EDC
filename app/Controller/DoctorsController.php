@@ -681,44 +681,91 @@ ADMIN SECTION START FROM HERE
 			$this->Doctor->create();
 			//pr($this->request->data);
 			//die();
-			//first add as patient 
-			$this->request->data['Patient']['createtime']=time();
-			$this->request->data['Patient']['password']=md5($this->request->data['Patient']['password']);
-			if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
-				$patient_id = $this->Doctor->Patient->id;
-				$this->request->data['Doctor']['patient_id']=$patient_id;
-				//image upload section
-				if($this->request->data['Doctor']['image']['size']>0){
-					$filename = time().trim(str_replace("&,#, ,*","",$this->request->data['Doctor']['image']['name']));
-					$uploaddirectory = WWW_ROOT."\doctorimage\\".$filename;
-					if(move_uploaded_file($this->request->data['Doctor']['image']['tmp_name'],$uploaddirectory)){
-							$this->request->data['Doctor']['image'] = $filename;
+			$isemailavailable=false;
+			$email = $this->request->data['Patient']['email'];
+			if(filter_var($email,FILTER_VALIDATE_EMAIL)){
+				$isemailavailable = $this->useremailavailable($email);
+				if(!$isemailavailable){
+					$this->Session->setFlash(__('The Email You provide is already present.'));
+				}
+			}
+			else{
+				$isemailavailable=false;
+				$this->Session->setFlash(__('Invalid email format.'));
+			}
+			if($isemailavailable){
+				//first add as patient 
+				$this->request->data['Patient']['createtime']=time();
+				$this->request->data['Patient']['password']=md5($this->request->data['Patient']['password']);
+				if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
+					$patient_id = $this->Doctor->Patient->id;
+					$this->request->data['Doctor']['patient_id']=$patient_id;
+					//image upload section
+					if($this->request->data['Doctor']['image']['size']>0){
+						$filename = time().trim(str_replace("&,#, ,*","",$this->request->data['Doctor']['image']['name']));
+						$uploaddirectory = WWW_ROOT."\doctorimage\\".$filename;
+						if(move_uploaded_file($this->request->data['Doctor']['image']['tmp_name'],$uploaddirectory)){
+								$this->request->data['Doctor']['image'] = $filename;
+						}
+						else{
+							$this->request->data['Doctor']['image'] = "";
+						}
 					}
 					else{
 						$this->request->data['Doctor']['image'] = "";
 					}
+					
+					if ($this->Doctor->save(array('Doctor'=>$this->request->data['Doctor']))) {
+						//now create the schedule for this doct 
+						$this->admin_createDoctoreSchedule($patient_id);
+						$this->Session->setFlash(__('The doctor has been saved.'));
+						return $this->redirect(array('action' => 'index'));
+					} else {
+						$this->Session->setFlash(__('The doctor could not be saved. Please, try again.'));
+					}
 				}
 				else{
-					$this->request->data['Doctor']['image'] = "";
-				}
-				
-				if ($this->Doctor->save(array('Doctor'=>$this->request->data['Doctor']))) {
-					//now create the schedule for this doct 
-					$this->admin_createDoctoreSchedule($patient_id);
-					$this->Session->setFlash(__('The doctor has been saved.'));
-					return $this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The doctor could not be saved. Please, try again.'));
+					$this->Session->setFlash(__('The doctor could not be saved.All fiels mendatory'));
 				}
 			}
 			else{
-				$this->Session->setFlash(__('The doctor could not be saved.All fiels mendatory'));
+				//email invalied
 			}
 		}
 		//$patients = $this->Doctor->Patient->find('list');
 		$spccond = array('Specialization.isdeleted'=>'0');
 		$specializations = $this->Doctor->Specialization->find('list',array('conditions'=>$spccond));
 		$this->set(compact('specializations'));
+	}
+	
+/**
+* useremailvalidation method
+*/
+	public function useremailavailable($email='',$userid=0){
+		if($email!=''){
+			$this->loadMOdel('Patient');
+			$this->Patient->unbindModel(array("hasMany"=>array("PatientDetail")));
+			$connd = array('Patient.email'=>$email,'Patient.isdeleted'=>'0','Patient.ispatient'=>'0');
+			$patient = $this->Patient->find("first",array("recursive"=>'0',"conditions"=>$connd));
+			if(is_array($patient) && count($patient)>0){
+				if($userid>0){
+					//for edit section
+					if($userid==$patient['Patient']['id']){
+						return true;
+					}
+					else{
+						return false;
+					}
+				}
+				else{
+					return false;
+				}
+			}
+			else{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 /**
@@ -817,28 +864,47 @@ ADMIN SECTION START FROM HERE
 			//imge
 			//pr($this->request->data);
 			//die();
-			if($this->request->data['Doctor']['image']['size']>0){
-				$filename = time().trim(str_replace("&,#, ,*","",$this->request->data['Doctor']['image']['name']));
-				$uploaddirectory = WWW_ROOT."\doctorimage\\".$filename;
-				if(move_uploaded_file($this->request->data['Doctor']['image']['tmp_name'],$uploaddirectory)){
-						$this->request->data['Doctor']['image'] = $filename;
+			//email validtion
+			$isemailavailable=false;
+			$email = $this->request->data['Patient']['email'];
+			if(filter_var($email,FILTER_VALIDATE_EMAIL)){
+				$isemailavailable = $this->useremailavailable($email,$id);
+				if(!$isemailavailable){
+					$this->Session->setFlash(__('The Email You provide is already present.'));
+				}
+			}
+			else{
+				$isemailavailable=false;
+				$this->Session->setFlash(__('Invalid email format.'));
+			}
+			if($isemailavailable){
+				if($this->request->data['Doctor']['image']['size']>0){
+					$filename = time().trim(str_replace("&,#, ,*","",$this->request->data['Doctor']['image']['name']));
+					$uploaddirectory = WWW_ROOT."\doctorimage\\".$filename;
+					if(move_uploaded_file($this->request->data['Doctor']['image']['tmp_name'],$uploaddirectory)){
+							$this->request->data['Doctor']['image'] = $filename;
+					}
+					else{
+						$this->request->data['Doctor']['image'] = $this->request->data['Doctor']['old_image'];
+					}
 				}
 				else{
 					$this->request->data['Doctor']['image'] = $this->request->data['Doctor']['old_image'];
 				}
+				if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
+					if ($this->Doctor->save(array("Doctor"=>$this->request->data["Doctor"]))) {
+						
+						
+					} else {
+						
+					}
+				}
+				return $this->redirect(array('action' => 'index'));
 			}
 			else{
-				$this->request->data['Doctor']['image'] = $this->request->data['Doctor']['old_image'];
+				//email validations faild
 			}
-			if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
-				if ($this->Doctor->save(array("Doctor"=>$this->request->data["Doctor"]))) {
-					
-					
-				} else {
-					
-				}
-			}
-			return $this->redirect(array('action' => 'index'));
+			
 		} else {
 			//$findcondition = array('Doctor.patient_id >'=>'0','Patient.ispatient'=>'0','Patient.isdeleted'=>'0');
 			$options = array('conditions' => array('Patient.' . $this->Doctor->Patient->primaryKey => $id));

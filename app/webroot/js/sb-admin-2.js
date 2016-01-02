@@ -124,7 +124,7 @@ $(document).on('click','.js-doctedit',function(e){
 	e.preventDefault();
 	var frmstatue = isAlRequiredFieldEntered($("#docteditfrm"));
 	if(frmstatue){
-		$("#crtdoctfrm").submit();
+		$("#docteditfrm").submit();
 	}
 	else{
 		alert("All fields are mendatory");
