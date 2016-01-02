@@ -1507,7 +1507,7 @@ $(document).on('focusout','.js-opinioncomments',function(e){
 //document attached
 $(document).on('click','.js-attachedopinionfile',function(e){
 	e.preventDefault();
-	alert("hh");
+	//alert("hh");
 	$(".js-opiniondoc").trigger("click");
 });
 

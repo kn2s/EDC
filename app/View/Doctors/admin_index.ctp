@@ -35,7 +35,13 @@
                                             <td><?=$doctor['Patient']['email']?></td>
                                             <td><?=$doctor['Specialization']['name']?></td>
                                             <td><?=$doctor['Doctor']['designation']?></td>
-                                            <td><img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" width="80" height="80" /></td>
+                                            <td>
+											<?php if($doctor['Doctor']['image']!=''){
+												?>
+												<img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" width="80" height="80" />
+												<?php
+											}?>
+											</td>
 											<td><?php
 												if($doctor['Patient']['isactive']){
 													echo $this->Html->link(__('InActive'), array('action' => 'activeinactive', $doctor['Patient']['id'],'0'),array("class"=>"btn btn-default"));

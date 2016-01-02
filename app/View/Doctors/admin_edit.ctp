@@ -53,31 +53,31 @@
 					
 						<!-- create by php form fields -->
 						<?php
-							echo $this->Form->create('Doctor',array('type'=>'file'));
+							echo $this->Form->create('Doctor',array('type'=>'file','id'=>'docteditfrm'));
 							echo $this->Form->input('id',array('type'=>'hidden'));
 							echo $this->Form->input('patient_id',array('type'=>'hidden'));
 							echo $this->Form->input('Patient.id',array('type'=>'hidden'));
 							//echo $this->Form->input('Patient.createtime',array('type'=>'hidden','value'=>'0'));
-							echo $this->Form->input('Patient.name',array('type'=>'text','div'=>'form-group','label'=>'Doctor Name','class'=>'form-control', 'placeholder'=>'Doctor Name'));
-							echo $this->Form->input('Patient.email',array('type'=>'email','div'=>'form-group','label'=>'Doctor Email','class'=>'form-control', 'placeholder'=>'Doctor Email'));
-							//echo $this->Form->input('Patient.password',array('type'=>'password','div'=>'form-group','label'=>'Password','class'=>'form-control', 'placeholder'=>'Password'));
+							echo $this->Form->input('Patient.name',array('type'=>'text','div'=>'form-group','label'=>'*Doctor Name','class'=>'form-control', 'placeholder'=>'Doctor Name'));
+							echo $this->Form->input('Patient.email',array('type'=>'email','div'=>'form-group','label'=>'*Doctor Email','class'=>'form-control', 'placeholder'=>'Doctor Email'));
+							//echo $this->Form->input('Patient.password',array('type'=>'password','div'=>'form-group','label'=>'*Password','class'=>'form-control', 'placeholder'=>'Password'));
 							echo $this->Form->input('specialization_id',array('div'=>'form-group','label'=>'Specialized In','class'=>'form-control'));
 							echo $this->Form->input('image',array('type'=>'file','div'=>'form-group','label'=>'Doctor Image'));
 							echo $this->Form->input('old_image',array('type'=>'hidden','div'=>'','label'=>'','value'=>$this->request->data['Doctor']['image']));
-							echo $this->Form->input('designation',array('type'=>'text','div'=>'form-group','label'=>'Doctorate In','class'=>'form-control', 'placeholder'=>'Doctorate In'));
-							echo $this->Form->input('medical_school',array('type'=>'text','div'=>'form-group','label'=>'Medical School','class'=>'form-control', 'placeholder'=>'Doctorate School'));
-							echo $this->Form->input('residency',array('type'=>'text','div'=>'form-group','label'=>'Residency In','class'=>'form-control', 'placeholder'=>'Residency In'));
-							echo $this->Form->input('residency_from',array('type'=>'text','div'=>'form-group','label'=>'Residency From','class'=>'form-control', 'placeholder'=>'Residency From'));
+							echo $this->Form->input('designation',array('type'=>'text','div'=>'form-group','label'=>'*Doctorate In','class'=>'form-control', 'placeholder'=>'Doctorate In','required'=>'true'));
+							echo $this->Form->input('medical_school',array('type'=>'text','div'=>'form-group','label'=>'*Medical School','class'=>'form-control', 'placeholder'=>'Doctorate School','required'=>'true'));
+							echo $this->Form->input('residency',array('type'=>'text','div'=>'form-group','label'=>'*Residency In','class'=>'form-control', 'placeholder'=>'Residency In','required'=>'true'));
+							echo $this->Form->input('residency_from',array('type'=>'text','div'=>'form-group','label'=>'*Residency From','class'=>'form-control', 'placeholder'=>'Residency From','required'=>'true'));
 			
-							echo $this->Form->input('fellowship',array('type'=>'text','div'=>'form-group','label'=>'Fellowship In','class'=>'form-control', 'placeholder'=>'Fellowship In'));
-							echo $this->Form->input('fellowship_from',array('type'=>'text','div'=>'form-group','label'=>'Fellowship From','class'=>'form-control', 'placeholder'=>'Fellowship From'));
-							echo $this->Form->input('twitter',array('type'=>'text','div'=>'form-group','label'=>'Twitter Profile','class'=>'form-control', 'placeholder'=>'Twitter Profile'));
-							echo $this->Form->input('facebook',array('type'=>'text','div'=>'form-group','label'=>'Facebook Profile','class'=>'form-control', 'placeholder'=>'Facebook Profile'));
-							echo $this->Form->input('description_one',array('type'=>'textarea','div'=>'form-group','label'=>'Description','class'=>'form-control', 'placeholder'=>'Description'));
-							echo $this->Form->input('description_two',array('type'=>'textarea','div'=>'form-group','label'=>'More Description','class'=>'form-control', 'placeholder'=>'More Description'));
+							echo $this->Form->input('fellowship',array('type'=>'text','div'=>'form-group','label'=>'*Fellowship In','class'=>'form-control', 'placeholder'=>'Fellowship In','required'=>'true'));
+							echo $this->Form->input('fellowship_from',array('type'=>'text','div'=>'form-group','label'=>'*Fellowship From','class'=>'form-control', 'placeholder'=>'Fellowship From','required'=>'true'));
+							echo $this->Form->input('twitter',array('type'=>'text','div'=>'form-group','label'=>'*Twitter Profile','class'=>'form-control', 'placeholder'=>'Twitter Profile','required'=>'true'));
+							echo $this->Form->input('facebook',array('type'=>'text','div'=>'form-group','label'=>'*Facebook Profile','class'=>'form-control', 'placeholder'=>'Facebook Profile','required'=>'true'));
+							echo $this->Form->input('description_one',array('type'=>'textarea','div'=>'form-group','label'=>'*Description','class'=>'form-control', 'placeholder'=>'Description','required'=>'true'));
+							echo $this->Form->input('description_two',array('type'=>'textarea','div'=>'form-group','label'=>'*More Description','class'=>'form-control', 'placeholder'=>'More Description','required'=>'true'));
 						?>
 						<!-- end from field creations -->
-						<button type="submit" class="btn btn-default">Update Doctor</button>
+						<button type="submit" class="btn btn-default js-doctedit">Update Doctor</button>
 						<!--<button type="reset" class="btn btn-default">Reset Doctor</button>-->
 					</form>
 				</div>

@@ -557,7 +557,7 @@ class PatientDetailsController extends AppController {
 					//update the doctor case details 
 					$updata = array('DoctorCase.ispaymentdone'=>'1');
 					$upcond = array('DoctorCase.schedule_doctor_id'=>$scheduledcotid,'DoctorCase.id'=>$caseid);
-					$thhis->DoctorCase->updateAll($updata,$upcond);
+					$this->DoctorCase->updateAll($updata,$upcond);
 					// now update the count of the doct of assign patient details 
 					// update section
 					$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment'+1);

@@ -711,9 +711,6 @@ ADMIN SECTION START FROM HERE
 					$this->Session->setFlash(__('The doctor could not be saved. Please, try again.'));
 				}
 			}
-			else{
-				$this->Session->setFlash(__('The doctor could not be saved.All fiels mendatory'));
-			}
 		}
 		//$patients = $this->Doctor->Patient->find('list');
 		$spccond = array('Specialization.isdeleted'=>'0');
@@ -809,7 +806,7 @@ ADMIN SECTION START FROM HERE
 		$this->layout='admin';
 		$this->validateadminsession();
 		
-		if (!$this->Doctor->Patient->exists($id)) {
+		if (!$this->Doctor->exists($id)) {
 			throw new NotFoundException(__('Invalid doctor'));
 		}
 		

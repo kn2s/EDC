@@ -548,7 +548,6 @@ class PatientsController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
-		$this->layout="admin";
 		$this->validateadminsession();
 		if (!$this->Patient->exists($id)) {
 			throw new NotFoundException(__('Invalid patient'));

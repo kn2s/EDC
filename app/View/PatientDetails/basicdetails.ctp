@@ -270,7 +270,7 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
                 <label class="blue">Comments about performance status</label>
                 
 				<?php 
-					echo $this->Form->input('performance_comment',array("type"=>"textarea","value"=>$pdpercomments));
+					echo $this->Form->input('performance_comment',array("type"=>"textarea","value"=>$pdpercomments,"label"=>''));
 				?>
               </div>
             </div>

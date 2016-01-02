@@ -88,3 +88,45 @@ $(document).on('change','.js_doctchange',function(e){
 		window.location =baseUrl+"/DoctorCases";
 	}
 });
+
+//doctore add secction
+var totalReqFields=0;
+var totalEntered=0;
+//questionaries form field fillup sections
+function isAlRequiredFieldEntered(formObj){
+	totalReqFields = formObj.find('input,textarea,select').filter('[required]:visible').length;
+	totalEntered = formObj.find('input,textarea,select').filter('[required]:visible').filter(function() {return this.value;}).length;
+	formObj.find('input,textarea,select').filter('[required]:visible').filter(function() {return (!this.value);}).css("border", "1px solid red");
+	console.log("Total entarable field : "+totalReqFields);
+	console.log("Total entered field : "+totalEntered);
+	return (totalEntered == totalReqFields) ? true : false;
+	
+}
+
+$(document).on('click','.js-doctadd',function(e){
+	e.preventDefault();
+	var frmstatue = isAlRequiredFieldEntered($("#crtdoctfrm"));
+	if(frmstatue){
+		var fls = $("#doctimage").val();
+		if(fls!=''){
+			$("#crtdoctfrm").submit();
+		}
+		else{
+			$("#doctimage").css("border", "1px solid red");
+			alert("Doctor Image mendatory");
+		}
+	}
+	else{
+		alert("All fields are mendatory");
+	}
+});
+$(document).on('click','.js-doctedit',function(e){
+	e.preventDefault();
+	var frmstatue = isAlRequiredFieldEntered($("#docteditfrm"));
+	if(frmstatue){
+		$("#crtdoctfrm").submit();
+	}
+	else{
+		alert("All fields are mendatory");
+	}
+});
