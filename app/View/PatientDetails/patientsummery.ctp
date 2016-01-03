@@ -1,18 +1,22 @@
+<?php
+	$isdoctorcaseassing=true;
+	$clas ="js-preview";
+	$clshd ="";
+	if(isset($patientalldeatils['PatientCase']['id']) && $patientalldeatils['PatientCase']['id']>0){
+		$clas="";
+		$clshd ="display:none;";
+		$isdoctorcaseassing=false;
+	}
+?>
 <div class="container">
 	<div class="statusPart">
 		<ul>
-			<!--<li><a href="#" class="done">Patient Details</a></li>
-			<li><a href="#" class="done">Social History</a></li>
-			<li><a href="#" class="done">About The Illness</a></li>
-			<li><a href="#" class="done">Past History</a></li>
-			<li><a href="#" class="done">Upload Documents</a></li>
-			<li><a href="#" class="current">Review</a></li> js-preview -->
-			
-			<li><a href="javascript:void(0)" class="js-preview done" sec="1">Patient Details</a></li>
-			<li><a href="javascript:void(0)" class="js-preview done" sec="2">Social History</a></li>
-			<li><a href="javascript:void(0)" class="js-preview done" sec="3">About The Illness</a></li>
-			<li><a href="javascript:void(0)" class="js-preview done" sec="4">Past History</a></li>
-			<li><a href="javascript:void(0)" class="js-preview done" sec="5">Upload Documents</a></li>
+		
+			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="1">Patient Details</a></li>
+			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="2">Social History</a></li>
+			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="3">About The Illness</a></li>
+			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="4">Past History</a></li>
+			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="5">Upload Documents</a></li>
 			<li><a href="javascript:void(0)" class="current" sec="6">Review</a></li>
 		</ul>
 	</div>
@@ -23,11 +27,12 @@
 		<h2 class="fleft">Review</h2>
 		<a href="javascript:void(0)" class="downloadBtn"></a>
 		<a href="javascript:void(0)" class="printBtn js-printdocs"></a>
+		
 		<div class="clear"></div>
 		<div class="details">
 			<div class="heiding">
 				<h2>Paitient Details</h2>
-				<a href="javascript:void(0)" class="editBtn js-preview" sec="1"></a>
+				<a href="javascript:void(0)" class="editBtn <?=$clas?>" sec="1" style="<?=$clshd?>" ></a>
 				<div class="clear"></div>
 			</div>
 			<div class="clear5"></div>
@@ -156,7 +161,7 @@
 		<div class="details">
 			<div class="heiding">
 				<h2>Social History</h2>
-				<a href="javascript:void(0)" class="editBtn js-preview" sec="2"></a>
+				<a href="javascript:void(0)" class="editBtn <?=$clas?>" sec="2" style="<?=$clshd?>"></a>
 				<div class="clear"></div>
 			</div>
 			<div class="clear5"></div>
@@ -301,7 +306,7 @@
 		<div class="details">
 			<div class="heiding">
 				<h2>About the Illness</h2>
-				<a href="javascript:void(0)" class="editBtn js-preview" sec="3"></a>
+				<a href="javascript:void(0)" class="editBtn <?=$clas?>" sec="3" style="<?=$clshd?>"></a>
 				<div class="clear"></div>
 			</div>
 			<div class="clear5"></div>
@@ -420,7 +425,7 @@
 		<div class="details">
 			<div class="heiding">
 				<h2>Past History</h2>
-				<a href="javascript:void(0)" class="editBtn js-preview" sec="4"></a>
+				<a href="javascript:void(0)" class="editBtn <?=$clas?>" sec="4" style="<?=$clshd?>"></a>
 				<div class="clear"></div>
 			</div>
 			<div class="clear5"></div>
@@ -605,7 +610,7 @@ the medical history</label>
 		<div class="details last">
 			<div class="heiding">
 				<h2>Test Reports</h2>
-				<a href="javascript:void(0)" class="editBtn js-preview" sec="5"></a>
+				<a href="javascript:void(0)" class="editBtn <?=$clas?>" sec="5" style="<?=$clshd?>"></a>
 				<div class="clear"></div>
 			</div>
 			<div class="clear5"></div>
@@ -779,7 +784,14 @@ the medical history</label>
 			</div>
 		</div>          
 		<div class="clear35"></div>
-		<input type="submit" class="submitBtn js-patientsummetybtn" value="Submit">
+		<?php 
+			if($isdoctorcaseassing){
+			?>
+				<input type="submit" class="submitBtn js-patientsummetybtn" value="Submit">
+			<?php
+			}
+		?>
+		
 	</div>
 	<div class="clear"></div>
 </div>

@@ -71,7 +71,7 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
 					$socialcls=$illness=$pasthis=$updocts=$review=$clsss;
 					break;
 				default:
-					
+					$socialcls=$illness=$pasthis=$updocts=$review=$clsss;
 					break;
 			}
 		?>

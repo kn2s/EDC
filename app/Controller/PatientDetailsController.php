@@ -273,7 +273,9 @@ class PatientDetailsController extends AppController {
 	$this->Patient->unbindModel(array(
 		'hasMany'=>array('PatientDetail')
 	));
+	
 	$this->Session->write("quesformno","5");
+	
 	$this->Patient->bindModel(array(
 		'hasOne'=>array(
 			'PatientDetail' => array(
@@ -341,6 +343,13 @@ class PatientDetailsController extends AppController {
 				'finderQuery' => '',
 				'counterQuery' => ''
 			),
+			'PatientCase'=>array(
+				'className'=>'DoctorCase',
+				'foreignKey'=>'patient_id',
+				'conditions'=>array('PatientCase.ispaymentdone'=>'1','PatientCase.isclosed'=>'0','PatientCase.doctor_id >'=>'0'),
+				'fields'=>'',
+				'order'=>array('PatientCase.id'=>'DESC')
+			)
 		)
 	));
 	//unbind
@@ -358,6 +367,9 @@ class PatientDetailsController extends AppController {
 	));
 	$this->Patient->AboutIllness->unbindModel(array(
 		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->PatientCase->unbindModel(array(
+		'belongsTo'=>array('Patient','Doctor')
 	));
 	//now bind the model drug allergy
 	$this->Patient->PatientDetail->bindModel(array(
@@ -390,6 +402,7 @@ class PatientDetailsController extends AppController {
  * detailsdone method
  */
  public function detailsdone(){
+	 
 	//now update the form submit count in patient tables
 	/*$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
 	$this->PatientDetail->Patient->saveField('detailsformsubmit','5');*/
@@ -401,7 +414,7 @@ class PatientDetailsController extends AppController {
 	else{
 		$uparray = array('Patient.detailsformsubmit'=>'5','Patient.detailsubmitpercent'=>'100');
 	}
-	$uparray = array('Patient.detailsformsubmit'=>'5','Patient.detailsubmitpercent'=>'100');
+	//$uparray = array('Patient.detailsformsubmit'=>'5','Patient.detailsubmitpercent'=>'100');
 	$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
 	$this->PatientDetail->Patient->updateAll($uparray,$upcond);
 	
@@ -465,7 +478,6 @@ class PatientDetailsController extends AppController {
 			//pr($casdtl);
 			//die();
 			if($doctid>0){
-				
 				if($this->DoctorCase->save($casdtl)){
 					$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'0','DoctorCase.id'=>$this->DoctorCase->id);
 					$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'0','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
@@ -480,6 +492,7 @@ class PatientDetailsController extends AppController {
 		}
 	}
 	$this->set('doctorCase',$doctorCase);
+	$this->set('lastquestionformno',$this->Session->read('lastquestionformno'));
  }
  
  /**
@@ -489,10 +502,21 @@ class PatientDetailsController extends AppController {
 	public function consultantdetailscalculation($diaginishid=0){
 		$this->loadModel('Doctor');
 		$this->loadModel('ScheduleDoctor');
+		$this->ScheduleDoctor->bindModel(array(
+			'belongsTo'=>array(
+				'Doct'=>array(
+					'className' => 'Patient',
+					'foreignKey' => 'doct_id',
+					'conditions' =>'',
+					'fields' =>  array('Doct.id','Doct.name'),
+					'order' => ''
+				)
+			)
+		));
 		//main conditions
 		//5 min from allocations
 		$fiveminalloc = time()-(5*60);
-		$conds = array("ScheduleDoctor.isonholiday"=>'0',"ScheduleDoctor.assignment < "=>'3','ScheduleDoctor.lastangajtime <'=>$fiveminalloc);
+		$conds = array("ScheduleDoctor.isonholiday"=>'0',"ScheduleDoctor.assignment <"=>'3','ScheduleDoctor.lastangajtime <'=>$fiveminalloc);
 		// available schedule date
 		$strdate = date("Y-m-d",strtotime("+1 day"));
 		$enddate = date("Y-m-d",strtotime("+3 month"));
@@ -511,22 +535,27 @@ class PatientDetailsController extends AppController {
 		//get all doctor belongs to the selected diagonisis
 		//unbind model
 		$this->Doctor->unbindModel(array(
-			'belongsTo'=>array('Specialization','Patient')
+			'belongsTo'=>array('Specialization')
 		));
 		$this->Doctor->displayField="patient_id";
 		
+		//$docconditions = array('Doctor.specialization_id'=>$diaginishid,'Doctor.patient_id >'=>'0','Patient.ispatient'=>'0','Patient.isdeleted'=>'0','Patient.isactive'=>'1');
 		$docconditions = array('Doctor.specialization_id'=>$diaginishid,'Doctor.patient_id >'=>'0');
 		
 		$doctors = $this->Doctor->find('list',array('conditions'=>$docconditions));
 		//pr($doctors);
 		if(is_array($doctors) && count($doctors)>0){
 			$conds["ScheduleDoctor.doct_id"]=array_values($doctors);
+			$conds['Doct.ispatient']='0';
+			$conds['Doct.isdeleted']='0';
+			$conds['Doct.isactive']='1';
 		}
 		else{
 			return array();
 		}		
 		
-		$availdoctore = $this->ScheduleDoctor->find("first",array("recursive"=>'1',"conditions"=>$conds));
+		$availdoctore = $this->ScheduleDoctor->find("first",array("recursive"=>'1',"conditions"=>$conds,"order"=>array("Doct.name"=>"ASC")));
+		//pr($availdoctore);
 		if(is_array($availdoctore) && count($availdoctore)>0){
 			$doctsechuleid = isset($availdoctore['ScheduleDoctor']['id'])?$availdoctore['ScheduleDoctor']['id']:0;
 			//update the doctor with the angaj time
@@ -547,6 +576,7 @@ class PatientDetailsController extends AppController {
 		if($caseid>0){
 			// validate assign doct time sections 
 			$updcond = array('ScheduleDoctor.id'=>$scheduledcotid);
+			//pr($updcond);
 			//get the details of the schedule doctore
 			$scheduledoct = $this->ScheduleDoctor->find('first',array('recursive'=>'0','conditions'=>$updcond));
 			if(is_array($scheduledoct) && count($scheduledoct)>0){
@@ -558,9 +588,11 @@ class PatientDetailsController extends AppController {
 					$updata = array('DoctorCase.ispaymentdone'=>'1');
 					$upcond = array('DoctorCase.schedule_doctor_id'=>$scheduledcotid,'DoctorCase.id'=>$caseid);
 					$this->DoctorCase->updateAll($updata,$upcond);
+					
 					// now update the count of the doct of assign patient details 
 					// update section
-					$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment'+1);
+					
+					$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1');
 					$this->ScheduleDoctor->updateAll($updat,$updcond);
 					//now update the form submit count in patient tables
 					$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");

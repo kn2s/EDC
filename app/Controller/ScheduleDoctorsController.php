@@ -194,10 +194,20 @@ class ScheduleDoctorsController extends AppController {
 					'fields' => '',
 					'order' => ''
 				)
+			),
+			"hasOne"=>array(
+				"DoctDetail"=>array(
+					'className' => 'Doctor',
+					'foreignKey' => 'patient_id',
+					'conditions' =>array('DoctDetail.patient_id >'=>'0'),
+					'fields' => '',
+					'order' => ''
+				)
 			)
+			
 		));
-		$doccond = array("Patient.ispatient"=>'0','Patient.isdeleted'=>'0','Patient.isactive'=>'1');
-		$doctoreSceduls = $this->Patient->find("all",array("recursive"=>'1',"conditions"=>$doccond,"fields"=>array("Patient.id","Patient.name")));
+		$doccond = array('Patient.ispatient'=>'0','Patient.isdeleted'=>'0','Patient.isactive'=>'1','DoctDetail.patient_id >'=>'0');
+		$doctoreSceduls = $this->Patient->find("all",array("recursive"=>'1',"conditions"=>$doccond,"fields"=>array("Patient.id","Patient.name"),"order"=>array("Patient.name"=>"ASC")));
 		
 		$this->set("doctoreSceduls",$doctoreSceduls);
 		$this->set("workSchedules",$workSchedules);

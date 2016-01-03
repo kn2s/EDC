@@ -24,7 +24,7 @@
 	}
 	else{
 		$ispaymentdone=1;
-		echo "<script>alert('No case assign to your request')</script>";
+		echo "<script>alert('Currently we dont have doctor for this principle diagnosis')</script>";
 	}
 	
 ?>

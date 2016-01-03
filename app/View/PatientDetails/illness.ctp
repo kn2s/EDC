@@ -27,7 +27,7 @@
 					$pasthis=$updocts=$review=$clsss;
 					break;
 				default:
-					
+					$pasthis=$updocts=$review=$clsss;
 					break;
 			}
 		?>

@@ -15,10 +15,10 @@
 							<tr>
 								<?php 
 									if(count($workSchedules)>0){
-										echo "<th class='doctor_name'>Doctor Name</th>";
+										echo "<th>Doctor Name</th>";
 										foreach($workSchedules as $workScheduleid=>$workday){
 											?>
-											<th class='rotate'><div><span><?=$workday?></span></div></th>
+											<th><?=$workday?></th>
 											<?php
 										}
 									}
@@ -44,7 +44,7 @@
 											$assignment = $schlddata['assignment'];
 											$isonholiday = $schlddata['isonholiday'];
 											if($isonholiday){
-												$assignment="H";
+												$assignment='H';
 											}
 										}
 										?>
@@ -77,51 +77,3 @@
 		<!-- /.panel -->
 	</div>
 </div>
-<style>
-th.rotate {
-  /* Something you can count on */
-	height: 140px;
-    white-space: nowrap;
-    vertical-align: inherit !important;
-}
-
-.table-bordered>thead>tr>th {
-    border-left: 1px solid #fff !important;
-	border-right: 1px solid #ddd !important;
-	border-bottom: 1px solid #ddd !important;
-	border-top: 1px solid #fff !important;
-}
-.table-bordered>thead{
-	background-color: yellow !important;
-}
-	
-	
-.table-bordered>tbody>tr>td:first-child {
-	text-align:left;
-}
-.table-bordered>tbody>tr>td {
-   text-align:center;
-}
-
-th.rotate > div {
-    transform: /* Magic Numbers */ translate(25px, 51px) /* 45 is really 360 - 45 */ rotate(270deg);
-    width: 0px;
-    margin: -10px;
-}
-th.rotate > div > span {
-	font-size: 16px;
-    font-family: cursive;
-}
-.table-bordered>thead>tr>th.doctor_name{
-	border-right: 1px solid #ddd !important;
-    text-align: center;
-    width: 190px;
-    font-size: 18px;
-}
-.table>thead>tr>th {
-	padding:0px !important;
-}
-.table>tbody>tr>td  {
-	padding:4px !important;
-}
-</style>

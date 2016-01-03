@@ -26,7 +26,7 @@
 					$review=$clsss;
 					break;
 				default:
-					
+					$review=$clsss;
 					break;
 			}
 		?>

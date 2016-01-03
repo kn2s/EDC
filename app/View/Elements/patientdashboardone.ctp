@@ -8,7 +8,7 @@
 		$numberformpost = $patient['Patient']['detailsformsubmit'];
 		$totalpercent = $patient['Patient']['detailsubmitpercent'];
 		
-		$totalcompletedper=($numberformpost>5)?5:$numberformpost;
+		$totalcompletedper=($numberformpost>=4)?5:$numberformpost;
 		
 		switch($numberformpost){
 			case 0:

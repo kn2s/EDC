@@ -1261,16 +1261,28 @@ $(document).on('click','.js-docchk',function(e){
 
 //print the patient all data 
 $(document).on('click','.js-printdocs',function(e){
-	//alert("kk");
-	var restorepage = document.body.innerHTML;
+	
+	/*var restorepage = document.body.innerHTML;
 	var printcontent = $(".questionPart").html();
-	document.body.innerHTML = printcontent;
-	window.print();
-	document.body.innerHTML = restorepage;
+	document.body.innerHTML = printcontent;*/
+	//window.print();
+	//document.body.innerHTML = restorepage;
+	
+	var data = $('<div/>').append($(".questionPart").clone()).html();
+	var mywindow = window.open();
+	mywindow.document.write('<html><head><title>My Questionnaire</title>');
+	/*optional stylesheet*/ 
+	mywindow.document.write('<link rel="stylesheet" href="'+baseurl+'/css/reset.css" type="text/css" />');
+	mywindow.document.write('<link rel="stylesheet" href="'+baseurl+'/css/screen.css" type="text/css" />');
+	mywindow.document.write('</head><body >');
+	mywindow.document.write(data);
+	mywindow.document.write('</body></html>');
+	mywindow.print();
+	mywindow.close();
 });
 
 $(document).on('click','.js-patientsummetybtn',function(e){
-	
+	scrollgototop();
 	$.ajax({
 		url:baseurl+"/PatientDetails/detailsdone",
 		method:'post',

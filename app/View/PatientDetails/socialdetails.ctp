@@ -28,7 +28,7 @@
 					$illness=$pasthis=$updocts=$review=$clsss;
 					break;
 				default:
-					
+					$illness=$pasthis=$updocts=$review=$clsss;
 					break;
 			}
 		?>

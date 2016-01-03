@@ -23,10 +23,10 @@
 					$updocts=$clsss;
 					break;
 				case 5:
-					$socialcls=$illness=$pasthis=$updocts=$review=$clsss;
+					$updocts=$review=$clsss;
 					break;
 				default:
-					
+					$updocts=$review=$clsss;
 					break;
 			}
 		?>
