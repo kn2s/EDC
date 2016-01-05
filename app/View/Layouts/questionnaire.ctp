@@ -27,13 +27,8 @@ $cakeVersion = __d('cake_dev', '');
 		var pagefor="<?=$patientinfo?>";
 		$(document).ready(function(){
 			$("#sqlsection").hide();
-			//devleftPosition=$(".pertionalcontainer").offset().left;
-			//devTopPosition = $(".pertionalcontainer").offset().top;
-			//alert(devleftPosition);
+			$("#preloaderdv").hide();
 			devWidth = $(window).width();
-			//alert(devWidth);
-			
-			//alert(pagefor);
 			questianariesformload();
 		});
 	</script>
@@ -71,7 +66,7 @@ $cakeVersion = __d('cake_dev', '');
 
   <!-- preloader section add -->
   
-	<div class="js-loader overlay">
+	<div class="js-loader overlay" id="preloaderdv">
 		<img src="<?=FULL_BASE_URL.$this->base?>/images/preloader.gif" alt="preloader" style=""/>
 	</div>
   <!-- preloader end -->

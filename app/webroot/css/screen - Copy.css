@@ -1,0 +1,547 @@
+.Wrapper{ width:100%; min-width:1260px; font-family: 'Lato', sans-serif;}
+.container{ width:1260px; margin:0 auto;}
+.container940{ width:940px; margin:0 auto;}
+
+header{ position:absolute; z-index:100;}
+.logo{ padding:25px 0 0; margin:0; float:left;}
+nav ul{ float:right; padding-top:26px;}
+nav ul li{ float:left; display:block; list-style:none; margin-left:30px; font-size:14px;}
+nav ul li a{ color:#29366e; text-decoration:none;}
+nav ul li a:hover, nav ul li a.active{ color:#56baa1;}
+
+.bodyBannerSlider{ overflow:hidden; padding-bottom:50px;}
+.bodyBannerSlider .banner1{ height:730px; background:url(../images/banner1.jpg) center top no-repeat; height:80vh; background-size:100% auto; display:block;}
+.bodyBannerSlider .banner2{ height:730px; background:url(../images/banner2.jpg) center top no-repeat; height:80vh; background-size:100% auto ; display:block;}
+.bodyBannerSlider h3{ padding-top:250px; font-size:48px; line-height:53px; color:#29366e; font-weight:300; opacity:0;}
+.bodyBannerSlider h4{ margin-top:0px; font-size:29px; line-height:35px; color:#29366e; font-weight:300; opacity:0;}
+.bodyBannerSlider h4 span, .bodyBannerSlider h4 a{ color:#56baa1;}
+.bodyBannerSlider.appear h3{ opacity:1;}
+.bodyBannerSlider.appear h4{ opacity:1;}
+.owl-controls .owl-dots{ width:122px; margin:0 auto;}
+.owl-controls .owl-dot{ width:60px; height:15px; background:url(../images/normal.jpg) no-repeat; border-radius:2px; float:left; margin-top:4px;}
+.owl-controls .owl-dot.active{ background:url(../images/active.jpg) no-repeat;}
+	
+.facility{ padding:40px 0 60px; overflow:hidden; clear:both; background:#fff; position:relative; z-index:4; clear:both; overflow:hidden; top:-40px;}
+.facility .box{ width:310px; float:left; padding:15px 0 0 40px; margin:20px 35px -20px; opacity:0;}
+.facility .appear.box{ margin:0 35px; opacity:1;}
+.facility .box p{ font-size:20px; line-height:25px; color:#29366e; font-weight:300; margin:0; padding:0;}
+.facility .box.icon1{ background:url(../images/icon1.png) 13px top no-repeat;}
+.facility .box.icon2{ background:url(../images/icon2.png) 24px top no-repeat;}
+.facility .box.icon3{ background:url(../images/icon3.png) 15px top no-repeat;}
+
+.secondOption{ padding:100px 0 170px; border-top:1px solid #bec2d3; background:#fff; position:relative; z-index:10; clear:both; overflow:hidden;}
+.secondOption h3{ font-size:30px; line-height:30px; color:#29366e; margin:0; padding:0; text-align:center; font-weight:300;}
+.secondOption h3 span{ color:#56baa1;}
+.secondOption .box1{ width:400px; float:left; padding:0px; margin:120px 0 -20px; text-align:center; opacity:0;}
+.secondOption .box2{ width:460px; float:left; padding:0px; margin:120px 0 -20px; text-align:center; opacity:0;}
+.secondOption .appear.box1{ margin:100px 0 0; opacity:1;}
+.secondOption .appear.box2{ margin:100px 0 0; opacity:1;}
+.secondOption .icon{ margin-top:6px; margin-bottom:20px;}
+.secondOption .icon2{ margin-bottom:20px; height:56px;}
+.secondOption h2{ font-size:30px; line-height:30px; color:#29366e; font-weight:300; text-align:center; margin:0; padding:0;}
+.secondOption p{ font-size:16px; line-height:24px; color:#646464; font-weight:400; text-align:center; margin:-1px 0 0; padding:0;}
+.secondOption .link{ font-size:16px; line-height:24px; color:#56baa1; font-weight:400; text-align:center; display:block; margin:0; padding:0;}
+.secondOption a:hover .link{ color:#29366e; text-decoration:underline;}
+.secondOption a{ display:block;}
+
+.knowTheSpecialists{ padding:100px 0 60px; border-top:1px solid #bec2d3; background:#fff; position:relative; z-index:11; clear:both; overflow:hidden;}
+.knowTheSpecialists h3{ font-size:30px; line-height:30px; color:#29366e; margin:0; padding:0 0 20px; text-align:center; font-weight:300;}
+.knowTheSpecialists h3 span{ color:#56baa1;}
+.knowTheSpecialists p{ font-size:16px; line-height:24px; color:#646464; font-weight:400; text-align:center; margin:0 0 30px; padding:0;}
+.knowTheSpecialists .box{ width:210px; height:298px; overflow:hidden; float:left; overflow:hidden;}
+.knowTheSpecialists .box img{ opacity:0;}
+.knowTheSpecialists .appear.box img{ opacity:1;}
+
+footer{ padding:0 0 60px;}
+footer .followus{ float:left; width:150px;}
+footer p{ font-size:16px; line-height:21px; color:#29366e; font-weight:300; margin:0 0 6px;}
+footer p.copy{ font-size:14px; line-height:20px; color:#a6a6a6; font-weight:300; margin:0 0 0px; float:right; clear:right;}
+footer ul{ float:right;}
+footer ul li{ float:left; list-style:none;}
+footer ul li a{ font-size:16px; line-height:21px; color:#29366e; font-weight:300; margin:0 0 0 15px;}
+footer ul li a:hover{ color:#56baa1;}
+footer .followus .socialIcon{ float:left; margin-right:10px; opacity:1;}
+footer .followus .socialIcon:hover{ opacity:0.6;}
+
+header{ position:absolute; left:0; right:0;}
+header.sticky{ position:fixed; height:64px; background:rgba(255,255,255,0.95); border-bottom:1px solid #bec2d3; top:0;}
+header.sticky .logo{ padding-top:5px;}
+header.sticky .logo img{ height:51px;}
+
+nav.inner ul li a{ color:#79809d; padding-bottom:21px;}
+nav.inner ul li a.active, nav.inner ul li a:hover{ color:#29366e; border-bottom:3px solid #29366e;}
+.myAccountBanner{ background:#29366e url(../images/myAccountBG.jpg) center top no-repeat; height:452px; overflow:hidden;}
+.myAccountLogin{ padding-bottom:140px; background:#fff; position:relative; z-index:2;}
+.myAccountLogin .container940{ background:#fff; margin-top:-157px; }
+.myAccountLogin .signIn{ width:470px; float:left;}
+.myAccountLogin .signIn h2{ font-size:36px; line-height:157px; color:#29366e; font-weight:300; text-align:center; margin:0; padding:0; background:url(../images/icon1.png) 150px 40px no-repeat; border-right:1px solid #29366e;}
+.myAccountLogin .signUp{ width:470px; float:left;}
+.myAccountLogin .signUp h2{ font-size:36px; line-height:157px; color:#29366e; font-weight:300; text-align:center; margin:0; padding:0; background:url(../images/icon2.png) 90px 40px no-repeat;}
+.myAccountLogin .formCont{ width:300px; margin:0 auto;}
+.myAccountLogin .mailId{ background:#fff url(../images/mail.jpg) left center no-repeat; border:none; border-bottom:1px solid #cbcbcb; height:60px; padding-left:45px;}
+.myAccountLogin .pass{ background:#fff url(../images/pass.jpg) left center no-repeat; border:none; border-bottom:1px solid #cbcbcb; height:60px; padding-left:45px;}
+.myAccountLogin .userName{ background:#fff url(../images/userName.jpg) left center no-repeat; border:none; border-bottom:1px solid #cbcbcb; height:60px; padding-left:45px;}
+.myAccountLogin input[type="text"], .myAccountLogin input[type="password"]{ font-size:14px; line-height:60px; color:#333; width:100%; border:none; background:#fff;}
+.bb40{ margin-bottom:40px;}
+.blueButton{ width:100%; margin-bottom:30px; background:#29366e; height:50px; color:#FFF; font-size:18px; line-height:50px; border:none; font-weight:300;}
+.blueButton:hover{ background:#56baa1;}
+.myAccountLogin label{ color:#8a8a8a; font-size:14px; line-height:20px; font-weight:300; margin-bottom:20px; display:block;}
+.myAccountLogin label input[type="checkbox"]{ float:left; margin:4px 8px 0 0;}
+.myAccountLogin .formCont a{ font-size:14px; font-weight:300; color:#56baa1;}
+.myAccountLogin .formCont a:hover{ color:#29366e;}
+footer.inner{ padding-top:50px; border-top:1px solid #bec2d3;}
+
+.myDashBord{ position:relative; height:100%; background:url(../images/myDashboard.jpg) center top no-repeat; background-size:cover; min-height:600px;}
+nav ul li.userMaleCircle{ margin-left:50px; margin-top:-10px; background:url(../images/userMaleCircle.jpg) left center no-repeat; padding: 10px 0 10px 30px;}
+.myDashBord footer{ position:absolute; left:0; right:0; bottom:0; padding:0 0 30px;}
+.myDashBord footer p, .myDashBord footer a{ color:#fff;}
+.myDashBord footer p.copy{ color:#a6a6a6;}
+.myDashBordCont{ height:400px; position:absolute; left:50%; top:50%; margin:-200px 0 0 -630px; width:1260px;}
+.myDashBordCont .leftWhitePart{ background:#fff; height:400px; float:left; width:700px;}
+.myDashBordCont .leftWhitePart h2{ padding:44px 0 0 44px; color:#29366e; font-size:38px; margin:0; font-weight:300;}
+.myDashBordCont .leftWhitePart .completedStatus{ width:619px; margin:79px auto 0;}
+.myDashBordCont .leftWhitePart .completedStatus .step{ width:122px; float:left; position:relative; padding-top:25px; margin-right:2px;}
+.myDashBordCont .leftWhitePart .completedStatus .step.done{ background:url(../images/tickMark.png) center top no-repeat;}
+.myDashBordCont .leftWhitePart .completedStatus .step.Last{ margin:0;}
+.myDashBordCont .leftWhitePart .completedStatus .step .normalBG{ height:10px; background:#485383; width:100%; display:block; overflow:hidden;}
+.myDashBordCont .leftWhitePart .completedStatus .step .GreenBG{ height:10px; background:#5ebaa8; display:block; width:0;}
+.myDashBordCont .leftWhitePart .completedStatus .step .TextPart{ display:block; font-size:13px; color:#29366e; font-weight:300; line-height:13px; margin-top:14px;}
+.myDashBordCont .leftWhitePart .completedStatus .step.First .normalBG{ border-radius:5px 0 0 5px;}
+.myDashBordCont .leftWhitePart .completedStatus .step.Last .normalBG{ border-radius:0 5px 5px 0;}
+.myDashBordCont .leftWhitePart h3{ padding:75px 0 0 44px; color:#5ebaa8; font-size:48px; margin:0; font-weight:300; float:left;}
+.myDashBordCont .leftWhitePart .finishButton{ float:right; margin:90px 40px 0 0; padding:10px 15px; color:#29366e; font-size:14px; font-weight:300; background:url(../images/blueArrow.png) right center no-repeat;}
+.myDashBordCont .leftWhitePart .finishButton:hover{ color:#5ebaa8; background:url(../images/greenArrow.png) right center no-repeat;}
+.myDashBordCont .rightHIW{ width:540px; float:right; height:400px;}
+
+.ourPhician{ padding:140px 0 0;}
+.ourPhician h2{ text-align:center; font-weight:300; font-size:50px; line-height:60px; color:#29366e; margin:0 0 27px;}
+.ourPhician h5{ color:#a6a6a6; font-size:14px; font-weight:400; margin:0 0 10px; text-align:center;}
+.ourPhician ul{ display:block; text-align:center;}
+.ourPhician ul li{ list-style:none; display:inline-block; margin-bottom:8px;}
+.ourPhician ul li a{ color:#29366e; font-weight:400; font-size:14px; display:block; line-height:32px; padding:0 20px; border:1px solid #c6c6c6; border-radius:20px;}
+.ourPhician ul li a:hover, .ourPhician ul li a.active{ background:#29366e; color:#fff; border:1px solid #29366e;}
+.doctorLoist{ padding:54px 0 0; overflow:hidden;}
+.doctorLoist .doctor{ width:300px; float:left; margin:0 7px; position:relative; cursor:pointer; opacity:0;}
+.doctorLoist .doctor.appear{ opacity:1; -webkit-transition: all .7s linear; transition: all .7s linear;}
+.doctorLoist .doctor.active:after{ content:''; position:absolute; bottom:0; left:136px; width: 0; height: 0; border-left: 16px solid transparent; border-right: 16px solid transparent; border-bottom: 16px solid #313f51;}
+.doctorLoist .doctor .picCont{ width:190px; height:190px; overflow:hidden; background:#BEBEBE; margin:0 auto 25px; border-radius:150px;}
+.doctorLoist .doctor .picCont .normalPic{ display:block;}
+.doctorLoist .doctor .picCont .activePic{ display:none;}
+.doctorLoist .doctor.active .picCont .normalPic{ display:none;}
+.doctorLoist .doctor.active .picCont .activePic{ display:block;}
+.doctorLoist .doctor h3{ font-size:18px; line-height:24px; color:#29366e; font-weight:400; text-align:center; margin:0; padding:0;}
+.doctorLoist .doctor h5{ font-size:14px; line-height:24px; color:#a0a0a0; font-weight:400; text-align:center; margin:0; padding:0 0 25px;}
+.doctorDetails{ background:#313f51; padding:50px 0 60px; display:none;}
+.doctorDetails h2{ font-size:24px; line-height:24px; color:#fff; font-weight:400; padding:0 0 34px; margin:0;}
+.doctorDetails .box{ width:360px; margin-right:60px; float:left;}
+.doctorDetails h5{ font-size:13px; line-height:18px; color:#b7b7b7; font-weight:400; margin:0; padding:0;}
+.doctorDetails h4{ font-size:16px; line-height:21px; color:#fff; font-weight:400; margin:0; padding:0 0 15px;}
+.doctorDetails p{ font-size:16px; line-height:20px; color:#b7b7b7; font-weight:400; margin:0; padding:0;}
+.doctorDetails a{ font-size:14px; display:block; color:#56baa1; font-weight:400; line-height:26px; padding-left:33px; margin:0 0 5px;}
+.doctorDetails a:hover{ color:#fff;}
+.doctorDetails a.tweeter{ background:url(../images/tweeter.png) left center no-repeat;}
+.doctorDetails a.facebook{ background:url(../images/facebook.png) left center no-repeat;}
+.doctorDetails .crossButton{ width:24px; height:24px; display:block; position:absolute; top:0; right:0; background:url(../images/cross.png) no-repeat;}
+
+.serviceTypeCont{ height:409px; background:#efefef;}
+.serviceTypeCont .patient{ float:left; border-right:1px solid #fff; position:relative; height:409px; width:629px; overflow:hidden;}
+.serviceTypeCont .patient img.normal{ position:absolute; left:0; top:0; z-index:1;}
+.serviceTypeCont .patient img.active{ position:absolute; left:0; top:0; z-index:2;}
+.serviceTypeCont .doctor{ float:right; position:relative; height:409px; width:630px; overflow:hidden;}
+.serviceTypeCont .doctor img.normal{ position:absolute; left:0; top:0; z-index:1;}
+.serviceTypeCont .doctor img.active{ position:absolute; left:0; top:0; z-index:2;}
+#patientService .facility{ border:none; top:0; padding-bottom:80px;}
+.patientText{ padding:88px 0 60px; background:#fff; clear:both; overflow:hidden; position:relative;}
+.patientText.GreayBg{ background:#eeeeee;}
+.patientText .box1{ width:320px; margin-left:240px; float:left;}
+.patientText .box{ width:380px; margin-left:80px; float:left;}
+.patientText .box1 p{ font-size:38px; line-height:50px; color:#29366e; font-weight:300;}
+.patientText .box p{ font-size:20px; line-height:25px; color:#29366e; font-weight:300;}
+.patientText .box h4{ font-size:18px; line-height:23px; color:#29366e; font-weight:300; padding:10px 0; border-top:1px solid #bec2d3;}
+.patientText .box h4.first{ padding-top:0; border:0;}
+.patientText .box2{ width:780px; margin:0 auto; position:relative; height:355px;}
+.patientText .box2 .blueCircle{ width:325px; height:350px; position:absolute; top:0; left:220px; background:url(../images/blueCircle.png) no-repeat; z-index:50;}
+.patientText .box2 .blueCircle h3{ font-size:30px; line-height:36px; color:#4ab793; text-align:center; font-weight:300; margin:100px 0 0;}
+.patientText .box2 .blueCircle h3 span{ display:block; font-size:60px; line-height:60px; font-weight:300;}
+.patientText .box2 .whiteCircle{ width:325px; height:325px; position:absolute; top:25px; left:220px; background:url(../images/whiteCircle.png) no-repeat; opacity:1; display:block;}
+.patientText.appear .box2 .whiteCircle{ left:417px; opacity:1;}
+.patientText.appear .box2 .blueCircle{ left:20px; opacity:1;}
+.patientText .box2 .whiteCircle h3{ font-size:20px; line-height:26px; color:#29366e; text-align:center; font-weight:300; margin:200px 0 0;}
+.iconPart{ text-align:center;}
+.iconPart a{ display:inline-block; padding-top:73px; width:220px; color:#29366e; font-size:16px; line-height:21px; font-weight:300;}
+.iconPart a.createAccount{ background:url(../images/icon7.png) center top no-repeat;}
+.iconPart a.sampleQuestion{ background:url(../images/icon8.png) center top no-repeat;}
+.iconPart a.sampleOpinion{ background:url(../images/icon9.png) center top no-repeat;}
+.iconPart a.writeUsAt{ background:url(../images/icon10.png) center top no-repeat;}
+.iconPart a:hover{ text-decoration:underline;}
+.patientText p.bigText{ font-size:38px; line-height:50px; color:#29366e; font-weight:300; margin:0 0 50px; padding:0;}
+.patientText p.smallText{ font-size:20px; line-height:25px; color:#29366e; font-weight:300;}
+.patientText .box3{ width:204px; padding:0 55px; float:left; border-left:1px solid #b3b6c7; height:115px;}
+.patientText .box3.first{ border:none;}
+.patientText .box3 p{ font-size:18px; line-height:23px; color:#646464; font-weight:300;}
+.greenButton{ display:inline-block; color:#fff; font-size:18px; line-height:60px; font-weight:300; background:#56baa1; padding:0 60px; border-radius:30px;}
+.greenButton:hover{ background:#29366e; color:#fff;}
+.tabContent{ display:none;}
+#patientService{ display:block;}
+
+.questionnaireHeading .crossButton{ float:left; padding:36px 10px 36px 0;}
+.questionnaireHeading .TextPart{ float:left; width:870px;}
+.questionnaireHeading .TextPart h2{ font-size:60px; line-height:60px; color:#29366e; font-weight:300;}
+.questionnaireHeading .TextPart p{ font-size:20px; line-height:25px; color:#646464; font-weight:300; margin:0 0 32px;}
+.questionnaireHeading .logo{ float:right; margin:15px 19px 0 0; padding:0;}
+
+.questionnaireBody .container{ border-top:1px solid #29366e;}
+.questionnaireBody .statusPart{ width:218px; float:left; background:#29366e;}
+.questionnaireBody.sticky .statusPart{ position:fixed; left:50%; margin-left:-630px; top:0;}
+.questionnaireBody a.top{ display:none;}
+.questionnaireBody.goToTop a.top{ display:block; position:fixed; right:0px; bottom:50px; width:57px; height:36px; background:url(../images/goToTop.png) no-repeat; background-size:57px auto; opacity:.7;}
+.questionnaireBody.goToTop a.top:hover{ opacity:1;}
+.questionnaireBody .statusPart ul{ display:block; padding:36px 0 36px 30px;}
+.questionnaireBody .statusPart ul li{ display:block; list-style:none;}
+.questionnaireBody .statusPart ul li a{ display:block; padding-left:24px; font-size:14px; line-height:30px; color:#9ea5c4;}
+.questionnaireBody .statusPart ul li a:hover, .questionnaireBody .statusPart ul li a.current{ color:#56baa1;}
+.questionnaireBody .statusPart ul li a.done{ background:url(../images/whiteTick.png) left center no-repeat; color:#fff;}
+.doctorsCase.questionnaireBody .statusPart ul li.opinion{ margin-left:-30px; padding-left:40px; border-top:1px solid #636c90; margin-top:15px; padding-top:15px;}
+.doctorsCase.questionnaireBody .statusPart ul li.opinion a{ background:url(../images/opinion.png) left center no-repeat; padding-left:35px;}
+.questionPart{ float:left; border-left:1px solid #29366e; width:940px; padding:46px 0 65px 100px;}
+.questionnaireBody.sticky .questionPart{ margin-left:218px;}
+.questionPart h2{ font-size:35px; line-height:35px; color:#29366e; font-weight:300; padding:0 0 35px;}
+.questionPart .pertionalDetails, .questionPart .Smoking, .questionPart .illness, .questionPart .history{ padding-bottom:40px; border-bottom:1px solid #e2e2e2;}
+.questionPart label.blue{ font-size:14px; line-height:19px; display:block; color:#29366e; font-weight:700; margin:20px 0 0;}
+.questionPart label{ font-size:14px; line-height:19px; display:block; color:#646464; margin:10px 0; clear:both;}
+.questionPart label input[type="radio"]{ float:left; margin:6px 10px 21px 0;}
+.ml20{ margin-left:20px;}
+.ml14{ margin-left:14px !important;}
+.mt37{ margin-top:37px;}
+.w540{ width:540px;}
+.questionPart .name{ width:300px; float:left}
+.questionPart .gender{ width:140px; float:left}
+.questionPart .place{ width:460px; float:left}
+.questionPart input[type="text"]{ width:100%; border:1px solid #c9c9c9; height:28px; line-height:28px; font-size:14px; color:#000; text-indent:10px;}
+.questionPart textarea{ width:100%; border:1px solid #c9c9c9; height:100px; line-height:25px; font-size:14px; color:#000; text-indent:10px; resize:none; font-family: 'Lato', sans-serif;}
+.questionPart select{ width:100%; border:1px solid #c9c9c9; height:30px; line-height:28px; font-size:14px; color:#000;}
+.questionPart .oneThird{ width:33.3%; float:left;}
+.questionPart .place input[type="text"]{ width:140px !important;}
+.questionPart .place select{ width:140px !important;}
+.questionPart input[type="text"].weight{ background:url(../images/kg.png) 90% center no-repeat;}
+.questionPart input[type="text"].height{ background:url(../images/cm.png) 90% center no-repeat;}
+.questionPart input[type="text"].days{ background:url(../images/days.png) 90% center no-repeat;}
+.questionPart input[type="text"].year{ background:url(../images/year.png) 90% center no-repeat;}
+
+.questionPart .dragDetails, .questionPart .performance, .questionPart .alcohal, .questionPart .drug, .questionPart .additional{ padding:40px 0; border-bottom:1px solid #e2e2e2;}
+.questionPart h3{ font-size:20px; line-height:30px; color:#646464; font-weight:400; padding:0; margin:0; height:30px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.questionPart p{ font-size:14px; line-height:19px; color:#646464;}
+.mb20{ margin-bottom:20px !important;}
+.mb10{ margin-bottom:10px !important;}
+.h225{ height:225px !important;}
+.questionPart .drag{ width:220px; float:left;}
+.questionPart .greenText{ font-size:14px; line-height:28px; color:#56baa1; float:left;}
+.questionPart .greenText:hover{ color:#29366e;}
+.questionPart .backBtn{ color:#29366e; border:1px solid #29366e; height:48px; font-size:18px; line-height:48px; padding:0 51px 0 58px; float:left; background:#fff url(../images/backArrow.png) 34px center no-repeat; cursor:pointer;}
+.questionPart .backBtn:hover{ color:#56baa1; border:1px solid #56baa1; background:#fff url(../images/backArrowHover.png) 34px center no-repeat;}
+.questionPart .backBtn.disable{ cursor:default; color:#bec2d3; border:1px solid #bec2d3; background:#fff url(../images/backArrowDisable.png) 34px center no-repeat;}
+.questionPart .nextBtn{ float:right; border:none; background:#29366e url(../images/nextArrow.png) 100px center no-repeat; color:#fff; height:50px; font-size:18px; line-height:50px; padding:0 58px 0 45px; margin-left:20px;}
+.questionPart .nextBtn:hover{ background:#56baa1 url(../images/nextArrow.png) 100px center no-repeat;}
+.questionPart .submitBtn{ float:right; border:none; background:#29366e; color:#fff; height:50px; font-size:18px; line-height:50px; padding:0 58px; margin-left:20px;}
+.questionPart .submitBtn:hover{ background:#56baa1;}
+.questionPart .saveBtn{ float:right; border:none; background:#fff; color:#29366e; border:1px solid #29366e; height:48px; font-size:18px; line-height:48px; padding:0 50px; margin-left:20px;}
+.questionPart .saveBtn:hover{ color:#56baa1; border:1px solid #56baa1;}
+.questionPart .quantity{ width:222px; float:left;}
+.questionPart .quantity input[type="text"]{ width:82px; float:left; border-right:none;}
+.questionPart .quantity select{ width:139px; float:left;}
+
+.questionPart .period{ width:460px; float:left;}
+.questionPart .period .month{ width:100px; float:left; border-right:none;}
+.questionPart .period .year{ width:120px; float:left;}
+.questionPart p.dash{ width:20px; float:left; text-align:center; color:#29366e; line-height:30px;}
+
+.questionPart .period{ width:460px; float:left;}
+.questionPart input[type="text"].ml{ background:url(../images/ml.png) 90% center no-repeat;}
+.questionPart .diagnosis{ width:220px; float:left;}
+
+.questionPart .datesThree{ width:300px; float:left;}
+.questionPart .datesThree .month{ width:100px; float:left; border-right:none;}
+.questionPart .datesThree .date{ width:100px; float:left; border-right:none;}
+.questionPart .datesThree .year{ width:100px; float:left;}
+.w700{ width:700px;}
+.w80{ width:80px; float:left;}
+.illness textarea{ height:250px;}
+.questionPart .datesTwo{ width:220px; float:left;}
+.questionPart .datesTwo .month{ width:110px; float:left; border-right:none;}
+.questionPart .datesTwo .year{ width:110px; float:left;}
+.questionPart .result{ width:380px; float:left;}
+
+.questionPart .whatTest{ padding:25px 0; border-bottom:1px solid #cbcbcb;}
+.questionPart h4{ font-size:25px; line-height:35px; color:#29366e; font-weight:300; padding:0; margin:0;}
+.questionPart .report{ width:420px; float:left;}
+.questionPart .report .uploadReport{ font-size:14px; line-height:30px; float:left; color:#56baa1; font-weight:300; padding-left:30px; background:url(../images/upload.png) left center no-repeat;}
+.questionPart .report .uploadReport:hover{ color:#29366e; background:url(../images/uploadHover.png) left center no-repeat;}
+.questionPart label.noreport{ clear:none; margin:0; line-height:28px; float:left;}
+.questionPart label input[type="checkbox"]{ float:left; margin:8px 6px 2px 0;}
+.w300{ width:300px; float:left;}
+.questionPart .reportCard{ font-size:14px; line-height:30px; float:left; color:#56baa1; font-weight:300; padding-left:24px; background:url(../images/pdf.png) left center no-repeat;}
+.questionPart .reportCardDel{ font-size:14px; line-height:30px; float:left; color:#56baa1; font-weight:300; margin-left:14px;}
+.questionPart .reportCardDel:hover{ color:#29366e;}
+
+.questionPart .downloadBtn{ width:45px; height:25px; float:right; background:url(../images/download.png) center top no-repeat;}
+.questionPart .downloadBtn:hover{ background:url(../images/downloadHover.png) center top no-repeat;}
+.questionPart .printBtn{ width:45px; height:25px; float:right; background:url(../images/print.png) center top no-repeat;}
+.questionPart .printBtn:hover{ background:url(../images/printHover.png) center top no-repeat;}
+.questionPart .editBtn{ width:45px; height:45px; float:right; background:url(../images/edit.png) center center no-repeat;}
+.questionPart .editBtn:hover{ background:url(../images/editHover.png) center center no-repeat;}
+.questionPart .details{ padding-bottom:85px;}
+.questionPart .heiding, .questionPart .details.last{ border-bottom:1px solid #cbcbcb; overflow:hidden;}
+.questionPart .details h2{ font-size:40px; line-height:50px; padding:0; margin:0; float:left;}
+.w770{ width:770px;}
+.width1{ width:220px; float:left;padding-right:20px;}
+.width2{ width:530px; float:left;}
+.width3{ width:290px; float:left;}
+.questionPart .details .row{ border-bottom:1px solid #cbcbcb; overflow:hidden;}
+.questionPart .details label.blue, .questionPart .details label{ padding:5px 0; margin:0; font-size:14px; line-height:19px;}
+
+.payment{ padding-top:130px;}
+.payment .row{ padding:80px 0 70px; border-bottom:1px solid #29366e; border-top:1px solid #29366e;}
+.payment .row .availibilityDate{ width:420px; float:left}
+.payment .row .opinionDate{ width:320px; float:left;}
+.payment .row .fees{ width:240px; float:left;}
+.payment p{ font-size:20px; line-height:30px; color:#646464; font-weight:300;}
+.payment h3{ font-size:35px; line-height:40px; color:#29366e; font-weight:300; padding:0; margin:0;}
+.payment .paymentBtn{ float:right; border:none; background:#29366e url(../images/nextArrow.png) 135px center no-repeat; color:#fff; height:50px; font-size:18px; line-height:50px; padding:0 58px 0 45px; margin-left:20px;}
+.payment .paymentBtn:hover{ background:#56baa1 url(../images/nextArrow.png) 135px center no-repeat;}
+.payment .cancelBtn{ float:right; border:none; background:#fff; color:#29366e; border:1px solid #29366e; height:48px; font-size:18px; line-height:48px; padding:0 50px; margin-right:20px;}
+.payment .cancelBtn:hover{ color:#56baa1; border:1px solid #56baa1;}
+
+header nav ul li.pic{ margin-right:-18px; margin-top:-18px;}
+header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
+.doctorsCase{ padding-top:94px; background:#ededed;}
+.doctorsCase.questionnaireBody .container{ border:none;}
+.doctorsCase .statusPart{ float:right}
+.questionnaireBody.sticky.doctorsCase .statusPart{ left:auto; right:50%; margin-left:0; margin-right:-630px;}
+.doctorsCase.questionnaireBody .statusPart ul li a{ padding-left:10px; color:#fff;}
+.doctorsCase.questionnaireBody .statusPart ul li a.current{ color:#56baa1;}
+.doctorsCase .questionPart{ border:1px solid #dfdfdf; background:#fff; padding-left:82px; padding-right:65px; width:894px; padding-bottom:0; margin-bottom:80px;}
+.questionnaireBody.sticky.doctorsCase .questionPart{ margin-left:0;}
+.doctorsCase.questionnaireBody .statusPart{ margin:100px 0 0 -1px;}
+.doctorsCase .questionPart .heiding{ width:770px;}
+.doctorsCase .patientDetails{ height:100px; background:#fafafa; margin:-47px -65px 55px -82px; border-bottom:1px solid #dfdfdf;}
+.doctorsCase .patientDetails .crossButton{ float:left; margin:20px 0 0 20px;}
+.doctorsCase .patientDetails .w1{ width:82px; float:left;}
+.doctorsCase .patientDetails .w2{ width:320px; float:left;}
+.doctorsCase .patientDetails .w3{ width:145px; float:left;}
+.doctorsCase .patientDetails .w4{ width:135px; float:left;}
+.doctorsCase .patientDetails .w5{ width:160px; float:left;}
+.doctorsCase .patientDetails p{ font-size:12px; line-height:17px; color:#646464; font-weight:300; margin:30px 0 0;}
+.doctorsCase .patientDetails h3{ font-size:20px; line-height:26px; color:#29366e; font-weight:300; padding:0; margin:0;}
+.doctorsCase .patientDetails .w2 h3{ margin-top:33px;}
+.doctorsCase .patientDetails .w2 h3 img{ margin:5px 10px -4px 0; width:25px; height:25px;}
+.awatingGreen{ font-size:11px; line-height:18px; display:inline-block; color:#fff; padding:0 8px; background:#4aca5f; border-radius:10px; text-transform:uppercase;}
+.doctorsCase .comunication{ width:780px; clear:both;}
+.doctorsCase .comunication .talk{padding-bottom:40px;}
+.doctorsCase .comunication .talk .picCont{ width:53px; float:left;}
+.doctorsCase .comunication .talk .picCont img{ width:40px; height:40px; border-radius:20px;}
+.doctorsCase .comunication .talk .textCont{ margin-left:53px;}
+.doctorsCase .comunication .talk .textCont h3{ font-size:14px; line-height:19px; color:#29366e; font-weight:400; margin:0; padding:0 0 10px;}
+.doctorsCase .comunication .talk .textCont h3 span{ display:block; color:#8e8e8e; font-size:11px; line-height:15px;}
+.doctorsCase .comunication .talk .textCont p{ color:#646464; font-size:14px; line-height:19px; font-weight:300; margin:0;}
+.doctorsCase .comunication .talk.last .textCont{ padding-bottom:40px; border-bottom:1px solid #bec2d3;}
+.doctorsCase .comunication .talk input[type="checkbox"] { margin: 2px 6px 2px 0;}
+.doctorsCase .comunication .talk .submitBtn{ float:left; margin-left:0;}
+
+.bodyBannerSlider .owl-nav{ position:absolute; left:0; top:50%; right:0;}
+.bodyBannerSlider .owl-nav .owl-prev{ position:absolute; left:10px; top:-18px; background:url(../images/arrow-left2.png) no-repeat; width:17px; height:35px; text-indent:-1000px; overflow:hidden;}
+.bodyBannerSlider .owl-nav .owl-next{ position:absolute; right:10px; top:-18px; background:url(../images/arrow-right2.png) no-repeat; width:17px; height:35px; text-indent:-1000px; overflow:hidden;}
+
+.doctorsDashbord{ background: #ededed; padding-top: 94px;}
+.doctorsDashbord .rightPart{ width:276px; float:right;}
+.doctorsDashbord .leftPart{ float:left; width:962px; padding-bottom:75px; background:url(../images/vline.png) right top repeat-y;}
+.doctorsDashbord .rightPart .filter{ padding:28px 0 26px; background:url(../images/hline.png) bottom left no-repeat;}
+.doctorsDashbord .rightPart .filter.last{ background:none;}
+.doctorsDashbord .rightPart .search{ padding:0 0 30px; background:url(../images/hline.png) bottom left no-repeat;}
+.doctorsDashbord .rightPart h3{ font-size:12px; line-height:12px; font-weight:700; color:#818181; margin:0; padding:0 0 10px; text-transform:uppercase;}
+.doctorsDashbord .rightPart .filter h3{ margin-bottom:9px;}
+.doctorsDashbord .rightPart .search .searcBox{ width:274px; border:1px solid #c9c9c9; border-radius:12px; background:#fff; box-shadow:inset 0 0 2px rgba(0,0,0,0.2); height:28px;}
+.doctorsDashbord .rightPart .search .searchBtn{ width:30px; height:28px; float:left; overflow:hidden; text-indent:-9999px; background:url(../images/searchBtn.png) center center no-repeat; opacity:0.6; border:none;}
+.doctorsDashbord .rightPart .search .searchText{ float:left; font-size:14px; color:#333; line-height:28px; width:170px; border:none; background:none;}
+.doctorsDashbord .rightPart .filter a{ display:inline-block; background:#fff; font-size:14px; line-height:34px; color:#29366e; font-weight:300; padding:0 17px; border-radius:18px; position:relative; margin-bottom:4px; text-transform:uppercase;}
+.doctorsDashbord .rightPart .filter a.active, .doctorsDashbord .rightPart .filter a:hover{ background:#29366e; color:#fff;}
+.doctorsDashbord .rightPart .filter a span{ position:absolute; right:0; top:-14px; background:#56baa1; color:#fff; padding:0 7px; line-height:22px; display:inline-block; border-radius:18px;}
+.doctorsDashbord .leftPart .patientBox{ width:300px; margin:0 18px 18px 0; box-shadow:0 1px 2px rgba(0,0,0,0.23);}
+.doctorsDashbord .leftPart .patientBox .whitePart{ padding:23px 20px; background:#fff;}
+.doctorsDashbord .leftPart .patientBox .whitePart h2{ font-size:20px; line-height:33px; color:#29366e; font-weight:300; padding:0 0 0 40px; margin:0 0 11px;}
+.doctorsDashbord .leftPart .patientBox .whitePart h2.man{ background:url(../images/man.png) left center no-repeat; background-size:32px auto;}
+.doctorsDashbord .leftPart .patientBox .whitePart h2.woman{ background:url(../images/woman.png) left center no-repeat; background-size:32px auto;}
+.doctorsDashbord .leftPart .patientBox .whitePart h2 span.tick{ background:url(../images/greenTick.png) right center no-repeat; display:block; padding-right:25px;}
+.doctorsDashbord .leftPart .patientBox .whitePart p.status{ border-bottom:1px solid #e2e2e2; text-align:center; height:12px; margin:0 0 25px; padding:0;}
+.awatingOrange{ font-size:11px; line-height:18px; display:inline-block; color:#fff; padding:0 8px; background:#f28d4f; border-radius:10px; text-transform:uppercase;}
+.doctorsDashbord .leftPart .patientBox .whitePart p.blueText{ font-size:14px; line-height:14px; color:#29366e; margin:0 0 20px; padding:0;}
+.doctorsDashbord .leftPart .patientBox .whitePart p.dueDate{ font-size:12px; line-height:12px; font-weight:300; color:#818181; margin:0; padding:0 0 2px; text-transform:uppercase;} 
+.doctorsDashbord .leftPart .patientBox .whitePart h3{ font-size:20px; line-height:25px; color:#29366e; font-weight:300; padding:0; margin:0;}
+.doctorsDashbord .leftPart .patientBox .grayPart{ padding:13px 20px; background:#f2f1f1;}
+.doctorsDashbord .leftPart .patientBox .grayPart .message{ font-size:14px; line-height:21px; color:#29366e; margin:0; padding:0 0 0 32px; background:url(../images/message.png) left center no-repeat; display:block;}
+
+.sendOpinionBox{ position:fixed; background:#fff; right:20px; bottom:0; width:500px; padding:20px; box-shadow:0 0 6px rgba(0,0,0,0.46); z-index:500;}
+.sendOpinionBox h2{ font-size:20px; line-height:40px; background:url(../images/opinionB.png) left center no-repeat; float:left; padding: 0 0 10px 42px; margin:0; color:#29366e;}
+.sendOpinionBox .close{ float:right; width:30px; height:20px; background:url(../images/close.png) center bottom no-repeat; opacity:0.5;}
+.sendOpinionBox .minimize{ float:right; width:30px; height:20px; background:url(../images/minimize.png) center bottom no-repeat; opacity:0.3;}
+.sendOpinionBox .close:hover, .sendOpinionBox .minimize:hover{ opacity:1;}
+.sendOpinionBox .block{ clear:both; padding:5px 0 15px; border-top:1px solid #dee0e9;}
+.sendOpinionBox .block label{ display:block; font-size:14px; line-height:18px; color:#29366e; margin:0;}
+.sendOpinionBox .block input[type="text"], .sendOpinionBox .block textarea{ background:#fff; border:none; width:100%; font-size:14px; line-height:18px; height:18px; color:#b3b3b3;}
+.sendOpinionBox .block textarea{font-family: 'Lato', sans-serif; height:54px; resize:none;}
+.sendOpinionBox .blueButton{ float:left; width:100px; font-size:14px; height:40px; line-height:40px; border-radius:3px; margin:0 15px 0 0;}
+.sendOpinionBox .attachButton{ float:left; font-size:14px; height:40px; line-height:40px; color:#56baa1; padding-left:21px; background:url(../images/attach.png) left center no-repeat;}
+.sendOpinionBox .attachButton:hover{ background:url(../images/attach_H.png) left center no-repeat; color:#29366e;}
+@media screen and (max-width: 1025px){
+	.Wrapper{ min-width:1000px;}
+	.container{ width:1000px; margin:0 auto;}
+	.logo{ padding:10px 0 0 0;}
+	.bodyBannerSlider .banner1, .bodyBannerSlider .banner2{ background-size:1024px auto; height:499px;}
+	.bodyBannerSlider h3{ font-size:30px; line-height:40px; padding-top:150px;}
+	.bodyBannerSlider h4{ font-size:20px; line-height:25px;}
+	.facility .box{ width:293px; margin:100px 0 -100px;}
+	.facility.appear .box{ margin:0;}
+	.secondOption .box1{ width:312px;}
+	.secondOption .box2{ width:375px;}
+	.knowTheSpecialists .box, .knowTheSpecialists .box img{ width:166px; height:236px;}
+	
+	.doctorLoist .doctor{ width:236px;}
+	.doctorDetails .box{ width:313px; margin-right:20px;}
+	
+	.serviceTypeCont .patient, .serviceTypeCont .patient img{ width:499px; height:325px;}
+	.serviceTypeCont .doctor, .serviceTypeCont .doctor img{ width:500px; height:325px;}
+	.serviceTypeCont{ height:325px;}
+	.patientText { margin-bottom:0 !important;}
+	.patientText .box1{ margin-left:115px;}
+	.patientText .box3{ padding:0 22px;}
+	
+	.myDashBordCont{ width:1000px; margin:-200px 0 0 -500px;}
+	.myDashBordCont .leftWhitePart{ width:450px;}
+	.myDashBordCont .leftWhitePart .completedStatus{ width:430px;}
+	.myDashBordCont .leftWhitePart .completedStatus .step{ width:84px;}
+	.myDashBordCont .leftWhitePart .completedStatus .step .TextPart{ font-size:10px;}
+	.myDashBordCont .leftWhitePart h2, .myDashBordCont .leftWhitePart h3{ padding-left:10px;}
+	
+	.questionnaireBody.sticky .statusPart{ margin-left:-500px;}
+	.questionnaireBody .statusPart ul{ padding:26px 0 26px 15px;}
+	.doctorsCase.questionnaireBody .statusPart ul li.opinion{ margin-left:-15px; padding-left:25px;}
+	.questionnaireBody .statusPart{ width:190px;}
+	.questionnaireBody.sticky .questionPart{ margin-left:150px;}
+	.questionPart{ width:778px; padding:46px 0 65px 30px;}
+	.questionPart .report{ margin:20px 0 0;}
+	
+	.questionnaireBody .statusPart{ width:150px;}
+	.doctorsCase .questionPart{ width:754px; padding-left:30px;}
+	.doctorsCase .patientDetails{ margin-left:-30px;}
+	.doctorsCase .patientDetails .w1{ width:45px;}
+	.doctorsCase .patientDetails .w2{ width:299px;}
+	.doctorsCase .patientDetails .w3{ width:145px;}
+	.doctorsCase .patientDetails .w4{ width:90px;}
+	.doctorsCase .patientDetails .w5{ width:135px;}
+	.questionnaireBody.sticky.doctorsCase .statusPart{ margin-right:-500px;}
+	
+	.doctorsDashbord .leftPart{ width:700px;}
+	.doctorsDashbord .leftPart .patientBox{ width:330px;}
+}
+@media screen and (max-width: 800px){
+	.Wrapper{ min-width:740px;}
+	.container, .container940{ width:740px;}
+	.logo{ padding:10px 0 0 0;}
+	.logo img{ width:150px;}
+	nav ul li{ font-size:12px; margin-left:15px;}
+	.facility .box{ width:220px; margin:100px 0 -100px; padding:40px 0 0;}
+	.facility .box.icon2{ margin-left:20px; margin-right:20px;}
+	.facility.appear .box{ margin-top:0; margin-bottom:0;}
+	.facility .box.icon1, .facility .box.icon2, .facility .box.icon3{ background-position:center top;}
+	.secondOption .box1,.secondOption .box2{ width:100%;}
+	.knowTheSpecialists .box, .knowTheSpecialists .box img{ width:116px; height:165px;}
+	
+	.myAccountLogin .signIn, .myAccountLogin .signUp{ width:370px;}
+	.doctorLoist .doctor{ width:161px;}
+	.doctorLoist .doctor .picCont, .doctorLoist .doctor .picCont img{ width:150px; height:150px;}
+	.doctorLoist .doctor h3{ font-size:14px; line-height:20px;}
+	.doctorLoist .doctor h5{ font-size:10px; line-height:20px;}
+	.doctorDetails .box { margin-right: 13px; width: 220px;}
+	.serviceTypeCont .patient, .serviceTypeCont .patient img{ width:369px; height:240px}
+	.serviceTypeCont .doctor, .serviceTypeCont .doctor img{ width:370px; height:240px}
+	.serviceTypeCont{ height:220px;}
+	.patientText .box1{ margin-left:0;}
+	.patientText .box{ margin-left:40px; width:340px;}
+	.iconPart a{ width:280px; padding-bottom:50px;}
+	.patientText .box3{ width:154px; padding:0 10px; height:161px;}
+	
+	.myDashBord{ min-height:920px;}
+	.myDashBordCont{ width:540px; margin:-370px 0 0 -270px;}
+	.myDashBordCont .leftWhitePart{ width:540px; margin-bottom:20px; height:310px;}
+	.myDashBordCont .leftWhitePart .completedStatus{ width:500px; margin:35px auto 0;}
+	.myDashBordCont .leftWhitePart h2{ padding-left:20px;}
+	.myDashBordCont .leftWhitePart h3{ padding-left:20px; padding-top:40px;}
+	.myDashBordCont .leftWhitePart .completedStatus .step{ width:98px;}
+	.myDashBordCont .leftWhitePart .completedStatus .step .TextPart{ font-size:12px;}
+	.myDashBordCont .leftWhitePart .finishButton{ margin-top:45px;}
+	
+	.questionnaireHeading .TextPart{ width:560px;}
+	.questionnaireHeading .TextPart h2{ font-size:40px; line-height:40px;}
+	.questionnaireHeading .TextPart p{ font-size:15px; line-height:20px;}
+	.questionnaireHeading .logo img{ width:70px;}
+	.questionnaireBody .statusPart{ width:100%;}
+	.questionnaireBody.sticky .statusPart{ margin-left:-370px;}
+	.questionnaireBody .statusPart ul{ overflow:hidden; padding:20px 20px 10px;}
+	.questionnaireBody .statusPart ul li{ width:33.33%; float:left; padding-bottom:10px;}
+	.doctorsCase.questionnaireBody .statusPart ul li.opinion{ margin:0; padding:0; border:none;}
+	.questionPart{ width:100%; padding:45px 0 65px; border:none;}
+	.questionnaireBody.sticky .questionPart{ margin-left:0;}
+	.w770{ width:740px;}
+	.width1{ width:200px;}
+	.width2{ width:520px;}
+	.questionPart .result{ margin:20px 0 0;}
+	.greenText.ml20.mobileNoML{ margin-left:0 !important;}
+	
+	.questionnaireBody.doctorsCase .statusPart ul li{ width:25%;}
+	.doctorsCase.questionnaireBody .statusPart{ margin:0;}
+	.doctorsCase .questionPart{ background:none; border:none; width:740px; padding-left:0; padding-right:0;}
+	.doctorsCase .comunication, .doctorsCase .questionPart .heiding{ width:740px;}
+	.doctorsCase .patientDetails{ margin:0 0 20px; overflow:hidden; height:auto; padding-bottom:20px;}
+	.doctorsCase .patientDetails .w1{ width:65px;}
+	.doctorsCase .patientDetails .w2{ width:325px;}
+	.doctorsCase .patientDetails .w3{ width:200px;}
+	.doctorsCase .patientDetails .w4{ width:90px;}
+	.doctorsCase .patientDetails .w5{ width:260px; margin-left:65px;}
+	header nav ul li.pic{ margin-right:0;}
+	.questionnaireBody.sticky.doctorsCase .statusPart{ margin-right:-370px; left:0; margin-top:65px;}
+	
+	.doctorsDashbord .leftPart{ width:740px; background:url(../images/hline.png) left top repeat-x; padding-top:20px;}
+	.doctorsDashbord .leftPart .patientBox{ width:330px; margin:20px;}
+	.doctorsDashbord .rightPart{ width:100%;}
+	.doctorsDashbord .rightPart .search{ width:47%; background:url(../images/vline.png) right top repeat-y; float:left; padding-left:20px;}
+	.doctorsDashbord .rightPart .filter{ width:45%; padding-left:22px; background:none; float:left; padding-top:0; padding-bottom:13px;}
+	.doctorsDashbord .rightPart .filter.last{ width:97%; background:url(../images/hline.png) left top repeat-x; clear:both; padding-top:20px; padding-left:20px;}
+}
+
+/*
+* Other css part
+*/
+.overlay{
+	width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    z-index: 9999;
+    top: 0px;
+    position: absolute;
+    display: none;
+    background-color: black;
+}
+
+.overlay img{
+	margin-top: 350px;
+    margin-left: 47%;
+    height: 55px;
+    width: 54px;
+}
+.err-msg{
+	color:red;margin-left: 45px;
+}
+
+
+
+
+

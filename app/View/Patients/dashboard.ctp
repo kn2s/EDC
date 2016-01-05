@@ -17,6 +17,7 @@ $numberformpost = $patient['Patient']['detailsformsubmit'];
   	<div class="leftWhitePart">
     	
 		<?php 
+			//$numberformpost=3;
 			if($numberformpost<6){
 				echo $this->element('patientdashboardone',array("patient",$patient));
 			}
@@ -30,8 +31,10 @@ $numberformpost = $patient['Patient']['detailsformsubmit'];
     	<ul class="bxslider">
           <li><?php echo $this->Html->image('slide1.jpg',array('alt'=>''));?></li>
           <li><?php echo $this->Html->image('slide2.jpg',array('alt'=>''));?></li>
-          <li><?php echo $this->Html->image('slide1.jpg',array('alt'=>''));?></li>
-          <li><?php echo $this->Html->image('slide2.jpg',array('alt'=>''));?></li>
+          <li><?php echo $this->Html->image('slide3.jpg',array('alt'=>''));?></li>
+          <li><?php echo $this->Html->image('slide4.jpg',array('alt'=>''));?></li>
+          <li><?php echo $this->Html->image('slide5.jpg',array('alt'=>''));?></li>
+          <li><?php echo $this->Html->image('slide6.jpg',array('alt'=>''));?></li>
         </ul>
     </div>
     <div class="clear"></div>

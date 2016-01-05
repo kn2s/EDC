@@ -108,10 +108,30 @@ nav ul li.userMaleCircle{ margin-left:50px; margin-top:-10px; background:url(../
 .myDashBordCont .leftWhitePart .completedStatus .step .TextPart{ display:block; font-size:13px; color:#29366e; font-weight:300; line-height:13px; margin-top:14px;}
 .myDashBordCont .leftWhitePart .completedStatus .step.First .normalBG{ border-radius:5px 0 0 5px;}
 .myDashBordCont .leftWhitePart .completedStatus .step.Last .normalBG{ border-radius:0 5px 5px 0;}
-.myDashBordCont .leftWhitePart h3{ padding:75px 0 0 44px; color:#5ebaa8; font-size:48px; margin:0; font-weight:300; float:left;}
+.myDashBordCont .leftWhitePart h3{ padding:75px 0 0 44px; color:#5ebaa8; font-size:48px; margin:0; font-weight:300; float:left; position:relative;}
+.myDashBordCont .leftWhitePart h3 span{ position:absolute; left:40px; top:50px; font-size:20px; line-height:20px; color:#6f6f6f; width:300px;}
 .myDashBordCont .leftWhitePart .finishButton{ float:right; margin:90px 40px 0 0; padding:10px 15px; color:#29366e; font-size:14px; font-weight:300; background:url(../images/blueArrow.png) right center no-repeat;}
 .myDashBordCont .leftWhitePart .finishButton:hover{ color:#5ebaa8; background:url(../images/greenArrow.png) right center no-repeat;}
 .myDashBordCont .rightHIW{ width:540px; float:right; height:400px;}
+.myDashBordCont .leftWhitePart .submitBtn{ float:right; margin:75px 40px 0 0; padding:0px 40px; color:#fff; font-size:18px; line-height:50px; font-weight:300; width:auto;}
+.myDashBordCont .leftWhitePart .TextPart{ padding:23px 0; margin:0 44px; font-size:20px; line-height:25px; font-weight:300; color:#6f6f6f; border-bottom:1px solid #d7d7d7;}
+.myDashBordCont .leftWhitePart .SecondPart{ margin:0 44px; border-bottom:1px solid #d7d7d7; height:123px;}
+.myDashBordCont .leftWhitePart .SecondPart .oneThird{ width:33%; float:left;}
+.myDashBordCont .leftWhitePart .SecondPart .doctor{ width:66%; float:left;}
+.myDashBordCont .leftWhitePart .SecondPart p{ font-size:14px; line-height:19px; color:#6f6f6f; margin:25px 0 5px; font-weight:300;}
+.myDashBordCont .leftWhitePart .SecondPart .doctor img{ width:50px; height:50px; border-radius:25px; float:left; margin:5px 10px 0 0;}
+.myDashBordCont .leftWhitePart .SecondPart h4{ font-size:25px; line-height:60px; color:#000; font-weight:300; height:60px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.myDashBordCont .leftWhitePart .SecondPart .doctor h4{ color:#60c5ac; float:left;}
+.myDashBordCont .leftWhitePart .Questionnaire{ display:inline-block; font-size:14px; line-height:40px; padding:0 0 0 35px; margin-left:44px; color:#44aa91; background:url(../images/Questionnaire.png) left 10px no-repeat; margin-top:20px;}
+.myDashBordCont .leftWhitePart .Questionnaire:hover{ color:#29366e; background-image:url(../images/Questionnaire_H.png);}
+.myDashBordCont .leftWhitePart h2.Message{ color:#e97300; padding-left:95px; background:url(../images/qheading.png) 44px 48px no-repeat; padding-bottom:5px; margin-bottom:-5px;}
+.myDashBordCont .leftWhitePart .TextPart.Message span{ color:#e97300;}
+.myDashBordCont .leftWhitePart .MessageLink{ display:inline-block; font-size:14px; line-height:40px; padding:0 0 0 35px; margin-left:44px; color:#44aa91; background:url(../images/messageLink.png) left 7px no-repeat; margin-top:20px;}
+.myDashBordCont .leftWhitePart .MessageLink:hover{ color:#29366e; background-image:url(../images/messageLink_H.png);}
+.myDashBordCont .leftWhitePart h2.OpinionPart{ color:#11b78d;}
+.myDashBordCont .leftWhitePart .TextPart.OpinionPart span{ color:#11b78d;}
+.myDashBordCont .leftWhitePart .OpinionLink{ display:inline-block; font-size:14px; line-height:40px; padding:0 0 0 35px; margin-left:44px; color:#44aa91; background:url(../images/opinionG.png) left 7px no-repeat; margin-top:20px;}
+.myDashBordCont .leftWhitePart .OpinionLink:hover{ color:#29366e; background-image:url(../images/opinionH.png);}
 
 .ourPhician{ padding:140px 0 0;}
 .ourPhician h2{ text-align:center; font-weight:300; font-size:50px; line-height:60px; color:#29366e; margin:0 0 27px;}
@@ -217,9 +237,9 @@ nav ul li.userMaleCircle{ margin-left:50px; margin-top:-10px; background:url(../
 .questionPart .name{ width:300px; float:left}
 .questionPart .gender{ width:140px; float:left}
 .questionPart .place{ width:460px; float:left}
-.questionPart input[type="text"]{ width:100%; border:1px solid #c9c9c9; height:28px; line-height:28px; font-size:14px; color:#000; text-indent:10px;}
-.questionPart textarea{ width:100%; border:1px solid #c9c9c9; height:100px; line-height:25px; font-size:14px; color:#000; text-indent:10px; resize:none; font-family: 'Lato', sans-serif;}
-.questionPart select{ width:100%; border:1px solid #c9c9c9; height:30px; line-height:28px; font-size:14px; color:#000;}
+.questionPart input[type="text"]{ width:100%; border:1px solid #c9c9c9; height:28px; line-height:28px; font-size:14px; color:#8f8f8f; text-indent:10px;}
+.questionPart textarea{ width:100%; border:1px solid #c9c9c9; height:100px; line-height:25px; font-size:14px; color:#8f8f8f; text-indent:10px; resize:none; font-family: 'Lato', sans-serif;}
+.questionPart select{ width:100%; border:1px solid #c9c9c9; height:30px; line-height:28px; font-size:14px; color:#8f8f8f;}
 .questionPart .oneThird{ width:33.3%; float:left;}
 .questionPart .place input[type="text"]{ width:140px !important;}
 .questionPart .place select{ width:140px !important;}
@@ -420,6 +440,16 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	.myDashBordCont .leftWhitePart .completedStatus .step{ width:84px;}
 	.myDashBordCont .leftWhitePart .completedStatus .step .TextPart{ font-size:10px;}
 	.myDashBordCont .leftWhitePart h2, .myDashBordCont .leftWhitePart h3{ padding-left:10px;}
+	.myDashBordCont .leftWhitePart h3 span{ left:10px;}
+	.myDashBordCont .leftWhitePart .submitBtn{ margin:75px 10px 0 0;}
+	.myDashBordCont .leftWhitePart .TextPart{ font-size:15px; line-height:20px; margin:0 10px;}
+	.myDashBordCont .leftWhitePart .SecondPart{ margin:0 10px;}
+	.myDashBordCont .leftWhitePart .SecondPart p{ font-size:13px;}
+	.myDashBordCont .leftWhitePart .SecondPart h4{ font-size:18px;}
+	.myDashBordCont .leftWhitePart .Questionnaire{ margin-left:10px;}
+	.myDashBordCont .leftWhitePart h2.Message{ padding-left:54px; background-position:11px 45px;}
+	.myDashBordCont .leftWhitePart .MessageLink{ margin-left:10px;}
+	.myDashBordCont .leftWhitePart .OpinionLink{ margin-left:10px;}
 	
 	.questionnaireBody.sticky .statusPart{ margin-left:-500px;}
 	.questionnaireBody .statusPart ul{ padding:26px 0 26px 15px;}
@@ -478,6 +508,14 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	.myDashBordCont .leftWhitePart .completedStatus .step{ width:98px;}
 	.myDashBordCont .leftWhitePart .completedStatus .step .TextPart{ font-size:12px;}
 	.myDashBordCont .leftWhitePart .finishButton{ margin-top:45px;}
+	.myDashBordCont .leftWhitePart h3 span{ left:20px; top:10px;}
+	.myDashBordCont .leftWhitePart .submitBtn{ margin:40px 10px 0 0;}
+	.myDashBordCont .leftWhitePart .TextPart{ margin:0 20px; padding:10px 0;}
+	.myDashBordCont .leftWhitePart .SecondPart{ margin:0 20px;}
+	.myDashBordCont .leftWhitePart .Questionnaire{ margin-left:20px; margin-top:0;}
+	.myDashBordCont .leftWhitePart h2.Message{ padding-left:64px; background-position:21px 45px;}
+	.myDashBordCont .leftWhitePart .MessageLink{ margin-left:20px; margin-top:0;}
+	.myDashBordCont .leftWhitePart .OpinionLink{ margin-left:20px; margin-top:0;}
 	
 	.questionnaireHeading .TextPart{ width:560px;}
 	.questionnaireHeading .TextPart h2{ font-size:40px; line-height:40px;}
@@ -516,32 +554,3 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	.doctorsDashbord .rightPart .filter{ width:45%; padding-left:22px; background:none; float:left; padding-top:0; padding-bottom:13px;}
 	.doctorsDashbord .rightPart .filter.last{ width:97%; background:url(../images/hline.png) left top repeat-x; clear:both; padding-top:20px; padding-left:20px;}
 }
-
-/*
-* Other css part
-*/
-.overlay{
-	width: 100%;
-    height: 100%;
-    opacity: 0.5;
-    z-index: 9999;
-    top: 0px;
-    position: absolute;
-    display: none;
-    background-color: black;
-}
-
-.overlay img{
-	margin-top: 350px;
-    margin-left: 47%;
-    height: 55px;
-    width: 54px;
-}
-.err-msg{
-	color:red;margin-left: 45px;
-}
-
-
-
-
-

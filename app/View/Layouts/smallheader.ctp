@@ -110,7 +110,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 </div>
 
 	<!-- preloader section add -->
-	<div class="js-loader overlay">
+	<div class="js-loader overlay" id="preloaderdv">
 		<img src="<?=FULL_BASE_URL.$this->base?>/images/preloader.gif" alt="preloader" style=""/>
 	</div>
   <!-- preloader end -->

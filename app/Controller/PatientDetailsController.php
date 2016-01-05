@@ -15,6 +15,7 @@ class PatientDetailsController extends AppController {
  * @var array
  */
 	public $components = array('Paginator', 'Session');
+	public  $helpers = array('Pdf');
 	public $layout = 'questionnaire';
 
 /**
@@ -838,5 +839,16 @@ class PatientDetailsController extends AppController {
 			$this->Session->setFlash(__('The patient detail could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+	
+	//print the patient summery
+/**
+ * pdfsummery method
+ */
+	public function pdfsummery(){
+		$this->layout="pdf";
+		$url = FULL_BASE_URL.$this->base."/patientDetails/patientsummery";
+		$html = file_get_contents($url);
+		$this->set('htmldata',$html);
 	}
 }
