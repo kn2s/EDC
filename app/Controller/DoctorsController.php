@@ -646,6 +646,15 @@ ADMIN SECTION START FROM HERE
 		
 		$this->layout='admin';
 		$this->validateadminsession();
+		//bind specialization model
+		$this->Doctor->Patient->bindModel(array(
+			'hasMany'=>array(
+				'DoctorSpecializetion'=>array(
+					'className'=>'DoctorSpecializetion',
+					'foreignKey'=>'doct_id'
+				)
+			)
+		));
 		$findcondition = array('Doctor.patient_id >'=>'0','Patient.ispatient'=>'0','Patient.isdeleted'=>'0');
 		$doctors = $this->Doctor->find('all',array('recursive'=>'0','conditions'=>$findcondition));
 		$this->set('doctors',$doctors);
@@ -677,10 +686,11 @@ ADMIN SECTION START FROM HERE
 		$this->validateadminsession();
 		
 		if ($this->request->is('post')) {
+			$this->loadMOdel('DoctorSpecializetion');
 			//echo WWW_ROOT;
 			$this->Doctor->create();
-			//pr($this->request->data);
-			//die();
+			pr($this->request->data);
+			die();
 			$isemailavailable=false;
 			$email = $this->request->data['Patient']['email'];
 			if(filter_var($email,FILTER_VALIDATE_EMAIL)){
@@ -714,10 +724,25 @@ ADMIN SECTION START FROM HERE
 					else{
 						$this->request->data['Doctor']['image'] = "";
 					}
-					
+					//spetialization node is remove from here
+					$doctspecializations = $this->request->data['Doctor']['specialization_id'];
+					$this->request->data['Doctor']['specialization_id']=0;
 					if ($this->Doctor->save(array('Doctor'=>$this->request->data['Doctor']))) {
 						//now create the schedule for this doct 
 						$this->admin_createDoctoreSchedule($patient_id);
+						//add spetializations
+						if(is_array($doctspecializations) && count($doctspecializations)>0){
+							foreach($doctspecializations as $ky=>$spzid){
+								$data = array(
+									"DoctorSpecializetion"=>array(
+										'doct_id'=>$patient_id,
+										'specialization_id'=>$spzid
+									)
+								);
+								$this->DoctorSpecializetion->create();
+								$this->DoctorSpecializetion->save($data);
+							}
+						}
 						$this->Session->setFlash(__('The doctor has been saved.'));
 						return $this->redirect(array('action' => 'index'));
 					} else {
@@ -861,6 +886,7 @@ ADMIN SECTION START FROM HERE
 		}
 		
 		if ($this->request->is(array('post', 'put'))) {
+			$this->loadMOdel('DoctorSpecializetion');
 			//imge
 			//pr($this->request->data);
 			//die();
@@ -892,11 +918,27 @@ ADMIN SECTION START FROM HERE
 					$this->request->data['Doctor']['image'] = $this->request->data['Doctor']['old_image'];
 				}
 				if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
+					//spetialization node is remove from here
+					$doctspecializations = $this->request->data['Doctor']['specialization_id'];
+					$this->request->data['Doctor']['specialization_id']=0;
+					
 					if ($this->Doctor->save(array("Doctor"=>$this->request->data["Doctor"]))) {
 						
-						
-					} else {
-						
+					}
+					//delete all prev specializations
+					$this->DoctorSpecializetion->deleteAll(array('DoctorSpecializetion.doct_id'=>$patient_id));
+					//add spetializations
+					if(is_array($doctspecializations) && count($doctspecializations)>0){
+						foreach($doctspecializations as $ky=>$spzid){
+							$data = array(
+								"DoctorSpecializetion"=>array(
+									'doct_id'=>$patient_id,
+									'specialization_id'=>$spzid
+								)
+							);
+							$this->DoctorSpecializetion->create();
+							$this->DoctorSpecializetion->save($data);
+						}
 					}
 				}
 				return $this->redirect(array('action' => 'index'));

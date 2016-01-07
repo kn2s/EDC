@@ -92,7 +92,8 @@ nav.inner ul li a.active, nav.inner ul li a:hover{ color:#29366e; border-bottom:
 footer.inner{ padding-top:50px; border-top:1px solid #bec2d3;}
 
 .myDashBord{ position:relative; height:100%; background:url(../images/myDashboard.jpg) center top no-repeat; background-size:cover; min-height:600px;}
-nav ul li.userMaleCircle{ margin-left:50px; margin-top:-10px; background:url(../images/userMaleCircle.jpg) left center no-repeat; padding: 10px 0 10px 30px;}
+nav ul li .userMaleCircle{ margin-left:50px; margin-top:-10px; background:url(../images/userMaleCircle.jpg) left 3px no-repeat; padding: 10px 0 10px 30px; color:#29366e;}
+nav ul li .userMaleCircle:hover{ border:none !important;}
 .myDashBord footer{ position:absolute; left:0; right:0; bottom:0; padding:0 0 30px;}
 .myDashBord footer p, .myDashBord footer a{ color:#fff;}
 .myDashBord footer p.copy{ color:#a6a6a6;}
@@ -132,6 +133,12 @@ nav ul li.userMaleCircle{ margin-left:50px; margin-top:-10px; background:url(../
 .myDashBordCont .leftWhitePart .TextPart.OpinionPart span{ color:#11b78d;}
 .myDashBordCont .leftWhitePart .OpinionLink{ display:inline-block; font-size:14px; line-height:40px; padding:0 0 0 35px; margin-left:44px; color:#44aa91; background:url(../images/opinionG.png) left 7px no-repeat; margin-top:20px;}
 .myDashBordCont .leftWhitePart .OpinionLink:hover{ color:#29366e; background-image:url(../images/opinionH.png);}
+.logoutOption{ position: relative; cursor:pointer; margin:0;}
+.logoutOption ul{ position:absolute; left:33px; right:-15px; top:38px; background:rgba(255,255,255,0.95); height:50px; padding:0;}
+.logoutOption ul li{ display:block; margin-left:0;}
+.logoutOption ul li a.signout{background:url(../images/signout.png) 17px 13px no-repeat; padding: 0 0 0 47px; display:block; height:50px; line-height:50px; color:#79809d;}
+.logoutOption ul li a:hover{ border:none !important; color:#29366e;}
+
 
 .ourPhician{ padding:140px 0 0;}
 .ourPhician h2{ text-align:center; font-weight:300; font-size:50px; line-height:60px; color:#29366e; margin:0 0 27px;}
@@ -411,6 +418,45 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 .sendOpinionBox .blueButton{ float:left; width:100px; font-size:14px; height:40px; line-height:40px; border-radius:3px; margin:0 15px 0 0;}
 .sendOpinionBox .attachButton{ float:left; font-size:14px; height:40px; line-height:40px; color:#56baa1; padding-left:21px; background:url(../images/attach.png) left center no-repeat;}
 .sendOpinionBox .attachButton:hover{ background:url(../images/attach_H.png) left center no-repeat; color:#29366e;}
+
+
+
+.opinionPatientBody .container { border-top: 1px solid #29366e; border-bottom: 1px solid #29366e; position:relative; min-height:1100px;}
+.opinionPatientBody .leftWhiteBox{ width:860px; float:left; padding:13px 0 34px;}
+.opinionPatientBody .leftWhiteBox .box{ padding:25px 0; border-bottom:1px solid #e7e7e7; overflow:hidden;}
+.opinionPatientBody .leftWhiteBox .box .leftPart{ width:140px; float:left}
+.opinionPatientBody .leftWhiteBox .box .rightPart{ width:700px; float:right}
+.opinionPatientBody .leftWhiteBox h4{ font-size:20px; line-height:25px; font-weight:400; color:#29366e;}
+.opinionPatientBody .leftWhiteBox p{ font-size:20px; line-height:25px; font-weight:300; color:#646464;}
+.opinionPatientBody .leftWhiteBox p a{ color:#004ff1;}
+.opinionPatientBody .leftWhiteBox p a:hover{ color:#56baa1;}
+.opinionPatientBody .leftWhiteBox .doctorsName{ padding:20px 0 30px;}
+
+.opinionPatientBody .rightGrayBox{ width:220px; padding:45px 40px 40px; position:absolute; right:0; top:0; bottom:0; background:#f5f6f8;}
+.opinionPatientBody .rightGrayBox .options, .opinionPatientBody .rightGrayBox .details, .opinionPatientBody .rightGrayBox .ask{ position:relative;}
+.opinionPatientBody .rightGrayBox .options:after, .opinionPatientBody .rightGrayBox .details:after, .opinionPatientBody .rightGrayBox .ask:after{ content:''; position:absolute; bottom:0; left:0; width:35px; height:1px; background:#29366e;}
+.opinionPatientBody .rightGrayBox .options{ overflow:hidden; padding-bottom:30px;}
+.opinionPatientBody .rightGrayBox .options .downloadBtn{ width:45px; height:25px; float:left; background:url(../images/download.png) center top no-repeat;}
+.opinionPatientBody .rightGrayBox .options .downloadBtn:hover{ background:url(../images/downloadHover.png) center top no-repeat;}
+.opinionPatientBody .rightGrayBox .options .printBtn{ width:45px; height:25px; float:left; background:url(../images/print.png) center top no-repeat;}
+.opinionPatientBody .rightGrayBox .options .printBtn:hover{ background:url(../images/printHover.png) center top no-repeat;}
+.opinionPatientBody .rightGrayBox .details{ padding-bottom:30px;}
+.opinionPatientBody .rightGrayBox .details P{ margin:30px 0 2px; font-size:14px; line-height:19px; color:#646464; text-transform:uppercase;}
+.opinionPatientBody .rightGrayBox .details h4{ margin:0; font-size:20px; line-height:25px; color:#29366e;}
+.opinionPatientBody .rightGrayBox .ask{ padding:30px 0;}
+.opinionPatientBody .rightGrayBox .ask a.askAQuestion{ padding:10px 0 0 35px; display:block; color:#44aa91; font-size:14px; line-height:19px; background:url(../images/messageLink.png) left bottom no-repeat;}
+.opinionPatientBody .rightGrayBox .ask a.askAQuestion:hover{ background-image:url(../images/messageLink_H.png); color:#29366e;}
+.opinionPatientBody .rightGrayBox .ask p{font-size:14px; line-height:19px; color:#646464; padding-left:35px; margin:0;}
+.opinionPatientBody .rightGrayBox .refarence{}
+.opinionPatientBody .rightGrayBox .refarence h4{font-size:14px; line-height:19px; color:#646464; text-transform:uppercase; margin:30px 0 20px;}
+.opinionPatientBody .rightGrayBox .refarence ol{}
+.opinionPatientBody .rightGrayBox .refarence ol li{ font-size:14px; line-height:19px; color:#29366e; list-style:inside none number; margin:0 0 22px;}
+.opinionPatientBody .rightGrayBox .refarence ol li span{ color:#646464; display:block; padding-left:22px; margin-top:-19px;}
+.disclaimer{ padding:34px 0 50px}
+.disclaimer p{ font-size:13px; line-height:19px; color:#646464; font-weight:300;}
+.disclaimer p span{ color:#000; font-weight:400;}
+
+
 @media screen and (max-width: 1025px){
 	.Wrapper{ min-width:1000px;}
 	.container{ width:1000px; margin:0 auto;}
@@ -471,6 +517,9 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	
 	.doctorsDashbord .leftPart{ width:700px;}
 	.doctorsDashbord .leftPart .patientBox{ width:330px;}
+	
+	.opinionPatientBody .leftWhiteBox{ width:690px;}
+	.opinionPatientBody .leftWhiteBox .box .rightPart{ width:540px;}
 }
 @media screen and (max-width: 800px){
 	.Wrapper{ min-width:740px;}
@@ -553,4 +602,8 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	.doctorsDashbord .rightPart .search{ width:47%; background:url(../images/vline.png) right top repeat-y; float:left; padding-left:20px;}
 	.doctorsDashbord .rightPart .filter{ width:45%; padding-left:22px; background:none; float:left; padding-top:0; padding-bottom:13px;}
 	.doctorsDashbord .rightPart .filter.last{ width:97%; background:url(../images/hline.png) left top repeat-x; clear:both; padding-top:20px; padding-left:20px;}
+	
+	.opinionPatientBody .rightGrayBox{ padding:45px 20px 40px;}
+	.opinionPatientBody .leftWhiteBox{ width:470px;}
+	.opinionPatientBody .leftWhiteBox .box .leftPart, .opinionPatientBody .leftWhiteBox .box .rightPart{ width:100%;}
 }

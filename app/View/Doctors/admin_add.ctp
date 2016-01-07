@@ -28,7 +28,7 @@
 							echo $this->Form->input('Patient.name',array('type'=>'text','div'=>'form-group','label'=>'*Doctor Name','class'=>'form-control', 'placeholder'=>'Doctor Name'));
 							echo $this->Form->input('Patient.email',array('type'=>'email','div'=>'form-group','label'=>'*Doctor Email','class'=>'form-control', 'placeholder'=>'Doctor Email'));
 							echo $this->Form->input('Patient.password',array('type'=>'password','div'=>'form-group','label'=>'*Password','class'=>'form-control', 'placeholder'=>'Password'));
-							echo $this->Form->input('specialization_id',array('div'=>'form-group','label'=>'Specialized In','class'=>'form-control'));
+							echo $this->Form->input('specialization_id',array('div'=>'form-group','label'=>'Specialized In','class'=>'form-control','multiple'=>true));
 							echo $this->Form->input('image',array('type'=>'file','div'=>'form-group','label'=>'*Doctor Image','id'=>'doctimage'));
 							echo $this->Form->input('designation',array('type'=>'text','div'=>'form-group','label'=>'*Doctorate In','class'=>'form-control', 'placeholder'=>'Doctorate In','required'=>'true'));
 							echo $this->Form->input('medical_school',array('type'=>'text','div'=>'form-group','label'=>'*Doctorate School','class'=>'form-control', 'placeholder'=>'Doctorate School','required'=>'true'));

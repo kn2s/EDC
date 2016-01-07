@@ -61,3 +61,7 @@ today(31-12-15):
 ALTER TABLE `ec_schedule_doctors` ADD `lastangajtime` TIME NOT NULL AFTER `assignment`;
 ALTER TABLE `ec_schedule_doctors` CHANGE `lastangajtime` `lastangajtime` BIGINT(11) NOT NULL;
 ALTER TABLE `ec_doctor_cases` ADD `schedule_doctor_id` INT(11) UNSIGNED NOT NULL AFTER `doctor_id`;
+
+today(08-01-15):
+================
+ALTER TABLE `ec_case_opinions` CHANGE `attachementname` `attachementname` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;

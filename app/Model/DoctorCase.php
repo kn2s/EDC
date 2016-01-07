@@ -20,15 +20,15 @@ class DoctorCase extends AppModel {
 		'Patient' => array(
 			'className' => 'Patient',
 			'foreignKey' => 'patient_id',
-			'conditions' => '',
-			'fields' => '',
+			'conditions' => array('Patient.ispatient'=>'1','Patient.isdeleted'=>'0'),
+			'fields' => array('Patient.id','Patient.name','Patient.email'),
 			'order' => ''
 		),
 		'Doctor' => array(
 			'className' => 'Patient',
 			'foreignKey' => 'doctor_id',
 			'conditions' => array('Doctor.ispatient'=>'0','Doctor.isdeleted'=>'0'),
-			'fields' => '',
+			'fields' => array('Doctor.id','Doctor.name','Doctor.email'),
 			'order' => ''
 		)
 	);

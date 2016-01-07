@@ -22,6 +22,7 @@ class CaseOpinionsController extends AppController {
  * @return void
  */
 	public function index() {
+		
 		$this->CaseOpinion->recursive = 0;
 		$this->set('caseOpinions', $this->Paginator->paginate());
 	}
@@ -34,10 +35,32 @@ class CaseOpinionsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->CaseOpinion->exists($id)) {
+		$this->layout="opinionlayout";
+		$this->userloginsessionchecked();
+		
+		if (!$this->CaseOpinion->DoctorCase->exists($id)) {
 			throw new NotFoundException(__('Invalid case opinion'));
 		}
-		$options = array('conditions' => array('CaseOpinion.' . $this->CaseOpinion->primaryKey => $id));
+		//bind the model for 2 lavel
+		$this->CaseOpinion->DoctorCase->Patient->bindModel(array(
+			'hasOne'=>array(
+				'PatientDetail'=>array(
+					'className'=>'PatientDetail',
+					'foreignKey'=>'patient_id'
+				)
+			)
+		));
+		$this->CaseOpinion->DoctorCase->Doctor->bindModel(array(
+			'hasOne'=>array(
+				'DoctorDetail'=>array(
+					'className'=>'Doctor',
+					'foreignKey'=>'patient_id'
+				)
+			)
+		));
+		$this->CaseOpinion->DoctorCase->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
+		$this->CaseOpinion->DoctorCase->Doctor->unbindModel(array('hasMany'=>array('PatientDetail')));
+		$options = array('recursive'=>3,'conditions' => array('CaseOpinion.doctor_case_id'=> $id),'order'=>array('CaseOpinion.id'=>'DESC'));
 		$this->set('caseOpinion', $this->CaseOpinion->find('first', $options));
 	}
 

@@ -1,4 +1,5 @@
 <?php
+	//pr($patient);
 	$numberformpost = $patient['Patient']['detailsformsubmit'];
 	$blktitle = "My Questionnaire";
 	$crtdate = date("d M Y",strtotime($patient['PatientCase']['createdate']));
@@ -72,7 +73,7 @@
 	<?php
 		
 		if($status==5){
-			echo $this->Html->link('Opinion',array('controller'=>'Patients','action'=>'communication','full_base'=>false),array('escape'=>false,'class'=>'OpinionLink'));
+			echo $this->Html->link('Opinion',array('controller'=>'CaseOpinions','action'=>'view',$patient['PatientCase']['id'],'full_base'=>false),array('escape'=>false,'class'=>'OpinionLink'));
 		}
 		if($status==2 || $status==5){
 			echo $this->Html->link('Message',array('controller'=>'Patients','action'=>'communication','full_base'=>false),array('escape'=>false,'class'=>'MessageLink'));

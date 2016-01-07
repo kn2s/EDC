@@ -130,6 +130,17 @@ $(document).ready(function(e) {
         e.preventDefault();
 		$('html, body').animate({scrollTop: '0px'}, 500, 'linear');
     });
+	if($('.logoutOption ul li a.signout').length>0){
+		$('.logoutOption ul').hide();
+		$('.logoutOption').click(function(e) {
+			e.preventDefault();
+            $(this).find('ul').slideToggle(500);
+        });
+		
+		$('.signout').click(function(e){
+			e.stopPropagation();
+		});
+	}
 });
 
 
@@ -1658,4 +1669,19 @@ $(document).on('click','.js-searchcases',function(e){
 			}
 		});
 	}
+});
+
+//opinion prints
+$(document).on('click','.js-opinionprint',function(e){
+	var data = $('<div/>').append($(".opinionPatientBody").clone()).html();
+	var mywindow = window.open();
+	mywindow.document.write('<html><head><title>Doctor Opinion</title>');
+	/*optional stylesheet*/ 
+	mywindow.document.write('<link rel="stylesheet" href="'+baseurl+'/css/reset.css" type="text/css" />');
+	mywindow.document.write('<link rel="stylesheet" href="'+baseurl+'/css/screen.css" type="text/css" />');
+	mywindow.document.write('</head><body >');
+	mywindow.document.write(data);
+	mywindow.document.write('</body></html>');
+	mywindow.print();
+	mywindow.close();
 });
