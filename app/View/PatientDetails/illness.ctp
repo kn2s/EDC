@@ -172,7 +172,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 				?>
 			</div>
 			<div class="clear10"></div>
-			<label class="blue">What is your oncologist’s recommendation?</label>
+			<label class="blue">What is your oncologist’s recommendation?(Optional)</label>
 			<div class="w700">
 				<?php 
 						echo $this->Form->input('diagorecomandation',array("type"=>"textarea","value"=>$diagorecomandation,'label'=>''));
@@ -218,7 +218,10 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 				
 			</div>
 			<div class="clear10"></div>
-			<label class="blue">*Do you have results of any tumor markers? <a href="javascript:void(0)" title="">what is tumor marker?</a></label>
+			<label class="blue">*Do you have results of any tumor markers? <a href="javascript:void(0)" class="js-tumortitle" title=" A tumor
+ marker is a measurable substance found in the blood, urine, or body tissues
+ that can be increased in cancer. It’s often used by doctors to help detect the
+ presence of cancer. Examples- PSA in Prostate Cancer, CA-125 in Ovarian Cancer">what is tumor marker?</a></label>
 			<div class="w80">
 				<label><input type="radio" name="data[AboutIllness][istumarmarker]" value="1" <?=($istumarmarker==1)?"checked":""?> > Yes</label>
 			</div>

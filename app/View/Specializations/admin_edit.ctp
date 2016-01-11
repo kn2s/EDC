@@ -40,6 +40,7 @@
 						<!-- create by php form fields -->
 						<?php
 							echo $this->Form->create('Specialization');
+							echo $this->Form->input('id',array('type'=>'hidden'));
 							echo $this->Form->input('name',array('type'=>'text','div'=>'form-group','label'=>'Cancer Specialization Name','class'=>'form-control', 'placeholder'=>'Specialization Name'));
 						?>
 						<!-- end from field creations -->

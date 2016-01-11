@@ -126,11 +126,12 @@ class CommonHolidaysController extends AppController {
 	public function admin_view($id = null) {
 		$this->layout="admin";
 		$this->validateadminsession();
-		if (!$this->CommonHoliday->Doct->exists($id)) {
+		/*if (!$this->CommonHoliday->Doct->exists($id)) {
 			throw new NotFoundException(__('Invalid common holiday'));
 		}
 		$options = array('conditions' => array('CommonHoliday.doct_id' => $id));
-		$this->set('commonHoliday', $this->CommonHoliday->find('first', $options));
+		$this->set('commonHoliday', $this->CommonHoliday->find('first', $options));*/
+		return $this->redirect(array('action'=>'index'));
 	}
 
 /**
@@ -178,9 +179,35 @@ class CommonHolidaysController extends AppController {
 	public function workscheduleholidayupdate($valdate='',$isholiday=0){
 		if($valdate!=''){
 			$this->loadModel("WorkSchedule");
+			$this->loadModel("DoctorHoliday");
+			//$this->loadModel("ScheduleDoctor");
+			
 			$upfld = array('WorkSchedule.isholiday'=>$isholiday);
 			$upcond = array('WorkSchedule.workday'=>$valdate);
 			$this->WorkSchedule->updateAll($upfld,$upcond);
+			//now get the schedule day id
+			
+			$workschedule = $this->WorkSchedule->find('first',array('recursive'=>'0','conditions'=>$upcond));
+			$workscheduleid = isset($workschedule['WorkSchedule']['id'])?$workschedule['WorkSchedule']['id']:0;
+			//make doctor schedule holiday list
+			$scheduledoctupcon = array('ScheduleDoctor.work_schedule_id'=>$workscheduleid);
+			if($isholiday){
+				//make all associated date as holiday
+				$this->WorkSchedule->ScheduleDoctor->updateAll(array('ScheduleDoctor.isonholiday'=>'1'),$scheduledoctupcon);
+			}
+			else{
+				//remove the associated date from holiday if doct have no holiday
+				//find all doct who have holiday on that date 
+				$whcond = array("DoctorHoliday.holidaydate"=>$valdate);
+				$this->DoctorHoliday->displayField="doct_id";
+				$onholidydocts = $this->DoctorHoliday->find('list',array('conditions'=>$whcond));
+				if(is_array($onholidydocts) && count($onholidydocts)>0){
+					//found doct as holiday
+					$scheduledoctupcon['ScheduleDoctor.doct_id !']=array_values($onholidydocts);
+				}
+				
+				$this->WorkSchedule->ScheduleDoctor->updateAll(array('ScheduleDoctor.isonholiday'=>'0'),$scheduledoctupcon);
+			}
 		}
 	}
 

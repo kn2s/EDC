@@ -70,7 +70,7 @@
 						<tr>
 							<th>Holiday Name</th>
 							<th>Date</th>
-							<th>Is active</th>
+							<!--<th>Is active</th>-->
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -82,7 +82,7 @@
 						<tr>
 							<td><?php echo h($commonHoliday['CommonHoliday']['holidayname']); ?>&nbsp;</td>
 							<td><?php echo h($commonHoliday['CommonHoliday']['holidaydate']); ?>&nbsp;</td>
-							<td><?php echo (h($commonHoliday['CommonHoliday']['isactive'])==1)?"Yes":"No"; ?>&nbsp;</td>
+							<!--<td><?php echo (h($commonHoliday['CommonHoliday']['isactive'])==1)?"Yes":"No"; ?>&nbsp;</td>-->
 							
 							<td class="actions">
 								<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $commonHoliday['CommonHoliday']['id']),array("class"=>"btn btn-default")); ?>

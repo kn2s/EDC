@@ -271,7 +271,7 @@
 			<div class="clear50"></div>
 			
 			
-			<h3>Any other hospitalizations?</h3>
+			<h3>Any relevant hospitalizations?</h3>
 			<?php
 			
 				if(count($hospitalization_details)>0){

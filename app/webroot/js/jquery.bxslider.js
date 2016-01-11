@@ -5,8 +5,8 @@
     // GENERAL
     mode: 'horizontal',
     slideSelector: '',
-    infiniteLoop: true,
-    hideControlOnEnd: false,
+    infiniteLoop: false,
+    hideControlOnEnd: true,
     speed: 500,
     easing: null,
     slideMargin: 0,

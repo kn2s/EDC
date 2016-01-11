@@ -424,6 +424,8 @@ $(document).on('click','.js-catdoct',function(e){
 	}
 });
 
+//patient dashboard gallery
+
 /*
 patient details section
 */
@@ -1090,7 +1092,13 @@ $(document).on('click','.js-addtumore',function(e){
 			
 	$("#moretumorecontainer").append(fld);
 });
-
+//tumor title show 
+$(document).on('click','.js-tumortitle',function(e){
+	var tls = $(e.currentTarget).attr('title');
+	if(tls!=''){
+		alert(tls);
+	}
+});
 //past history of the patient
 $(document).on('click','.js-morepastdetails',function(e){
 	e.preventDefault();
@@ -1294,6 +1302,7 @@ $(document).on('click','.js-printdocs',function(e){
 
 $(document).on('click','.js-patientsummetybtn',function(e){
 	scrollgototop();
+	var btnid=$(e.currentTarget).attr("id")
 	$.ajax({
 		url:baseurl+"/PatientDetails/detailsdone",
 		method:'post',
@@ -1306,8 +1315,13 @@ $(document).on('click','.js-patientsummetybtn',function(e){
 			console.log(response);
 			if(response.status=='1'){
 				//for go to the next form
-				pagefor = parseInt(pagefor)+1;
-				questianariesformload();
+				if(btnid=="exit"){
+					window.location=baseurl+"Patients/dashboard";
+				}
+				else{
+					pagefor = parseInt(pagefor)+1;
+					questianariesformload();
+				}
 			}
 			else{
 			}

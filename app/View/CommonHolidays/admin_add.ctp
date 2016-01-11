@@ -29,7 +29,7 @@
 		$('.datepicker').datepicker({
 			dateFormat:'yy-mm-dd',
 			minDate:'toDate'
-		});
+		}).attr('readonly','readonly');
 	});
 </script>
 

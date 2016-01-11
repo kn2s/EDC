@@ -788,6 +788,7 @@ the medical history</label>
 			if($isdoctorcaseassing){
 			?>
 				<input type="submit" class="submitBtn js-patientsummetybtn" value="Submit">
+				<input type="submit" class="submitBtn js-patientsummetybtn" id="exit" value="Save And Exit">
 			<?php
 			}
 		?>
