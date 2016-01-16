@@ -120,15 +120,6 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
                     
 					<?php 
 						
-						echo $this->Form->input('dob_month',array(
-							'div'=>false,
-							'label'=>false,
-							'options'=>$months,
-							'default'=>'0',
-							'class'=>'oneThird frmMfields js-patientdb',
-							'id'=>'pdmonth',
-							'value'=>$pdmonth
-						));
 						echo $this->Form->input('dob_day',array(
 							'div'=>false,
 							'label'=>false,
@@ -138,6 +129,17 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
 							'id'=>'pdday',
 							'value'=>$pdday,
 						));
+						
+						echo $this->Form->input('dob_month',array(
+							'div'=>false,
+							'label'=>false,
+							'options'=>$months,
+							'default'=>'0',
+							'class'=>'oneThird frmMfields js-patientdb',
+							'id'=>'pdmonth',
+							'value'=>$pdmonth
+						));
+						
 						echo $this->Form->input('dob_year',array(
 							'div'=>false,
 							'label'=>false,

@@ -41,7 +41,7 @@
 			<!--<li class="userMaleCircle"><?php echo $this->Session->read('loggedpatientname');?></li>-->
 			<li class="logoutOption"><?php echo $this->Html->link($this->Session->read('loggedpatientname'),array('controller'=>'patients','action'=>'dashboard','full_base'=>false),array("class"=>"userMaleCircle"));?>
 			<!-- <ul><li><a href="#" class="signout">Sign out</a></li></ul>-->
-			<ul><li>
+			<ul style="min-width: 123px;"><li>
 			<?php echo $this->Html->link("Sign out",array('controller'=>'Patients','action'=>'logout','full_base'=>false),array("class"=>"signout"));?>
 			</li></ul>
 			</li>

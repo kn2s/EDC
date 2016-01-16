@@ -27,7 +27,7 @@ $cakeVersion = __d('cake_dev', '');
 		var pagefor="<?=$patientinfo?>";
 		$(document).ready(function(){
 			$("#sqlsection").hide();
-			$("#preloaderdv").hide();
+			$("#preloaderdv").show();
 			devWidth = $(window).width();
 			questianariesformload();
 		});

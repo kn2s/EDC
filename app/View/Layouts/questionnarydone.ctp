@@ -23,7 +23,9 @@ $cakeVersion = __d('cake_dev', '');
 		var baseurl = "<?php echo FULL_BASE_URL.$this->base;?>";
 		$(document).ready(function(){
 			$("#sqlsection").hide();
+			$(".js-loader").hide();
 			devWidth = $(window).width();
+			
 		});
 	</script>
 </head>

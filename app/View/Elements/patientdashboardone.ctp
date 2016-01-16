@@ -80,7 +80,7 @@
 		}
 		//if($numberformpost<5){
 		else{
-			echo $this->Html->link('Enter questionnaire',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton','style'=>'margin:90px 4px 0 0;'));
+			echo $this->Html->link('Enter questionnaire',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton','style'=>'margin:90px 4px 0 0;')); //
 		}
 		
 	?>

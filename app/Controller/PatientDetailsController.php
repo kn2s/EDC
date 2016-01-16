@@ -204,7 +204,7 @@ class PatientDetailsController extends AppController {
 	$this->loadModel('AboutIllness');
 	$conditions = array('AboutIllness.patient_id'=>$this->Session->read('loggedpatientid'));
 	$aboutIllnesses = $this->AboutIllness->find('first',array('recursive'=>'1','conditions'=>$conditions,'order'=>array('AboutIllness.id'=>'DESC'),'limit'=>'1'));
-	$Specializations = $this->AboutIllness->Specialization->find('list');
+	$Specializations = $this->AboutIllness->Specialization->find('list',array('conditions'=>array('Specialization.isdeleted'=>'0','Specialization.isactive'=>'1','Specialization.isdeleted'=>'0')));
 	$this->set('aboutIllnesses',$aboutIllnesses);
 	$this->set('Specializations',$Specializations);
 	$this->set('lastquestionformno',$this->Session->read('lastquestionformno'));

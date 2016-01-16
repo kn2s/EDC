@@ -317,7 +317,8 @@
 					</div>
 					<div class="width2">
 						<label><?php 
-							echo isset($patientalldeatils['AboutIllness']['PrincipleDiagonisises']['name'])?$patientalldeatils['AboutIllness']['PrincipleDiagonisises']['name']:'';
+						//pr($patientalldeatils);
+							echo isset($patientalldeatils['AboutIllness']['Specialization']['name'])?$patientalldeatils['AboutIllness']['Specialization']['name']:'';
 						?></label>
 					</div>
 				</div>

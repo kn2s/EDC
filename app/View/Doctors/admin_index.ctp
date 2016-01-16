@@ -20,21 +20,35 @@
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Specialization</th>
-                                            <th>Qualification</th>
+                                            <!--<th>Qualification</th>-->
                                             <th>Image</th>
 											<th>Action</th>
                                         </tr>
                                     </thead>
 									<tbody>
 								<?php
+								//pr($doctors);
 									if(count($doctors)>0){
 										foreach($doctors as $doctor){
 									?>
 										<tr class="odd gradeX">
                                             <td><?=$doctor['Patient']['name']?></td>
                                             <td><?=$doctor['Patient']['email']?></td>
-                                            <td><?=$doctor['Specialization']['name']?></td>
-                                            <td><?=$doctor['Doctor']['designation']?></td>
+                                            <td><?php //$doctor['Specialization']['name']; 
+												if(isset($doctor['DoctorSpecializetion']) && count($doctor['DoctorSpecializetion'])>0){
+													foreach($doctor['DoctorSpecializetion'] as $specialization){
+														echo $specialization['Specialization']['name']."</br>";
+													}
+												}
+												else{
+													if(isset($doctor['Patient']['DoctorSpecializetion']) && count($doctor['Patient']['DoctorSpecializetion'])>0){
+														foreach($doctor['Patient']['DoctorSpecializetion'] as $specialization){
+															echo $specialization['Specialization']['name']."</br>";
+														}
+													}
+												}
+											?></td>
+                                            <!--<td><?=$doctor['Doctor']['designation']?></td>-->
                                             <td>
 											<?php if($doctor['Doctor']['image']!=''){
 												?>

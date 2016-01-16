@@ -46,7 +46,7 @@
 								<section class="doctorDetails" id="<?=$dctdtls['Doctor']['id']?>">
 										<div class="container posi_global">
 										<a href="javascript:void(0)" class="crossButton"></a>
-										<h2>About <?=$dctdtls['Patient']['name']?> </h2>
+										<h2>About <?=$dctdtls['Doctor']['Patient']['name']?> </h2>
 										<div class="box">
 											<h5>Medical School</h5>
 											<h4><?=$dctdtls['Doctor']['medical_school']?></h4>
@@ -83,7 +83,7 @@
 				<img src="<?=FULL_BASE_URL.$this->base.'/doctorimage/'.$doctor['Doctor']['image']?>" class="activePic" alt="" width="190" height="190">
 				<div class="js-imagehov normalPic" style="background-color:#b86647; opacity:0.5; width:inherit; height:inherit; position:absolute; top:0px; display:none; border-radius:50%;"></div>
 			</div>
-            <h3>Dr.<?=$doctor['Patient']['name']?></h3>
+            <h3>Dr.<?=$doctor['Doctor']['Patient']['name']?></h3>
             <h5><?=$doctor['Doctor']['designation']?></h5>
         </div>
 			<?php
@@ -105,7 +105,7 @@
 			<section class="doctorDetails" id="<?=$dctdtls['Doctor']['id']?>">
 					<div class="container posi_global">
 					<a href="javascript:void(0)" class="crossButton"></a>
-					<h2>About <?=$dctdtls['Patient']['name']?> </h2>
+					<h2>About <?=$dctdtls['Doctor']['Patient']['name']?> </h2>
 					<div class="box">
 						<h5>Medical School</h5>
 						<h4><?=$dctdtls['Doctor']['medical_school']?></h4>

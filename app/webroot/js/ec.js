@@ -168,6 +168,7 @@ $(document).ajaxSend(function(event, xhr, options) {
 	activeAjaxCount++;
 	$(".js-loader").show();
 	$('.js-loader').height($('.Wrapper ').height());
+	$('.js-loader img').css({'padding-top':(($(window).height())/2)+"px"});
 	$('.js-loader').css('display','block');
 
 }).ajaxComplete(function(event, xhr, options) {
@@ -210,7 +211,8 @@ $(document).on('click', '.js-signup', function(){
 			data:$("#signupform").serialize(),
 			success:function(response){
 				if(response.status === "succ"){
-					errorMsg = msg.signup.succMsg;
+					//errorMsg = msg.signup.succMsg;
+					window.location=baseurl+'/patients/dashboard';
 				}else if(response.status === "exist"){	
 					errorMsg = msg.signup.userExist;
 				}
@@ -344,7 +346,7 @@ $(document).on('click','.js-catdoct',function(e){
 							var dctdtls = response.doctors[dtlstarind];
 							var doct=dctdtls.Doctor;
 							$doclisthtml+='<section class="doctorDetails" id="'+dctdtls.Doctor.id+'"><div class="container posi_global">\
-								<a href="javascript:void(0)" class="crossButton"></a><h2>About '+dctdtls.Patient.name+'</h2>\
+								<a href="javascript:void(0)" class="crossButton"></a><h2>About '+dctdtls.Doctor.Patient.name+'</h2>\
 								<div class="box"><h5>Medical School</h5>\
 								<h4>'+dctdtls.Doctor.medical_school+'</h4><h5>Residency in '+dctdtls.Doctor.residency+'</h5>\
 								<h4>'+dctdtls.Doctor.residency_from+'</h4><h5>Fellowship in '+dctdtls.Doctor.fellowship+'</h5>\
@@ -357,9 +359,9 @@ $(document).on('click','.js-catdoct',function(e){
 					}
 					
 					$doclisthtml+='<div class="doctor" data-href="#'+docdetails.Doctor.id+'"><div class="picCont">\
-					<img src="'+baseurl+'/doctorimage/'+docdetails.Doctor.image+'" class="normalPic" alt="">\
-					<img src="'+baseurl+'/doctorimage/'+docdetails.Doctor.image+'" class="activePic" alt=""></div>\
-					<h3>Dr.'+docdetails.Patient.name+'</h3><h5>'+docdetails.Doctor.designation+'</h5></div>';
+					<img src="'+baseurl+'/doctorimage/'+docdetails.Doctor.image+'" class="normalPic" alt="" width="190" height="190">\
+					<img src="'+baseurl+'/doctorimage/'+docdetails.Doctor.image+'" class="activePic" alt="" width="190" height="190"></div>\
+					<h3>Dr.'+docdetails.Doctor.Patient.name+'</h3><h5>'+docdetails.Doctor.designation+'</h5></div>';
 					
 				});
 				$doclisthtml+='<div class="clear"></div></div></section>';
@@ -376,7 +378,7 @@ $(document).on('click','.js-catdoct',function(e){
 					var dctdtls = response.doctors[dtlstarind];
 					var doct=dctdtls.Doctor;
 					$doclisthtml+='<section class="doctorDetails" id="'+dctdtls.Doctor.id+'"><div class="container posi_global">\
-						<a href="javascript:void(0)" class="crossButton"></a><h2>About '+dctdtls.Patient.name+'</h2>\
+						<a href="javascript:void(0)" class="crossButton"></a><h2>About '+dctdtls.Doctor.Patient.name+'</h2>\
 						<div class="box"><h5>Medical School</h5>\
 						<h4>'+dctdtls.Doctor.medical_school+'</h4><h5>Residency in '+dctdtls.Doctor.residency+'</h5>\
 						<h4>'+dctdtls.Doctor.residency_from+'</h4><h5>Fellowship in '+dctdtls.Doctor.fellowship+'</h5>\
@@ -562,10 +564,15 @@ $(document).on('change','.js-patientdb',function(e){
 			}
 		}
 		var options='<option value="0">Day</option>';
+		var sel = '';
 		for(var i=1;i<=totalday;i++){
-			options+='<option value="'+i+'">'+i+'</option>';
+			sel='';
+			if(day==i){
+				sel='selected';
+			}
+			options+='<option value="'+i+'" '+sel+'>'+i+'</option>';
 		}
-		$("#pdday").html(options).val(0);
+		$("#pdday").html(options);
 		//$(e.currentTarget).val(0);
 	}
 	else{
@@ -584,7 +591,7 @@ $(document).on('change','.js-patientdb',function(e){
 				for(var i=1;i<=totalday;i++){
 					options+='<option value="'+i+'">'+i+'</option>';
 				}
-				$("#pdday").html(options).val(0);
+				$("#pdday").html(options).val(day);
 			}
 		}
 	}
@@ -998,7 +1005,7 @@ $(document).on('change','.js-illnessdate',function(e){
 		for(var i=1;i<=totalday;i++){
 			options+='<option value="'+i+'">'+i+'</option>';
 		}
-		$("#startdiagoday").html(options).val(0);
+		$("#startdiagoday").html(options).val(day);
 		//$(e.currentTarget).val(0);
 	}
 	else{
@@ -1017,7 +1024,7 @@ $(document).on('change','.js-illnessdate',function(e){
 				for(var i=1;i<=totalday;i++){
 					options+='<option value="'+i+'">'+i+'</option>';
 				}
-				$("#startdiagoday").html(options).val(0);
+				$("#startdiagoday").html(options).val(day);
 			}
 		}
 	}
@@ -1053,7 +1060,7 @@ $(document).on('change','.js-illnessenddate',function(e){
 		for(var i=1;i<=totalday;i++){
 			options+='<option value="'+i+'">'+i+'</option>';
 		}
-		$("#enddiagoday").html(options).val(0);
+		$("#enddiagoday").html(options).val(day);
 		//$(e.currentTarget).val(0);
 	}
 	else{
@@ -1072,7 +1079,7 @@ $(document).on('change','.js-illnessenddate',function(e){
 				for(var i=1;i<=totalday;i++){
 					options+='<option value="'+i+'">'+i+'</option>';
 				}
-				$("#enddiagoday").html(options).val(0);
+				$("#enddiagoday").html(options).val(day);
 			}
 		}
 	}
@@ -1316,7 +1323,7 @@ $(document).on('click','.js-patientsummetybtn',function(e){
 			if(response.status=='1'){
 				//for go to the next form
 				if(btnid=="exit"){
-					window.location=baseurl+"Patients/dashboard";
+					window.location=baseurl+"/Patients/dashboard";
 				}
 				else{
 					pagefor = parseInt(pagefor)+1;

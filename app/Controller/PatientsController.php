@@ -303,7 +303,7 @@ class PatientsController extends AppController {
 					$this->request->data['Patient']['password']=md5($this->request->data['Patient']['password']);
 					if($this->Patient->save($this->request->data)){
 						//user saved into the db successfully
-						/*$this->Session->write(array('loggedpatientid'=>$this->Patient->id,'loggedpatientname'=>$this->request->data['Patient']['name']));
+						$this->Session->write(array('loggedpatientid'=>$this->Patient->id,'loggedpatientname'=>$this->request->data['Patient']['name']));
 						
 						if($this->userislogin()){
 							//valid user go their profile dash bord section
@@ -312,8 +312,8 @@ class PatientsController extends AppController {
 						}
 						else{
 							//session creation error
-							$this->Session->setFlash(__('sorry we have problem please try again.'));
-						}*/
+							//$this->Session->setFlash(__('sorry we have problem please try again.'));
+						}
 						$message="You are successfully registered";
 						die(json_encode(array('status'=>"succ",'message'=>$message)));
 					}
@@ -659,6 +659,130 @@ class PatientsController extends AppController {
 		if (!$this->Patient->exists()) {
 			throw new NotFoundException(__('Invalid patient'));
 		}
-		$this->set('patients',array());
+		$this->Patient->unbindModel(array(
+			'hasMany'=>array('PatientDetail')
+		));
+		
+		$this->Session->write("quesformno","5");
+		
+		$this->Patient->bindModel(array(
+			'hasOne'=>array(
+				'PatientDetail' => array(
+					'className' => 'PatientDetail',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('PatientDetail.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'PatientDocument' => array(
+					'className' => 'PatientDocument',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('PatientDocument.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'PatientPastHistory' => array(
+					'className' => 'PatientPastHistory',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('PatientPastHistory.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'Socialactivity' => array(
+					'className' => 'Socialactivity',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('Socialactivity.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'AboutIllness' => array(
+					'className' => 'AboutIllness',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('AboutIllness.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'PatientCase'=>array(
+					'className'=>'DoctorCase',
+					'foreignKey'=>'patient_id',
+					'conditions'=>array('PatientCase.ispaymentdone'=>'1','PatientCase.isclosed'=>'0','PatientCase.doctor_id >'=>'0'),
+					'fields'=>'',
+					'order'=>array('PatientCase.id'=>'DESC')
+				)
+			)
+		));
+		//unbind
+		$this->Patient->PatientDetail->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->PatientDocument->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->PatientPastHistory->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->Socialactivity->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->AboutIllness->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->PatientCase->unbindModel(array(
+			'belongsTo'=>array('Patient','Doctor')
+		));
+		//now bind the model drug allergy
+		$this->Patient->PatientDetail->bindModel(array(
+			'hasMany'=>array(
+				'DrugAlergy' => array(
+					'className' => 'DrugAlergy',
+					'foreignKey' => 'patient_detail_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				)
+			)
+		));
+		
+		$cond = array('Patient.id'=>$this->Patient->id);
+		$patientalldeatils = $this->Patient->find('first',array('recursive'=>'2','conditions'=>$cond));
+		//pr($patientalldeatils);
+		//die();
+		$this->set('patientalldeatils',$patientalldeatils);
 	}
 }

@@ -647,16 +647,21 @@ ADMIN SECTION START FROM HERE
 		$this->layout='admin';
 		$this->validateadminsession();
 		//bind specialization model
-		$this->Doctor->Patient->bindModel(array(
+		$this->Doctor->bindModel(array(
 			'hasMany'=>array(
 				'DoctorSpecializetion'=>array(
 					'className'=>'DoctorSpecializetion',
-					'foreignKey'=>'doct_id'
+					'foreignKey'=>'doct_id',
+					'fields'=>''
 				)
 			)
 		));
+		//unbind model
+		$this->Doctor->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
+		$this->Doctor->unbindModel(array('belongsTo'=>array('Specialization')));
+		
 		$findcondition = array('Doctor.patient_id >'=>'0','Patient.ispatient'=>'0','Patient.isdeleted'=>'0');
-		$doctors = $this->Doctor->find('all',array('recursive'=>'0','conditions'=>$findcondition));
+		$doctors = $this->Doctor->find('all',array('recursive'=>'3','conditions'=>$findcondition));
 		$this->set('doctors',$doctors);
 	}
 
@@ -689,8 +694,8 @@ ADMIN SECTION START FROM HERE
 			$this->loadMOdel('DoctorSpecializetion');
 			//echo WWW_ROOT;
 			$this->Doctor->create();
-			pr($this->request->data);
-			die();
+			//pr($this->request->data);
+			//die();
 			$isemailavailable=false;
 			$email = $this->request->data['Patient']['email'];
 			if(filter_var($email,FILTER_VALIDATE_EMAIL)){
@@ -728,14 +733,16 @@ ADMIN SECTION START FROM HERE
 					$doctspecializations = $this->request->data['Doctor']['specialization_id'];
 					$this->request->data['Doctor']['specialization_id']=0;
 					if ($this->Doctor->save(array('Doctor'=>$this->request->data['Doctor']))) {
+						$doctor_id=$this->Doctor->id;
 						//now create the schedule for this doct 
 						$this->admin_createDoctoreSchedule($patient_id);
 						//add spetializations
+						
 						if(is_array($doctspecializations) && count($doctspecializations)>0){
 							foreach($doctspecializations as $ky=>$spzid){
 								$data = array(
 									"DoctorSpecializetion"=>array(
-										'doct_id'=>$patient_id,
+										'doct_id'=>$doctor_id,
 										'specialization_id'=>$spzid
 									)
 								);
@@ -758,7 +765,7 @@ ADMIN SECTION START FROM HERE
 			}
 		}
 		//$patients = $this->Doctor->Patient->find('list');
-		$spccond = array('Specialization.isdeleted'=>'0');
+		$spccond = array('Specialization.isdeleted'=>'0','Specialization.isactive'=>'1');
 		$specializations = $this->Doctor->Specialization->find('list',array('conditions'=>$spccond));
 		$this->set(compact('specializations'));
 	}
@@ -880,13 +887,13 @@ ADMIN SECTION START FROM HERE
 	public function admin_edit($id = null) {
 		$this->layout='admin';
 		$this->validateadminsession();
-		
+		$this->loadMOdel('DoctorSpecializetion');
 		if (!$this->Doctor->Patient->exists($id)) {
 			throw new NotFoundException(__('Invalid doctor'));
 		}
 		
 		if ($this->request->is(array('post', 'put'))) {
-			$this->loadMOdel('DoctorSpecializetion');
+			
 			//imge
 			//pr($this->request->data);
 			//die();
@@ -920,22 +927,27 @@ ADMIN SECTION START FROM HERE
 				if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
 					//spetialization node is remove from here
 					$doctspecializations = $this->request->data['Doctor']['specialization_id'];
+					//pr($doctspecializations);
+					//die();
 					$this->request->data['Doctor']['specialization_id']=0;
 					
 					if ($this->Doctor->save(array("Doctor"=>$this->request->data["Doctor"]))) {
 						
 					}
+					$patient_id=$id;
+					$doctor_id = $this->request->data['Doctor']['id'];
 					//delete all prev specializations
-					$this->DoctorSpecializetion->deleteAll(array('DoctorSpecializetion.doct_id'=>$patient_id));
+					$this->DoctorSpecializetion->deleteAll(array('DoctorSpecializetion.doct_id'=>$doctor_id));
 					//add spetializations
 					if(is_array($doctspecializations) && count($doctspecializations)>0){
 						foreach($doctspecializations as $ky=>$spzid){
 							$data = array(
 								"DoctorSpecializetion"=>array(
-									'doct_id'=>$patient_id,
+									'doct_id'=>$doctor_id,
 									'specialization_id'=>$spzid
 								)
 							);
+							
 							$this->DoctorSpecializetion->create();
 							$this->DoctorSpecializetion->save($data);
 						}
@@ -953,9 +965,13 @@ ADMIN SECTION START FROM HERE
 			$this->request->data = $this->Doctor->find('first', $options);
 		}
 		//$patients = $this->Doctor->Patient->find('list');
-		$spccond = array('Specialization.isdeleted'=>'0');
+		$spccond = array('Specialization.isdeleted'=>'0','Specialization.isactive'=>'1');
 		$specializations = $this->Doctor->Specialization->find('list',array('conditions'=>$spccond));
+		$dspccond = array('DoctorSpecializetion.doct_id'=>$this->request->data['Doctor']['id']);
+		$this->DoctorSpecializetion->displayField="specialization_id";
+		$choosespecializations = $this->DoctorSpecializetion->find('list',array('conditions'=>$dspccond));
 		$this->set(compact('specializations'));
+		$this->set('choosespecializations',$choosespecializations);
 		//$this->set(compact('patients', 'specializations'));
 	}
 

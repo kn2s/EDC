@@ -128,16 +128,6 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 				<label class="blue">*Date of Diagnosis</label>
 				
 				<?php 
-					echo $this->Form->input('AboutIllness.startdiagomonth',array(
-						'div'=>false,
-						'label'=>false,
-						'options'=>$months,
-						'default'=>'0',
-						'class'=>'month savaliedatefields js-illnessdate',
-						'id'=>'startdiagomonth',
-						'value'=>$startdiagomonth,
-						'required'=>'required'
-					));
 					echo $this->Form->input('AboutIllness.startdiagoday',array(
 						'div'=>false,
 						'label'=>false,
@@ -146,6 +136,17 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'class'=>'date savaliedatefields js-illnessdate',
 						'id'=>'startdiagoday',
 						'value'=>$startdiagoday,
+						'required'=>'required'
+					));
+					
+					echo $this->Form->input('AboutIllness.startdiagomonth',array(
+						'div'=>false,
+						'label'=>false,
+						'options'=>$months,
+						'default'=>'0',
+						'class'=>'month savaliedatefields js-illnessdate',
+						'id'=>'startdiagomonth',
+						'value'=>$startdiagomonth,
 						'required'=>'required'
 					));
 					
@@ -182,16 +183,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 			<div class="datesThree">
 				<label class="blue">*Last Examination Date</label>
 				<?php 
-					echo $this->Form->input('enddiagomonth',array(
-						'div'=>false,
-						'label'=>false,
-						'options'=>$months,
-						'default'=>'0',
-						'class'=>'month savaliedatefields js-illnessenddate',
-						'id'=>'enddiagomonth',
-						'value'=>$enddiagomonth,
-						'required'=>'required'
-					));
+					
 					echo $this->Form->input('enddiagoday',array(
 						'div'=>false,
 						'label'=>false,
@@ -202,6 +194,18 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 						'value'=>$enddiagoday,
 						'required'=>'required'
 					));
+					
+					echo $this->Form->input('enddiagomonth',array(
+						'div'=>false,
+						'label'=>false,
+						'options'=>$months,
+						'default'=>'0',
+						'class'=>'month savaliedatefields js-illnessenddate',
+						'id'=>'enddiagomonth',
+						'value'=>$enddiagomonth,
+						'required'=>'required'
+					));
+					
 					
 					echo $this->Form->input('enddiagoyear',array(
 						'div'=>false,

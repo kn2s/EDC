@@ -63,10 +63,10 @@
 	$sasmkendyear=0;
 	$smokingunit="in a day";
 	$saalcoholunit = "in a day";
-	$saalcohals=array(array('alcoholname'=>'','quantity'=>0,'takingunit'=>0));
+	$saalcohals=array(array('alcoholname'=>'','quantity'=>0,'alcoholunit'=>'in a day'));
 	
-	$sadrugs =array(array('drugname'=>'','quantity'=>''));
-	
+	$sadrugs =array(array('drugname'=>'','quantity'=>'','drugunit'=>'in a day'));
+	//pr($socialactivity);
 	if(isset($socialactivity['Socialactivity']) && is_array($socialactivity['Socialactivity']) && count($socialactivity['Socialactivity'])>0){
 		$said=$socialactivity['Socialactivity']['id'];
 		$sacomment=$socialactivity['Socialactivity']['comment'];
@@ -178,6 +178,7 @@
 					if(count($saalcohals)>0){
 						for($i=0;$i<count($saalcohals);$i++){
 							$alcohalsdtls=$saalcohals[$i];
+							
 							if($i==0){
 							?>
 								<div class="gender">

@@ -22,6 +22,13 @@ class DoctorSpecializetion extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Doctor' => array(
+			'className' => 'Doctor',
+			'foreignKey' => 'doct_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 }

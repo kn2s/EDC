@@ -28,7 +28,7 @@ class AboutIllness extends AppModel {
 			'className' => 'Patient',
 			'foreignKey' => 'patient_id',
 			'conditions' => '',
-			'fields' => '',
+			'fields' => array('Patient.id','Patient.email','Patient.ispatient','Patient.detailsformsubmit','Patient.detailsubmitpercent'),
 			'order' => ''
 		),
 		'Specialization' => array(

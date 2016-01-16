@@ -49,7 +49,7 @@ class HomepagecontentsController extends AppController {
  */
 	public function admin_add() {
 		$this->validateadminsession();
-		if ($this->request->is('post')) {
+		if ($this->request->is(array('post', 'put'))) {
 			$this->Homepagecontent->create();
 			if ($this->Homepagecontent->save($this->request->data)) {
 				$this->Session->setFlash(__('The homepagecontent has been saved.'));
