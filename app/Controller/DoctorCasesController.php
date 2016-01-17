@@ -131,16 +131,36 @@ class DoctorCasesController extends AppController {
 			)
 		));
 		
-		$cond = array("DoctorCase.ispaymentdone"=>'1');
+		$cond = array("DoctorCase.ispaymentdone"=>'1','DoctorCase.is_deleted'=>'0');
 		if($doctid>0){
 			$cond["DoctorCase.doctor_id"]=$doctid;
 		}
 		
 		$this->set('doctorCases', $this->Paginator->paginate($cond));
-		//get all active doctore
-		$pcond = array("Doctor.ispatient"=>'0','Doctor.isdeleted'=>'0','Doctor.isactive'=>'1');
-		$dfltdoct = array("0"=>"choose Doctor");
-		$doctors = $this->DoctorCase->Doctor->find('list',array('conditions'=>$pcond));
+		//unbind model
+		$this->DoctorCase->unbindModel(array("belongsTo"=>array("Doctor")));
+		//bind model
+		$this->DoctorCase->Doctor->bindModel(
+			array(
+				'hasOne'=>array(
+					'DoctorDetail'=>array(
+						'className'=>'Doctor',
+						'foreignKey'=>'patient_id'
+					)
+				)
+			)
+		);
+		
+		$this->DoctorCase->Doctor->DoctorDetail->displayField="patient_id";
+		$valieddoct = $this->DoctorCase->Doctor->DoctorDetail->find('list',array('Doctor.patient_id >'=>'0'));
+		$doctors=array();
+		if(count($valieddoct)>0){
+			$cons = array('Patient.ispatient'=>'0','Patient.isactive'=>'1','Patient.isdeleted'=>'0','Patient.id'=>array_values($valieddoct));
+			$doctors = $this->DoctorCase->Patient->find('list',array('conditions'=>$cons,'order'=>array('Patient.name'=>'ASC')));
+		}
+		//$pcond = array("Doctor.ispatient"=>'0','Doctor.isdeleted'=>'0','Doctor.isactive'=>'1');
+		$dfltdoct = array("0"=>"Choose Doctor");
+		//$doctors = $this->DoctorCase->Doctor->find('list',array('conditions'=>$pcond));
 		$doctors = array_merge($dfltdoct,$doctors);
 		$this->set('doctors',$doctors);
 		$this->set('doctid',$doctid);
@@ -222,11 +242,16 @@ class DoctorCasesController extends AppController {
 			throw new NotFoundException(__('Invalid doctor case'));
 		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->DoctorCase->delete()) {
+		/*if ($this->DoctorCase->delete()) {
 			$this->Session->setFlash(__('The doctor case has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The doctor case could not be deleted. Please, try again.'));
-		}
+		}*/
+		//update the case as deleted 
+		$updata = array('DoctorCase.is_deleted'=>'1');
+		$upcond = array('DoctorCase.id'=>$id);
+		$this->DoctorCase->updateAll($updata,$upcond);
+		$this->Session->setFlash(__('The doctor case has been deleted.'));
 		return $this->redirect(array('action' => 'index'));
 	}
 }

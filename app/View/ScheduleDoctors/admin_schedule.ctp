@@ -1,4 +1,11 @@
-
+<style>
+	.tdnotpresent{
+		color:red;
+	}
+	.tdholiday{
+		color:blue;
+	}
+</style>
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">Doctor's Schedule Chart</h1>
@@ -36,7 +43,18 @@
 								<td><?php echo h($doctoreScedul['Patient']['name']);?></td>
 								<?php
 									$allschedule = $doctoreScedul['ScheduleDoctor'];
+									//if the doctorSchule count is less then day count then add extra data
+									$extday = $daycount - count($allschedule);
+									if($extday>0){
+										//now add extra obj
+										$extarray = array();
+										for($j=0;$j<$extday;$j++){
+											array_push($extarray,array());
+										}
+										$allschedule = array_merge($extarray,$allschedule);
+									}
 									for($i=0;$i<$daycount;$i++){
+										$tdcls='';
 										$schlddata = isset($allschedule[$i])?$allschedule[$i]:array();
 										$assignment=0;
 										$isonholiday=0;
@@ -45,10 +63,15 @@
 											$isonholiday = $schlddata['isonholiday'];
 											if($isonholiday){
 												$assignment="H";
+												$tdcls="tdholiday";
 											}
 										}
+										else{
+											$assignment="X";
+											$tdcls="tdnotpresent";
+										}
 										?>
-										<td><?=$assignment?></td>
+										<td class="<?=$tdcls?>"><?=$assignment?></td>
 										<?php
 									}
 								?>

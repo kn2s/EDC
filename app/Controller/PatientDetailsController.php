@@ -90,6 +90,7 @@ class PatientDetailsController extends AppController {
  */
 	public function basicdetails(){
 		$this->layout="blanks";
+		$this->userloginsessionchecked();
 		$this->PatientDetail->unbindModel(array(
 			'belongsTo'=>array('Patient','Country')
 		));
@@ -147,6 +148,7 @@ class PatientDetailsController extends AppController {
  * socialdetails method
  */
 	public function socialdetails(){
+		$this->userloginsessionchecked();
 		$this->layout="blanks";
 		//load required model
 		$this->loadModel('Socialactivity');
@@ -182,6 +184,7 @@ class PatientDetailsController extends AppController {
  * illness method
  */
  public function illness(){
+	$this->userloginsessionchecked();
 	$this->layout="blanks";
 	$months=array('Month');
 	$days=array('Day');
@@ -214,6 +217,7 @@ class PatientDetailsController extends AppController {
  * pasthistory method
  */
  public function pasthistory(){
+	$this->userloginsessionchecked();
 	$this->layout="blanks";
 	//load the model
 	$this->loadModel('PatientPastHistory');
@@ -241,6 +245,7 @@ class PatientDetailsController extends AppController {
  * document method
  */
  public function document(){
+	$this->userloginsessionchecked();
 	$this->layout="blanks";
 	//load the model
 	$this->loadModel('PatientDocument');
@@ -268,6 +273,7 @@ class PatientDetailsController extends AppController {
  * patientsummery method
  */
  public function patientsummery(){
+	$this->userloginsessionchecked();
 	$this->layout="blanks";
 	$this->loadMOdel('Patient');
 	//bind the patiend model with other as has one
@@ -407,7 +413,7 @@ class PatientDetailsController extends AppController {
 	//now update the form submit count in patient tables
 	/*$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
 	$this->PatientDetail->Patient->saveField('detailsformsubmit','5');*/
-	
+	$this->userloginsessionchecked();
 	//update the completions status
 	if($this->Session->read('lastquestionformno')>5){
 		$uparray = array('Patient.detailsubmitpercent'=>'100');
@@ -426,6 +432,7 @@ class PatientDetailsController extends AppController {
  * patientconsultant method
  */
  public function patientconsultant(){
+	$this->userloginsessionchecked();
 	$this->layout="questionnarydone";
 	$this->loadModel('DoctorCase');
 	//unbind model
@@ -501,8 +508,10 @@ class PatientDetailsController extends AppController {
   * @return array
   */
 	public function consultantdetailscalculation($diaginishid=0){
+		$this->userloginsessionchecked();
 		$this->loadModel('Doctor');
 		$this->loadModel('ScheduleDoctor');
+		$this->loadModel('DoctorSpecializetion');
 		$this->ScheduleDoctor->bindModel(array(
 			'belongsTo'=>array(
 				'Doct'=>array(
@@ -526,7 +535,9 @@ class PatientDetailsController extends AppController {
 			'WorkSchedule.isdoctorschedulecreated'=>'1',
 			'WorkSchedule.isholiday'=>'0'
 		);
+		//pr($conditions);
 		$workschedules = $this->ScheduleDoctor->WorkSchedule->find('list',array('conditions'=>$conditions));
+		
 		if(is_array($workschedules) && count($workschedules)>0){
 			$conds["ScheduleDoctor.work_schedule_id"]=array_values($workschedules);
 		}
@@ -534,6 +545,21 @@ class PatientDetailsController extends AppController {
 			return array();
 		}
 		//get all doctor belongs to the selected diagonisis
+		//get doctor ids from the doctorspecialization
+		$this->DoctorSpecializetion->unbindModel(array(
+			'belongsTo'=>array('Specialization','Doctor')
+		));
+		$condss = array('DoctorSpecializetion.is_deleted'=>'0','DoctorSpecializetion.specialization_id'=>$diaginishid);
+		$this->DoctorSpecializetion->displayField="doct_id";
+		$doctorids = $this->DoctorSpecializetion->find('list',array('conditions'=>$condss));
+		
+		if(is_array($doctorids) && count($doctorids)>0){
+			$doctorids = array_values($doctorids);
+		}
+		else{
+			return array();
+		}
+		
 		//unbind model
 		$this->Doctor->unbindModel(array(
 			'belongsTo'=>array('Specialization')
@@ -541,9 +567,12 @@ class PatientDetailsController extends AppController {
 		$this->Doctor->displayField="patient_id";
 		
 		//$docconditions = array('Doctor.specialization_id'=>$diaginishid,'Doctor.patient_id >'=>'0','Patient.ispatient'=>'0','Patient.isdeleted'=>'0','Patient.isactive'=>'1');
-		$docconditions = array('Doctor.specialization_id'=>$diaginishid,'Doctor.patient_id >'=>'0');
+		//$docconditions = array('Doctor.specialization_id'=>$diaginishid,'Doctor.patient_id >'=>'0');
+		
+		$docconditions = array('Doctor.id'=>$doctorids,'Doctor.patient_id >'=>'0');
 		
 		$doctors = $this->Doctor->find('list',array('conditions'=>$docconditions));
+		
 		//pr($doctors);
 		if(is_array($doctors) && count($doctors)>0){
 			$conds["ScheduleDoctor.doct_id"]=array_values($doctors);
@@ -553,10 +582,17 @@ class PatientDetailsController extends AppController {
 		}
 		else{
 			return array();
-		}		
+		}
 		
-		$availdoctore = $this->ScheduleDoctor->find("first",array("recursive"=>'1',"conditions"=>$conds,"order"=>array("Doct.name"=>"ASC")));
-		//pr($availdoctore);
+		$availdoctore = $this->ScheduleDoctor->find("first",array("recursive"=>'1',"conditions"=>$conds,"order"=>array("Doct.name"=>"ASC","ScheduleDoctor.id"=>"ASC")));
+		/* pr($docconditions);
+		pr($conds);
+		pr($workschedules);
+		echo "count  : ".count($workschedules);
+		pr($condss);
+		pr($doctorids);
+		pr($availdoctore);
+		die(); */
 		if(is_array($availdoctore) && count($availdoctore)>0){
 			$doctsechuleid = isset($availdoctore['ScheduleDoctor']['id'])?$availdoctore['ScheduleDoctor']['id']:0;
 			//update the doctor with the angaj time
@@ -572,6 +608,7 @@ class PatientDetailsController extends AppController {
   * payments method
   */
 	public function payments($caseid=0,$scheduledcotid=0){
+		$this->userloginsessionchecked();
 		$this->loadModel('DoctorCase');
 		$this->loadModel('ScheduleDoctor');
 		if($caseid>0){
@@ -596,6 +633,7 @@ class PatientDetailsController extends AppController {
 					$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1');
 					$this->ScheduleDoctor->updateAll($updat,$updcond);
 					//now update the form submit count in patient tables
+					
 					$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
 					$this->PatientDetail->Patient->saveField('detailsformsubmit','6');
 					//$this->Session->setFlash(__('The consultants saved.'));
@@ -640,6 +678,7 @@ class PatientDetailsController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->userloginsessionchecked();
 		if ($this->request->is('post')) {
 			header("Content-type:application/json");
 			

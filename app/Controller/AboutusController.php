@@ -59,7 +59,7 @@ class AboutusController extends AppController {
 		//unbind the model
 		$this->DoctorSpecializetion->Doctor->unbindModel(array('belongsTo'=>array('Specialization')));
 		
-		$doccond = array('DoctorSpecializetion.specialization_id'=>$curspecialist,'Doctor.patient_id >'=>'0');
+		$doccond = array('DoctorSpecializetion.specialization_id'=>$curspecialist,'Doctor.patient_id >'=>'0','DoctorSpecializetion.is_deleted'=>'0');
 		$doctors = $this->DoctorSpecializetion->find('all',array('recursive'=>'2','conditions'=>$doccond));
 		
 		if($isajaxcall){

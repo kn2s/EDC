@@ -360,7 +360,12 @@
 						</tr>
 						<?php 
 						//comments
-						$cancer_histories = unserialize($patientalldeatils['PatientPastHistory']['cancer_history']);
+						
+						$cancer_histories='';
+						if(isset($patientalldeatils['PatientPastHistory']['cancer_history']) && $patientalldeatils['PatientPastHistory']['cancer_history']!=''){
+							$cancer_histories = unserialize($patientalldeatils['PatientPastHistory']['cancer_history']);
+						}
+						
 						//pr($cancer_histories);
 						if(is_array($cancer_histories) && count($cancer_histories)>0){
 							$diagnosis_names = isset($cancer_histories['diagnosis_name'])?$cancer_histories['diagnosis_name']:'';
@@ -395,7 +400,12 @@
 							<th>Date of Surgical</th>
 						</tr>
 						<?php 
+						
+						$surgical_history='';
+						if(isset($patientalldeatils['PatientPastHistory']['surgical_history']) && $patientalldeatils['PatientPastHistory']['surgical_history']!=''){
 							$surgical_history = unserialize($patientalldeatils['PatientPastHistory']['surgical_history']);
+						}
+							
 							//pr($surgical_history);
 							if(is_array($surgical_history) && count($surgical_history)>0){
 								$surgery_names = isset($surgical_history['surgery_name'])?$surgical_history['surgery_name']:'';
@@ -429,7 +439,12 @@
 							<th>Date of hospitalization</th>
 						</tr>
 						<?php 
+						
+						$hospitalization='';
+						if(isset($patientalldeatils['PatientPastHistory']['hospitalization']) && $patientalldeatils['PatientPastHistory']['hospitalization']!=''){
 							$hospitalization = unserialize($patientalldeatils['PatientPastHistory']['hospitalization']);
+						}
+							
 							//pr($hospitalization);
 							if(is_array($hospitalization) && count($hospitalization)>0){
 								$hospitaliz_resones = isset($hospitalization['hospitaliz_resone'])?$hospitalization['hospitaliz_resone']:'';
@@ -465,7 +480,12 @@
 							<th>Type of cancer</th>
 						</tr>
 						<?php 
+						
+						$family_cancer_history ='';
+						if(isset($patientalldeatils['PatientPastHistory']['family_cancer_history']) && $patientalldeatils['PatientPastHistory']['family_cancer_history']!=''){
 							$family_cancer_history = unserialize($patientalldeatils['PatientPastHistory']['family_cancer_history']);
+						}
+							
 							//pr($family_cancer_history);
 							if(is_array($family_cancer_history) && count($family_cancer_history)>0){
 								$relation_withs = isset($family_cancer_history['relation_with'])?$family_cancer_history['relation_with']:'';
@@ -511,23 +531,131 @@
 							<td>Date</td>
 							<td>Reports/Results</td>
 						</tr>
-						<?php 
-							$bloodreports =isset($patientalldeatils['PatientDocument']['bloodreport'])?unserialize($patientalldeatils['PatientDocument']['bloodreport']):'';
-							$imagingreports =isset($patientalldeatils['PatientDocument']['imagingreport'])?unserialize($patientalldeatils['PatientDocument']['imagingreport']):'';
-							$pathologyreports =isset($patientalldeatils['PatientDocument']['pathologyreport'])?unserialize($patientalldeatils['PatientDocument']['pathologyreport']):'';
-							//pr($bloodreports);
-						?>
 						<tr>
 							<th colspan="3">Blood & Laboratory Tests (Hemoglobin, CBC, BMP etc.)</th>
 						</tr>
+						<?php 
+							$bloodreports =(isset($patientalldeatils['PatientDocument']['bloodreport']) && $patientalldeatils['PatientDocument']['bloodreport']!='')?unserialize($patientalldeatils['PatientDocument']['bloodreport']):'';
+							$imagingreports =(isset($patientalldeatils['PatientDocument']['imagingreport']) && $patientalldeatils['PatientDocument']['imagingreport']!='')?unserialize($patientalldeatils['PatientDocument']['imagingreport']):'';
+							$pathologyreports =(isset($patientalldeatils['PatientDocument']['pathologyreport']) && $patientalldeatils['PatientDocument']['pathologyreport']!='')?unserialize($patientalldeatils['PatientDocument']['pathologyreport']):'';
+							//pr($pathologyreports);
+							if(is_array($bloodreports) && count($bloodreports)>0){
+								$tests = (isset($bloodreports['test']))?$bloodreports['test']:array();
+								$months = (isset($bloodreports['month']))?$bloodreports['month']:array();
+								$years = (isset($bloodreports['year']))?$bloodreports['year']:array();
+								$flnames = (isset($bloodreports['flname']))?$bloodreports['flname']:array();
+								$flispresents = (isset($bloodreports['flispresent']))?$bloodreports['flispresent']:array();
+								if(is_array($tests) && count($tests)>0){
+									for($i=0;$i<count($tests);$i++){
+										$test = isset($tests[$i])?$tests[$i]:'';
+										$month = isset($months[$i])?$months[$i]:'';
+										$year = isset($years[$i])?$years[$i]:'';
+										$flname = isset($flnames[$i])?$flnames[$i]:'';
+										$flispresent = isset($flispresents[$i])?$flispresents[$i]:'';
+										$rpdate='';
+										if($month>0 && $year>0){
+											$my = $year."-".$month."-01";
+											$rpdate = date("M, Y",strtotime($my));
+										}
+										?>
+										<tr>
+											<td><?=$test?></td>
+											<td><?=$rpdate?></td>
+											<td><?php 
+												if($flname!=''){
+													echo $flname;
+												}
+												else{
+													echo "doct not uploaded";
+												}
+											?></td>
+										</tr>
+										<?php
+									}
+								}
+							}
+						?>
 						
 						<tr>
 							<th colspan="3">Imaging Tests (X-Ray, CT Scan, MRI etc.)</th>
 						</tr>
-						
+						<?php
+							if(is_array($imagingreports) && count($imagingreports)>0){
+								$tests = (isset($imagingreports['test']))?$imagingreports['test']:array();
+								$months = (isset($imagingreports['month']))?$imagingreports['month']:array();
+								$years = (isset($imagingreports['year']))?$imagingreports['year']:array();
+								$flnames = (isset($imagingreports['flname']))?$imagingreports['flname']:array();
+								$flispresents = (isset($imagingreports['flispresent']))?$imagingreports['flispresent']:array();
+								if(is_array($tests) && count($tests)>0){
+									for($i=0;$i<count($tests);$i++){
+										$test = isset($tests[$i])?$tests[$i]:'';
+										$month = isset($months[$i])?$months[$i]:'';
+										$year = isset($years[$i])?$years[$i]:'';
+										$flname = isset($flnames[$i])?$flnames[$i]:'';
+										$flispresent = isset($flispresents[$i])?$flispresents[$i]:'';
+										$rpdate='';
+										if($month>0 && $year>0){
+											$my = $year."-".$month."-01";
+											$rpdate = date("M, Y",strtotime($my));
+										}
+										?>
+										<tr>
+											<td><?=$test?></td>
+											<td><?=$rpdate?></td>
+											<td><?php 
+												if($flname!=''){
+													echo $flname;
+												}
+												else{
+													echo "doct not uploaded";
+												}
+											?></td>
+										</tr>
+										<?php
+									}
+								}
+							}
+						?>
 						<tr>
 							<th colspan="3">Pathology Tests (Biopsy, FNA etc.)</th>
 						</tr>
+						<?php
+							if(is_array($pathologyreports) && count($pathologyreports)>0){
+								$tests = (isset($pathologyreports['test']))?$pathologyreports['test']:array();
+								$months = (isset($pathologyreports['month']))?$pathologyreports['month']:array();
+								$years = (isset($pathologyreports['year']))?$pathologyreports['year']:array();
+								$flnames = (isset($pathologyreports['flname']))?$pathologyreports['flname']:array();
+								$flispresents = (isset($pathologyreports['flispresent']))?$pathologyreports['flispresent']:array();
+								if(is_array($tests) && count($tests)>0){
+									for($i=0;$i<count($tests);$i++){
+										$test = isset($tests[$i])?$tests[$i]:'';
+										$month = isset($months[$i])?$months[$i]:'';
+										$year = isset($years[$i])?$years[$i]:'';
+										$flname = isset($flnames[$i])?$flnames[$i]:'';
+										$flispresent = isset($flispresents[$i])?$flispresents[$i]:'';
+										$rpdate='';
+										if($month>0 && $year>0){
+											$my = $year."-".$month."-01";
+											$rpdate = date("M, Y",strtotime($my));
+										}
+										?>
+										<tr>
+											<td><?=$test?></td>
+											<td><?=$rpdate?></td>
+											<td><?php 
+												if($flname!=''){
+													echo $flname;
+												}
+												else{
+													echo "doct not uploaded";
+												}
+											?></td>
+										</tr>
+										<?php
+									}
+								}
+							}
+						?>
 						<tr>
 							<th>Any specific questions you want to ask the doctor</th>
 							<td colspan="2"><?=isset($patientalldeatils['PatientDocument']['comment'])?$patientalldeatils['PatientDocument']['comment']:''?></td>

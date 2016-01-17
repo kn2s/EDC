@@ -203,7 +203,15 @@ class CommonHolidaysController extends AppController {
 				$onholidydocts = $this->DoctorHoliday->find('list',array('conditions'=>$whcond));
 				if(is_array($onholidydocts) && count($onholidydocts)>0){
 					//found doct as holiday
-					$scheduledoctupcon['ScheduleDoctor.doct_id !']=array_values($onholidydocts);
+					$alldoctids = array_values($onholidydocts);
+					if(count($alldoctids)>1){
+						$scheduledoctupcon['ScheduleDoctor.doct_id !']=$alldoctids;
+					}
+					else{
+						$doctid = $alldoctids[0];
+						$scheduledoctupcon['ScheduleDoctor.doct_id !=']=$doctid;
+					}
+					
 				}
 				
 				$this->WorkSchedule->ScheduleDoctor->updateAll(array('ScheduleDoctor.isonholiday'=>'0'),$scheduledoctupcon);
@@ -231,7 +239,7 @@ class CommonHolidaysController extends AppController {
 			}
 			
 			if($valdate!=''){
-				$valar = array('CommonHoliday.holidaydate'=>$valdate,'CommonHoliday.isdeleted'=>'0','CommonHoliday.id!='=>$id);
+				$valar = array('CommonHoliday.holidaydate'=>$valdate,'CommonHoliday.isdeleted'=>'0','CommonHoliday.id !='=>$id);
 				$holiday = $this->CommonHoliday->find('first',array('conditions'=>$valar));
 				if(is_array($holiday) && count($holiday)>0){
 					$this->Session->setFlash(__('The common holiday date already set to another holiday.'));

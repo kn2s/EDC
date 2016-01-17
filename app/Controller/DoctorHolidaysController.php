@@ -189,8 +189,20 @@ class DoctorHolidaysController extends AppController {
 				$this->Session->setFlash(__('The doctor holiday could not be saved. Please, try again.'));
 			}*/
 		}
+		
 		//list all doctor for assing the holidays
-		$docts = $this->DoctorHoliday->Doct->find('list',array('conditions'=>array('Doct.ispatient'=>'0','Doct.isactive'=>'1','Doct.isdeleted'=>'0')));
+		$this->loadModel('Doctor');
+		$this->Doctor->unbindModel(array(
+			'belongsTo'=>array('Patient','Specialization')
+		));
+		$this->Doctor->displayField="patient_id";
+		$valieddoct = $this->Doctor->find('list',array('Doctor.patient_id >'=>'0'));
+		$docts=array();
+		if(count($valieddoct)>0){
+			$cons = array('Doct.ispatient'=>'0','Doct.isactive'=>'1','Doct.isdeleted'=>'0','Doct.id'=>array_values($valieddoct));
+			$docts = $this->DoctorHoliday->Doct->find('list',array('conditions'=>$cons,'order'=>array('Doct.name'=>'ASC')));
+		}
+		
 		$this->set(compact('docts'));
 		if($id==null && count($docts)>0){
 			$id =0;

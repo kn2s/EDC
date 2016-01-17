@@ -808,7 +808,7 @@ ADMIN SECTION START FROM HERE
 			$this->loadMOdel("ScheduleDoctor");
 			$this->loadModel('DoctorHoliday');
 			$curdate = date("Y-m-d");
-			$conditions = array('WorkSchedule.workday >'=>$curdate,'WorkSchedule.isdoctorschedulecreated'=>'1');
+			$conditions = array('WorkSchedule.workday >='=>$curdate,'WorkSchedule.isdoctorschedulecreated'=>'1');
 			
 			$this->ScheduleDoctor->WorkSchedule->unbindModel(array(
 				'hasMany'=>array('ScheduleDoctor')
@@ -830,13 +830,16 @@ ADMIN SECTION START FROM HERE
 					$workscheduleid=$workschedule['WorkSchedule']['id'];
 					$workday=$workschedule['WorkSchedule']['workday'];
 					$isholiday = $workschedule['WorkSchedule']['isholiday'];
-					$this->ScheduleDoctor->create();
+					
 					//checked if the day was holiday or not
 					$docholicon = array('DoctorHoliday.holidaydate'=>$workday,'DoctorHoliday.doct_id'=>$patient_id);
 					$doctholiday = $this->DoctorHoliday->find('first',array('conditions'=>$docholicon));
 					$isonholiday=0;
 					if(is_array($doctholiday) && count($doctholiday)>0){
 						$isonholiday=1;
+					}
+					else{
+						$isonholiday=$isholiday;
 					}
 					//now save the doct in the doct schedule table
 					$svdata = array("ScheduleDoctor"=>array(
@@ -845,6 +848,7 @@ ADMIN SECTION START FROM HERE
 						"isonholiday"=>$isonholiday,
 						"assignment"=>'0'
 					));
+					$this->ScheduleDoctor->create();
 					$this->ScheduleDoctor->save($svdata);
 				}
 			}
@@ -932,12 +936,19 @@ ADMIN SECTION START FROM HERE
 					$this->request->data['Doctor']['specialization_id']=0;
 					
 					if ($this->Doctor->save(array("Doctor"=>$this->request->data["Doctor"]))) {
-						
+						//update section of doct besic details
 					}
 					$patient_id=$id;
 					$doctor_id = $this->request->data['Doctor']['id'];
+					
+					//update all prev specialization as deleted
+					$updt = array('DoctorSpecializetion.is_deleted'=>'1');
+					$upcond= array('DoctorSpecializetion.doct_id'=>$doctor_id);
+					$this->DoctorSpecializetion->updateAll($updt,$upcond);
+					
 					//delete all prev specializations
-					$this->DoctorSpecializetion->deleteAll(array('DoctorSpecializetion.doct_id'=>$doctor_id));
+					//$this->DoctorSpecializetion->deleteAll($upcond);
+					
 					//add spetializations
 					if(is_array($doctspecializations) && count($doctspecializations)>0){
 						foreach($doctspecializations as $ky=>$spzid){
@@ -967,7 +978,7 @@ ADMIN SECTION START FROM HERE
 		//$patients = $this->Doctor->Patient->find('list');
 		$spccond = array('Specialization.isdeleted'=>'0','Specialization.isactive'=>'1');
 		$specializations = $this->Doctor->Specialization->find('list',array('conditions'=>$spccond));
-		$dspccond = array('DoctorSpecializetion.doct_id'=>$this->request->data['Doctor']['id']);
+		$dspccond = array('DoctorSpecializetion.doct_id'=>$this->request->data['Doctor']['id'],'DoctorSpecializetion.is_deleted'=>'0');
 		$this->DoctorSpecializetion->displayField="specialization_id";
 		$choosespecializations = $this->DoctorSpecializetion->find('list',array('conditions'=>$dspccond));
 		$this->set(compact('specializations'));

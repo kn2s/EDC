@@ -169,11 +169,12 @@ class ScheduleDoctorsController extends AppController {
 		$this->validateadminsession();
 		$this->loadModel('Patient');
 		$this->ScheduleDoctor->recursive = 0;
-		$tday=date("Y-m-d");
+		//$tday=date("Y-m-d");
 		
 		//$tday = date("Y-m-d");
 		$strday =date("Y-m-d");
 		$tillday =date("Y-m-d",strtotime("+1 month"));
+		
 		$this->ScheduleDoctor->WorkSchedule->displayField="workday";
 		$condi = array('WorkSchedule.isdoctorschedulecreated'=>'1',
 		'WorkSchedule.workday BETWEEN ? and ?'=>array($strday,$tillday));
@@ -208,7 +209,7 @@ class ScheduleDoctorsController extends AppController {
 		));
 		$doccond = array('Patient.ispatient'=>'0','Patient.isdeleted'=>'0','Patient.isactive'=>'1','DoctDetail.patient_id >'=>'0');
 		$doctoreSceduls = $this->Patient->find("all",array("recursive"=>'1',"conditions"=>$doccond,"fields"=>array("Patient.id","Patient.name"),"order"=>array("Patient.name"=>"ASC")));
-		
+		//pr($doctoreSceduls);
 		$this->set("doctoreSceduls",$doctoreSceduls);
 		$this->set("workSchedules",$workSchedules);
 		
