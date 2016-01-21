@@ -80,6 +80,6 @@
 		}
 
 		if($numberformpost>4){
-			echo $this->Html->link('Questionary',array('controller'=>'Patients','action'=>'questionary','full_base'=>false),array('escape'=>false,'class'=>'Questionnaire'));
+			echo $this->Html->link('Questionary(Keep a copy for your records)',array('controller'=>'Patients','action'=>'questionary','full_base'=>false),array('escape'=>false,'class'=>'Questionnaire'));
 		}
 	?>

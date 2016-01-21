@@ -22,6 +22,7 @@
                                             <th>Specialization</th>
                                             <!--<th>Qualification</th>-->
                                             <th>Image</th>
+											<th>Max Appointment</th>
 											<th>Action</th>
                                         </tr>
                                     </thead>
@@ -56,6 +57,7 @@
 												<?php
 											}?>
 											</td>
+											<td><?php echo h($doctor['Doctor']['maxappointment'])?></td>
 											<td><?php
 												if($doctor['Patient']['isactive']){
 													echo $this->Html->link(__('InActive'), array('action' => 'activeinactive', $doctor['Patient']['id'],'0'),array("class"=>"btn btn-default"));

@@ -70,13 +70,14 @@
 							echo $this->Form->input('medical_school',array('type'=>'text','div'=>'form-group','label'=>'*Medical School','class'=>'form-control', 'placeholder'=>'Medical School','required'=>'true'));
 							echo $this->Form->input('residency',array('type'=>'text','div'=>'form-group','label'=>'*Residency In','class'=>'form-control', 'placeholder'=>'Residency In','required'=>'true'));
 							echo $this->Form->input('residency_from',array('type'=>'text','div'=>'form-group','label'=>'*Residency From','class'=>'form-control', 'placeholder'=>'Residency From','required'=>'true'));
-			
 							echo $this->Form->input('fellowship',array('type'=>'text','div'=>'form-group','label'=>'*Fellowship In','class'=>'form-control', 'placeholder'=>'Fellowship In','required'=>'true'));
 							echo $this->Form->input('fellowship_from',array('type'=>'text','div'=>'form-group','label'=>'*Fellowship From','class'=>'form-control', 'placeholder'=>'Fellowship From','required'=>'true'));
-							echo $this->Form->input('twitter',array('type'=>'text','div'=>'form-group','label'=>'*Twitter Profile','class'=>'form-control', 'placeholder'=>'Twitter Profile','required'=>'true'));
-							echo $this->Form->input('facebook',array('type'=>'text','div'=>'form-group','label'=>'*Facebook Profile','class'=>'form-control', 'placeholder'=>'Facebook Profile','required'=>'true'));
-							echo $this->Form->input('description_one',array('type'=>'textarea','div'=>'form-group','label'=>'*Description','class'=>'form-control', 'placeholder'=>'Description','required'=>'true'));
-							echo $this->Form->input('description_two',array('type'=>'textarea','div'=>'form-group','label'=>'*More Description','class'=>'form-control', 'placeholder'=>'More Description','required'=>'true'));
+							echo $this->Form->input('maxappointment',array('type'=>'text','div'=>'form-group','label'=>'*Max Appointment','class'=>'form-control', 'placeholder'=>'Appointment per day','required'=>'true'));
+							
+							echo $this->Form->input('twitter',array('type'=>'text','div'=>'form-group','label'=>'Twitter Profile','class'=>'form-control', 'placeholder'=>'Twitter Profile'));//,'required'=>'true'
+							echo $this->Form->input('facebook',array('type'=>'text','div'=>'form-group','label'=>'Facebook Profile','class'=>'form-control', 'placeholder'=>'Facebook Profile'));//,'required'=>'true'
+							echo $this->Form->input('description_one',array('type'=>'textarea','div'=>'form-group','label'=>'Description','class'=>'form-control', 'placeholder'=>'Description'));//,'required'=>'true'
+							echo $this->Form->input('description_two',array('type'=>'textarea','div'=>'form-group','label'=>'More Description','class'=>'form-control', 'placeholder'=>'More Description'));//,'required'=>'true'
 						?>
 						<!-- end from field creations -->
 						<button type="submit" class="btn btn-default js-doctedit">Update Doctor</button>

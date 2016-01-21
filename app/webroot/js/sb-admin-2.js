@@ -108,6 +108,7 @@ $(document).on('click','.js-doctadd',function(e){
 	var frmstatue = isAlRequiredFieldEntered($("#crtdoctfrm"));
 	if(frmstatue){
 		var fls = $("#doctimage").val();
+		fls="not mendatory";
 		if(fls!=''){
 			$("#crtdoctfrm").submit();
 		}

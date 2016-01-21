@@ -119,7 +119,10 @@
 								<td><?php echo h($doctorCase['DoctorCase']['id']); ?>&nbsp;</td>
 								<td>
 									<?php 
-										echo h($doctorCase['Patient']['PatientDetail']['name']);
+										
+										if(isset($doctorCase['Patient']['PatientDetail']['name'])){
+											echo h($doctorCase['Patient']['PatientDetail']['name']);
+										}
 									//echo $this->Html->link($doctorCase['Patient']['name'], array('controller' => 'patients', 'action' => 'view', $doctorCase['Patient']['id'])); ?>
 								</td>
 								<td>

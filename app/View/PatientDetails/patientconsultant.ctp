@@ -9,7 +9,7 @@
 	
 	$availabledate = '';
 	$opinionduedate = '';
-	$fees = "00.00";
+	$fees = number_format($consulting_charge,2);
 	$caseid='0';
 	$ispaymentdone = 0;
 	$schedule_doctor_id = 0;
@@ -55,9 +55,6 @@
 		
 		echo $this->Html->link('Cancel',array('controller'=>'patients','action'=>'dashboard','full_base'=>false),array('escape'=>false,'class'=>'cancelBtn'));
 	?>
-	<!--
-	<a href="javascript:void(0)" class="paymentBtn">Payment</a>
-	<a href="javascript:void(0)" class="cancelBtn">Cancel</a>
-	-->
+	
 	<div class="clear50"></div>
 </div>

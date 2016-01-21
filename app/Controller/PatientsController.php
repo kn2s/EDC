@@ -388,6 +388,23 @@ class PatientsController extends AppController {
 		$this->Session->write("quesformno",'5');
 		return $this->redirect(array('controller'=>'PatientDetails','action'=>'index'));
 	}
+	
+/**
+ * dashboardpreview method
+ */
+	public function dashboardpreview($sec=0){
+		if(!$this->userislogin()){
+			$this->redirect(array('action'=>'account'));
+		}
+		if($sec>0){
+			$this->Session->write("quesformno",$sec);
+			return $this->redirect(array('controller'=>'PatientDetails','action'=>'index'));
+		}
+		else{
+			return $this->redirect(array('action'=>'dashboard'));
+		}
+	}
+ 
 /**
  * communication method
  */

@@ -10,7 +10,7 @@ echo $this->Html->script('jquery.bxslider.js');
 							'PastHistory'=>'Past History',
 							'TestReport'=>'Test Reports');*/
 							
-$numberformpost = $patient['Patient']['detailsformsubmit'];
+ $numberformpost = $patient['Patient']['detailsformsubmit'];
 
 ?>
 <section class="myDashBordCont">
@@ -19,7 +19,12 @@ $numberformpost = $patient['Patient']['detailsformsubmit'];
 		<?php 
 			//$numberformpost=3;
 			if($numberformpost<6){
-				echo $this->element('patientdashboardone',array("patient",$patient));
+				if(isset($patient['PatientCase']['ispaymentdone']) && $patient['PatientCase']['ispaymentdone']==1){
+					echo $this->element('patientdashboardtwo',array("patient",$patient));
+				}
+				else{
+					echo $this->element('patientdashboardone',array("patient",$patient));
+				}
 			}
 			else{
 				echo $this->element('patientdashboardtwo',array("patient",$patient));

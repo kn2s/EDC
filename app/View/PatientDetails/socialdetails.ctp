@@ -275,6 +275,7 @@
                 </div>
                 <div class="clear"></div>
             </div>
+			<!--
             <div class="drug">
             	<h3>Drugs</h3>
                 <p class="mb10">Please provide the following details if the patient consumes drugs</p>
@@ -330,7 +331,7 @@
                 <a href="javascript:void(0)" class="greenText ml20 js-sadrugmore" id="sadrugmore">+ Add More</a>
                 <div class="clear"></div>
             </div>
-            
+            -->
 			<div class="additional">
             	<div class="w540">
                 	<label class="blue">Additional Comments</label>

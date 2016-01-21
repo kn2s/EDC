@@ -1307,6 +1307,11 @@ $(document).on('click','.js-printdocs',function(e){
 	mywindow.close();
 });
 
+$(document).on('click','.js-download',function(e){
+	e.preventDefault();
+	window.location = baseurl+'/PasientDetails/pdfsummery';
+});
+
 $(document).on('click','.js-patientsummetybtn',function(e){
 	scrollgototop();
 	var btnid=$(e.currentTarget).attr("id")
@@ -1705,4 +1710,20 @@ $(document).on('click','.js-opinionprint',function(e){
 	mywindow.document.write('</body></html>');
 	mywindow.print();
 	mywindow.close();
+});
+
+//dashboard barcum link
+$(document).on('click','.js-dashboardpreview',function(e){
+	e.preventDefault();
+	var sec = $(e.currentTarget).attr('sec');
+	window.location=baseurl+'/patients/dashboardpreview/'+sec;
+	//call ajax and then redirect the page
+	/*$.ajax({
+		url:baseurl+'/patients/dashboardpreview',
+		method:'post',
+		dataType:'json',
+		data:{sec:sec},
+		success:function(){},
+		error:function(){}
+	});*/
 });

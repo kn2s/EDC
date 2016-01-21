@@ -71,3 +71,11 @@ today(17-01-16):
 ALTER TABLE `ec_doctor_specializetions` ADD `is_deleted` INT(1) NOT NULL DEFAULT '0' AFTER `specialization_id`;
 
 ALTER TABLE `ec_doctor_cases` ADD `is_deleted` INT(1) NOT NULL DEFAULT '0' AFTER `closedate`;
+
+
+today(21-01-16):
+================
+ALTER TABLE `ec_doctors` ADD `maxappointment` INT(2) NOT NULL DEFAULT '1' AFTER `fellowship_from`;
+
+ALTER TABLE `ec_schedule_doctors` ADD `assingmentfull` INT(1) NOT NULL DEFAULT '0' AFTER `assignment`;
+

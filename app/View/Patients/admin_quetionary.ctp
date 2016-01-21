@@ -226,6 +226,7 @@
 								echo date("M Y",strtotime($frmdate))."-".date("M Y",strtotime($todate));
 							?></td>
 						</tr>
+						<!--
 						<tr class="odd gradeX">
 							<th colspan='2'>Drugs</th>
 						</tr>
@@ -253,7 +254,7 @@
 							<?php
 							}
 						?>
-						
+						-->
 						<tr class="odd gradeX">
 							<th>Additional Comments</th>
 							<td><?=isset($patientalldeatils['Socialactivity']['comment'])?$patientalldeatils['Socialactivity']['comment']:''?></td>

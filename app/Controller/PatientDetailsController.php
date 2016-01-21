@@ -24,12 +24,10 @@ class PatientDetailsController extends AppController {
  * @return void
  */
 	public function index() {
-		/*$this->PatientDetail->recursive = 0;
-		$this->set('patientDetails', $this->Paginator->paginate());*/
-		//$this->usersessionremove();
-		
-		$this->userloginsessionchecked();
 		/*
+		$this->PatientDetail->recursive = 0;
+		$this->set('patientDetails', $this->Paginator->paginate());
+		//$this->usersessionremove();
 		//load required model
 		$this->loadModel('Socialactivity');
 		//unbind the models
@@ -71,6 +69,8 @@ class PatientDetailsController extends AppController {
 		$this->set('patientDetails',$patientDetail);
 		$this->set('socialactivity',$socialactivity);
 		*/
+		
+		$this->userloginsessionchecked();
 		$this->loadModel('Patient');
 		$this->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
 		$cond = array('Patient.id'=>$this->Session->read('loggedpatientid'));
@@ -413,6 +413,7 @@ class PatientDetailsController extends AppController {
 	//now update the form submit count in patient tables
 	/*$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
 	$this->PatientDetail->Patient->saveField('detailsformsubmit','5');*/
+	
 	$this->userloginsessionchecked();
 	//update the completions status
 	if($this->Session->read('lastquestionformno')>5){
@@ -435,19 +436,28 @@ class PatientDetailsController extends AppController {
 	$this->userloginsessionchecked();
 	$this->layout="questionnarydone";
 	$this->loadModel('DoctorCase');
+	$this->loadModel('Service');
+	
 	//unbind model
 	$this->DoctorCase->unbindModel(array(
 		'belongsTo'=>array('Patient','Doctor')
 	));
-	
+	$consulting_charge=0;
 	$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1');
 	$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'0','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 	$this->Session->write("quesformno","6");
+	//get consultant service cost
+	$fields = array('Service.consulting_charge');
+	$servicecharge = $this->Service->find('first',array('recursive'=>'0','fields'=>$fields));
+	if(is_array($servicecharge) && count($servicecharge)>0){
+		$consulting_charge=$servicecharge['Service']['consulting_charge'];
+	}
 	if(isset($doctorCase['DoctorCase']) && count($doctorCase['DoctorCase'])>0){
 		//all ready case puted and payment done
 	}
 	else{
 		$this->loadModel('AboutIllness');
+		
 		$this->AboutIllness->unbindModel(array(
 			"belongsTo"=>array("Patient"),
 			"hasMany"=>array("TumarMarker")
@@ -475,7 +485,7 @@ class PatientDetailsController extends AppController {
 				"patient_id"=>$this->Session->read("loggedpatientid"),
 				"doctor_id"=>$doctid,
 				'schedule_doctor_id'=>$doctsechuleid,
-				"consultant_fee"=>"80",
+				"consultant_fee"=>$consulting_charge,
 				"available_date"=>$availdate,
 				"opinion_due_date"=>date("Y-m-d",strtotime("+15 day",strtotime($availdate))),
 				"satatus"=>'0',
@@ -500,6 +510,7 @@ class PatientDetailsController extends AppController {
 		}
 	}
 	$this->set('doctorCase',$doctorCase);
+	$this->set('consulting_charge',$consulting_charge);
 	$this->set('lastquestionformno',$this->Session->read('lastquestionformno'));
  }
  
@@ -526,7 +537,8 @@ class PatientDetailsController extends AppController {
 		//main conditions
 		//5 min from allocations
 		$fiveminalloc = time()-(5*60);
-		$conds = array("ScheduleDoctor.isonholiday"=>'0',"ScheduleDoctor.assignment <"=>'3','ScheduleDoctor.lastangajtime <'=>$fiveminalloc);
+		//$conds = array("ScheduleDoctor.isonholiday"=>'0',"ScheduleDoctor.assignment <"=>'3','ScheduleDoctor.lastangajtime <'=>$fiveminalloc);
+		$conds = array("ScheduleDoctor.isonholiday"=>'0',"ScheduleDoctor.assingmentfull"=>'0','ScheduleDoctor.lastangajtime <'=>$fiveminalloc);
 		// available schedule date
 		$strdate = date("Y-m-d",strtotime("+1 day"));
 		$enddate = date("Y-m-d",strtotime("+3 month"));
@@ -615,8 +627,28 @@ class PatientDetailsController extends AppController {
 			// validate assign doct time sections 
 			$updcond = array('ScheduleDoctor.id'=>$scheduledcotid);
 			//pr($updcond);
+			//bind the Doct
+			$this->ScheduleDoctor->bindModel(array(
+				'belongsTo'=>array(
+					'Doct'=>array(
+						'className'=>'Patient',
+						'foreignKey'=>'doct_id',
+						'fields'=>array('Doct.id','Doct.name')
+					)
+				)
+			));
+			//now bind DoctotDetails
+			$this->ScheduleDoctor->Doct->bindModel(array(
+				'hasOne'=>array(
+					'DoctorDetail'=>array(
+						'className'=>'Doctor',
+						'foreignKey'=>'patient_id',
+						'fields'=>array('DoctorDetail.id','DoctorDetail.maxappointment')
+					)
+				)
+			));
 			//get the details of the schedule doctore
-			$scheduledoct = $this->ScheduleDoctor->find('first',array('recursive'=>'0','conditions'=>$updcond));
+			$scheduledoct = $this->ScheduleDoctor->find('first',array('recursive'=>'2','conditions'=>$updcond));
 			if(is_array($scheduledoct) && count($scheduledoct)>0){
 				$crttime = $scheduledoct['ScheduleDoctor']['lastangajtime'];
 				$fiveminbuffer = time()-(5*60);
@@ -629,8 +661,15 @@ class PatientDetailsController extends AppController {
 					
 					// now update the count of the doct of assign patient details 
 					// update section
+					$totalassignment = $scheduledoct['ScheduleDoctor']['assignment'];
+					$maxassignment = isset($scheduledoct['Doct']['DoctorDetail']['maxappointment'])?$scheduledoct['Doct']['DoctorDetail']['maxappointment']:'1';
+					$appointmentfull=0;
+					if(($totalassignment+1)>=$maxassignment){
+						//
+						$appointmentfull=1;
+					}
+					$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1','ScheduleDoctor.assingmentfull'=>appointmentfull);
 					
-					$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1');
 					$this->ScheduleDoctor->updateAll($updat,$updcond);
 					//now update the form submit count in patient tables
 					
@@ -885,9 +924,129 @@ class PatientDetailsController extends AppController {
  * pdfsummery method
  */
 	public function pdfsummery(){
-		$this->layout="pdf";
-		$url = FULL_BASE_URL.$this->base."/patientDetails/patientsummery";
-		$html = file_get_contents($url);
-		$this->set('htmldata',$html);
+		$this->layout="blanks";
+		
+		$this->loadMOdel('Patient');
+		//bind the patiend model with other as has one
+		$this->Patient->unbindModel(array(
+			'hasMany'=>array('PatientDetail')
+		));
+		$this->Patient->bindModel(array(
+			'hasOne'=>array(
+				'PatientDetail' => array(
+					'className' => 'PatientDetail',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('PatientDetail.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'PatientDocument' => array(
+					'className' => 'PatientDocument',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('PatientDocument.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'PatientPastHistory' => array(
+					'className' => 'PatientPastHistory',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('PatientPastHistory.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'Socialactivity' => array(
+					'className' => 'Socialactivity',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('Socialactivity.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'AboutIllness' => array(
+					'className' => 'AboutIllness',
+					'foreignKey' => 'patient_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => array('AboutIllness.id'=>'DESC'),
+					'limit' => '1',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				),
+				'PatientCase'=>array(
+					'className'=>'DoctorCase',
+					'foreignKey'=>'patient_id',
+					'conditions'=>array('PatientCase.ispaymentdone'=>'1','PatientCase.isclosed'=>'0','PatientCase.doctor_id >'=>'0'),
+					'fields'=>'',
+					'order'=>array('PatientCase.id'=>'DESC')
+				)
+			)
+		));
+		//unbind
+		$this->Patient->PatientDetail->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->PatientDocument->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->PatientPastHistory->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->Socialactivity->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->AboutIllness->unbindModel(array(
+			'belongsTo'=>array('Patient')
+		));
+		$this->Patient->PatientCase->unbindModel(array(
+			'belongsTo'=>array('Patient','Doctor')
+		));
+		//now bind the model drug allergy
+		$this->Patient->PatientDetail->bindModel(array(
+			'hasMany'=>array(
+				'DrugAlergy' => array(
+					'className' => 'DrugAlergy',
+					'foreignKey' => 'patient_detail_id',
+					'dependent' => false,
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
+				)
+			)
+		));
+		
+		$cond = array('Patient.id'=>$this->Session->read('loggedpatientid'));
+		$patientalldeatils = $this->Patient->find('first',array('recursive'=>'2','conditions'=>$cond));
+		$this->set('patientalldeatils',$patientalldeatils);
 	}
 }

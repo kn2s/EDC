@@ -38,13 +38,15 @@ class ServicesController extends AppController {
 	public function admin_add() {
 		$this->layout='admin';
 		$this->validateadminsession();
-		if ($this->request->is('post')) {
+		if ($this->request->is(array('post', 'put'))) {
 			$this->Service->create();
+			//pr($this->request->data);
+			//die();
 			if ($this->Service->save($this->request->data)) {
-				$this->Session->setFlash(__('The service has been saved.'));
+				//$this->Session->setFlash(__('The service has been saved.'));
 				return $this->redirect(array('action' => 'add'));
 			} else {
-				$this->Session->setFlash(__('The service could not be saved. Please, try again.'));
+				//$this->Session->setFlash(__('The service could not be saved. Please, try again.'));
 			}
 		}
 		$this->request->data = $this->Service->find('first');

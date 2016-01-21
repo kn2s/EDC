@@ -10,7 +10,8 @@
 		$totalpercent = $patient['Patient']['detailsubmitpercent'];
 		
 		$totalcompletedper=($numberformpost>=4)?5:$numberformpost;
-		
+		$clsss="js-dashboardpreview";
+		$basicdtls=$socialcls=$illness=$pasthis=$updocts=$review="";
 		switch($numberformpost){
 			case 0:
 				$pdwidth=$totalpercent;
@@ -18,6 +19,7 @@
 					$pddone=$clsdone;
 					$totalcompletedper=1;
 				}
+				$basicdtls=$clsss;
 				break;
 			case 1:
 				$pddone=$clsdone;
@@ -27,6 +29,7 @@
 					$shdone=$clsdone;
 					$totalcompletedper=2;
 				}
+				$basicdtls=$socialcls=$clsss;
 				break;
 			case 2:
 				$pddone=$shdone=$clsdone;
@@ -36,6 +39,7 @@
 					$atidone=$clsdone;
 					$totalcompletedper=3;
 				}
+				$basicdtls=$socialcls=$illness=$clsss;
 				break;
 			case 3:
 				$pddone=$shdone=$atidone=$clsdone;
@@ -45,6 +49,7 @@
 					$phdone=$clsdone;
 					$totalcompletedper=4;
 				}
+				$basicdtls=$socialcls=$illness=$pasthis=$clsss;
 				break;
 			case 4:
 				$pddone=$shdone=$atidone=$phdone=$clsdone;
@@ -54,11 +59,13 @@
 					$trdone=$clsdone;
 					$totalcompletedper=5;
 				}
+				$basicdtls=$socialcls=$illness=$pasthis=$updocts=$clsss;
 				break;
 			default:
 				$pddone=$shdone=$atidone=$phdone=$trdone=$clsdone;
 				$pdwidth=$shwidth=$atiwidth=$phwidth=$trwidth=$cmpwidth;
 				$totalcompletedper=5;
+				$basicdtls=$socialcls=$illness=$pasthis=$updocts=$review=$clsss;
 				break;
 		}
 		
@@ -66,11 +73,11 @@
 			$complt="<span style='left:0px; top:39px;'>The Questionnaire is complete</span>";
 		}
 	?>
-	   <div class="step First <?=$pddone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$pdwidth?>%"></span></span><span class="TextPart">Patient Details</span></div>
-		<div class="step <?=$shdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$shwidth?>%"></span></span><span class="TextPart">Social History</span></div>
-		<div class="step <?=$atidone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$atiwidth?>%;"></span></span><span class="TextPart">About The Illness</span></div>
-		<div class="step <?=$phdone?>" ><span class="normalBG"><span class="GreenBG" style="width:<?=$phwidth?>%;"></span></span><span class="TextPart">Past History</span></div>
-		<div class="step Last <?=$trdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$trwidth?>%;"></span></span><span class="TextPart">Test Reports</span></div>
+	   <div class="step First <?=$pddone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$pdwidth?>%"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$basicdtls?>" sec="1">Patient Details</a></span></div>
+		<div class="step <?=$shdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$shwidth?>%"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$socialcls?>" sec="2">Social History</a></span></div>
+		<div class="step <?=$atidone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$atiwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$illness?>" sec="3">About The Illness</a></span></div>
+		<div class="step <?=$phdone?>" ><span class="normalBG"><span class="GreenBG" style="width:<?=$phwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$pasthis?>" sec="4">Past History</a></span></div>
+		<div class="step Last <?=$trdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$trwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$updocts?>" sec="5">Test Reports</a></span></div>
 	</div>
 	<h3 style="padding:75px 0 0 4px;"><?=$complt?><?=($totalcompletedper*20)?>%</h3>
 	<?php
