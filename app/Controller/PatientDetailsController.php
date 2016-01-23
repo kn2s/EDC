@@ -222,19 +222,23 @@ class PatientDetailsController extends AppController {
 	//load the model
 	$this->loadModel('PatientPastHistory');
 	$months=array('Month');
-	
+	$days=array('Day');
 	$years=array('Year');
 	for($i=1;$i<13;$i++){
 		//array_push($months,$i);
 		$months[$i]=$i;
 	}
-	
+	for($j=1;$j<32;$j++){
+		//array_push($days,$j);
+		$days[$j]=$j;
+	}
 	for($k=(date('Y')-90);$k<date('Y');$k++){
 		//array_push($years,$k);
 		$years[$k]=$k;
 	}
+	
 	$this->Session->write("quesformno","3");
-	$this->set(compact('months','years'));
+	$this->set(compact('months','years','days'));
 	$cond = array('PatientPastHistory.patient_id'=>$this->Session->read('loggedpatientid'));
 	$PatientPastHistories = $this->PatientPastHistory->find('first',array('recursive'=>'1','conditions'=>$cond,'order'=>array('PatientPastHistory.id'=>'DESC'),'limit'=>'1'));
 	$this->set('PatientPastHistories',$PatientPastHistories);
@@ -668,7 +672,7 @@ class PatientDetailsController extends AppController {
 						//
 						$appointmentfull=1;
 					}
-					$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1','ScheduleDoctor.assingmentfull'=>appointmentfull);
+					$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1','ScheduleDoctor.assingmentfull'=>$appointmentfull);
 					
 					$this->ScheduleDoctor->updateAll($updat,$updcond);
 					//now update the form submit count in patient tables

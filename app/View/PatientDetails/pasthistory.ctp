@@ -47,9 +47,9 @@
 	// datas 
 	//pr($PatientPastHistories);
 	$psthisid='';
-	$cancer_details = array('diagnosis_name'=>array(''),'diagnosis_month'=>array(''),'diagnosis_year'=>array(''));
-	$surgical_details = array('surgery_name'=>array(''),'surgery_month'=>array(''),'surgery_year'=>array(''));
-	$hospitalization_details = array('hospitaliz_resone'=>array(''),'hospitaliz_month'=>array(''),'hospitaliz_year'=>array(''),'hospitaliz_days'=>array(''));
+	$cancer_details = array('diagnosis_name'=>array(''),'diagnosis_day'=>array(''),'diagnosis_month'=>array(''),'diagnosis_year'=>array(''));
+	$surgical_details = array('surgery_name'=>array(''),'surgery_day'=>array(''),'surgery_month'=>array(''),'surgery_year'=>array(''));
+	$hospitalization_details = array('hospitaliz_resone'=>array(''),'hospitaliz_day'=>array(''),'hospitaliz_month'=>array(''),'hospitaliz_year'=>array(''),'hospitaliz_days'=>array(''));
 	$family_cancer_details = array('relation_with'=>array(''),'cancer_type'=>array(''),'age_of_diagonisis'=>array(''));
 	$comments=''; 
 	if(isset($PatientPastHistories['PatientPastHistory']) && is_array($PatientPastHistories['PatientPastHistory']) && count($PatientPastHistories['PatientPastHistory'])>0){
@@ -103,10 +103,12 @@
 				if(count($cancer_details)>0){
 					$diagnosis_names = $cancer_details['diagnosis_name'];
 					$diagnosis_months = $cancer_details['diagnosis_month'];
+					$diagnosis_days = $cancer_details['diagnosis_month'];
 					$diagnosis_years = $cancer_details['diagnosis_year'];
 					
 					for($i=0;$i<count($diagnosis_names);$i++){
 						$diagnosis_name = $diagnosis_names[$i];
+						$diagnosis_day = isset($diagnosis_days[$i])?$diagnosis_days[$i]:'';
 						$diagnosis_month = isset($diagnosis_months[$i])?$diagnosis_months[$i]:'';
 						$diagnosis_year = isset($diagnosis_years[$i])?$diagnosis_years[$i]:'';
 						if($i==0){
@@ -115,9 +117,19 @@
 								<label class="blue">Diagnosis</label>
 								<input type="text" placeholder="Blood Cancer" name="data[CancerDetails][diagnosis_name][]" value="<?=$diagnosis_name?>">
 							</div>
-							<div class="datesTwo ml20">
+							<div class="datesThree ml20">
 								<label class="blue">Date of Diagnosis</label>
-								<?php 
+								<?php
+									
+									echo $this->Form->input('CancerDetails.diagnosis_day][',array(
+										'div'=>false,
+										'label'=>false,
+										'options'=>$days,
+										'default'=>'0',
+										'class'=>'date savaliedatefields',
+										'value'=>$diagnosis_day
+									));
+									
 									echo $this->Form->input('CancerDetails.diagnosis_month][',array(
 										'div'=>false,
 										'label'=>false,
@@ -149,10 +161,19 @@
 								<div class="diagnosis">
 									<input type="text" placeholder="Blood Cancer" name="data[CancerDetails][diagnosis_name][]" value="<?=$diagnosis_name?>">
 								</div>
-								<div class="datesTwo ml20">
+								<div class="datesThree ml20">
 									<!--<select class="month"><option>Month</option></select>
 									<select class="year"><option>Year</option></select>-->
 									<?php 
+										
+										echo $this->Form->input('CancerDetails.diagnosis_day][',array(
+											'div'=>false,
+											'label'=>false,
+											'options'=>$days,
+											'default'=>'0',
+											'class'=>'date savaliedatefields',
+											'value'=>$diagnosis_day
+										));
 										echo $this->Form->input('CancerDetails.diagnosis_month][',array(
 											'div'=>false,
 											'label'=>false,
@@ -190,10 +211,12 @@
 				if(count($surgical_details)>0){
 					$surgery_names =$surgical_details['surgery_name'];
 					$surgery_months =$surgical_details['surgery_month'];
+					$surgery_days =$surgical_details['surgery_day'];
 					$surgery_years =$surgical_details['surgery_year'];
 					
 					for($j=0;$j<count($surgery_names);$j++){
 						$surgery_name = $surgery_names[$j];
+						$surgery_day = isset($surgery_days[$j])?$surgery_days[$j]:'';
 						$surgery_month = isset($surgery_months[$j])?$surgery_months[$j]:'';
 						$surgery_year =isset($surgery_years[$j])?$surgery_years[$j]:'';
 						
@@ -204,11 +227,21 @@
 								<label class="blue">Surgery</label>
 								<input type="text" name="data[SurgeryDetail][surgery_name][]" value="<?=$surgery_name?>">
 							</div>
-							<div class="datesTwo ml20">
+							<div class="datesThree ml20">
 								<label class="blue">Date of Surgery</label>
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
 								<?php
+									
+									echo $this->Form->input('SurgeryDetail.surgery_day][',array(
+										'div'=>false,
+										'label'=>false,
+										'options'=>$days,
+										'default'=>'0',
+										'class'=>'date savaliedatefields',
+										'value'=>$surgery_day
+									));
+									
 									echo $this->Form->input('SurgeryDetail.surgery_month][',array(
 										'div'=>false,
 										'label'=>false,
@@ -237,10 +270,20 @@
 							<div class="diagnosis">
 								<input type="text" name="data[SurgeryDetail][surgery_name][]" value="<?=$surgery_name?>">
 							</div>
-							<div class="datesTwo ml20">
+							<div class="datesThree ml20">
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
 								<?php
+									
+									echo $this->Form->input('SurgeryDetail.surgery_day][',array(
+										'div'=>false,
+										'label'=>false,
+										'options'=>$days,
+										'default'=>'0',
+										'class'=>'date savaliedatefields',
+										'value'=>$surgery_day
+									));
+									
 									echo $this->Form->input('SurgeryDetail.surgery_month][',array(
 										'div'=>false,
 										'label'=>false,
@@ -276,12 +319,14 @@
 			
 				if(count($hospitalization_details)>0){
 					$hospitaliz_resones = $hospitalization_details['hospitaliz_resone'];
+					$hospitaliz_days = $hospitalization_details['hospitaliz_day'];
 					$hospitaliz_months = $hospitalization_details['hospitaliz_month'];
 					$hospitaliz_years = $hospitalization_details['hospitaliz_year'];
 					$hospitaliz_dayss = $hospitalization_details['hospitaliz_days'];
 					
 					for($k=0;$k<count($hospitaliz_resones);$k++){
 						$hospitaliz_resone = $hospitaliz_resones[$k];
+						$hospitaliz_day = isset($hospitaliz_days[$k])?$hospitaliz_days[$k]:'';
 						$hospitaliz_month = isset($hospitaliz_months[$k])?$hospitaliz_months[$k]:'';
 						$hospitaliz_year = isset($hospitaliz_years[$k])?$hospitaliz_years[$k]:'';
 						$hospitaliz_days = isset($hospitaliz_dayss[$k])?$hospitaliz_dayss[$k]:'';
@@ -292,11 +337,21 @@
 								<label class="blue">Reason</label>
 								<input type="text" name="data[HostpitalDetails][hospitaliz_resone][]" value="<?=$hospitaliz_resone?>">
 							</div>
-							<div class="datesTwo ml20">
+							<div class="datesThree ml20">
 								<label class="blue">Date of hospitalizations</label>
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
 								<?php 
+									
+									echo $this->Form->input('HostpitalDetails.hospitaliz_day][',array(
+										'div'=>false,
+										'label'=>false,
+										'options'=>$days,
+										'default'=>'0',
+										'class'=>'date savaliedatefields',
+										'value'=>$hospitaliz_day
+									));
+									
 									echo $this->Form->input('HostpitalDetails.hospitaliz_month][',array(
 										'div'=>false,
 										'label'=>false,
@@ -329,10 +384,20 @@
 							<div class="diagnosis">
 								<input type="text" name="data[HostpitalDetails][hospitaliz_resone][]" value="<?=$hospitaliz_resone?>">
 							</div>
-							<div class="datesTwo ml20">
+							<div class="datesThree ml20">
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
 								<?php 
+									
+									echo $this->Form->input('HostpitalDetails.hospitaliz_day][',array(
+										'div'=>false,
+										'label'=>false,
+										'options'=>$days,
+										'default'=>'0',
+										'class'=>'date savaliedatefields',
+										'value'=>$hospitaliz_day
+									));
+									
 									echo $this->Form->input('HostpitalDetails.hospitaliz_month][',array(
 										'div'=>false,
 										'label'=>false,

@@ -189,8 +189,8 @@
 							$Periodendyear = isset($smoking['toyear'])?$smoking['toyear']:'1977';
 							$enddate = "1-".$Periodendmonth."-".$Periodendyear;
 							
-							$preriodstr = date("M Y",strtotime($startdate));
-							$preriodend = date("M Y",strtotime($enddate));
+							$preriodstr = date("d M Y",strtotime($startdate));
+							$preriodend = date("d M Y",strtotime($enddate));
 							?>
 								<div class="row">
 									<div class="width1">
@@ -249,8 +249,8 @@
 							$endyear = isset($patientalldeatils['Socialactivity']['alcohalendyear'])?$patientalldeatils['Socialactivity']['alcohalendyear']:'1977';
 							$enddate = "1-".$endmonth."-".$endyear;
 							
-							$preriodstr = date("M Y",strtotime($startdate));
-							$preriodend = date("M Y",strtotime($enddate));
+							$preriodstr = date("d M Y",strtotime($startdate));
+							$preriodend = date("d M Y",strtotime($enddate));
 							echo $preriodstr." - ".$preriodend;
 						?></label>
 					</div>
@@ -328,7 +328,7 @@
 							$startday = isset($patientalldeatils['AboutIllness']['startdiagoday'])?$patientalldeatils['AboutIllness']['startdiagoday']:'1';
 							$startdate = $startday."-".$startmonth."-".$startyear;
 							
-							$preriodstr = date("M d, Y",strtotime($startdate));
+							$preriodstr = date("d M, Y",strtotime($startdate));
 							echo $preriodstr;
 						?>
 						</label>
@@ -344,7 +344,7 @@
 				</div>
 				<div class="row">
 					<div class="width1">
-						<label class="blue">What is your oncologist’s recommendation?</label>
+						<label class="blue">What is your oncologist's recommendation?</label>
 					</div>
 					<div class="width2">
 						<label><?php echo isset($patientalldeatils['AboutIllness']['diagorecomandation'])?$patientalldeatils['AboutIllness']['diagorecomandation']:'-';?></label>
@@ -361,7 +361,7 @@
 							$startday = isset($patientalldeatils['AboutIllness']['enddiagoday'])?$patientalldeatils['AboutIllness']['enddiagoday']:'1';
 							$startdate = $startday."-".$startmonth."-".$startyear;
 							
-							$preriodstr = date("M d, Y",strtotime($startdate));
+							$preriodstr = date("d M, Y",strtotime($startdate));
 							echo $preriodstr;
 						?></label>
 					</div>
@@ -439,16 +439,23 @@
 					$cancerhistories = isset($patientalldeatils['PatientPastHistory']['cancer_history'])?unserialize($patientalldeatils['PatientPastHistory']['cancer_history']):array();
 					if(is_array($cancerhistories) && count($cancerhistories)>0){
 						$diagnosis_names = $cancerhistories['diagnosis_name'];
+						$diagnosis_days = $cancerhistories['diagnosis_day'];
 						$diagnosis_months = $cancerhistories['diagnosis_month'];
 						$diagnosis_years = $cancerhistories['diagnosis_year'];
 						
 						for($i=0;$i<count($diagnosis_names);$i++){
 							$diagnosis_name = $diagnosis_names[$i];
-							$diagnosis_month = isset($diagnosis_months[$i])?$diagnosis_months[$i]:'1';
-							$diagnosis_year = isset($diagnosis_years[$i])?$diagnosis_years[$i]:'1977';
+							$diagnosis_day = isset($diagnosis_days[$i])?$diagnosis_days[$i]:'';
+							$diagnosis_month = isset($diagnosis_months[$i])?$diagnosis_months[$i]:'';
+							$diagnosis_year = isset($diagnosis_years[$i])?$diagnosis_years[$i]:'';
+							if($diagnosis_day=='' || $diagnosis_month=='' || $diagnosis_year==''){
+								$dates='';
+							}
+							else{
+								$startdate = $diagnosis_day."-".$diagnosis_month."-".$diagnosis_year;
+								$dates = date("d M, Y",strtotime($startdate));
+							}
 							
-							$startdate = "1-".$diagnosis_month."-".$diagnosis_year;
-							$dates = date("M, Y",strtotime($startdate));
 							
 							?>
 							<div class="row">
@@ -479,16 +486,23 @@
 					$surgicalhistories = isset($patientalldeatils['PatientPastHistory']['surgical_history'])?unserialize($patientalldeatils['PatientPastHistory']['surgical_history']):array();
 					if(is_array($surgicalhistories) && count($surgicalhistories)>0){
 						$surgery_names =$surgicalhistories['surgery_name'];
+						$surgery_days =$surgicalhistories['surgery_day'];
 						$surgery_months =$surgicalhistories['surgery_month'];
 						$surgery_years =$surgicalhistories['surgery_year'];
 						
 						for($j=0;$j<count($surgery_names);$j++){
 							$surgery_name = $surgery_names[$j];
-							$surgery_month = isset($surgery_months[$j])?$surgery_months[$j]:'1';
-							$surgery_year =isset($surgery_years[$j])?$surgery_years[$j]:'1977';
+							$surgery_day = isset($surgery_days[$j])?$surgery_days[$j]:'';
+							$surgery_month = isset($surgery_months[$j])?$surgery_months[$j]:'';
+							$surgery_year =isset($surgery_years[$j])?$surgery_years[$j]:'';
 							
-							$startdate = "1-".$surgery_month."-".$surgery_year;
-							$dates = date("M, Y",strtotime($startdate));
+							if($surgery_day=='' || $surgery_month=='' || $surgery_year==''){
+								$dates='';
+							}
+							else{
+								$startdate = $surgery_day."-".$surgery_month."-".$surgery_year;
+								$dates = date("d M, Y",strtotime($startdate));
+							}
 							
 						?>
 							<div class="row">
@@ -521,18 +535,25 @@
 					$hospitalizations = isset($patientalldeatils['PatientPastHistory']['hospitalization'])?unserialize($patientalldeatils['PatientPastHistory']['hospitalization']):array();
 					if(is_array($hospitalizations) && count($hospitalizations)>0){
 						$hospitaliz_resones = $hospitalizations['hospitaliz_resone'];
+						$hospitaliz_days = $hospitalizations['hospitaliz_day'];
 						$hospitaliz_months = $hospitalizations['hospitaliz_month'];
 						$hospitaliz_years = $hospitalizations['hospitaliz_year'];
 						$hospitaliz_dayss = $hospitalizations['hospitaliz_days'];
 						
 						for($k=0;$k<count($hospitaliz_resones);$k++){
 							$hospitaliz_resone = isset($hospitaliz_resones[$k])?$hospitaliz_resones[$k]:'';
-							$hospitaliz_month = isset($hospitaliz_months[$k])?$hospitaliz_months[$k]:'1';
-							$hospitaliz_year = isset($hospitaliz_years[$k])?$hospitaliz_years[$k]:'1977';
+							$hospitaliz_day = isset($hospitaliz_days[$k])?$hospitaliz_days[$k]:'';
+							$hospitaliz_month = isset($hospitaliz_months[$k])?$hospitaliz_months[$k]:'';
+							$hospitaliz_year = isset($hospitaliz_years[$k])?$hospitaliz_years[$k]:'';
 							$hospitaliz_days = isset($hospitaliz_dayss[$k])?$hospitaliz_dayss[$k]:'0';
 							
-							$startdate = "1-".$surgery_month."-".$surgery_year;
-							$dates = date("M, Y",strtotime($startdate));
+							if($hospitaliz_day=='' || $hospitaliz_month=='' || $hospitaliz_year==''){
+								$dates='';
+							}
+							else{
+								$startdate = $hospitaliz_day."-".$hospitaliz_month."-".$surgery_year;
+								$dates = date("d M, Y",strtotime($startdate));
+							}
 							?>
 							<div class="row">
 								<div class="width1">

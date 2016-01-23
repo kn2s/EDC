@@ -1112,12 +1112,14 @@ $(document).on('click','.js-morepastdetails',function(e){
 	var ids = $(e.currentTarget).attr('id');
 	var mothhtml = $(".month").html();
 	var yearhtml = $(".year").html();
+	var dayhtml = $(".date").html();
 	var htmls ='';
 	if(ids=='cancer'){
 		htmls = '<div class="clear10">\
 		</div><div class="diagnosis">\
 		<input type="text" placeholder="Blood Cancer" name="data[CancerDetails][diagnosis_name][]">\
-		</div><div class="datesTwo ml20"><select class="month" name="data[CancerDetails][diagnosis_month][]">'+mothhtml+'</select>\
+		</div><div class="datesThree ml20"><select class="date" name="data[CancerDetails][diagnosis_day][]">'+dayhtml+'</select>\
+		<select class="month" name="data[CancerDetails][diagnosis_month][]">'+mothhtml+'</select>\
 		<select class="year" name="data[CancerDetails][diagnosis_year][]">'+yearhtml+'</select></div>';
 		$("#cancermore").append(htmls);
 	}
@@ -1126,7 +1128,8 @@ $(document).on('click','.js-morepastdetails',function(e){
 		//surgeries surgerymorediv
 		htmls = '<div class="clear10"></div>\<div class="diagnosis">\
 		<input type="text" name="data[SurgeryDetail][surgery_name][]"></div>\
-		<div class="datesTwo ml20">\
+		<div class="datesThree ml20">\
+		<select class="date" name="data[SurgeryDetail][surgery_day][]">'+dayhtml+'</select>\
 		<select class="month" name="data[SurgeryDetail][surgery_month][]">'+mothhtml+'</select>\
 		<select class="year" name="data[SurgeryDetail][surgery_year][]">'+yearhtml+'</select></div>';
 		
@@ -1134,7 +1137,8 @@ $(document).on('click','.js-morepastdetails',function(e){
 	}
 	if(ids == 'hostmoreanc'){
 		htmls = '<div class="clear10"></div><div class="diagnosis">\
-		<input type="text" name="data[HostpitalDetails][hospitaliz_resone][]"></div><div class="datesTwo ml20">\
+		<input type="text" name="data[HostpitalDetails][hospitaliz_resone][]"></div><div class="datesThree ml20">\
+		<select class="date" name="data[HostpitalDetails][hospitaliz_day][]">'+dayhtml+'</select>\
 		<select class="month" name="data[HostpitalDetails][hospitaliz_month][]">'+mothhtml+'</select>\
 		<select class="year" name="data[HostpitalDetails][hospitaliz_year][]">'+yearhtml+'</select></div>\
 		<div class="diagnosis ml20">\
