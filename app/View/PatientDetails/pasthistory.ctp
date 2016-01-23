@@ -211,7 +211,7 @@
 				if(count($surgical_details)>0){
 					$surgery_names =$surgical_details['surgery_name'];
 					$surgery_months =$surgical_details['surgery_month'];
-					$surgery_days =$surgical_details['surgery_day'];
+					$surgery_days = isset($surgical_details['surgery_day'])?$surgical_details['surgery_day']:array();
 					$surgery_years =$surgical_details['surgery_year'];
 					
 					for($j=0;$j<count($surgery_names);$j++){
@@ -319,7 +319,7 @@
 			
 				if(count($hospitalization_details)>0){
 					$hospitaliz_resones = $hospitalization_details['hospitaliz_resone'];
-					$hospitaliz_days = $hospitalization_details['hospitaliz_day'];
+					$hospitaliz_days = isset($hospitalization_details['hospitaliz_day'])?$hospitalization_details['hospitaliz_day']:array();
 					$hospitaliz_months = $hospitalization_details['hospitaliz_month'];
 					$hospitaliz_years = $hospitalization_details['hospitaliz_year'];
 					$hospitaliz_dayss = $hospitalization_details['hospitaliz_days'];

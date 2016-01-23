@@ -723,11 +723,11 @@ ADMIN SECTION START FROM HERE
 								$this->request->data['Doctor']['image'] = $filename;
 						}
 						else{
-							$this->request->data['Doctor']['image'] = "";
+							$this->request->data['Doctor']['image'] = "noimage.jpg";
 						}
 					}
 					else{
-						$this->request->data['Doctor']['image'] = "";
+						$this->request->data['Doctor']['image'] = "noimage.jpg";
 					}
 					//spetialization node is remove from here
 					$doctspecializations = $this->request->data['Doctor']['specialization_id'];
@@ -914,10 +914,15 @@ ADMIN SECTION START FROM HERE
 				$isemailavailable=false;
 				$this->Session->setFlash(__('Invalid email format.'));
 			}
+			//default image upload
+			if($this->request->data['Doctor']['old_image'] ==''){
+				$this->request->data['Doctor']['old_image']='noimage.jpg';
+			}
+			
 			if($isemailavailable){
 				if($this->request->data['Doctor']['image']['size']>0){
 					$filename = time().trim(str_replace("&,#, ,*","",$this->request->data['Doctor']['image']['name']));
-					$uploaddirectory = WWW_ROOT."\doctorimage\\".$filename;
+					$uploaddirectory = WWW_ROOT."/doctorimage/".$filename;
 					if(move_uploaded_file($this->request->data['Doctor']['image']['tmp_name'],$uploaddirectory)){
 							$this->request->data['Doctor']['image'] = $filename;
 					}

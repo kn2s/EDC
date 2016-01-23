@@ -251,6 +251,12 @@ class DoctorCasesController extends AppController {
 		$updata = array('DoctorCase.is_deleted'=>'1');
 		$upcond = array('DoctorCase.id'=>$id);
 		$this->DoctorCase->updateAll($updata,$upcond);
+		//now change the form post statu with 5
+		$doctorcase = $this->DoctorCase->find('first',array('conditions'=>$upcond));
+		$patientid =$doctorcase['DoctorCase']['patient_id'];
+		$uppdata = array('Patient.detailsformsubmit'=>'5');
+		$conds = array('Patient.id'=>$patientid,'Patient.ispatient'=>'1');
+		$this->DoctorCase->Patient->updateAll($uppdata,$conds);
 		$this->Session->setFlash(__('The doctor case has been deleted.'));
 		return $this->redirect(array('action' => 'index'));
 	}

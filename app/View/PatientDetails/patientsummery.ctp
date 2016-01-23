@@ -439,7 +439,7 @@
 					$cancerhistories = isset($patientalldeatils['PatientPastHistory']['cancer_history'])?unserialize($patientalldeatils['PatientPastHistory']['cancer_history']):array();
 					if(is_array($cancerhistories) && count($cancerhistories)>0){
 						$diagnosis_names = $cancerhistories['diagnosis_name'];
-						$diagnosis_days = $cancerhistories['diagnosis_day'];
+						$diagnosis_days = isset($cancerhistories['diagnosis_day'])?$cancerhistories['diagnosis_day']:array();
 						$diagnosis_months = $cancerhistories['diagnosis_month'];
 						$diagnosis_years = $cancerhistories['diagnosis_year'];
 						
@@ -486,7 +486,7 @@
 					$surgicalhistories = isset($patientalldeatils['PatientPastHistory']['surgical_history'])?unserialize($patientalldeatils['PatientPastHistory']['surgical_history']):array();
 					if(is_array($surgicalhistories) && count($surgicalhistories)>0){
 						$surgery_names =$surgicalhistories['surgery_name'];
-						$surgery_days =$surgicalhistories['surgery_day'];
+						$surgery_days = isset($surgicalhistories['surgery_day'])?$surgicalhistories['surgery_day']:array();
 						$surgery_months =$surgicalhistories['surgery_month'];
 						$surgery_years =$surgicalhistories['surgery_year'];
 						
@@ -535,7 +535,7 @@
 					$hospitalizations = isset($patientalldeatils['PatientPastHistory']['hospitalization'])?unserialize($patientalldeatils['PatientPastHistory']['hospitalization']):array();
 					if(is_array($hospitalizations) && count($hospitalizations)>0){
 						$hospitaliz_resones = $hospitalizations['hospitaliz_resone'];
-						$hospitaliz_days = $hospitalizations['hospitaliz_day'];
+						$hospitaliz_days = isset($hospitalizations['hospitaliz_day'])?$hospitalizations['hospitaliz_day']:array();
 						$hospitaliz_months = $hospitalizations['hospitaliz_month'];
 						$hospitaliz_years = $hospitalizations['hospitaliz_year'];
 						$hospitaliz_dayss = $hospitalizations['hospitaliz_days'];

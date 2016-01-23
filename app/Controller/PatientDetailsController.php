@@ -357,7 +357,7 @@ class PatientDetailsController extends AppController {
 			'PatientCase'=>array(
 				'className'=>'DoctorCase',
 				'foreignKey'=>'patient_id',
-				'conditions'=>array('PatientCase.ispaymentdone'=>'1','PatientCase.isclosed'=>'0','PatientCase.doctor_id >'=>'0'),
+				'conditions'=>array('PatientCase.ispaymentdone'=>'1','PatientCase.isclosed'=>'0','PatientCase.doctor_id >'=>'0','PatientCase.is_deleted'=>'0'),
 				'fields'=>'',
 				'order'=>array('PatientCase.id'=>'DESC')
 			)
@@ -447,7 +447,7 @@ class PatientDetailsController extends AppController {
 		'belongsTo'=>array('Patient','Doctor')
 	));
 	$consulting_charge=0;
-	$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1');
+	$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.is_deleted'=>'0','DoctorCase.isclosed'=>'0');
 	$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'0','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 	$this->Session->write("quesformno","6");
 	//get consultant service cost

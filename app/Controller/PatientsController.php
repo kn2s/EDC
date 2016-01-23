@@ -349,7 +349,7 @@ class PatientsController extends AppController {
 				'PatientCase'=>array(
 					'className'=>'DoctorCase',
 					'foreignKey'=>'patient_id',
-					'conditions'=>array('PatientCase.doctor_id >'=>'0','PatientCase.isclosed'=>'0'),
+					'conditions'=>array('PatientCase.doctor_id >'=>'0','PatientCase.isclosed'=>'0','PatientCase.is_deleted'=>'0'),
 					'order'=>array('PatientCase.id'=>'DESC')
 				)
 			)
