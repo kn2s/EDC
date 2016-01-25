@@ -23,6 +23,7 @@
 						<!-- end from field creations -->
 						<button type="submit" class="btn btn-default">Add Specialization</button>
 						<button type="reset" class="btn btn-default">Reset Specialization</button>
+						<button type="reset" class="btn btn-back">Back</button>
 					</form>
 				</div>
 				<!-- /.col-lg-6 (nested) -->

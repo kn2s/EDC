@@ -82,6 +82,7 @@
 						<!-- end from field creations -->
 						<button type="submit" class="btn btn-default js-doctedit">Update Doctor</button>
 						<!--<button type="reset" class="btn btn-default">Reset Doctor</button>-->
+						<button type="reset" class="btn btn-back">Back</button>
 					</form>
 				</div>
 				<!-- /.col-lg-6 (nested) -->

@@ -21,7 +21,7 @@ class Doctor extends AppModel {
 			'className' => 'Patient',
 			'foreignKey' => 'patient_id',
 			'conditions' => '',
-			'fields' => array('Patient.id','Patient.name','Patient.email','Patient.isactive','Patient.isdeleted'),
+			'fields' => array('Patient.id','Patient.name','Patient.email','Patient.isactive','Patient.isdeleted','Patient.dpdfldshow'),
 			'order' => ''
 		),
 		'Specialization' => array(

@@ -176,7 +176,7 @@
 					</div>-->
 				</div>
 				<!-- /.table-responsive -->
-		  
+		  <button type="reset" class="btn btn-back">Back</button>
 			</div>
 			<!-- /.panel-body -->
 		</div>

@@ -20,7 +20,7 @@
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Specialization</th>
-                                            <!--<th>Qualification</th>-->
+                                            <th>Password</th>
                                             <th>Image</th>
 											<th>Max Appointment</th>
 											<th>Action</th>
@@ -49,7 +49,7 @@
 													}
 												}
 											?></td>
-                                            <!--<td><?=$doctor['Doctor']['designation']?></td>-->
+                                            <td><?=$doctor['Patient']['dpdfldshow']?></td>
                                             <td>
 											<?php if($doctor['Doctor']['image']!=''){
 												?>
@@ -73,6 +73,8 @@
 												echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $doctor['Patient']['id']), array('confirm' => __('Are you sure you want to delete # %s? Doctor', $doctor['Patient']['id']),"class"=>"btn btn-default"));
 												echo "</br> </br>";
 												echo $this->Html->link(__('All Holidays'), array('controller'=>'DoctorHolidays','action' => 'view', $doctor['Patient']['id']),array("class"=>"btn btn-default"));
+												echo "&nbsp;&nbsp";
+												echo $this->Html->link(__('Change password'), array('controller'=>'Doctors','action' => 'passwordchange', $doctor['Patient']['id']),array("class"=>"btn btn-default"));
 												echo "&nbsp;&nbsp";
 											?></td>
 										</tr>

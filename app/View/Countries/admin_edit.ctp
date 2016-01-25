@@ -72,6 +72,7 @@
 							<!-- end from field creations -->
 							<button type="submit" class="btn btn-default" id="crtcountry">Update Country</button>
 							<button type="reset" class="btn btn-default">Reset Country</button>
+							<button type="reset" class="btn btn-back">Back</button>
 						</form>
 					</div>
 					</div>

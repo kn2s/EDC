@@ -308,7 +308,7 @@ class PatientsController extends AppController {
 						if($this->userislogin()){
 							//valid user go their profile dash bord section
 							//$this->redirect(array('action'=>'dashboard'));
-							$this->Session->setFlash(__('You are successfully registered.'));
+							//$this->Session->setFlash(__('You are successfully registered.'));
 						}
 						else{
 							//session creation error
@@ -396,7 +396,7 @@ class PatientsController extends AppController {
 		if(!$this->userislogin()){
 			$this->redirect(array('action'=>'account'));
 		}
-		if($sec>0){
+		if($sec>=0){
 			$this->Session->write("quesformno",$sec);
 			return $this->redirect(array('controller'=>'PatientDetails','action'=>'index'));
 		}

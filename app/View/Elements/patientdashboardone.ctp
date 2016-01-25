@@ -73,11 +73,11 @@
 			$complt="<span style='left:0px; top:39px;'>The Questionnaire is complete</span>";
 		}
 	?>
-	   <div class="step First <?=$pddone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$pdwidth?>%"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$basicdtls?>" sec="1">Patient Details</a></span></div>
-		<div class="step <?=$shdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$shwidth?>%"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$socialcls?>" sec="2">Social History</a></span></div>
-		<div class="step <?=$atidone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$atiwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$illness?>" sec="3">About The Illness</a></span></div>
-		<div class="step <?=$phdone?>" ><span class="normalBG"><span class="GreenBG" style="width:<?=$phwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$pasthis?>" sec="4">Past History</a></span></div>
-		<div class="step Last <?=$trdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$trwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$updocts?>" sec="5">Test Reports</a></span></div>
+	   <div class="step First <?=$pddone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$pdwidth?>%"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$basicdtls?>" sec="0">Patient Details</a></span></div>
+		<div class="step <?=$shdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$shwidth?>%"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$socialcls?>" sec="1">Social History</a></span></div>
+		<div class="step <?=$atidone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$atiwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$illness?>" sec="2">About The Illness</a></span></div>
+		<div class="step <?=$phdone?>" ><span class="normalBG"><span class="GreenBG" style="width:<?=$phwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$pasthis?>" sec="3">Past History</a></span></div>
+		<div class="step Last <?=$trdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$trwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$updocts?>" sec="4">Test Reports</a></span></div>
 	</div>
 	<h3 style="padding:75px 0 0 4px;"><?=$complt?><?=($totalcompletedper*20)?>%</h3>
 	<?php

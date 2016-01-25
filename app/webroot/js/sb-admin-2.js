@@ -131,3 +131,19 @@ $(document).on('click','.js-doctedit',function(e){
 		alert("All fields are mendatory");
 	}
 });
+
+$(document).on('click','.js-doctpasswordchange',function(e){
+	e.preventDefault();
+	var frmstatue = isAlRequiredFieldEntered($("#passchange"));
+	if(frmstatue){
+		$("#passchange").submit();
+	}
+	else{
+		alert("Password fields are mendatory");
+	}
+});
+
+$(document).on('click','.btn-back',function(e){
+	e.preventDefault();
+	window.location=window.history.back("-1");
+});

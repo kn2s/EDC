@@ -711,6 +711,7 @@ ADMIN SECTION START FROM HERE
 			if($isemailavailable){
 				//first add as patient 
 				$this->request->data['Patient']['createtime']=time();
+				$this->request->data['Patient']['dpdfldshow']=$this->request->data['Patient']['password'];
 				$this->request->data['Patient']['password']=md5($this->request->data['Patient']['password']);
 				if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
 					$patient_id = $this->Doctor->Patient->id;
@@ -1013,5 +1014,41 @@ ADMIN SECTION START FROM HERE
 		$upcond = array("Patient.id"=>$id);
 		$this->Doctor->Patient->updateAll($updata,$upcond);
 		return $this->redirect(array('action' => 'index'));
+	}
+	
+/**
+ * admin_passwordchange method
+ */
+	public function admin_passwordchange($id = 0){
+		$this->layout='admin';
+		$this->validateadminsession();
+		$this->Doctor->Patient->id = $id;
+		if (!$this->Doctor->Patient->exists()) {
+			throw new NotFoundException(__('Invalid doctor'));
+		}
+		if ($this->request->is(array('post','put'))) {
+			//pr($this->request->data);
+			if($this->request->data['Patient']['dpdfldshow']!=''){
+				$this->request->data['Patient']['password']=md5($this->request->data['Patient']['dpdfldshow']);
+				$this->Doctor->Patient->save($this->request->data['Patient']);
+				/* $updata = array(
+					'Patient.password'=>md5($this->request->data['Patient']['dpdftshow']),
+					'Patient.dpdftshow'=>$this->request->data['Patient']['dpdftshow']
+				);
+				$condi = array(
+					'Patient.id'=>$this->request->data['Patient']['id']
+				); 
+				$this->Doctor->Patient->updateAll($updata,$condi);*/
+				$this->redirect(array('action'=>'index'));
+			}
+			else{
+				//password blank
+			}
+		}
+		else{
+			$patient = $this->Doctor->find('first',array('recursive'=>'0','conditions'=>array('Doctor.patient_id'=>$id)));
+			$this->request->data = $patient;
+			//$this->set('patient',$patient);
+		}
 	}
 }

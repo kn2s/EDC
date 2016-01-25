@@ -46,25 +46,11 @@
 						<!-- end from field creations -->
 						<button type="submit" class="btn btn-default js-doctadd">Add Doctor</button>
 						<button type="reset" class="btn btn-default">Reset Doctor</button>
+						<button type="reset" class="btn btn-back">Back</button>
 					</form>
 				</div>
 				<!-- /.col-lg-6 (nested) -->
 			   
-			 
-					<!--<form role="form">
-						<div class="form-group has-success">
-							<label class="control-label" for="inputSuccess">Input with success</label>
-							<input type="text" class="form-control" id="inputSuccess">
-						</div>
-						<div class="form-group has-warning">
-							<label class="control-label" for="inputWarning">Input with warning</label>
-							<input type="text" class="form-control" id="inputWarning">
-						</div>
-						<div class="form-group has-error">
-							<label class="control-label" for="inputError">Input with error</label>
-							<input type="text" class="form-control" id="inputError">
-						</div>
-					</form>-->
 				 
 				</div>
 				<!-- /.col-lg-6 (nested) -->

@@ -58,4 +58,4 @@
 		</dd>
 	</dl>
 </div>
-
+<button type="reset" class="btn btn-back">Back</button>
