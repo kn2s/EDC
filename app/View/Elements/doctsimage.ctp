@@ -19,7 +19,7 @@
 </h1>
 <nav class="inner">
 <ul>
-  <li class="pic"><img src="<?=$imagepath?>" alt="doct image"></li>
-  <li>Dr. <?php echo $this->Session->read("loggeddocttname")?></li>
+	<li class="pic"><img src="<?=$imagepath?>" alt="doct image"></li>
+	<li>Dr. <?php echo $this->Session->read("loggeddocttname")?></li>
 </ul>
 </nav>

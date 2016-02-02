@@ -137,7 +137,12 @@ class DoctorsController extends AppController {
 				)
 			)
 		);
-		$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0');
+		$conds = array(
+			'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),
+			'DoctorCase.ispaymentdone'=>'1',
+			'DoctorCase.isclosed'=>'0',
+			'DoctorCase.is_deleted'=>'0',
+		);
 		$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 		
 		//get current case post
@@ -293,6 +298,7 @@ class DoctorsController extends AppController {
 				'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),
 				'DoctorCase.ispaymentdone'=>'1',
 				'DoctorCase.isclosed'=>'0',
+				'DoctorCase.is_deleted'=>'0',
 				'DoctorCase.satatus'=>$filterby);
 			//pr($conds);	
 			$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));

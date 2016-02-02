@@ -129,7 +129,7 @@
 			?>
 			<textarea class="commentpost js-communicationcomment" id="pcommunicationcomment" name="data[CaseCommunication][comment]">Type your comment</textarea>
 			<div class="clear10"></div>
-			<label><input type="checkbox" id="allowedit" name="data[CaseCommunication][isquestionaryedit]">Allow to edit the questionnaire</label>
+			<!--<label><input type="checkbox" id="allowedit" name="data[CaseCommunication][isquestionaryedit]">Allow to edit the questionnaire</label>-->
 			<div class="clear20"></div>
 			<input type="submit" class="submitBtn js-doctCommentPost" value="Send">
 			</form>

@@ -70,7 +70,7 @@
 		}
 		
 		if($totalcompletedper==5){
-			$complt="<span style='left:0px; top:39px;'>The Questionnaire is complete</span>";
+			$complt="<span>The Questionnaire is complete</span>";//style='left:0px; top:39px;'
 		}
 	?>
 	   <div class="step First <?=$pddone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$pdwidth?>%"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$basicdtls?>" sec="0">Patient Details</a></span></div>
@@ -79,15 +79,15 @@
 		<div class="step <?=$phdone?>" ><span class="normalBG"><span class="GreenBG" style="width:<?=$phwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$pasthis?>" sec="3">Past History</a></span></div>
 		<div class="step Last <?=$trdone?>"><span class="normalBG"><span class="GreenBG" style="width:<?=$trwidth?>%;"></span></span><span class="TextPart"><a href="javascript:void(0)" class="<?=$updocts?>" sec="4">Test Reports</a></span></div>
 	</div>
-	<h3 style="padding:75px 0 0 4px;"><?=$complt?><?=($totalcompletedper*20)?>%</h3>
+	<h3><?=$complt?><?=($totalcompletedper*20)?>%</h3>
 	<?php
 	
 		if($totalcompletedper==5){
-			echo $this->Html->link('Submit',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'blueButton submitBtn','style'=>'margin: 66px 17px 0 0;'));
+			echo $this->Html->link('Submit',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'blueButton submitBtn'));//,'style'=>'margin: 66px 17px 0 0;'
 		}
 		//if($numberformpost<5){
 		else{
-			echo $this->Html->link('Enter questionnaire',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton','style'=>'margin:90px 4px 0 0;')); //
+			echo $this->Html->link('Enter questionnaire',array('controller'=>'patientDetails','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'finishButton')); //,'style'=>'margin:90px 4px 0 0;'
 		}
 		
 	?>

@@ -106,7 +106,7 @@ nav ul li .userMaleCircle:hover{ border:none !important;}
 .myDashBordCont .leftWhitePart .completedStatus .step.Last{ margin:0;}
 .myDashBordCont .leftWhitePart .completedStatus .step .normalBG{ height:10px; background:#485383; width:100%; display:block; overflow:hidden;}
 .myDashBordCont .leftWhitePart .completedStatus .step .GreenBG{ height:10px; background:#5ebaa8; display:block; width:0;}
-.myDashBordCont .leftWhitePart .completedStatus .step .TextPart{ display:block; font-size:13px; color:#29366e; font-weight:300; line-height:13px; margin:14px 0 0; padding:0; border:none;}
+.myDashBordCont .leftWhitePart .completedStatus .step .TextPart{ display:block; font-size:13px; color:#29366e; font-weight:300; line-height:13px; margin-top:14px;}
 .myDashBordCont .leftWhitePart .completedStatus .step.First .normalBG{ border-radius:5px 0 0 5px;}
 .myDashBordCont .leftWhitePart .completedStatus .step.Last .normalBG{ border-radius:0 5px 5px 0;}
 .myDashBordCont .leftWhitePart h3{ padding:75px 0 0 44px; color:#5ebaa8; font-size:48px; margin:0; font-weight:300; float:left; position:relative;}
@@ -138,6 +138,7 @@ nav ul li .userMaleCircle:hover{ border:none !important;}
 .logoutOption ul li{ display:block; margin-left:0;}
 .logoutOption ul li a.signout{background:url(../images/signout.png) 17px 13px no-repeat; padding: 0 0 0 47px; display:block; height:50px; line-height:50px; color:#79809d;}
 .logoutOption ul li a:hover{ border:none !important; color:#29366e;}
+
 
 .ourPhician{ padding:140px 0 0;}
 .ourPhician h2{ text-align:center; font-weight:300; font-size:50px; line-height:60px; color:#29366e; margin:0 0 27px;}
@@ -418,6 +419,8 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 .sendOpinionBox .attachButton{ float:left; font-size:14px; height:40px; line-height:40px; color:#56baa1; padding-left:21px; background:url(../images/attach.png) left center no-repeat;}
 .sendOpinionBox .attachButton:hover{ background:url(../images/attach_H.png) left center no-repeat; color:#29366e;}
 
+
+
 .opinionPatientBody .container { border-top: 1px solid #29366e; border-bottom: 1px solid #29366e; position:relative; min-height:1100px;}
 .opinionPatientBody .leftWhiteBox{ width:860px; float:left; padding:13px 0 34px;}
 .opinionPatientBody .leftWhiteBox .box{ padding:25px 0; border-bottom:1px solid #e7e7e7; overflow:hidden;}
@@ -447,12 +450,12 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 .opinionPatientBody .rightGrayBox .refarence{}
 .opinionPatientBody .rightGrayBox .refarence h4{font-size:14px; line-height:19px; color:#646464; text-transform:uppercase; margin:30px 0 20px;}
 .opinionPatientBody .rightGrayBox .refarence ol{}
-.opinionPatientBody .rightGrayBox .refarence ol li{ font-size:14px; line-height:19px; color:#29366e; list-style-position: inside; margin:0 0 22px;}
+.opinionPatientBody .rightGrayBox .refarence ol li{ font-size:14px; line-height:19px; color:#29366e; list-style:inside none number; margin:0 0 22px;}
 .opinionPatientBody .rightGrayBox .refarence ol li span{ color:#646464; display:block; padding-left:22px; margin-top:-19px;}
-.opinionPatientBody.sticky .rightGrayBox{ position:fixed; top:0; right:50%; margin-right:-630px; bottom:0; overflow-y:auto;}
 .disclaimer{ padding:34px 0 50px}
-.disclaimer p{ font-size:13px; line-height:19px; color:#646464; font-weight:300; margin-right:320px;}
+.disclaimer p{ font-size:13px; line-height:19px; color:#646464; font-weight:300;}
 .disclaimer p span{ color:#000; font-weight:400;}
+
 
 @media screen and (max-width: 1025px){
 	.Wrapper{ min-width:1000px;}
@@ -517,7 +520,6 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	
 	.opinionPatientBody .leftWhiteBox{ width:690px;}
 	.opinionPatientBody .leftWhiteBox .box .rightPart{ width:540px;}
-	.opinionPatientBody.sticky .rightGrayBox{ margin-right:-500px;}
 }
 @media screen and (max-width: 800px){
 	.Wrapper{ min-width:740px;}
@@ -604,7 +606,6 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	.opinionPatientBody .rightGrayBox{ padding:45px 20px 40px;}
 	.opinionPatientBody .leftWhiteBox{ width:470px;}
 	.opinionPatientBody .leftWhiteBox .box .leftPart, .opinionPatientBody .leftWhiteBox .box .rightPart{ width:100%;}
-	.opinionPatientBody.sticky .rightGrayBox{ margin-right:-370px;}
 }
 
 /*preloader sections*/

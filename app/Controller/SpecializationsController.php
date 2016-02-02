@@ -164,11 +164,20 @@ class SpecializationsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Specialization->create();
 			$this->request->data['Specialization']['createdon']=time();
-			if ($this->Specialization->save($this->request->data)) {
-				$this->Session->setFlash(__('The specialization has been saved.'));
-				return $this->redirect(array('action' => 'add'));
-			} else {
-				$this->Session->setFlash(__('The specialization could not be saved. Please, try again.'));
+			//validate if the specialization name is already present
+			$fndcond = array('Specialization.name'=>$this->request->data['Specialization']['name'],'Specialization.isdeleted'=>'0');
+			$specialization = $this->Specialization->find('count',array('conditions'=>$fndcond));
+			if($specialization==0){
+				//add this spetialization
+				if ($this->Specialization->save($this->request->data)) {
+					$this->Session->setFlash(__('The specialization has been saved.'));
+					return $this->redirect(array('action' => 'add'));
+				} else {
+					$this->Session->setFlash(__('The specialization could not be saved. Please, try again.'));
+				}
+			}
+			else{
+				$this->Session->setFlash(__('The specialization name already present.'));
 			}
 		}
 	}
@@ -186,11 +195,24 @@ class SpecializationsController extends AppController {
 			throw new NotFoundException(__('Invalid specialization'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Specialization->save($this->request->data)) {
-				//$this->Session->setFlash(__('The specialization has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				//$this->Session->setFlash(__('The specialization could not be saved. Please, try again.'));
+			//validate if the specialization name is already present
+			$fndcond = array('Specialization.name'=>$this->request->data['Specialization']['name'],'Specialization.isdeleted'=>'0');
+			$specialization = $this->Specialization->find('count',array('conditions'=>$fndcond));
+			if($specialization==0){
+				if ($this->Specialization->save($this->request->data)) {
+					//$this->Session->setFlash(__('The specialization has been saved.'));
+					return $this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('The specialization could not be saved. Please, try again.'));
+				}
+			}
+			else{
+				if($this->request->data['Specialization']['name']==$this->request->data['Specialization']['oldname']){
+					return $this->redirect(array('action' => 'index'));
+				}
+				else{
+					$this->Session->setFlash(__('The specialization name already present.'));
+				}
 			}
 		} else {
 			$options = array('conditions' => array('Specialization.' . $this->Specialization->primaryKey => $id));

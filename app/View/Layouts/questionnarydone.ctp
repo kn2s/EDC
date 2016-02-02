@@ -10,7 +10,7 @@ $cakeVersion = __d('cake_dev', '');
 		<?php echo $cakeDescription ?>:
 		My Questionnaire
 	</title>
-	<!--<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>-->
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>
 	<?php
 		echo $this->Html->meta('icon');
 		echo $this->Html->css(array('reset.css','screen.css'));

@@ -205,6 +205,8 @@ class PatientsController extends AppController {
 						//valid patient user
 						$this->Session->write(array('loggedpatientid'=>$patient['Patient']['id'],'loggedpatientname'=>$patient['Patient']['name']));
 						if($this->userislogin()){
+							//remove doct session if any present
+							$this->doctusersessionremove();
 							//valid user go their profile dash bord section
 							//$this->redirect(array('action'=>'dashboard'));
 							die(json_encode(array('status'=>1,'message'=>'')));
@@ -220,6 +222,8 @@ class PatientsController extends AppController {
 						//valied doctor user
 						$this->Session->write(array('loggeddoctid'=>$patient['Patient']['id'],'loggeddocttname'=>$patient['Patient']['name']));
 						if($this->doctuserislogin()){
+							//remove patient session if present
+							$this->usersessionremove();
 							//valid user go their profile dash bord section
 							//$this->redirect(array('controller'=>'doctors','action'=>'dashboard'));
 							die(json_encode(array('status'=>'2','message'=>$message)));
@@ -309,6 +313,9 @@ class PatientsController extends AppController {
 							//valid user go their profile dash bord section
 							//$this->redirect(array('action'=>'dashboard'));
 							//$this->Session->setFlash(__('You are successfully registered.'));
+							
+							//remove doct session if any present
+							$this->doctusersessionremove();
 						}
 						else{
 							//session creation error
