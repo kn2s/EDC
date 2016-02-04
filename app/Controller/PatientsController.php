@@ -809,4 +809,23 @@ class PatientsController extends AppController {
 		//die();
 		$this->set('patientalldeatils',$patientalldeatils);
 	}
+	
+/**
+ * samplequestioner method
+ */
+	public function samplequestioner(){
+		$this->layout="sampledefault";
+		$patientalldeatils=array();
+		$this->set('patientalldeatils',$patientalldeatils);
+	}
+	
+/**
+ * sampleopinion method
+ */
+	public function sampleopinion(){
+		$this->layout="sampledefault";
+		$patientalldeatils=array();
+		$this->set('patientalldeatils',$patientalldeatils);
+	}
+ 
 }

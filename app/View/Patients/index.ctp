@@ -83,13 +83,13 @@ $(document).ready(function(){
         <p>Create account with your basic information</p>
         <span class="link">Register</span></a> </div>
 		
-      <div class="box2 smooth"><a href="#"> <img src="images/icon5.png" class="icon2">
+      <div class="box2 smooth"><a href="<?php echo FULL_BASE_URL.$this->base."/patients/samplequestioner"; ?>"> <img src="images/icon5.png" class="icon2">
         <h2>Tell Us about the disease</h2>
         <p>Fill up the online questioner and upload <br>
           the required documents</p>
         <span class="link">View Sample Questioner</span></a> </div>
 		
-      <div class="box1 smooth"> <img src="images/icon6.png" class="icon2">
+      <div class="box1 smooth"><a href="<?php echo FULL_BASE_URL.$this->base."/patients/sampleopinion"; ?>"> <img src="images/icon6.png" class="icon2">
         <h2>Get Opinion</h2>
         <p>Receive opinion from the apropriate physician <br>
           within scheduled time frame</p>
