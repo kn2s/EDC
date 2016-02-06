@@ -824,8 +824,11 @@ class PatientsController extends AppController {
  */
 	public function sampleopinion(){
 		$this->layout="sampledefault";
-		$patientalldeatils=array();
-		$this->set('patientalldeatils',$patientalldeatils);
+		//load model
+		$this->loadModel('SampleOpinion');
+		$options = array('conditions' => array('SampleOpinion.is_deleted'=>'0'));
+		$patientsampleopinion = $this->SampleOpinion->find('first', $options);
+		$this->set('patientsampleopinion',$patientsampleopinion);
 	}
  
 }

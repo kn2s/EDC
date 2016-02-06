@@ -49,7 +49,6 @@ $cakeVersion = __d('cake_dev', '');
         <div class="questionPart">
 		
 		<?php echo $this->fetch('content'); ?>
-		
         </div>
         <div class="clear"></div>
     </div>

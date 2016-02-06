@@ -13,6 +13,7 @@ $(document).ready(function(e) {
 		}
 		if($(window).scrollTop() > 250){
 			$('.questionnaireBody:not(.doctorsCase)').addClass('sticky');
+			$('.opinionPatientBody').addClass('sticky');
 			if($(window).scrollTop() > 400){
 				$('.questionnaireBody').addClass('goToTop');
 			} else{
@@ -20,6 +21,7 @@ $(document).ready(function(e) {
 			};
 		} else{
 			$('.questionnaireBody:not(.doctorsCase)').removeClass('sticky');
+			$('.opinionPatientBody').removeClass('sticky');
 			$('.questionnaireBody').removeClass('goToTop');
 		}
 		if($(window).scrollTop() > 95){

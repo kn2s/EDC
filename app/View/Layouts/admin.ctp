@@ -185,6 +185,16 @@ $controllername = ucwords($this->params->params['controller']);
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+						
+						<li>
+                            <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Opinion Samples<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+									<?php echo $this->Html->link('Samples',array('controller'=>'SampleOpinions','action'=>'index','full_base'=>true),array('escape'=>false));?>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

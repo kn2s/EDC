@@ -147,3 +147,15 @@ $(document).on('click','.btn-back',function(e){
 	e.preventDefault();
 	window.location=window.history.back("-1");
 });
+
+$(document).on('click','.js-sampleopinion',function(){
+	//sampleopinion
+	e.preventDefault();
+	var allFieldvalidate=isAlRequiredFieldEntered($("#sampleopinion"));
+	if(allFieldvalidate){
+		$("#sampleopinion").submit();
+	}
+	else{
+		alert("Alfeild required");
+	}
+});
