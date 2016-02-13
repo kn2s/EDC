@@ -35,6 +35,8 @@
 		foreach($communications as $key=>$communication){
 			$datetm = isset($communication['createdate'])?$communication['createdate']:date();
 			$comment = isset($communication['comment'])?$communication['comment']:'';
+			$uploadeddoct = isset($communication['uploadeddoct'])?$communication['uploadeddoct']:'';
+			$isquestionaryedit = isset($communication['isquestionaryedit'])?$communication['isquestionaryedit']:'0';
 			$postername="";
 			if($communication['isdoctoresent']==1){
 				$coomimage=$imagepath;
@@ -56,6 +58,18 @@
 				<div class="textCont">
 					<h3><?=$postername?> <span><?=date("H:i - d M Y",strtotime($datetm))?></span></h3>
 					<p><?=$comment?></p>
+					<?php 
+						if($isquestionaryedit==1){
+							echo "<p>You allow patient to edit the questionnaire</p>";
+						}
+					?>
+					<?php 
+						if($uploadeddoct!=''){
+						?>
+						<p><a href="<?=FULL_BASE_URL.$this->base."/casecommunicaion/".$uploadeddoct?>" target="_blank">patients uploaded doct</a></p>
+						<?php
+						}
+					?>
 				</div>
 				<div class="clear"></div>
 			</div>

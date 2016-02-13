@@ -31,7 +31,15 @@ $cakeVersion = __d('cake_dev', '');
 		
 	</script>
 </head>
-
+<style>
+	.maximize{
+		float: right;
+		width: 30px;
+		height: 20px;
+		/*background: url(../images/minimize.png) center bottom no-repeat;*/
+		opacity: 0.3;
+	}
+</style>
 
 <body>
 <div class="Wrapper">
@@ -48,7 +56,8 @@ $cakeVersion = __d('cake_dev', '');
   ?>
   	<h2>Send Opinion</h2>
     <a href="javascript:void(0)" class="close js-opinionpanel"></a>
-    <a href="javascript:void(0)" class="minimize js-opinionpanel"></a>
+    <!--<a href="javascript:void(0)" class="minimize js-opinionpanel"></a>-->
+    <a href="javascript:void(0)" class="maximize js-opinionpanellarger" ind="0">M</a>
     <div class="clear"></div>
     <div class="block">
     	<label>Assessment &amp; Explanation</label>

@@ -1355,10 +1355,31 @@ $(document).on('click','.js-doccasedetail',function(e){
 });
 
 $(document).on('click','.js-opinionpanel',function(e){
-	var immparent  = $(e.currentTarget).parent(".sendOpinionBox");
-	$(immparent).hide();
+	var immparent  = $(e.currentTarget).parent(".sendOpinionBox");//sendOpinionBox
+	//$(immparent).hide();
+	$(".sendOpinionBox").hide();
 });
-
+//make larger the opinion given panel
+$(document).on('click','.js-opinionpanellarger',function(e){
+	// okk large
+	var clsind = $(e.currentTarget).attr('ind');
+	if(clsind==0){
+		var wd = $(".container").css('width');
+		console.log(wd);
+		var lft = $(".questionPart").offset().left;
+		console.log(lft);
+		var tp = $(".questionPart").offset().top;
+		console.log(tp);
+		$(".sendOpinionBox").attr('style','width:'+wd+'; left:'+lft+'px; top:'+tp+'px;');
+		$(e.currentTarget).attr('ind','1');
+		$(e.currentTarget).html('N');
+	}
+	else{
+		$(".sendOpinionBox").attr('style','');
+		$(e.currentTarget).attr('ind','0');
+		$(e.currentTarget).html('M');
+	}
+});
 
 $(document).on('click','.js-doctoptions',function(e){
 	var vals = $(e.currentTarget).attr('vals');
@@ -1446,6 +1467,13 @@ $(document).on('focusout','.js-communicationcomment',function(e){
 $(document).on('click','.js-doctCommentPost',function(e){
 	e.preventDefault();
 	var comm = $("#communicationcomment").val();
+	var allowedit = 0;
+	if($("#allowedit").is(":checked")){
+		allowedit=1;
+	}
+	else{
+		allowedit=0;
+	}
 	var posteddiv = $(e.currentTarget).parents('.comentpostsection');
 	
 	var postedname='';
@@ -1476,11 +1504,16 @@ $(document).on('click','.js-doctCommentPost',function(e){
 				
 				var hmlt = '<div class="talk last"><div class="picCont">'+posterimage+'</div>\
 				<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
-				<p>'+comm+'</p></div><div class="clear"></div></div>';
+				<p>'+comm+'</p>';
+				if(allowedit==1){
+					hmlt+='<p>You allow patient to edit the questionnaire</p>';
+				}
+				hmlt+='</div><div class="clear"></div></div>';
 				
 				$(".comentpostsection").before(hmlt);
 				posteddiv='';
 				$("#communicationcomment").val('Type your comment');
+				$("#allowedit").prop("checked",false);
 			}
 			else{
 				console.log('not saved the data');
@@ -1496,6 +1529,7 @@ $(document).on('click','.js-doctCommentPost',function(e){
 $(document).on('click','.js-doctCommentPost',function(e){
 	e.preventDefault();
 	var comm = $("#pcommunicationcomment").val();
+	var updoctname = $("#docattached").val();
 	var posteddiv = $(e.currentTarget).parents('.comentpostsection');
 	
 	var postedname='';
@@ -1509,6 +1543,7 @@ $(document).on('click','.js-doctCommentPost',function(e){
 	if(comm=="Type your comment" || comm==""){
 		return false;
 	}
+	
 	else{
 		$.ajax({
 		url:baseurl+"/CaseCommunications/add",
@@ -1524,11 +1559,17 @@ $(document).on('click','.js-doctCommentPost',function(e){
 				
 				var hmlt = '<div class="talk last"><div class="picCont">'+posterimage+'</div>\
 				<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
-				<p>'+comm+'</p></div><div class="clear"></div></div>';
+				<p>'+comm+'</p>'
+				if(updoctname!=''){
+					hmlt+='<p><a href="'+baseurl+'/casecommunicaion/'+updoctname+'" target="_blank">your uploaded doct</a></p>'
+				}
+				hmlt+='</div><div class="clear"></div></div>';
 				
 				$(".comentpostsection").before(hmlt);
 				posteddiv='';
 				$("#pcommunicationcomment").val('Type your comment');
+				$("#docattached").val('');
+				$("#docdisplay").html('');
 			}
 			else{
 				console.log('not saved the data');
@@ -1732,4 +1773,36 @@ $(document).on('click','.js-dashboardpreview',function(e){
 		success:function(){},
 		error:function(){}
 	});*/
+});
+
+//patient doc attached in communication sections
+$(document).on('click','.js-attachedcommunifile',function(e){
+	e.preventDefault();
+	$("#atachedfile").trigger('click');
+});
+$(document).on('change','#atachedfile',function(e){
+	var frmData = new FormData();
+	frmData.append('docfile',$(e.currentTarget).prop('files')[0]);
+	console.log($(e.currentTarget).prop('files')[0]);
+	console.log($("#atachedfile").prop('files')[0]);
+	$.ajax({
+		url:baseurl+"/CaseCommunications/imageupload",
+		method:'post',
+		dataType:'json',
+		data:frmData,
+		processData: false, // important
+		contentType: false, // important
+		error:function(response){
+			console.log(response);
+		},
+		success:function(response){
+			console.log(response);
+			if(parseInt(response.status)==1){
+				$("#docattached").val(response.uploadfile);
+				$("#docdisplay").html(response.uploadfile);
+			}
+			else{
+			}
+		}
+	});
 });

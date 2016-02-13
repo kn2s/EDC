@@ -96,6 +96,47 @@ class CaseCommunicationsController extends AppController {
 		$patients = $this->CaseCommunication->Patient->find('list');
 		$this->set(compact('doctorCases', 'patients'));*/
 	}
+	
+/**
+ * imageupload method
+ */
+	public function imageupload(){
+		$filename='';
+		$status='0';
+		if(isset($_FILES['docfile']['name'])){
+			$status='1';
+			//message
+			$filename = time().$this->strreplace($_FILES['docfile']['name']);
+			if(!move_uploaded_file($_FILES['docfile']['tmp_name'],WWW_ROOT."/casecommunicaion/".$filename)){
+				$filename='';
+				$status='0';
+			}
+		}
+		die(json_encode(array('status'=>$status,'message'=>'upload','uploadfile'=>$filename)));
+	}
+	
+/**
+ * download method
+ */
+	public function download($filename=''){
+		
+		/*
+		<p>
+					<?php 
+						if($uploadeddoct!='' || 1){
+						//echo $this->request->file("sdkfsdjkfs.jpg");
+						}
+					?></p>
+		*/
+		$filename='1455379645Koala.jpg';
+		echo $filepath="casecommunicaion/".$filename;
+		$this->response->download(
+			$filepath
+		);
+		//,
+			//array('download'=>true,'name'=>'testdownload')
+		die();
+	}
 
 /**
  * edit method

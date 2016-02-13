@@ -126,4 +126,11 @@ class AppController extends Controller {
 			return $socialdatas;
 		}
 	}
+	
+	//common secion
+	public function strreplace($str=''){
+		$replacechar = array(" ","%","(",")","#","$","@","!");
+		$str = str_replace($replacechar,'_',$str);
+		return $str;
+	}
 }

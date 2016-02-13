@@ -1,6 +1,8 @@
+
 <?php 
 	//pr($doctcaseDetail);
 	//pr($doctorCases);
+	
 	$imagepath=FULL_BASE_URL.$this->base."/images/docActive.jpg";
 	$doctname = "";
 	$patient_id=0;
@@ -31,6 +33,12 @@
 	}
 	$communications = (isset($doctcaseDetail['CaseCommunication']))?$doctcaseDetail['CaseCommunication']:array();
 ?>
+
+<style>
+.attachButton{ margin-left:20px; float:left; font-size:14px; height:40px; line-height:40px; color:#56baa1; padding-left:21px; background:url(../images/attach.png) left center no-repeat;}
+.attachButton:hover{ background:url(../images/attach_H.png) left center no-repeat; color:#29366e;}
+
+</style>
 <div class="patientDetails">
 	<?php echo $this->element('casesummery',array("casedetails"=>$doctcaseDetail,'ispatient'=>'0'))?>
 </div>
@@ -42,6 +50,9 @@
 		foreach($communications as $key=>$communication){
 			$datetm = isset($communication['createdate'])?$communication['createdate']:date();
 			$comment = isset($communication['comment'])?$communication['comment']:'';
+			$uploadeddoct = isset($communication['uploadeddoct'])?$communication['uploadeddoct']:'';
+			$isquestionaryedit = isset($communication['isquestionaryedit'])?$communication['isquestionaryedit']:'0';
+			
 			$postername="";
 			if($communication['isdoctoresent']==1){
 				$coomimage=$imagepath;
@@ -63,6 +74,19 @@
 				<div class="textCont">
 					<h3><?=$postername?> <span><?=date("H:i - d M Y",strtotime($datetm))?></span></h3>
 					<p><?=$comment?></p>
+					<?php 
+						if($isquestionaryedit==1){
+							echo "<p>Doctor allow you to edit your questionnaire</p>";
+						}
+					?>
+					<?php 
+						if($uploadeddoct!=''){
+						?>
+						<p><a href="<?=FULL_BASE_URL.$this->base."/casecommunicaion/".$uploadeddoct?>" target="_blank">your uploaded doct</a></p>
+						<?php
+						}
+					?>
+					
 				</div>
 				<div class="clear"></div>
 			</div>
@@ -128,10 +152,14 @@
 				echo $this->Form->hidden('isdoctoresent',array('value'=>'0'));
 			?>
 			<textarea class="commentpost js-communicationcomment" id="pcommunicationcomment" name="data[CaseCommunication][comment]">Type your comment</textarea>
+			<input type="file" name="atachedfile" id="atachedfile" style="display:none;" />
+			<input type="text" id="docattached" name="data[CaseCommunication][uploadeddoct]" value="" style="display:none;"/>
+			<label id="docdisplay"></label>
 			<div class="clear10"></div>
 			<!--<label><input type="checkbox" id="allowedit" name="data[CaseCommunication][isquestionaryedit]">Allow to edit the questionnaire</label>-->
 			<div class="clear20"></div>
 			<input type="submit" class="submitBtn js-doctCommentPost" value="Send">
+			<a href="javascript:void(0)" class="attachButton js-attachedcommunifile">Attach</a>
 			</form>
 			<div class="clear20"></div>
 		</div>
