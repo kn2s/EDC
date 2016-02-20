@@ -49,7 +49,8 @@
 						<label><?php 
 							$city = isset($patientalldeatils['PatientDetail']['city'])?$patientalldeatils['PatientDetail']['city'].", ":'';
 							$state = isset($patientalldeatils['PatientDetail']['state'])?$patientalldeatils['PatientDetail']['state'].", ":'';
-							$country = isset($patientalldeatils['PatientDetail']['Country']['name'])?$patientalldeatils['PatientDetail']['Country']['name']:'';
+							$country = isset($patientalldeatils['PatientDetail']['country_name'])?$patientalldeatils['PatientDetail']['country_name']:'';
+							//$country = isset($patientalldeatils['PatientDetail']['Country']['name'])?$patientalldeatils['PatientDetail']['Country']['name']:'';
 							echo $city.$state.$country;
 						?></label>
 					</div>
@@ -636,6 +637,8 @@ the medical history</label>
 										}else{
 											?>
 											<!--<span class="reportCard"><a><?=$flname?></a></span>-->
+											<span class="reportCard"><?php echo $this->Html->link(__($flname),array('controller'=>'PatientDetails','action'=>'reportdownload',$flname,'full_base'=>true),array('target'=>'_blank'));?></span>
+											
 											<?php
 											//echo $this->response->file(WWW_ROOT.'patientdocts/'.$flname, array('download' => true, 'name' => $flname));
 										}
@@ -685,7 +688,8 @@ the medical history</label>
 										<?php
 										}else{
 											?>
-											<span class="reportCard"><?=$imgfilename?></span>
+											<!--<span class="reportCard"><?=$imgfilename?></span>-->
+											<span class="reportCard"><?php echo $this->Html->link(__($imgfilename),array('controller'=>'PatientDetails','action'=>'reportdownload',$imgfilename,'full_base'=>true),array('target'=>'_blank'));?></span>
 											<?php
 										}
 										?>
@@ -733,7 +737,8 @@ the medical history</label>
 										<?php
 										}else{
 											?>
-											<span class="reportCard"><a href="<?=FULL_BASE_URL.$this->base."/patientdocts/".$pathflname?>" target="_blank"><?=$pathflname?></a></span>
+											<!--<span class="reportCard"><a href="<?=FULL_BASE_URL.$this->base."/patientdocts/".$pathflname?>" target="_blank"><?=$pathflname?></a></span>-->
+											<span class="reportCard"><?php echo $this->Html->link(__($pathflname),array('controller'=>'PatientDetails','action'=>'reportdownload',$pathflname,'full_base'=>true),array('target'=>'_blank'));?></span>
 											<?php
 										}
 										?>

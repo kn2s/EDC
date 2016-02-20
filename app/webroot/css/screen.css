@@ -64,7 +64,7 @@ footer .followus .socialIcon{ float:left; margin-right:10px; opacity:1;}
 footer .followus .socialIcon:hover{ opacity:0.6;}
 
 header{ position:absolute; left:0; right:0;}
-header.sticky{ position:fixed; height:64px; background:rgba(255,255,255,0.95); border-bottom:1px solid #bec2d3; top:0;}
+header.sticky{ position:fixed; height:64px; background:rgba(255,255,255,0.95); border-bottom:1px solid #bec2d3; top:0; z-index:5;}
 header.sticky .logo{ padding-top:5px;}
 header.sticky .logo img{ height:51px;}
 
@@ -337,7 +337,7 @@ nav ul li .userMaleCircle:hover{ border:none !important;}
 .payment .cancelBtn{ float:right; border:none; background:#fff; color:#29366e; border:1px solid #29366e; height:48px; font-size:18px; line-height:48px; padding:0 50px; margin-right:20px;}
 .payment .cancelBtn:hover{ color:#56baa1; border:1px solid #56baa1;}
 
-header nav ul li.pic{ margin-right:-18px; margin-top:-18px;}
+header nav ul li.pic{ margin-right:12px; margin-top:-18px;}
 header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 .doctorsCase{ padding-top:94px; background:#ededed;}
 .doctorsCase.questionnaireBody .container{ border:none;}
@@ -454,6 +454,21 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 .disclaimer p{ font-size:13px; line-height:19px; color:#646464; font-weight:300; margin-right:320px;}
 .disclaimer p span{ color:#000; font-weight:400;}
 
+footer.referencesFooter{ position:fixed; bottom:0; left:0; right:0; padding:20px 0; z-index:5; background:rgba(255,255,255,0.95);}
+.referencesCont{ position:fixed; top:0; bottom:0; left:0; right:0; z-index:1;}
+.referencesCont .block1{ width:100%; height:100%; background:url(../images/references01.jpg) center center no-repeat; position:relative;}
+.referencesCont .block2{ width:100%; height:100%; background:url(../images/references02.jpg) center center no-repeat; position:relative;}
+.referencesCont .block3{ width:100%; height:100%; background:url(../images/references03.jpg) center center no-repeat; position:relative;}
+.referencesCont .block4{ width:100%; height:100%; background:url(../images/references04.jpg) center center no-repeat; position:relative;}
+.referencesCont .block5{ width:100%; height:100%; background:url(../images/references05.jpg) center center no-repeat; position:relative;}
+.referencesCont ul.topic{ position:fixed; top:140px; left:50%; padding-left:58px; margin-left:-611px; z-index:5; font-size:10px;}
+.referencesCont ul.topic span.arrow{ content:''; position:absolute; background:#fff; width:23px; height:16px; left:0; top:23px; background:url(../images/refArrow.png) 0 0 no-repeat;}
+.referencesCont ul.topic li{ display:block; list-style:none;}
+.referencesCont ul.topic li a{ font-size:4em; line-height:57px; color:#fff; font-weight:300; opacity:.75;}
+.referencesCont ul.topic li a:hover{ opacity:1;}
+.whiteBox{ width:380px; background:#fff; padding:55px 80px; position:absolute; top:120px; left:50%; margin-left:88px; bottom:140px; overflow:auto;z-index:99999;}
+.whiteBox h3{ font-size:20px; color:#29366e; font-weight:300; margin:0 0 18px; padding:0; line-height:25px;}
+.whiteBox p{ font-size:16px; color:#646464; font-weight:300; margin:0 0 40px; padding:0; line-height:25px; text-align:justify;}
 @media screen and (max-width: 1025px){
 	.Wrapper{ min-width:1000px;}
 	.container{ width:1000px; margin:0 auto;}
@@ -518,6 +533,9 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	.opinionPatientBody .leftWhiteBox{ width:690px;}
 	.opinionPatientBody .leftWhiteBox .box .rightPart{ width:540px;}
 	.opinionPatientBody.sticky .rightGrayBox{ margin-right:-500px;}
+	
+	.referencesCont ul.topic{ font-size:7px; margin-left:-497px;}
+	.whiteBox{ left:46.1%; margin-left:0;}
 }
 @media screen and (max-width: 800px){
 	.Wrapper{ min-width:740px;}
@@ -605,8 +623,10 @@ header nav ul li.pic img{ width:50px; height:50px; border-radius:25px;}
 	.opinionPatientBody .leftWhiteBox{ width:470px;}
 	.opinionPatientBody .leftWhiteBox .box .leftPart, .opinionPatientBody .leftWhiteBox .box .rightPart{ width:100%;}
 	.opinionPatientBody.sticky .rightGrayBox{ margin-right:-370px;}
+	
+	.referencesCont ul.topic{ font-size:5px; margin-left:-367px; padding-left:34px;}
+	.whiteBox{ left:39%; margin-left:0; padding:55px 50px; width:355px;}
 }
-
 /*preloader sections*/
 .overlay {
 	display:none;

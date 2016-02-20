@@ -12,7 +12,7 @@
   <li class="logoutOption"><?php 
 	echo $this->Html->link(__($this->Session->read("loggedpatientname")),array('controllers'=>'Patients','action'=>'dashboard'),array('class'=>'userMaleCircle'));
   ?>
-	<ul style="min-width: 123px; display: none;">
+	<ul> <!-- style="min-width: 123px; display: none;"-->
 		<li>
 			<a href="/EDC/Patients/logout" class="signout">Sign out</a>			
 		</li>

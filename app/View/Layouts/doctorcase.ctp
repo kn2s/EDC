@@ -93,9 +93,32 @@ $cakeVersion = __d('cake_dev', '');
   	<div class="container">
     	<div class="statusPart">
         	<ul>
-            	<li><a href="javascript:void(0)" class="current" vals="1">Questionnaire</a></li>
-                <li><a href="javascript:void(0)" class="js-doctoptions" vals="2">Communication</a></li>
-                <li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>
+				<?php 
+					switch($parientviewinfo){
+						case 2:
+						?>
+						<li><a href="javascript:void(0)" class="js-doctoptions" vals="1">Questionnaire</a></li>
+						<li><a href="javascript:void(0)" class="current" vals="2">Communication</a></li>
+						<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>
+						<?php
+							break;
+						case 3:
+						?>
+						<li><a href="javascript:void(0)" class="" vals="1">Questionnaire</a></li>
+						<li><a href="javascript:void(0)" class="" vals="2">Communication</a></li>
+						<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>
+						<?php	
+							break;
+						default:
+						?>
+						<li><a href="javascript:void(0)" class="current" vals="1">Questionnaire</a></li>
+						<li><a href="javascript:void(0)" class="js-doctoptions" vals="2">Communication</a></li>
+						<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>
+						<?php	
+							break;
+					}
+				?>
+            	
                 <li class="opinion"><a href="javascript:void(0)" class="js-doctoptions" vals="4">Send Opinion</a></li>
             </ul>
         </div>

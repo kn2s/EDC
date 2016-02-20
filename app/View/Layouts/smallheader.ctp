@@ -7,7 +7,11 @@ if($this->Session->check('loggedpatientid')){
 	$footercls="";
 	$wappercls="myDashBord";
 }
-$activecontrolleraction = $this->params->params['controller']."".$this->params->params['action'];
+
+$activecontrolleraction =strtolower( $this->params->params['controller']."".$this->params->params['action']);
+if($activecontrolleraction=="referencesindex"){
+	$footercls="inner referencesFooter";
+}
 ?>
 <!DOCTYPE html>
 <html class="no-js">
@@ -37,54 +41,6 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 <body>
 <div class="Wrapper <?php echo $wappercls;?>">
   <header class="sticky">
-    <!--<div class="container">
-		<h1 class="logo smooth">
-	<?php 
-		if(!$this->Session->check('loggedpatientid')){
-			echo $this->Html->link(
-					$this->Html->image('logo.png', array('alt' =>'EC')),
-					array('controller'=>'patients','action'=>'index','full_base'=>true),
-					array('escape'=>false)
-				);
-		}
-		else{
-			echo $this->Html->link(
-					$this->Html->image('logo.png', array('alt' =>'EC')),
-					array('controller'=>'patients','action'=>'dashboard','full_base'=>true),
-					array('escape'=>false)
-				);
-		}
-		?>
-		</h1>
-      <nav class="inner">
-        <ul>
-		<?php 
-			if($this->Session->check('loggedpatientid')){
-		?>
-			<li><?php echo $this->Html->link('My Dashboard',array('controller'=>'patients','action'=>'dashboard','full_base'=>false),array('class'=>'active'));?></li>
-			<li><?php echo $this->Html->link('About us',array('controller'=>'aboutus','action'=>'index','full_base'=>false));?></li>
-			<li><a href="javascript:void(0)">References</a></li>
-			<li><a href="javascript:void(0)">Recent Advances</a></li>
-			<li class="userMaleCircle"><?php echo $this->Session->read('loggedpatientname');?></li>
-		<?php
-			}
-			else{
-		?>
-			<li><?php echo $this->Html->link('Services',array('controller'=>'services','action'=>'index','full_base'=>false),
-			array('class'=>($activecontrolleraction=='servicesindex')?'active':''));?></li>
-			<li><?php echo $this->Html->link('About',array('controller'=>'aboutus','action'=>'index','full_base'=>false),
-			array('class'=>($activecontrolleraction=='aboutusindex')?'active':''));?></li>
-			<li><a href="javascript:void(0)">References</a></li>
-			<li><a href="javascript:void(0)">Recent Advances</a></li>
-			<li><?php echo $this->Html->link('My Account',array('controller'=>'patients','action'=>'account','full_base'=>false),
-			array('class'=>($activecontrolleraction=='patientsaccount')?'active':''));?></li>
-		<?php
-			}
-		?>
-          
-        </ul>
-      </nav>
-    </div>-->
 	<?php echo $this->element('navigations',array("activecontrolleraction"=>$activecontrolleraction))?>
   </header>
   

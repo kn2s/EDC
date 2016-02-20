@@ -133,4 +133,24 @@ class AppController extends Controller {
 		$str = str_replace($replacechar,'_',$str);
 		return $str;
 	}
+	//download the file
+	public function downloadfile($filename='',$filepath=''){
+		if($filepath!=''){
+			$filepath= WWW_ROOT."/".$filepath;
+			$filename=time()."_".$filename;
+			if(file_exists($filepath)){
+				header("Cache-Control: public");
+				header("Content-Description: File Transfer");
+				header("Content-Length: ". filesize("$filepath").";");
+				header("Content-Disposition: attachment; filename=$filename");
+				//header("Content-Type: application/octet-stream; "); 
+				header("Content-Type: text/plain; "); 
+				header("Content-Transfer-Encoding: binary");
+				readfile ($filepath);
+			}
+		}
+		else{
+			//filepath value empty
+		}
+	}
 }

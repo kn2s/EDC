@@ -20,6 +20,8 @@
 <nav class="inner">
 <ul>
 	<li class="pic"><img src="<?=$imagepath?>" alt="doct image"></li>
-	<li>Dr. <?php echo $this->Session->read("loggeddocttname")?></li>
+	<li class="logoutOption">Dr.<?php echo $this->Session->read("loggeddocttname")?>
+		<ul><li><?php echo $this->Html->link('Sign out',array('controller'=>'Doctors','action'=>'logout','full_base'=>true),array('escape'=>false,'class'=>'signout'));?></li></ul>
+	</li>
 </ul>
 </nav>

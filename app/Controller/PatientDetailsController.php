@@ -421,12 +421,11 @@ class PatientDetailsController extends AppController {
 	$this->userloginsessionchecked();
 	//update the completions status
 	if($this->Session->read('lastquestionformno')>5){
-		$uparray = array('Patient.detailsubmitpercent'=>'100');
+		$uparray = array('Patient.detailsubmitpercent'=>'100','Patient.doctallowtoeditquetionair'=>'0');
 	}
 	else{
-		$uparray = array('Patient.detailsformsubmit'=>'5','Patient.detailsubmitpercent'=>'100');
+		$uparray = array('Patient.detailsformsubmit'=>'5','Patient.detailsubmitpercent'=>'100','Patient.doctallowtoeditquetionair'=>'0');
 	}
-	//$uparray = array('Patient.detailsformsubmit'=>'5','Patient.detailsubmitpercent'=>'100');
 	$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
 	$this->PatientDetail->Patient->updateAll($uparray,$upcond);
 	
@@ -1053,4 +1052,24 @@ class PatientDetailsController extends AppController {
 		$patientalldeatils = $this->Patient->find('first',array('recursive'=>'2','conditions'=>$cond));
 		$this->set('patientalldeatils',$patientalldeatils);
 	}
+	
+	//download the uploaded doct file 
+	public function reportdownload($filename=''){
+		if($filename!=''){
+			$filepath="patientdocts/".$filename;
+			
+			$this->downloadfile($filename,$filepath);
+		}
+		die();
+	}
+	
+	public function admin_reportdownload($filename=''){
+		if($filename!=''){
+			$filepath="patientdocts/".$filename;
+			
+			$this->downloadfile($filename,$filepath);
+		}
+		die();
+	}
+	
 }

@@ -3,9 +3,12 @@
 	$clas ="js-preview";
 	$clshd ="";
 	if(isset($patientalldeatils['PatientCase']['id']) && $patientalldeatils['PatientCase']['id']>0){
-		$clas="";
-		$clshd ="display:none;";
-		$isdoctorcaseassing=false;
+		//is doct allow questionarry edit
+		if($patientalldeatils['Patient']['doctallowtoeditquetionair']==0){
+			$clas="";
+			$clshd ="display:none;";
+			$isdoctorcaseassing=false;
+		}
 	}
 ?>
 <div class="container">
@@ -75,7 +78,8 @@
 						<label><?php 
 							$city = isset($patientalldeatils['PatientDetail']['city'])?$patientalldeatils['PatientDetail']['city'].", ":'';
 							$state = isset($patientalldeatils['PatientDetail']['state'])?$patientalldeatils['PatientDetail']['state'].", ":'';
-							$country = isset($patientalldeatils['PatientDetail']['Country']['name'])?$patientalldeatils['PatientDetail']['Country']['name']:'';
+							$country = isset($patientalldeatils['PatientDetail']['country_name'])?$patientalldeatils['PatientDetail']['country_name']:'';
+							//$country = isset($patientalldeatils['PatientDetail']['Country']['name'])?$patientalldeatils['PatientDetail']['Country']['name']:'';
 							echo $city.$state.$country;
 						?></label>
 					</div>
@@ -681,7 +685,8 @@ the medical history</label>
 										<?php
 										}else{
 											?>
-											<span class="reportCard"><?=$flname?></span>
+											<!--<span class="reportCard"><?=$flname?></span>-->
+											<span class="reportCard"><?php echo $this->Html->link(__($flname),array('controller'=>'PatientDetails','action'=>'reportdownload',$flname,'full_base'=>true),array('target'=>'_blank'));?></span>
 											<?php
 										}
 										?>
@@ -730,7 +735,7 @@ the medical history</label>
 										<?php
 										}else{
 											?>
-											<span class="reportCard"><?=$imgfilename?></span>
+											<span class="reportCard"><?php echo $this->Html->link(__($imgfilename),array('controller'=>'PatientDetails','action'=>'reportdownload',$imgfilename,'full_base'=>true),array('target'=>'_blank'));?></span>
 											<?php
 										}
 										?>
@@ -778,7 +783,7 @@ the medical history</label>
 										<?php
 										}else{
 											?>
-											<span class="reportCard"><?=$pathflname?></span>
+											<span class="reportCard"><?php echo $this->Html->link(__($pathflname),array('controller'=>'PatientDetails','action'=>'reportdownload',$pathflname,'full_base'=>true),array('target'=>'_blank'));?></span>
 											<?php
 										}
 										?>
@@ -802,10 +807,17 @@ the medical history</label>
 		<div class="clear35"></div>
 		<?php 
 			if($isdoctorcaseassing){
+				if($patientalldeatils['Patient']['doctallowtoeditquetionair']==1){
+					?>
+					<input type="submit" class="submitBtn js-patientsummetybtn" id="exit" value="Save And Exit">
+					<?php
+				}
+				else{
 			?>
 				<input type="submit" class="submitBtn js-patientsummetybtn" value="Submit">
 				<input type="submit" class="submitBtn js-patientsummetybtn" id="exit" value="Save And Exit">
 			<?php
+				}
 			}
 		?>
 		

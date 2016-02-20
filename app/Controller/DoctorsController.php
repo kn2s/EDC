@@ -118,6 +118,7 @@ class DoctorsController extends AppController {
 		$this->DoctorCase->unbindModel(array(
 			'belongsTo'=>array('Doctor')
 		));
+		$this->Session->write('doctCurrentView','1');
 		$this->DoctorCase->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
 		$this->DoctorCase->Patient->bindModel(array(
 				'hasOne'=>array(
@@ -270,6 +271,7 @@ class DoctorsController extends AppController {
 		$resstatus=0;
 		$doctcases=array();
 		if($this->request->is("post")){
+			
 			$filterby = isset($this->request->data['filterfor'])?$this->request->data['filterfor']:'0';
 			$this->loadModel('DoctorCase');
 			$this->DoctorCase->unbindModel(array(
@@ -383,8 +385,10 @@ class DoctorsController extends AppController {
 		$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 		
 		if(is_array($doctorCase) && count($doctorCase)>0){
+			//set doct current view
+			$currentvw = ($this->Session->check('doctCurrentView'))?$this->Session->read('doctCurrentView'):'1';
 			$this->set('doctorCases',$doctorCase);
-			$this->set("parientviewinfo",'1');
+			$this->set("parientviewinfo",$currentvw);
 			$this->set("doctcaseid",$id);
 		}
 		else{
@@ -398,6 +402,8 @@ class DoctorsController extends AppController {
 	public function communication(){
 		$this->layout="blanks";
 		if($this->request->is("post")){
+			$this->Session->write('doctCurrentView','2');
+			
 			$caseid = isset($this->request->data['caseid'])?$this->request->data['caseid']:'0';
 			/*$this->loadModel('CaseCommunication');
 			
@@ -490,6 +496,8 @@ class DoctorsController extends AppController {
 		//pr($this->request->data);
 		$this->layout="blanks";
 		if($this->request->is("post")){
+			$this->Session->write('doctCurrentView','1');
+			
 			$caseid = isset($this->request->data['caseid'])?$this->request->data['caseid']:'0';
 			$patientid="0";
 			$this->loadModel('DoctorCase');
@@ -659,6 +667,7 @@ ADMIN SECTION START FROM HERE
 				'DoctorSpecializetion'=>array(
 					'className'=>'DoctorSpecializetion',
 					'foreignKey'=>'doct_id',
+					'conditions'=>array('DoctorSpecializetion.is_deleted'=>'0'),
 					'fields'=>''
 				)
 			)
@@ -941,6 +950,7 @@ ADMIN SECTION START FROM HERE
 				else{
 					$this->request->data['Doctor']['image'] = $this->request->data['Doctor']['old_image'];
 				}
+				
 				if($this->Doctor->Patient->save(array('Patient'=>$this->request->data['Patient']))){
 					//spetialization node is remove from here
 					$doctspecializations = $this->request->data['Doctor']['specialization_id'];
@@ -951,6 +961,7 @@ ADMIN SECTION START FROM HERE
 					if ($this->Doctor->save(array("Doctor"=>$this->request->data["Doctor"]))) {
 						//update section of doct besic details
 					}
+					
 					$patient_id=$id;
 					$doctor_id = $this->request->data['Doctor']['id'];
 					
@@ -1195,4 +1206,6 @@ ADMIN SECTION START FROM HERE
 		$this->set('patientalldeatils',$patientalldeatils);
 		$this->set('patient_id',$patient_id);
 	}
+	
+	
 }

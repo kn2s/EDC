@@ -82,7 +82,7 @@
 					<?php 
 						if($uploadeddoct!=''){
 						?>
-						<p><a href="<?=FULL_BASE_URL.$this->base."/casecommunicaion/".$uploadeddoct?>" target="_blank">your uploaded doct</a></p>
+						<p><a href="<?=FULL_BASE_URL.$this->base."/Patients/communicationdocdownload/".$uploadeddoct?>" target="_blank">your uploaded doct</a></p>
 						<?php
 						}
 					?>

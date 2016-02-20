@@ -830,5 +830,13 @@ class PatientsController extends AppController {
 		$patientsampleopinion = $this->SampleOpinion->find('first', $options);
 		$this->set('patientsampleopinion',$patientsampleopinion);
 	}
- 
+	//download the communication docts
+	public function communicationdocdownload($filename=''){
+		if($filename!=''){
+			$filepath="casecommunicaion/".$filename;
+			
+			$this->downloadfile($filename,$filepath);
+		}
+		die();
+	}
 }

@@ -88,3 +88,7 @@ today(13-02-16):
 ================
 ALTER TABLE `ec_case_communications` ADD `uploadeddoct` VARCHAR(254) NOT NULL AFTER `comment`;
 ALTER TABLE `ec_patients` ADD `doctallowtoeditquetionair` INT(1) NOT NULL DEFAULT '0' AFTER `detailsubmitpercent`;
+
+today(18-02-16):
+================
+ALTER TABLE `ec_patient_details` ADD `country_name` VARCHAR(254) NOT NULL AFTER `country_id`;

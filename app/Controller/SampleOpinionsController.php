@@ -113,7 +113,7 @@ class SampleOpinionsController extends AppController {
 		$this->SampleOpinion->recursive = 0;
 		/*$sampleOpinions = $this->SampleOpinion->find('first',array('recursive'=>'1','conditions'=>array()));
 		$this->set('sampleOpinions',$sampleOpinions );//$this->Paginator->paginate()*/
-		$options = array('conditions' => array('SampleOpinion.is_deleted'=>'0'));
+		$options = array('conditions' => array('SampleOpinion.is_deleted'=>'0'),'order'=>array('SampleOpinion.id'=>'DESC'));
 		$this->request->data = $this->SampleOpinion->find('first', $options);
 	}
 

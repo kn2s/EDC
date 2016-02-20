@@ -1,0 +1,265 @@
+* {
+	outline:0!important;
+	padding:0;
+	margin:0;
+}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+	margin:0;
+	padding:0;
+	border:0;
+	outline:0;
+	font-size:100%;
+	font:inherit;
+	vertical-align:baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display:block;
+}
+
+html {
+	height:100%;
+	-webkit-font-smoothing:antialiased;
+	margin:0;
+	padding:0;
+	border:0;
+	/*overflow-y:scroll;*/
+}
+body {
+	line-height:1; height:100%;
+}
+
+/* -------------------------------------------------------------- LINKS */
+
+a {
+	color: #006699;
+	text-decoration: none;
+}
+a:hover {
+	color: #333333;
+	text-decoration: none;
+}
+/* ----------------------------------------------------------- HEADINGS */
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+	margin:0;
+	padding:0 0 0.3em 0;
+}
+/*-------------------------------------------- COMMON FORMATTING */
+img {
+	border:0;
+}
+sup {
+	position:relative;
+	bottom:0.3em;
+	vertical-align:baseline;
+}
+sub {
+	position:relative;
+	bottom:-0.2em;
+	vertical-align:baseline;
+}
+.fleft {
+	float:left;
+}
+.fright {
+	float:right;
+}
+.tcenter {
+	text-align:center;
+}
+.tright {
+	text-align:right;
+}
+.tleft {
+	text-align:left;
+}
+.posi_global {
+	position:relative;
+}
+.valign {
+	vertical-align:middle;
+}
+hr {
+	background: #fff;/*NS FF OP */
+	color: #fff;/*IE*/
+	border: none;/*FF NS OP*/
+	height: 1px;/*FF NS OP*/
+	width: 100%;
+	padding:0;
+	margin:0;
+}
+hr.color1 {
+	background: #8a8481;/*NS FF OP */
+	color: #8a8481;/*IE*/
+}
+blockquote, q {
+	quotes:none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content:'';
+	content:none;
+}
+/*remember to define visible focus styles!*/
+:focus {
+	outline:none;
+}
+/* remember to highlight inserts somehow! */
+ins {
+	margin: 0;
+	padding: 0 0 0.3em 0;
+}
+h1 {
+	font-size: 32px;
+}
+h2 {
+	font-size: 30px;
+}
+h3 {
+	font-size: 24px;
+	
+}
+h4 {
+	font-size: 18px;
+}
+h5 {
+	font-size: 16px;
+}
+h6 {
+	font-size: 11px;
+}
+/* ----------------------------------------------------- BASE TYPOGRAPHY */
+
+p {
+	color:#444;
+	font-size: 14px;
+	line-height: 20px;
+}
+ul li {
+	list-style: disc;
+}
+ol li {
+	list-style: decimal;
+}
+/*-- nested lists --*/
+ul ul {
+	padding: 0 0 0 0;
+}
+ol ol {
+	padding: 0 0 0 0;
+}
+
+del {
+	text-decoration:line-through;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+/*------------------------------------------------------- FORMS */
+
+form {
+	margin:0;
+	padding:0;
+	display:inline;
+}
+input[type=submit], input[type=button], input[type="reset"] {
+	cursor:pointer;
+}
+
+input[type=text], input[type=password] {
+	outline: none;
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.clearfix {
+	display: block;
+	zoom: 1;
+}
+/* Regular clearing, just in case! */
+.clear {
+	clear: both;
+	overflow:hidden;
+	font-size:0;
+	height:0;
+}
+.clear5 {
+	clear: both;
+	height:5px;
+	overflow:hidden;
+	font-size:0
+}
+.clear8 {
+	clear: both;
+	height:8px;
+	overflow:hidden;
+	font-size:0
+}
+.clear10 {
+	clear: both;
+	height:10px;
+	overflow:hidden;
+	font-size:0
+}
+.clear15 {
+	clear: both;
+	height:15px;
+	overflow:hidden;
+	font-size:0
+}
+.clear20 {
+	clear: both;
+	height:20px;
+	overflow:hidden;
+	font-size:0
+}
+.clear25 {
+	clear: both;
+	height:25px;
+	overflow:hidden;
+	font-size:0
+}
+.clear30 {
+	clear: both;
+	height:30px;
+	overflow:hidden;
+	font-size:0
+}
+.clear32 {
+	clear: both;
+	height:32px;
+	overflow:hidden;
+	font-size:0
+}
+.clear35 {
+	clear: both;
+	height:35px;
+	overflow:hidden;
+	font-size:0
+}
+.clear50 {
+	clear: both;
+	height:50px;
+	overflow:hidden;
+	font-size:0
+}
+/* common color */
+
+.error {
+	color:#F33;
+	font-size:12px;
+}
+
+/* common spacer */
+
+/*custom font*/
+
+
+.smooth{ -webkit-transition: all .7s linear; transition: all .7s linear;}
+.smooth2{ -webkit-transition: all 1s linear; transition: all 1s linear;}

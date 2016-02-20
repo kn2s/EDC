@@ -143,6 +143,42 @@ $(document).ready(function(e) {
 			e.stopPropagation();
 		});
 	}
+	
+	var winHeight= $("body").height();
+	$('.referencesCont .block1, .referencesCont .block2, .referencesCont .block3, .referencesCont .block4, .referencesCont .block5').css('height', winHeight);
+	$(window).resize(function(){
+		winHeight= $("body").height();
+		$('.referencesCont .block1, .referencesCont .block2, .referencesCont .block3, .referencesCont .block4, .referencesCont .block5').css('height', winHeight);
+	});
+	$('.referencesCont .topic a').click(function(e) {
+		var index = $(this).parent().index();
+		//$(".whiteBox").scrollTop(120+$(".whiteBox").find(".whiteBoxContent").eq(index).position().top);
+		var elemId = $(".whiteBox").find(".whiteBoxContent").eq(index);
+		
+		$(".whiteBox").animate({
+			scrollTop: $(".whiteBox").scrollTop() + $(elemId).offset().top - $(".whiteBox").offset().top - 42
+		}, {
+			duration: 1000,
+			specialEasing: {
+				width: 'linear',
+				height: 'easeOutBounce'
+			},
+			complete: function (e) {
+				console.log("animation completed");
+			}
+		});
+
+
+		
+		var multiplyer = parseInt($(this).attr('data'));
+		var topValue = -(winHeight*multiplyer);
+		var imgPosition = 23 + (57*multiplyer);
+		
+        $('.referencesCont').animate({'top':topValue}, 500);
+		$('.referencesCont .topic span.arrow').animate({top:imgPosition}, 500);
+		$('.referencesCont .topic a').css({'font-size': '4em',opacity:.75}, 0);
+		$(this).animate({'font-size': '6em',opacity:1}, 500);
+    });
 });
 
 
@@ -1561,7 +1597,7 @@ $(document).on('click','.js-doctCommentPost',function(e){
 				<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
 				<p>'+comm+'</p>'
 				if(updoctname!=''){
-					hmlt+='<p><a href="'+baseurl+'/casecommunicaion/'+updoctname+'" target="_blank">your uploaded doct</a></p>'
+					hmlt+='<p><a href="'+baseurl+'/Patients/communicationdocdownload/'+updoctname+'" target="_blank">your uploaded doct</a></p>'
 				}
 				hmlt+='</div><div class="clear"></div></div>';
 				

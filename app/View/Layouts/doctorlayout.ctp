@@ -32,13 +32,16 @@ $cakeVersion = __d('cake_dev', '');
 <div class="Wrapper">
   <header class="sticky">
     <div class="container">
-      <!--<h1 class="logo"><a href="index.html"><img src="images/logo.png" alt="EC"></a></h1>
+      
+	  <!--<h1 class="logo"><a href="index.html"><img src="images/logo.png" alt="EC"></a></h1>
       <nav class="inner">
         <ul>
           <li class="pic">
 			<?php echo $this->element('doctsimage')?>
 		  </li>
-          <li><?php echo $this->Session->read("loggeddocttname")?></li>
+          <li class="logoutOption"><?php echo $this->Session->read("loggeddocttname")?>
+			<ul><li><a href="#" class="signout">Sign out</a></li></ul>
+		  </li>
         </ul>
       </nav>-->
 	  

@@ -10,6 +10,7 @@ $pdyear=0;
 $pdcity='';
 $pdstate='';
 $pdcountryid=0;
+$pdcountryname='';
 $pdweight='';
 $pdheight='';
 $pddrugallergy=array(array('name'=>'','reaction'=>''));
@@ -29,6 +30,8 @@ if(isset($patientDetails['PatientDetail']) && is_array($patientDetails['PatientD
 	$pdcity=$patientDetails['PatientDetail']['city'];
 	$pdstate=$patientDetails['PatientDetail']['state'];
 	$pdcountryid=$patientDetails['PatientDetail']['country_id'];
+	$pdcountryname=$patientDetails['PatientDetail']['country_name'];
+	
 	$pdweight=$patientDetails['PatientDetail']['weight'];
 	$pdheight=$patientDetails['PatientDetail']['height'];
 	$pdpercomments=$patientDetails['PatientDetail']['performance_comment'];
@@ -178,14 +181,25 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
 							'value'=>$pdstate,
 						));
 					
-					echo $this->Form->input('country_id',array(
+					/*echo $this->Form->input('country_id',array(
 						'div'=>false,
 						'label'=>false,
 						'options'=>$countries,
 						'default'=>'0',
 						'id'=>'pdcountry',
 						'class'=>'frmMfields',
-						'value'=>$pdcountryid,
+						'value'=>'0',//$pdcountryid
+					));*/
+					
+					echo $this->Form->input('country_name',array(
+						'div'=>'country_name',
+						'label'=>array(
+							'class'=>'blue',
+							'text'=>'*Country Name'
+						),
+						'class'=>'frmMfields',
+						'value'=>$pdcountryname,
+						'required'=>true
 					));
 					?>
                 </div>

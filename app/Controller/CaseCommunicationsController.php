@@ -57,7 +57,9 @@ class CaseCommunicationsController extends AppController {
 			if(isset($this->request->data['CaseCommunication']['isquestionaryedit'])){
 				$this->request->data['CaseCommunication']['isquestionaryedit']=1;
 			}
-			
+			else{
+				$this->request->data['CaseCommunication']['isquestionaryedit']=0;
+			}
 			$this->request->data['CaseCommunication']['createdate']=$postdate;
 			
 			if($this->Session->read('loggeddoctid')>0 && $this->request->data['CaseCommunication']['isdoctoresent']==1){
@@ -69,6 +71,17 @@ class CaseCommunicationsController extends AppController {
 					$postdate = date("G:i - d M Y");
 					//now update the case with Awaiting Input (2)
 					$this->CaseCommunication->DoctorCase->updateAll(array("DoctorCase.satatus"=>'2'),array('DoctorCase.id'=>$this->request->data['CaseCommunication']['doctor_case_id']));
+					//if doct allow questionnair edit
+					if($this->request->data['CaseCommunication']['isquestionaryedit']==1){
+						//update the patient as he able o edit the 
+						$updatedata = array(
+							'Patient.doctallowtoeditquetionair'=>'1',
+						);
+						$upcond=array(
+							'Patient.id'=>$this->request->data['CaseCommunication']['patient_id']
+						);
+						$this->CaseCommunication->Patient->updateAll($updatedata,$upcond);
+					}
 				}
 			}
 			elseif($this->Session->read('loggedpatientid')>0){
