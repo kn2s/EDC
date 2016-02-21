@@ -116,27 +116,55 @@ class SampleQuestionnairesController extends AppController {
 		$options = array('conditions' => array('SampleQuestionnaire.is_deleted'=>'0'),'order'=>array('SampleQuestionnaire.id'=>'DESC'));
 		$SampleQuestionnaire = $this->SampleQuestionnaire->find('first', $options);
 		$patientdetails = array(
-			'full_name'=>'ok insert',
+			'name'=>'ok insert',
 			'gender'=>'Male',
+			'dob_txt'=>'',
 			'dob'=>array(
-				'month'=>'',
+				'month'=>'10',
 				'day'=>'',
 				'year'=>''
 			),
-			'place'=>'',
-			'weight'=>'',
-			'height'=>'',
+			'place'=>'aub diuas id, ashd asd, daus dhaisd ',
+			'weight'=>'77',
+			'height'=>'888',
+			'drug_name'=>'a dahd ',
+			'reaction'=>'asd jaosida',
 			'drug_allergy'=>array(
 				'drug_name'=>'',
 				'reaction'=>''
 			),
 			'performance_status'=>'',
-			'performance_status_comment'=>''
+			'performance_status_comment'=>'ahd a adas '
+		);
+		$social_history = array(
+			'smocking'=>array(
+				'quantity'=>'',
+				'period'=>'',
+				'preriod_from'=>'',
+				'preriod_to'=>'',
+				'unit'=>''
+			),
+			'alcohol'=>array(
+				'alcohol_type'=>'',
+				'quantity'=>'',
+				'unit'=>''
+			),
+			'alcohol_period'=>'',
+			'alcohol_period_from'=>'',
+			'alcohol_period_to'=>'',
+			'comments'=>''
 		);
 		$this->request->data=array(
 			'SampleQuestionnaire'=>$SampleQuestionnaire,
-			'QPatientDetails'=>$patientdetails
+			'QPatientDetails'=>$patientdetails,
+			'QSocialHistory'=>$social_history,
 		);
+		$months=array('01','02','03','04','05','06','07','08','09','10','11','12');
+		$performance_status=array();
+		$units=array();
+		$this->set('months',$months);
+		$this->set('performance_status',$performance_status);
+		$this->set('units',$units);
 	}
 
 /**

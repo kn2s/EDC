@@ -196,7 +196,7 @@ $controllername = ucwords($this->params->params['controller']);
                             <!-- /.nav-second-level -->
                         </li>
 						<li>
-                            <!--<a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Questionnaire Samples<span class="fa arrow"></span></a>
+                           <!-- <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Questionnaire Samples<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
 									<?php echo $this->Html->link('Samples',array('controller'=>'SampleQuestionnaires','action'=>'index','full_base'=>true),array('escape'=>false));?>

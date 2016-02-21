@@ -59,8 +59,9 @@
 <?php 
 	//mahe the data array of the basic details of the patient_detail
 	$patientdetails = array(
-		'full_name'=>'',
+		'name'=>'',
 		'gender'=>'',
+		'dob_txt'=>'',
 		'dob'=>array(
 			'month'=>'',
 			'day'=>'',
@@ -69,6 +70,8 @@
 		'place'=>'',
 		'weight'=>'',
 		'height'=>'',
+		'drug_name'=>'',
+		'reaction'=>'',
 		'drug_allergy'=>array(
 			'drug_name'=>'',
 			'reaction'=>''
@@ -145,7 +148,7 @@
 	echo $this->Form->create('SampleQuestionnaire',array('action'=>'edit','id'=>'samplequestionnaire'));
 	echo $this->Form->input('SampleQuestionnaire.id',array('type'=>'hidden'));
 ?>
-		<div class="panel panel-default">
+		<div class="panel panel-default" style="display:none;">
 			<div class="panel-heading">
 				Patient Details
 			</div>
@@ -154,17 +157,18 @@
 					<div class="col-lg-6">
 					 <!-- create by php form fields -->
 							<?php
-								echo $this->Form->input('QPatientDetails.full_name',array('type'=>'text','div'=>'form-group','label'=>'*Full Name','class'=>'form-control', 'placeholder'=>'Full Name','required'=>'true'));
+								echo $this->Form->input('QPatientDetails.name',array('type'=>'text','div'=>'form-group','label'=>'*Full Name','class'=>'form-control', 'placeholder'=>'Full Name','required'=>'true'));
 								echo $this->Form->input('QPatientDetails.gender',array('options'=>array('Male'=>'Male','Female'=>'Female'),'div'=>'form-group','label'=>'*Gender','class'=>'form-control','required'=>'true'));//,'required'=>'true'
+								echo $this->Form->input('QPatientDetails.dob_txt',array('type'=>'text','label'=>'*Date Of Birth','class'=>'form-control','required'=>'true','placeholder'=>'mm-dd-yyyy'));//,'required'=>'true'
 								
-								echo $this->Form->input('SampleQuestionnaire.patient_name',array('type'=>'test','div'=>'form-group','label'=>'*Patient Name','class'=>'form-control', 'placeholder'=>'Patient Name','required'=>'true'));
-								echo $this->Form->input('SampleQuestionnaire.create_date',array('type'=>'text','div'=>'form-group','label'=>'*Opinion Date','class'=>'form-control', 'placeholder'=>'Opinion Date','required'=>'true'));
-								echo $this->Form->input('SampleQuestionnaire.refferences',array('div'=>'form-group','label'=>'Refference','class'=>'form-control','placeholder'=>'Refference','required'=>'true'));
+								echo $this->Form->input('QPatientDetails.place',array('type'=>'textarea','div'=>'form-group','label'=>'*Address','class'=>'form-control', 'placeholder'=>'Address','required'=>'true'));
+								echo $this->Form->input('QPatientDetails.weight',array('type'=>'text','div'=>'form-group','label'=>'*Weight','class'=>'form-control', 'placeholder'=>'0 KG','required'=>'true'));
+								echo $this->Form->input('QPatientDetails.height',array('type'=>'text','div'=>'form-group','label'=>'*Height','class'=>'form-control', 'placeholder'=>'0 CM','required'=>'true'));
 								
-								echo $this->Form->input('SampleQuestionnaire.assesment',array('type'=>'textarea','div'=>'form-group','label'=>'*Assessment & Explanation','class'=>'form-control', 'placeholder'=>'Assessment & Explanation','required'=>'true'));//
-								echo $this->Form->input('SampleQuestionnaire.prognosis',array('type'=>'textarea','div'=>'form-group','label'=>'*Prognosis','class'=>'form-control', 'placeholder'=>'Prognosis','required'=>'true'));//
-								echo $this->Form->input('SampleQuestionnaire.best_tritment_strategy',array('type'=>'textarea','div'=>'form-group','label'=>'*Best Tritment Strategy','class'=>'form-control', 'placeholder'=>'Best Tritment Strategy','required'=>'true'));//
-								echo $this->Form->input('SampleQuestionnaire.alternative_strategy',array('type'=>'textarea','div'=>'form-group','label'=>'*Alternative Strategy','class'=>'form-control', 'placeholder'=>'Alternative Strategy','required'=>'true'));//
+								echo $this->Form->input('QPatientDetails.drug_name',array('type'=>'text','div'=>'form-group','label'=>'Drug Name','class'=>'form-control', 'placeholder'=>'Drug Name'));
+								echo $this->Form->input('QPatientDetails.reaction',array('type'=>'text','div'=>'form-group','label'=>'Reaction','class'=>'form-control', 'placeholder'=>'Reaction'));
+								echo $this->Form->input('QPatientDetails.performance_status',array('options'=>$performance_status,'div'=>'form-group','label'=>'*Performance Status','class'=>'form-control','placeholder'=>'Performance Status','required'=>'true'));
+								echo $this->Form->input('QPatientDetails.performance_status_comment',array('type'=>'textarea','div'=>'form-group','label'=>'Performance Status Comment','class'=>'form-control','placeholder'=>'Performance Status Comment'));//
 							?>
 					</div>
 					<!-- /.col-lg-6 (nested) -->
@@ -177,24 +181,36 @@
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Patient Details
+				Social History
 			</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-6">
 					 <!-- create by php form fields -->
+					
 							<?php
-								echo $this->Form->input('QPatientDetails.full_name',array('type'=>'text','div'=>'form-group','label'=>'*Doctor Name','class'=>'form-control', 'placeholder'=>'Doctor Name','required'=>'true'));
-								echo $this->Form->input('SampleQuestionnaire.doctor_qualification',array('type'=>'text','div'=>'form-group','label'=>'*Doctorate Qualification','class'=>'form-control', 'placeholder'=>'Doctorate Qualification','required'=>'true'));//,'required'=>'true'
+							 
+		/*'alcohol'=>array(
+			'alcohol_type'=>'',
+			'quantity'=>'',
+			'unit'=>''
+		),
+		'alcohol_period'=>'',
+		'alcohol_period_from'=>'',
+		'alcohol_period_to'=>'',
+		'comments'=>''*/
+								echo "<label>Smoking</label>";
+								echo $this->Form->input('QSocialHistory.smocking.quantity',array('type'=>'text','div'=>'form-group','label'=>'Quantity','class'=>'form-control', 'placeholder'=>'0'));
+								echo $this->Form->input('QSocialHistory.smocking.unit',array('options'=>$units,'div'=>'form-group','label'=>'*Unit','class'=>'form-control', 'placeholder'=>'Unit'));//,'required'=>'true'
 								
-								echo $this->Form->input('SampleQuestionnaire.patient_name',array('type'=>'test','div'=>'form-group','label'=>'*Patient Name','class'=>'form-control', 'placeholder'=>'Patient Name','required'=>'true'));
-								echo $this->Form->input('SampleQuestionnaire.create_date',array('type'=>'text','div'=>'form-group','label'=>'*Opinion Date','class'=>'form-control', 'placeholder'=>'Opinion Date','required'=>'true'));
-								echo $this->Form->input('SampleQuestionnaire.refferences',array('div'=>'form-group','label'=>'Refference','class'=>'form-control','placeholder'=>'Refference','required'=>'true'));
+								echo $this->Form->input('QSocialHistory.smocking.preriod_from',array('type'=>'test','div'=>'form-group','label'=>'Preriod From','class'=>'form-control', 'placeholder'=>'Preriod From'));
+								echo $this->Form->input('QSocialHistory.smocking.preriod_to',array('type'=>'text','div'=>'form-group','label'=>'Preriod To','class'=>'form-control', 'placeholder'=>'Preriod To',))
+								/*echo $this->Form->input('QSocialHistory.refferences',array('div'=>'form-group','label'=>'Refference','class'=>'form-control','placeholder'=>'Refference','required'=>'true'));
 								
-								echo $this->Form->input('SampleQuestionnaire.assesment',array('type'=>'textarea','div'=>'form-group','label'=>'*Assessment & Explanation','class'=>'form-control', 'placeholder'=>'Assessment & Explanation','required'=>'true'));//
-								echo $this->Form->input('SampleQuestionnaire.prognosis',array('type'=>'textarea','div'=>'form-group','label'=>'*Prognosis','class'=>'form-control', 'placeholder'=>'Prognosis','required'=>'true'));//
-								echo $this->Form->input('SampleQuestionnaire.best_tritment_strategy',array('type'=>'textarea','div'=>'form-group','label'=>'*Best Tritment Strategy','class'=>'form-control', 'placeholder'=>'Best Tritment Strategy','required'=>'true'));//
-								echo $this->Form->input('SampleQuestionnaire.alternative_strategy',array('type'=>'textarea','div'=>'form-group','label'=>'*Alternative Strategy','class'=>'form-control', 'placeholder'=>'Alternative Strategy','required'=>'true'));//
+								echo $this->Form->input('QSocialHistory.assesment',array('type'=>'textarea','div'=>'form-group','label'=>'*Assessment & Explanation','class'=>'form-control', 'placeholder'=>'Assessment & Explanation','required'=>'true'));//
+								echo $this->Form->input('QSocialHistory.prognosis',array('type'=>'textarea','div'=>'form-group','label'=>'*Prognosis','class'=>'form-control', 'placeholder'=>'Prognosis','required'=>'true'));//
+								echo $this->Form->input('QSocialHistory.best_tritment_strategy',array('type'=>'textarea','div'=>'form-group','label'=>'*Best Tritment Strategy','class'=>'form-control', 'placeholder'=>'Best Tritment Strategy','required'=>'true'));//
+								echo $this->Form->input('QSocialHistory.alternative_strategy',array('type'=>'textarea','div'=>'form-group','label'=>'*Alternative Strategy','class'=>'form-control', 'placeholder'=>'Alternative Strategy','required'=>'true'));*///*/
 							?>
 					</div>
 					<!-- /.col-lg-6 (nested) -->
