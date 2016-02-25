@@ -18,6 +18,8 @@ $cakeVersion = __d('cake_dev', '');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+		
+		//get the name pf the page 
 	?>
 	<script>
 		var baseurl = "<?php echo FULL_BASE_URL.$this->base;?>";
@@ -35,8 +37,21 @@ $cakeVersion = __d('cake_dev', '');
 	<?php echo $this->Html->link($this->Html->image('cross2.png',array('alt'=>'X')),array('controller'=>'patients','action'=>'index','full_base'=>false),array('escape'=>false,'class'=>'crossButton')); ?>
         <div class="clear"></div>
         <div class="TextPart">
-        	<h2>Sample Questionnaire</h2>
+		<?php 
+			if($this->params->params['action']=="sampleopinion"){
+			?>
+			<h2>Sample Opinion</h2>
+            <p>Thank you for using our services! At this point, these are our comments and recommendations.</p>
+			<?php
+			}
+			else{
+			?>
+			<h2>Sample Questionnaire</h2>
             <p>The accurate information about the patient and the illness will help us to provide appropriate opinion for your treatment.</p>
+       
+			<?php
+			}
+		?>
         </div>
 		<?php echo $this->Html->link($this->Html->image('questionnairLogo.png',array('alt'=>'')),array('controller'=>'patients','action'=>'index','full_base'=>true),array('escape'=>false,'class'=>'logo')); ?>
         <div class="clear"></div>

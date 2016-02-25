@@ -1,4 +1,7 @@
 <?php
+	
+	//pr($patientalldeatils); rishiagarwal@test.ac
+	
 	$isdoctorcaseassing=true;
 	$clas ="js-preview";
 	$clshd ="";

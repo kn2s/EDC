@@ -750,6 +750,7 @@ the medical history</label>
 				<h3>Pathology Tests (Biopsy, FNA etc.)</h3>
 				<?php 
 					$pathologyreports = isset($patientalldeatils['PatientDocument']['pathologyreport'])?unserialize($patientalldeatils['PatientDocument']['pathologyreport']):array();
+					//pr($pathologyreports);
 					if(is_array($pathologyreports) && count($pathologyreports)>0){
 						$pathtests = isset($pathologyreports['test'])?$pathologyreports['test']:array();
 						$pathmonts = isset($pathologyreports['month'])?$pathologyreports['month']:array();

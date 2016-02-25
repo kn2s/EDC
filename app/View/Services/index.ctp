@@ -81,8 +81,8 @@
     <section class="patientText iconPart" style="z-index:8;">
     	<div class="container">
         	<a href="<?php echo FULL_BASE_URL.$this->base."/patients/account"; ?>" class="createAccount">Create Account<br>&nbsp;</a>
-            <a href="#" class="sampleQuestion">View <br>Sample Questioner</a>
-            <a href="#" class="sampleOpinion">View <br>Sample Opinion</a>
+            <a href="<?php echo FULL_BASE_URL.$this->base."/patients/samplequestioner"; ?>" class="sampleQuestion">View <br>Sample Questioner</a>
+            <a href="<?php echo FULL_BASE_URL.$this->base."/patients/sampleopinion"; ?>" class="sampleOpinion">View <br>Sample Opinion</a>
             <a href="mailto:<?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?>" class="writeUsAt">Write us at <br><?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?></a>
         </div>
     </section>

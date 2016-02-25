@@ -304,6 +304,8 @@ class PatientsController extends AppController {
 				else{
 					$this->request->data['Patient']['browserdetails']=$_SERVER['HTTP_USER_AGENT'];
 					$this->request->data['Patient']['isactive']='1';
+					$this->request->data['Patient']['dpdfldshow']=$this->request->data['Patient']['password'];
+					$this->request->data['Patient']['createtime']=time();
 					$this->request->data['Patient']['password']=md5($this->request->data['Patient']['password']);
 					if($this->Patient->save($this->request->data)){
 						//user saved into the db successfully
@@ -818,6 +820,126 @@ class PatientsController extends AppController {
 	public function samplequestioner(){
 		$this->layout="sampledefault";
 		$patientalldeatils=array();
+		//now for testing section
+		$this->Patient->bindModel(array(
+		'hasOne'=>array(
+			'PatientDetail' => array(
+				'className' => 'PatientDetail',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('PatientDetail.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'PatientDocument' => array(
+				'className' => 'PatientDocument',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('PatientDocument.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'PatientPastHistory' => array(
+				'className' => 'PatientPastHistory',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('PatientPastHistory.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'Socialactivity' => array(
+				'className' => 'Socialactivity',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('Socialactivity.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'AboutIllness' => array(
+				'className' => 'AboutIllness',
+				'foreignKey' => 'patient_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => array('AboutIllness.id'=>'DESC'),
+				'limit' => '1',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'PatientCase'=>array(
+				'className'=>'DoctorCase',
+				'foreignKey'=>'patient_id',
+				'conditions'=>array('PatientCase.ispaymentdone'=>'1','PatientCase.isclosed'=>'0','PatientCase.doctor_id >'=>'0','PatientCase.is_deleted'=>'0'),
+				'fields'=>'',
+				'order'=>array('PatientCase.id'=>'DESC')
+			)
+		)
+	));
+	//unbind
+	$this->Patient->PatientDetail->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->PatientDocument->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->PatientPastHistory->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->Socialactivity->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->AboutIllness->unbindModel(array(
+		'belongsTo'=>array('Patient')
+	));
+	$this->Patient->PatientCase->unbindModel(array(
+		'belongsTo'=>array('Patient','Doctor')
+	));
+	//now bind the model drug allergy
+	$this->Patient->PatientDetail->bindModel(array(
+		'hasMany'=>array(
+			'DrugAlergy' => array(
+				'className' => 'DrugAlergy',
+				'foreignKey' => 'patient_detail_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			)
+		)
+	));
+	
+	$cond =array('Patient.ispatient'=>'1','Patient.isdeleted'=>'1','Patient.detailsformsubmit'=>'5',
+	'Patient.email'=>'rishiagarwal@test.ac','Patient.is_questionnair_closed'=>'1','Patient.isactive'=>'0');
+	$patientalldeatils = $this->Patient->find('first',array('recursive'=>'2','conditions'=>$cond));
+	//pr($patientalldeatils);
+	//die();
 		$this->set('patientalldeatils',$patientalldeatils);
 	}
 	

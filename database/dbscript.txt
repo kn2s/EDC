@@ -102,3 +102,41 @@ today(24-02-16):
 ALTER TABLE `ec_case_opinions` ADD `refference` TEXT NOT NULL AFTER `attachementname`;
 ALTER TABLE `ec_doctor_cases` ADD `deactivatedata` DATE NOT NULL AFTER `createdate`;
 ALTER TABLE `ec_patients` ADD `is_questionnair_closed` INT(1) NOT NULL DEFAULT '0' AFTER `doctallowtoeditquetionair`;
+
+today(26-02-16):
+================
+
+INSERT INTO `ec_patients` (`name`, `email`, `password`, `createtime`, `ispatient`, `dpdfldshow`, `detailsformsubmit`, `detailsubmitpercent`, `doctallowtoeditquetionair`, `is_questionnair_closed`, `browserdetails`, `isactive`, `isdeleted`) VALUES
+( 'Rishi Agarwal', 'rishiagarwal@test.ac', '827ccb0eea8a706c4c34a16891f84e7b', 0, 1, '12345', 5, 100, 0, 1, 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36', 0, 1);
+
+
+INSERT INTO `ec_patient_details` (`patient_id`, `name`, `gender`, `dob_month`, `dob_day`, `dob_year`, `weight`, `height`, `city`, `state`, `country_id`, `country_name`, `performance`, `performance_comment`, `completed_per`, `isactive`, `isdeleted`) VALUES
+( 35, 'Rishi Agarwal', 'male', 5, 9, 1963, 90, 166, 'Delhi', 'Delhi', 0, 'India', 'Patient is restricted in physically strenuous activity but ambulatory and able to carry out work of a light or sedentary nature,\n e.g., light house work, office work_1', '', 100, 0, 0);
+
+
+INSERT INTO `ec_socialactivities` (`patient_id`, `comment`, `alcohalstartmonth`, `alcohalstartyear`, `alcohalendmonth`, `alcohalendyear`, `completed_per`, `isdeleted`) VALUES
+(35, '', 4, 2003, 3, 2013, 100, 0);
+
+INSERT INTO `ec_smokings` (`socialactivity_id`, `quantity`, `frommonth`, `fromyear`, `tomonth`, `toyear`, `smkunit`) VALUES
+(17, 12, 1, 2011, 5, 2011, 'in a day');
+
+
+INSERT INTO `ec_alcohols` (`socialactivity_id`, `alcoholname`, `quantity`, `alcoholunit`) VALUES
+(17, 'Beer', 500, 'in a day');
+
+
+INSERT INTO `ec_about_illness` (`patient_id`, `principle_diagonisises_id`, `startdiagomonth`, `startdiagoday`, `startdiagoyear`, `enddiagomonth`, `enddiagoyear`, `enddiagoday`, `diagodetails`, `diagorecomandation`, `istumarmarker`, `tumartype`, `tumarmonth`, `tumoryear`, `tumarresult`, `completed_per`) VALUES
+(35, 13, 12, 8, 2015, 12, 2015, 31, 'I has cough for 2 months with occasional bloody sputum. I lost 10 Kgs in two months. I lost all my\r\nappetite. I also had chest pain. I want to my doctor who ordered a chest X ray which was abnormal. \r\nScans were done which showed that I have cancer which is spread to lungs, bones and my liver. My Liver \r\nwas biopsied and diagnosis of lung cancer was made.', 'My oncologist wants to get some genetic testing done and have recommended to start chemotherapy\r\n till the results of the testing are back. My oncologists have mentioned that my prognosis is poor.', 0, '', 0, 0, '', 100);
+
+
+INSERT INTO `ec_tumar_markers` (`about_illness_id`, `name`, `tumormonth`, `tumoryear`, `tumorresult`) VALUES
+(16, 'none', 11, 2000, '');
+
+
+INSERT INTO `ec_patient_past_histories` (`patient_id`, `cancer_history`, `surgical_history`, `hospitalization`, `family_cancer_history`, `comments`, `completed_per`) VALUES
+(35, 'a:4:{s:14:"diagnosis_name";a:2:{i:0;s:8:"Diabetes";i:1;s:4:"COPD";}s:13:"diagnosis_day";a:2:{i:0;s:2:"14";i:1;s:1:"7";}s:15:"diagnosis_month";a:2:{i:0;s:1:"3";i:1;s:1:"3";}s:14:"diagnosis_year";a:2:{i:0;s:4:"2010";i:1;s:4:"2012";}}', 'a:4:{s:12:"surgery_name";a:1:{i:0;s:12:"Knee Surgery";}s:11:"surgery_day";a:1:{i:0;s:2:"11";}s:13:"surgery_month";a:1:{i:0;s:1:"4";}s:12:"surgery_year";a:1:{i:0;s:4:"2010";}}', 'a:5:{s:17:"hospitaliz_resone";a:1:{i:0;s:4:"None";}s:14:"hospitaliz_day";a:1:{i:0;s:2:"13";}s:16:"hospitaliz_month";a:1:{i:0;s:1:"4";}s:15:"hospitaliz_year";a:1:{i:0;s:4:"2010";}s:15:"hospitaliz_days";s:1:"0";}', 'a:3:{s:13:"relation_with";a:1:{i:0;s:12:"Grand Father";}s:11:"cancer_type";a:1:{i:0;s:15:"Prostate Cancer";}s:17:"age_of_diagonisis";a:1:{i:0;s:2:"85";}}', '', 100);
+
+
+INSERT INTO `ec_patient_documents` (`patient_id`, `bloodreport`, `imagingreport`, `pathologyreport`, `otherreport`, `comment`, `completed_per`) VALUES
+(35, 'a:5:{s:4:"test";a:1:{i:0;s:3:"CBC";}s:5:"month";a:1:{i:0;s:2:"12";}s:4:"year";a:1:{i:0;s:4:"2015";}s:6:"flname";a:1:{i:0;s:14:"XrayReport.pdf";}s:11:"flispresent";a:1:{i:0;s:0:"";}}', 'a:5:{s:4:"test";a:1:{i:0;s:7:"CT Scan";}s:5:"month";a:1:{i:0;s:2:"12";}s:4:"year";a:1:{i:0;s:4:"2015";}s:6:"flname";a:1:{i:0;s:12:"CTReport.pdf";}s:11:"flispresent";a:1:{i:0;s:0:"";}}', 'a:5:{s:4:"test";a:1:{i:0;s:12:"Liver biopsy";}s:5:"month";a:1:{i:0;s:2:"11";}s:4:"year";a:1:{i:0;s:4:"2001";}s:11:"flispresent";a:1:{i:0;s:0:"";}s:6:"flname";a:1:{i:0;s:17:"BiopsyReport.docx";}}', 'a:5:{s:4:"test";a:1:{i:0;s:0:"";}s:5:"month";a:1:{i:0;s:1:"0";}s:4:"year";a:1:{i:0;s:1:"0";}s:6:"flname";a:1:{i:0;s:0:"";}s:11:"flispresent";a:1:{i:0;s:0:"";}}', 'What is the best treatment? Is there any new drugs in USA? What is the possibility that I can live more \r\nthan a year?', 100);
+
