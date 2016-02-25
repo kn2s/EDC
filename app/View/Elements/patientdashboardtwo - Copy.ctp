@@ -9,7 +9,7 @@
 		$blktext="You have recieved a message from your doctor. Please <span style='color:blue;'>check the message </span> and reply as soon as possible";
 	}
 	//opinion sections
-	if($status==5){
+	if($status==4){
 		$blktitle="Opinion Recieved";
 		$blktext="You have recieved the <span style='color:pink;'>opinion</span>. \n If you have any question feel free to ask the doctor.";
 	}

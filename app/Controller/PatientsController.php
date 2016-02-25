@@ -416,6 +416,7 @@ class PatientsController extends AppController {
  * communication method
  */
 	public function communication(){
+		$this->userloginsessionchecked();
 		$this->layout="patientdoctcommunication";
 		$caseid = isset($this->request->data['caseid'])?$this->request->data['caseid']:'0';
 		
@@ -485,8 +486,9 @@ class PatientsController extends AppController {
 		$this->DoctorCase->CaseCommunication->unbindModel(array(
 			'belongsTo'=>array('DoctorCase','Patient','Doct')
 		));
-		$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0');
+		$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0','DoctorCase.is_deleted'=>'0');
 		$doctcaseDetail  = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC'),'limit'=>'1'));
+		pr($doctcaseDetail);
 		if(count($doctcaseDetail)==0){
 			return $this->redirect(array('action'=>'dashboard'));
 		}

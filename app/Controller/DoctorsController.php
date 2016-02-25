@@ -204,6 +204,7 @@ class DoctorsController extends AppController {
 				'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),
 				'DoctorCase.ispaymentdone'=>'1',
 				'DoctorCase.isclosed'=>'0',
+				'DoctorCase.is_deleted'=>'0',
 				'OR'=>array(
 					'DoctorCase.id LIKE'=>'%'.$searchby.'%',
 					'PatientDetailS.name LIKE'=>'%'.$searchby.'%'
@@ -300,8 +301,15 @@ class DoctorsController extends AppController {
 				'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),
 				'DoctorCase.ispaymentdone'=>'1',
 				'DoctorCase.isclosed'=>'0',
-				'DoctorCase.is_deleted'=>'0',
-				'DoctorCase.satatus'=>$filterby);
+				'DoctorCase.is_deleted'=>'0'
+			);
+			//change the filter log	
+			if($filterby==4){
+				$conds['DoctorCase.satatus <']=4;
+			}
+			else{
+				$conds['DoctorCase.satatus']=$filterby;
+			}
 			//pr($conds);	
 			$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
 			//pr($doctorCases);
@@ -337,6 +345,7 @@ class DoctorsController extends AppController {
 							$status = "Unread";
 							break;
 					}
+					//old db status 0=un read,1=pending,2=awating input,3=opnion due,4=delay
 					
 					$datas = array(
 						'name'=>$name,
@@ -381,9 +390,22 @@ class DoctorsController extends AppController {
 				)
 			)
 		);
+		//bind the case opinion
+		$this->DoctorCase->bindModel(array(
+			'hasMany'=>array(
+				'CaseOpinion'=>array(
+					'className'=>'CaseOpinion',
+					'foreignKey'=>'doctor_case_id'
+				)
+			)
+		));
+		//unbind the doctor case
+		$this->DoctorCase->CaseOpinion->unbindModel(array(
+			'belongsTo'=>array('DoctorCase')
+		));
 		$conds = array('DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.id'=>$id,'DoctorCase.isclosed'=>'0');
 		$doctorCase = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC')));
-		
+		//pr($doctorCase);
 		if(is_array($doctorCase) && count($doctorCase)>0){
 			//set doct current view
 			$currentvw = ($this->Session->check('doctCurrentView'))?$this->Session->read('doctCurrentView'):'1';

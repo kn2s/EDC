@@ -10,7 +10,7 @@ echo $this->Html->script('jquery.bxslider.js');
 							'PastHistory'=>'Past History',
 							'TestReport'=>'Test Reports');*/
 							
- $numberformpost = $patient['Patient']['detailsformsubmit'];
+ echo $numberformpost = $patient['Patient']['detailsformsubmit'];
 
 ?>
 <section class="myDashBordCont">
@@ -27,6 +27,7 @@ echo $this->Html->script('jquery.bxslider.js');
 				}
 			}
 			else{
+			
 				echo $this->element('patientdashboardtwo',array("patient",$patient));
 			}
 		?>

@@ -34,7 +34,7 @@
 							<td><?php echo h($patient['Patient']['id']); ?>&nbsp;</td>
 							<td><?php echo h($patient['Patient']['name']); ?>&nbsp;</td>
 							<td><?php echo h($patient['Patient']['email']); ?>&nbsp;</td>
-							<td><?php echo (h($patient['Patient']['isactive'])==1)?"Active":"In Active"; ?>&nbsp;</td>
+							<td><?php echo (h($patient['Patient']['is_questionnair_closed'])==0)?"Active":"In Active"; ?>&nbsp;</td>
 							
 							<td class="actions">
 								

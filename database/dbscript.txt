@@ -92,3 +92,13 @@ ALTER TABLE `ec_patients` ADD `doctallowtoeditquetionair` INT(1) NOT NULL DEFAUL
 today(18-02-16):
 ================
 ALTER TABLE `ec_patient_details` ADD `country_name` VARCHAR(254) NOT NULL AFTER `country_id`;
+
+today(22-02-16):
+================
+ALTER TABLE `ec_doctor_cases` CHANGE `satatus` `satatus` INT(2) NOT NULL DEFAULT '0' COMMENT '0=unread, 1=pending, 2=awaiting input,3=input recieve, 4=opinion sent,5=deleted,6=archived';
+
+today(24-02-16):
+================
+ALTER TABLE `ec_case_opinions` ADD `refference` TEXT NOT NULL AFTER `attachementname`;
+ALTER TABLE `ec_doctor_cases` ADD `deactivatedata` DATE NOT NULL AFTER `createdate`;
+ALTER TABLE `ec_patients` ADD `is_questionnair_closed` INT(1) NOT NULL DEFAULT '0' AFTER `doctallowtoeditquetionair`;

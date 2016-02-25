@@ -260,4 +260,56 @@ class DoctorCasesController extends AppController {
 		$this->Session->setFlash(__('The doctor case has been deleted.'));
 		return $this->redirect(array('action' => 'index'));
 	}
+	
+/**
+ * closedthecase methods
+ */
+	public function closedthecase(){
+		$updatecon = array(
+			'DoctorCase.is_deleted'=>'0',
+			'DoctorCase.isclosed'=>'0',
+			'DoctorCase.satatus'=>'4', //opinion given
+			'DoctorCase.closedate <='=>date("Y-m-d") //to days case need to block
+		);
+		
+		$this->DoctorCase->displayField="patient_id";
+		$cashedetails = $this->DoctorCase->find('list',array('conditions'=>$updatecon,'limit'=>60));
+		if(is_array($cashedetails) && count($cashedetails)>0 ){
+			$patient_ids  = array_values($cashedetails);
+			//update the doctor case as close
+			$updata = array('DoctorCase.isclosed'=>'1');
+			$caseids = array_keys($cashedetails);
+			$updatecon['DoctorCase.id'] = $caseids;
+			$this->DoctorCase->updateAll($updata,$updatecon);
+			//now update the patients details as new one
+			$patientupdate = array('Patient.detailsformsubmit'=>'5','Patient.doctallowtoeditquetionair'=>'0','Patient.is_questionnair_closed'=>'1');
+			$updcond = array('Patient.ispatient'=>'1');
+			$this->DoctorCase->Patient->updateAll($patientupdate,$updcond);
+		}
+		die(json_encode(array('status'=>'1','message'=>'case cloasd','closingdata'=>$cashedetails)));
+	}
+	
+/**
+ * deactivatepatient methods
+ */
+	public function deactivatepatient(){
+		$updatecon = array(
+			'DoctorCase.is_deleted'=>'0',
+			'DoctorCase.isclosed'=>'1',
+			'DoctorCase.satatus'=>'4', //opinion given
+			'DoctorCase.deactivatedata <='=>date("Y-m-d") //to days case need to block
+		);
+		
+		$this->DoctorCase->displayField="patient_id";
+		$cashedetails = $this->DoctorCase->find('list',array('conditions'=>$updatecon,'limit'=>60));
+		if(is_array($cashedetails) && count($cashedetails)>0 ){
+			$patient_ids  = array_values($cashedetails);
+			//now update the patients details as deactivate and delete the account
+			$patientupdate = array('Patient.isdeleted'=>'1','Patient.isactive'=>'0');
+			$updcond = array('Patient.ispatient'=>'1');
+			$this->DoctorCase->Patient->updateAll($patientupdate,$updcond);
+		}
+		die(json_encode(array('status'=>'1','message'=>'patient deactivated','closingdata'=>$cashedetails)));
+	}
+	
 }

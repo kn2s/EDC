@@ -564,7 +564,6 @@
 											<td><?=$rpdate?></td>
 											<td><?php 
 												if($flname!=''){
-													echo $flname;
 													echo $this->Html->link(__($flname),array('controller'=>'PatientDetails','action'=>'reportdownload',$flname,'full_base'=>true),array('target'=>'_blank'));
 												}
 												else{

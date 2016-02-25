@@ -1708,12 +1708,27 @@ $(document).on('click','.js-casefilter',function(e){
 			$(".leftPart").empty();
 			
 			if(parseInt(response.status)==1){
+				var fhhl='';
+				var divwidth=318;
+				var divheight=219;
+				var modenumber=3;
+				var top=0;
+				var lft=0;
+				var rowno=0;
 				for(var i=0; i<response.doctcases.length;i++){
 					var doccase = response.doctcases[i];
 					if(doccase.gender=="femail"){
 						gencalss="woman";
 					}
-					var fhhl = '<div class="patientBox"><a href="javascript:void(0)" class="js-doccasedetail" vals="'+doccase.caseid+'">\
+					if(i>0 && i%modenumber==0){
+						rowno=rowno+1;
+						top=(divheight*rowno);
+						lft=0;
+					}
+					else{
+						lft=i*divwidth;
+					}
+					fhhl += '<div class="patientBox" style="position: absolute; left: '+lft+'px; top: '+top+'px;"><a href="javascript:void(0)" class="js-doccasedetail" vals="'+doccase.caseid+'">\
 					<div class="whitePart">\
 					<h2 class="'+gencalss+'">'+doccase.name+'</h2>\
 					<p class="status"><span class="awatingGreen">'+doccase.status+'</span></p>\
@@ -1724,9 +1739,8 @@ $(document).on('click','.js-casefilter',function(e){
 					<h3>'+doccase.duedate+'</h3>\
 					</div>\
 					</a></div>';
-					
-					$(".leftPart").append(fhhl);
 				}
+				$(".leftPart").append(fhhl);
 			}
 		},
 		error:function(response){
@@ -1752,12 +1766,30 @@ $(document).on('click','.js-searchcases',function(e){
 				$(".leftPart").empty();
 				
 				if(parseInt(response.status)==1){
+					var fhhl='';
+					var divwidth=318;
+					var divheight=219;
+					var modenumber=3;
+					var top=0;
+					var lft=0;
+					var rowno=0;
 					for(var i=0; i<response.doctcases.length;i++){
 						var doccase = response.doctcases[i];
 						if(doccase.gender=="femail"){
 							gencalss="woman";
 						}
-						var fhhl = '<div class="patientBox"><a href="javascript:void(0)" class="js-doccasedetail" vals="'+doccase.caseid+'">\
+						//console.log("mode val : "+(i%modenumber)+" i : "+i);
+						if(i>0 && i%modenumber==0){
+							rowno=rowno+1;
+							top=(divheight*rowno);
+							lft=0;
+						}
+						else{
+							lft=i*divwidth;
+						}
+						//console.log("Top : "+top+" left : "+lft+" row no : "+rowno);
+						
+						 fhhl += '<div class="patientBox" style="position: absolute; left: '+lft+'px; top: '+top+'px;"><a href="javascript:void(0)" class="js-doccasedetail" vals="'+doccase.caseid+'">\
 						<div class="whitePart">\
 						<h2 class="'+gencalss+'">'+doccase.name+'</h2>\
 						<p class="status"><span class="awatingGreen">'+doccase.status+'</span></p>\
@@ -1768,9 +1800,17 @@ $(document).on('click','.js-searchcases',function(e){
 						<h3>'+doccase.duedate+'</h3>\
 						</div>\
 						</a></div>';
-						
-						$(".leftPart").append(fhhl);
 					}
+					$(".leftPart").append(fhhl);
+					/*if($('.doctorsDashbord .leftPart').length) {
+						$('.doctorsDashbord .leftPart').isotope({
+						  // options
+						  itemSelector: '.patientBox'
+						});
+					}
+					else{
+						alert("jshfjks");
+					}*/
 				}
 			},
 			error:function(response){

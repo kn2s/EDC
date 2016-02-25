@@ -675,9 +675,14 @@ class PatientDetailsController extends AppController {
 					
 					$this->ScheduleDoctor->updateAll($updat,$updcond);
 					//now update the form submit count in patient tables
+					//new
+					$patientupddata = array('Patient.detailsformsubmit'=>'6','Patient.is_questionnair_closed'=>'0');
+					$patientcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
+					$this->PatientDetail->Patient->updateAll($patientupddata,$patientcond);
 					
-					$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
-					$this->PatientDetail->Patient->saveField('detailsformsubmit','6');
+					//old
+					//$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
+					//$this->PatientDetail->Patient->saveField('detailsformsubmit','6');
 					//$this->Session->setFlash(__('The consultants saved.'));
 					$this->redirect(array('controller'=>'patients','action'=>'dashboard'));
 				}

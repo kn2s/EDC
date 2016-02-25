@@ -66,24 +66,12 @@
 	</div>
 </div>
 <div class="rightGrayBox">
-	<div class="options">
-		<a href="javascript:void(0)" class="printBtn js-opinionprint"></a>
-		<a href="javascript:void(0)" class="downloadBtn"></a>
-	</div>
+	
 	<div class="details">
-		<p>Physician</p>
-		<h4>Dr. <?=(isset($caseOpinion['DoctorCase']['Doctor']['name']))?$caseOpinion['DoctorCase']['Doctor']['name']:""?></h4>
 		<p>patient</p>
 		<h4>Mr. <?=(isset($caseOpinion['DoctorCase']['Patient']['PatientDetail']['name']))?$caseOpinion['DoctorCase']['Patient']['PatientDetail']['name']:""?></h4>
 		<p>Date</p>
 		<h4><?=(isset($caseOpinion['DoctorCase']['opinion_due_date']))?date("d M Y",strtotime($caseOpinion['DoctorCase']['opinion_due_date'])):""?></h4>
-	</div>
-	<div class="ask">
-		<!--<a href="javascript:void(0)" class="askAQuestion">Ask physician</a>-->
-		<?php 
-			echo $this->Html->link('Ask physician',array('controller'=>'patients','action'=>'communication','full_base'=>true),array('escape'=>false,'class'=>'askAQuestion'));
-		?>
-		<p>Feel free to write us, If you have any questions.</p>
 	</div>
 	<div class="refarence">
 		<h4>References</h4>

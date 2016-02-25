@@ -60,10 +60,57 @@ class CaseOpinionsController extends AppController {
 		));
 		$this->CaseOpinion->DoctorCase->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
 		$this->CaseOpinion->DoctorCase->Doctor->unbindModel(array('hasMany'=>array('PatientDetail')));
+		$options = array('recursive'=>3,'conditions' => array('CaseOpinion.doctor_case_id'=> $id,'DoctorCase.is_deleted'=>'0','DoctorCase.isclosed'=>'0'),'order'=>array('CaseOpinion.id'=>'DESC'));
+		$caseopinion = $this->CaseOpinion->find('first', $options);
+		//pr($caseopinion);
+		if(is_array($caseopinion) && count($caseopinion)>0){
+			$this->set('caseOpinion',$caseopinion );
+		}
+		else{
+			return $this->redirect(array('controller'=>'Patients','action'=>'dashboard'));
+		}
+	}
+
+	
+/**
+ * doctorview method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function doctorview($id = null) {
+		$this->layout="doctopinionlayout";
+		$this->doctuserloginsessionchecked();
+		
+		if (!$this->CaseOpinion->DoctorCase->exists($id)) {
+			throw new NotFoundException(__('Invalid case opinion'));
+		}
+		//bind the model for 2 lavel
+		$this->CaseOpinion->DoctorCase->Patient->bindModel(array(
+			'hasOne'=>array(
+				'PatientDetail'=>array(
+					'className'=>'PatientDetail',
+					'foreignKey'=>'patient_id'
+				)
+			)
+		));
+		$this->CaseOpinion->DoctorCase->Doctor->bindModel(array(
+			'hasOne'=>array(
+				'DoctorDetail'=>array(
+					'className'=>'Doctor',
+					'foreignKey'=>'patient_id'
+				)
+			)
+		));
+		$this->CaseOpinion->DoctorCase->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
+		$this->CaseOpinion->DoctorCase->Doctor->unbindModel(array('hasMany'=>array('PatientDetail')));
 		$options = array('recursive'=>3,'conditions' => array('CaseOpinion.doctor_case_id'=> $id),'order'=>array('CaseOpinion.id'=>'DESC'));
 		$this->set('caseOpinion', $this->CaseOpinion->find('first', $options));
 	}
 
+	
+	
 /**
  * add method
  *
@@ -79,17 +126,30 @@ class CaseOpinionsController extends AppController {
 				$this->request->data['CaseOpinion']['comment']='';
 			}
 			$this->request->data['CaseOpinion']['cteratedatetime']=date("Y-m-d G:i:s");
+			//validate if the opinion already given
+			$doctcaseid = $this->request->data['CaseOpinion']['doctor_case_id'];
+			$isfound=0;
+			$isfoundopinion = $this->CaseOpinion->find('first',array('conditions'=>array('CaseOpinion.doctor_case_id'=>$doctcaseid)));
+			
+			if(is_array($isfoundopinion) && count($isfoundopinion)>0){
+				$this->request->data['CaseOpinion']['id']=$isfoundopinion['CaseOpinion']['id'];
+				$isfound=1;
+			}
+			
 			if ($this->CaseOpinion->save($this->request->data)) {
-				/*$this->Session->setFlash(__('The case opinion has been saved.'));
-				return $this->redirect(array('action' => 'index'));*/
 				$status=1;
-				//now update the case with opinion post (4)
-				$this->CaseOpinion->DoctorCase->updateAll(array("DoctorCase.satatus"=>'4'),array('DoctorCase.id'=>$this->request->data['CaseOpinion']['doctor_case_id']));
+				if($isfound==0){
+					$caseclosedate = date("Y-m-d",strtotime("+30 days"));
+					$casedeletedate = date("Y-m-d",strtotime("+60 days"));
+					//now update the case with opinion post (4)
+					$this->CaseOpinion->DoctorCase->updateAll(
+					array("DoctorCase.satatus"=>'4','DoctorCase.closedate'=>"'".$caseclosedate."'",'DoctorCase.deactivatedata'=>"'".$casedeletedate."'"),
+					array('DoctorCase.id'=>$doctcaseid,'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid")));
+					$message='case updates';
+				}
 			}
 			die(json_encode(array('status'=>$status,'message'=>$message)));
 		}
-		/*$doctorCases = $this->CaseOpinion->DoctorCase->find('list');
-		$this->set(compact('doctorCases'));*/
 	}
 	
 	/**
@@ -114,6 +174,17 @@ class CaseOpinionsController extends AppController {
 	  }
 	  die(json_encode(array("status"=>$status,"message"=>$message,"attachementname"=>$filename)));
   }
+  /*download the opinion doct*/
+	public function attachementdownload($filename=''){
+		if($filename!=''){
+			$filepath="caseopinion/".$filename;
+			$this->downloadfile($filename,$filepath);
+		}
+		else{
+			//nothing do
+		}
+		die();
+	}
 /**
  * edit method
  *

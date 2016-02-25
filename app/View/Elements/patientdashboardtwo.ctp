@@ -6,14 +6,14 @@
 	$blktext = "The questionnaire is successfully submitted on ".$crtdate.".<br/> Doctor will get back to you, if any clarificaion required.";
 	$status = isset($patient['PatientCase']['satatus'])?$patient['PatientCase']['satatus']:0;
 	$hcls="";
-	//$status=5;
+	//$status=4;
 	if($status==2){
 		$hcls="Message";
 		$blktitle="Message Recieved";
 		$blktext="You have recieved a message from your doctor.<br/> Please <span>check the message </span> and reply as soon as possible";
 	}
-	//opinion sections
-	if($status==5){
+	//opinion sections bettinh
+	if($status==4){
 		$blktitle="Opinion Recieved";
 		$hcls="OpinionPart";
 		$blktext="You have recieved the <span>opinion</span>.<br/> If you have any question, feel free to ask the doctor.";
@@ -37,7 +37,7 @@
 	
 	<div class="SecondPart">
 		<?php 
-			if($status==5){
+			if($status==4){
 			?>
 			<div class="oneThird">
             	<p>Opinion Received Date</p>
@@ -72,10 +72,10 @@
 	
 	<?php
 		
-		if($status==5){
+		if($status==4){
 			echo $this->Html->link('Opinion',array('controller'=>'CaseOpinions','action'=>'view',$patient['PatientCase']['id'],'full_base'=>false),array('escape'=>false,'class'=>'OpinionLink'));
 		}
-		if($status==2 || $status==5){
+		if($status==2 || $status==4){
 			echo $this->Html->link('Message',array('controller'=>'Patients','action'=>'communication','full_base'=>false),array('escape'=>false,'class'=>'MessageLink'));
 		}
 

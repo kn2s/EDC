@@ -118,8 +118,18 @@ $cakeVersion = __d('cake_dev', '');
 							break;
 					}
 				?>
-            	
-                <li class="opinion"><a href="javascript:void(0)" class="js-doctoptions" vals="4">Send Opinion</a></li>
+				<li class="opinion">
+            	<?php 
+					if(isset($doctorCases['CaseOpinion']) && count($doctorCases['CaseOpinion'])>0){
+					echo $this->Html->link("View Opinion",array('controller'=>'CaseOpinions','action'=>'doctorview',$doctorCases['DoctorCase']['id'],'full_base'=>true),array('escape'=>false));
+					}
+					else{
+				?>
+				<a href="javascript:void(0)" class="js-doctoptions" vals="4">Send Opinion</a>
+				<?php
+					}
+				?>
+				</li>
             </ul>
         </div>
 		
