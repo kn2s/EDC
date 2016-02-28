@@ -22,8 +22,9 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->CaseCommunication->recursive = 0;
-		$this->set('caseCommunications', $this->Paginator->paginate());
+		$this->gotodashboard();
+		/*$this->CaseCommunication->recursive = 0;
+		$this->set('caseCommunications', $this->Paginator->paginate());*/
 	}
 
 /**
@@ -34,11 +35,12 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->CaseCommunication->exists($id)) {
+		$this->gotodashboard();
+		/*if (!$this->CaseCommunication->exists($id)) {
 			throw new NotFoundException(__('Invalid case communication'));
 		}
 		$options = array('conditions' => array('CaseCommunication.' . $this->CaseCommunication->primaryKey => $id));
-		$this->set('caseCommunication', $this->CaseCommunication->find('first', $options));
+		$this->set('caseCommunication', $this->CaseCommunication->find('first', $options));*/
 	}
 
 /**
@@ -81,6 +83,23 @@ class CaseCommunicationsController extends AppController {
 							'Patient.id'=>$this->request->data['CaseCommunication']['patient_id']
 						);
 						$this->CaseCommunication->Patient->updateAll($updatedata,$upcond);
+						//doct allow to edit the questionnair main send
+						//get patient details
+						$this->CaseCommunication->Patient->unbindModel(array(
+							'hasMany'=>array('PatientDetail')
+						));
+						$patient = $this->CaseCommunication->Patient->find('first',array('conditions'=>$upcond));
+						if(is_array($patient) && count($patient)>0){
+							$patientemail=$patient['Patient']['email'];
+							$patientname=$patient['Patient']['name'];
+							$data = array(
+								'name'=>$patientname,
+								'doctmessage'=>$this->request->data['CaseCommunication']['comment']
+							);
+							if($patientemail!=''){
+								$this->sitemailsend($mailtype=4,$from=array(),$to=$patientemail,$message="EDC Email question edit",$data);
+							}
+						}
 					}
 				}
 			}
@@ -105,9 +124,8 @@ class CaseCommunicationsController extends AppController {
 			}*/
 			die(json_encode(array('status'=>$status,'message'=>$message,'communicationid'=>$commid,"postdate"=>$postdate)));
 		}
-		/*$doctorCases = $this->CaseCommunication->DoctorCase->find('list');
-		$patients = $this->CaseCommunication->Patient->find('list');
-		$this->set(compact('doctorCases', 'patients'));*/
+		
+		die(json_encode(array('status'=>'0','message'=>"invalid",'communicationid'=>"0","postdate"=>"0")));
 	}
 	
 /**
@@ -159,7 +177,8 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		if (!$this->CaseCommunication->exists($id)) {
+		$this->gotodashboard();
+		/*if (!$this->CaseCommunication->exists($id)) {
 			throw new NotFoundException(__('Invalid case communication'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
@@ -175,7 +194,7 @@ class CaseCommunicationsController extends AppController {
 		}
 		$doctorCases = $this->CaseCommunication->DoctorCase->find('list');
 		$patients = $this->CaseCommunication->Patient->find('list');
-		$this->set(compact('doctorCases', 'patients'));
+		$this->set(compact('doctorCases', 'patients'));*/
 	}
 
 /**
@@ -186,7 +205,8 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->CaseCommunication->id = $id;
+		$this->gotodashboard();
+		/*$this->CaseCommunication->id = $id;
 		if (!$this->CaseCommunication->exists()) {
 			throw new NotFoundException(__('Invalid case communication'));
 		}
@@ -196,7 +216,7 @@ class CaseCommunicationsController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The case communication could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(array('action' => 'index'));*/
 	}
 
 /**
@@ -205,8 +225,9 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function admin_index() {
-		$this->CaseCommunication->recursive = 0;
-		$this->set('caseCommunications', $this->Paginator->paginate());
+		$this->gotodashboard();
+		/*$this->CaseCommunication->recursive = 0;
+		$this->set('caseCommunications', $this->Paginator->paginate());*/
 	}
 
 /**
@@ -217,11 +238,12 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
-		if (!$this->CaseCommunication->exists($id)) {
+		$this->gotodashboard();
+		/*if (!$this->CaseCommunication->exists($id)) {
 			throw new NotFoundException(__('Invalid case communication'));
 		}
 		$options = array('conditions' => array('CaseCommunication.' . $this->CaseCommunication->primaryKey => $id));
-		$this->set('caseCommunication', $this->CaseCommunication->find('first', $options));
+		$this->set('caseCommunication', $this->CaseCommunication->find('first', $options));*/
 	}
 
 /**
@@ -230,7 +252,8 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function admin_add() {
-		if ($this->request->is('post')) {
+		$this->gotodashboard();
+		/*if ($this->request->is('post')) {
 			$this->CaseCommunication->create();
 			if ($this->CaseCommunication->save($this->request->data)) {
 				$this->Session->setFlash(__('The case communication has been saved.'));
@@ -241,7 +264,8 @@ class CaseCommunicationsController extends AppController {
 		}
 		$doctorCases = $this->CaseCommunication->DoctorCase->find('list');
 		$patients = $this->CaseCommunication->Patient->find('list');
-		$this->set(compact('doctorCases', 'patients'));
+		$this->set(compact('doctorCases', 'patients'));*/
+		
 	}
 
 /**
@@ -252,7 +276,8 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
-		if (!$this->CaseCommunication->exists($id)) {
+		$this->gotodashboard();
+		/*if (!$this->CaseCommunication->exists($id)) {
 			throw new NotFoundException(__('Invalid case communication'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
@@ -268,7 +293,8 @@ class CaseCommunicationsController extends AppController {
 		}
 		$doctorCases = $this->CaseCommunication->DoctorCase->find('list');
 		$patients = $this->CaseCommunication->Patient->find('list');
-		$this->set(compact('doctorCases', 'patients'));
+		$this->set(compact('doctorCases', 'patients'));*/
+		
 	}
 
 /**
@@ -279,7 +305,8 @@ class CaseCommunicationsController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
-		$this->CaseCommunication->id = $id;
+		$this->gotodashboard();
+		/*$this->CaseCommunication->id = $id;
 		if (!$this->CaseCommunication->exists()) {
 			throw new NotFoundException(__('Invalid case communication'));
 		}
@@ -289,6 +316,6 @@ class CaseCommunicationsController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The case communication could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(array('action' => 'index'));*/
 	}
 }

@@ -6,6 +6,7 @@
 	$patient_id=0;
 	$doctor_id=0;
 	$patientname='';
+	
 	if(isset($doctcaseDetail['Doctor']['DoctorDetail']['image']) && $doctcaseDetail['Doctor']['DoctorDetail']['image']!=''){
 		//image found
 		$imagepath = FULL_BASE_URL.$this->base."/doctorimage/".$doctcaseDetail['Doctor']['DoctorDetail']['image'];
@@ -137,7 +138,7 @@
 			<div class="clear10"></div>
 			<label><input type="checkbox" id="allowedit" name="data[CaseCommunication][isquestionaryedit]">Allow to edit the questionnaire</label>
 			<div class="clear20"></div>
-			<input type="submit" class="submitBtn js-doctCommentPost" value="Send">
+			<input type="submit" class="submitBtn js-doctCommentPosttopatient" value="Send">
 			</form>
 			<div class="clear20"></div>
 		</div>

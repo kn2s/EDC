@@ -82,8 +82,8 @@ class PatientDetail extends AppModel {
 			),
 		),
 		'weight' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -92,8 +92,8 @@ class PatientDetail extends AppModel {
 			),
 		),
 		'height' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -121,7 +121,7 @@ class PatientDetail extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'country_id' => array(
+		/*'country_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -130,7 +130,7 @@ class PatientDetail extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-		),
+		),*/
 		'performance' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),

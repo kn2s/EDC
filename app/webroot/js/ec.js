@@ -1500,7 +1500,7 @@ $(document).on('focusout','.js-communicationcomment',function(e){
 });
 
 //doctore post comment
-$(document).on('click','.js-doctCommentPost',function(e){
+$(document).on('click','.js-doctCommentPosttopatient',function(e){
 	e.preventDefault();
 	var comm = $("#communicationcomment").val();
 	var allowedit = 0;
@@ -1527,40 +1527,41 @@ $(document).on('click','.js-doctCommentPost',function(e){
 	}
 	else{
 		$.ajax({
-		url:baseurl+"/CaseCommunications/add",
-		method:'post',
-		dataType:'json',
-		data:$("#doctcomment").serialize(),
-		//processData: false, // important
-		//contentType: false, // important
-		success:function(response){
-			console.log(response);
-			if(parseInt(response.status)==1){
-				$(".last").removeClass("last");
-				
-				var hmlt = '<div class="talk last"><div class="picCont">'+posterimage+'</div>\
-				<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
-				<p>'+comm+'</p>';
-				if(allowedit==1){
-					hmlt+='<p>You allow patient to edit the questionnaire</p>';
+			url:baseurl+"/CaseCommunications/add",
+			method:'post',
+			dataType:'json',
+			data:$("#doctcomment").serialize(),
+			//processData: false, // important
+			//contentType: false, // important
+			success:function(response){
+				console.log(response);
+				if(parseInt(response.status)==1){
+					$(".last").removeClass("last");
+					
+					var hmlt = '<div class="talk last"><div class="picCont">'+posterimage+'</div>\
+					<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
+					<p>'+comm+'</p>';
+					if(allowedit==1){
+						hmlt+='<p>You allow patient to edit the questionnaire</p>';
+					}
+					hmlt+='</div><div class="clear"></div></div>';
+					
+					$(".comentpostsection").before(hmlt);
+					posteddiv='';
+					$("#communicationcomment").val('Type your comment');
+					$("#allowedit").prop("checked",false);
 				}
-				hmlt+='</div><div class="clear"></div></div>';
-				
-				$(".comentpostsection").before(hmlt);
-				posteddiv='';
-				$("#communicationcomment").val('Type your comment');
-				$("#allowedit").prop("checked",false);
+				else{
+					console.log('not saved the data');
+				}
+			},
+			error:function(response){
+				console.log(response);
 			}
-			else{
-				console.log('not saved the data');
-			}
-		},
-		error:function(response){
-			console.log(response);
-		}
-	});
+		});
 	}
 });
+
 //patient post comments
 $(document).on('click','.js-doctCommentPost',function(e){
 	e.preventDefault();
@@ -1579,42 +1580,41 @@ $(document).on('click','.js-doctCommentPost',function(e){
 	if(comm=="Type your comment" || comm==""){
 		return false;
 	}
-	
 	else{
 		$.ajax({
-		url:baseurl+"/CaseCommunications/add",
-		method:'post',
-		dataType:'json',
-		data:$("#patientcomment").serialize(),
-		//processData: false, // important
-		//contentType: false, // important
-		success:function(response){
-			console.log(response);
-			if(parseInt(response.status)==1){
-				$(".last").removeClass("last");
-				
-				var hmlt = '<div class="talk last"><div class="picCont">'+posterimage+'</div>\
-				<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
-				<p>'+comm+'</p>'
-				if(updoctname!=''){
-					hmlt+='<p><a href="'+baseurl+'/Patients/communicationdocdownload/'+updoctname+'" target="_blank">your uploaded doct</a></p>'
+			url:baseurl+"/CaseCommunications/add",
+			method:'post',
+			dataType:'json',
+			data:$("#patientcomment").serialize(),
+			//processData: false, // important
+			//contentType: false, // important
+			success:function(response){
+				console.log(response);
+				if(parseInt(response.status)==1){
+					$(".last").removeClass("last");
+					
+					var hmlt = '<div class="talk last"><div class="picCont">'+posterimage+'</div>\
+					<div class="textCont"><h3>'+postedname+'<span>'+response.postdate+'</span></h3>\
+					<p>'+comm+'</p>'
+					if(updoctname!=''){
+						hmlt+='<p><a href="'+baseurl+'/Patients/communicationdocdownload/'+updoctname+'" target="_blank">your uploaded doct</a></p>'
+					}
+					hmlt+='</div><div class="clear"></div></div>';
+					
+					$(".comentpostsection").before(hmlt);
+					posteddiv='';
+					$("#pcommunicationcomment").val('Type your comment');
+					$("#docattached").val('');
+					$("#docdisplay").html('');
 				}
-				hmlt+='</div><div class="clear"></div></div>';
-				
-				$(".comentpostsection").before(hmlt);
-				posteddiv='';
-				$("#pcommunicationcomment").val('Type your comment');
-				$("#docattached").val('');
-				$("#docdisplay").html('');
+				else{
+					console.log('not saved the data');
+				}
+			},
+			error:function(response){
+				console.log(response);
 			}
-			else{
-				console.log('not saved the data');
-			}
-		},
-		error:function(response){
-			console.log(response);
-		}
-	});
+		});
 	}
 });
 //case opinion post sections

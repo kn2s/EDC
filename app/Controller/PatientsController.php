@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Patients Controller
  *
@@ -307,22 +308,29 @@ class PatientsController extends AppController {
 					$this->request->data['Patient']['dpdfldshow']=$this->request->data['Patient']['password'];
 					$this->request->data['Patient']['createtime']=time();
 					$this->request->data['Patient']['password']=md5($this->request->data['Patient']['password']);
+					//mail sending
+					$patientname=$this->request->data['Patient']['name'];
+					$useremail=$this->request->data['Patient']['email'];
+					$dpdfldshow=$this->request->data['Patient']['dpdfldshow'];
+					
 					if($this->Patient->save($this->request->data)){
 						//user saved into the db successfully
 						$this->Session->write(array('loggedpatientid'=>$this->Patient->id,'loggedpatientname'=>$this->request->data['Patient']['name']));
 						
 						if($this->userislogin()){
 							//valid user go their profile dash bord section
-							//$this->redirect(array('action'=>'dashboard'));
-							//$this->Session->setFlash(__('You are successfully registered.'));
-							
 							//remove doct session if any present
 							$this->doctusersessionremove();
 						}
-						else{
-							//session creation error
-							//$this->Session->setFlash(__('sorry we have problem please try again.'));
-						}
+						//send mail to the user with their login deytails and say thanks
+						$data = array(
+							'name'=>$patientname,
+							'email'=>$useremail,
+							'dpdfldshow'=>$dpdfldshow
+						);
+						
+						$this->sitemailsend($mailtype=1,$from=array(),$to=$useremail,$messages="New patient registration",$data);
+						
 						$message="You are successfully registered";
 						die(json_encode(array('status'=>"succ",'message'=>$message)));
 					}
@@ -490,7 +498,7 @@ class PatientsController extends AppController {
 		));
 		$conds = array('DoctorCase.patient_id'=>$this->Session->read("loggedpatientid"),'DoctorCase.ispaymentdone'=>'1','DoctorCase.isclosed'=>'0','DoctorCase.is_deleted'=>'0');
 		$doctcaseDetail  = $this->DoctorCase->find('first',array('recursive'=>'2','conditions'=>$conds,'order'=>array('DoctorCase.id'=>'DESC'),'limit'=>'1'));
-		pr($doctcaseDetail);
+		//pr($doctcaseDetail);
 		if(count($doctcaseDetail)==0){
 			return $this->redirect(array('action'=>'dashboard'));
 		}
@@ -962,5 +970,25 @@ class PatientsController extends AppController {
 			$this->downloadfile($filename,$filepath);
 		}
 		die();
+	}
+	
+	function emailsend(){
+		
+		//mail sending section 
+		/*$message="Email testing";
+		$Email = new CakeEmail($this->mailTransportType);
+		$Email->from(array('test@gmail.com'=>'edctestuser from loc'));
+		$Email->to('mrintoryal@yahoo.in');
+		$Email->subject('successfully registered from local '.$this->mailTransportType);
+		$Email->template('registration','emain');
+		$Email->emailFormat('html');
+		$Email->viewVars(array('name' => "Guddu"));
+		//$Email->delivery = 'smtp';
+		$response = $Email->send();
+		//pr($Email);
+		pr($response);*/
+		
+		$this->sitemailsend($mailtype=1,$from=array("mytext@hh.com"=>'ha ha'),$to="mrintoryal@yahoo.in",$message="registration",$data=array('name'=>'aksath'));
+		die(json_encode(array('status'=>"error",'message'=>$message)));
 	}
 }

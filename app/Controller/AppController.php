@@ -20,7 +20,7 @@
  */
 
 App::uses('Controller', 'Controller');
-
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Application Controller
  *
@@ -31,6 +31,12 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	
+	public $mailTransportType="default";
+	//public $mailTransportType="smtp";
+	public $opinionduedatewithin="+10 day"; //days
+	public $activeafteropinionreceive="+30 day";
+	
 	
 	public function userislogin(){
 		if($this->Session->check('loggedpatientid') && $this->Session->read('loggedpatientid')>0){
@@ -75,6 +81,18 @@ class AppController extends Controller {
 		$this->Session->delete('loggeddocttname');
 	}
 	
+	//admin section
+	public function adminloginchecked(){
+		/*if(!$this->Session->check('loggeddoctid')){
+			//return true;
+			$this->doctusersessionremove();
+			
+			$this->redirect(array('controller'=>'patients','action'=>'account'));
+		}*/
+	}
+	public function gotodashboard(){
+		
+	}
 /**
  * setadminsession method
  * @param array $admin
@@ -152,5 +170,53 @@ class AppController extends Controller {
 		else{
 			//filepath value empty
 		}
+	}
+	
+	public function sitemailsend($mailtype=0,$from=array(),$to="",$message="EDC Email",$data=array()){
+		
+		$Email = new CakeEmail($this->mailTransportType);
+		if(!is_array($from) || count($from)==0){
+			$from=array('edc@support.com'=>'EDC support team');
+		}
+		if(!filter_var($to,FILTER_VALIDATE_EMAIL)){
+			$to="edcadmin@support.com";
+		}
+		//for test
+		//$to="mrintoryal@yahoo.in";
+		
+		//mail type
+		$subjects="We thanksfull to you being with us";
+		$templatenameview="admintemp";
+		switch($mailtype){
+			case 1:
+				//regiatration
+				$subjects="You are registered successfully";
+				$templatenameview="registration";
+			break;
+			case 2:
+				//patient appoinment confirm
+				$subjects="Your appointment schedule confirm for consultant";
+				$templatenameview="appointment";
+				break;
+			case 3:
+				$subjects="Your doctor give the opinion about your case";
+				$templatenameview="caseopinion";
+				break;
+			case 4:
+				$subjects="Your doctor allow you to edit your questionnair";
+				$templatenameview="doctalloweditquestionnair";
+				break;
+			default:
+				break;
+		}
+		$Email->from($from);
+		$Email->to($to);
+		
+		$Email->subject($subjects);
+		$Email->template($templatenameview,'emain');
+		$Email->emailFormat('html');
+		$Email->viewVars($data);
+		//$Email->delivery = 'smtp';
+		$Email->send();
 	}
 }

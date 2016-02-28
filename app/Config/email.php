@@ -48,17 +48,37 @@ class EmailConfig {
 
 	public $smtp = array(
 		'transport' => 'Smtp',
-		'from' => array('site@localhost' => 'My Site'),
+		'host' => 'ssl://smtp.gmail.com',
+		'port' =>465, //465 587,
+		'timeout' => 30,
+		'username' => 'edctest@gmail.com',
+		'password' => 'edctest',
+		'client' => "gmail.com",
+		'log' => false,
+		'charset' => 'utf-8',
+		'headerCharset' => 'utf-8',
+		'context' => array(
+			'ssl' => array(
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+				'allow_self_signed' => true
+			)
+		)
+	);
+	
+	/*public $smtp = array(
+		'transport' => 'Smtp',
+		'from' => array('you@localhost' => 'you_localhost'),
 		'host' => 'localhost',
 		'port' => 25,
 		'timeout' => 30,
-		'username' => 'user',
-		'password' => 'secret',
+		'username' => 'you@localhost',
+		'password' => 'you_localhost',
 		'client' => null,
 		'log' => false,
 		//'charset' => 'utf-8',
 		//'headerCharset' => 'utf-8',
-	);
+	);*/
 
 	public $fast = array(
 		'from' => 'you@localhost',

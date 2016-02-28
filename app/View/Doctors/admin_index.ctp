@@ -84,7 +84,7 @@
 									else{
 								?>
 										<tr class="odd gradeX">
-                                            <td colspan='6'>No doctor added yet </td>
+                                            <td colspan='7'>No doctor added yet </td>
                                         </tr>
 								<?php
 									}

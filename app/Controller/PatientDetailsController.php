@@ -455,6 +455,7 @@ class PatientDetailsController extends AppController {
 	if(is_array($servicecharge) && count($servicecharge)>0){
 		$consulting_charge=$servicecharge['Service']['consulting_charge'];
 	}
+	
 	if(isset($doctorCase['DoctorCase']) && count($doctorCase['DoctorCase'])>0){
 		//all ready case puted and payment done
 	}
@@ -490,7 +491,7 @@ class PatientDetailsController extends AppController {
 				'schedule_doctor_id'=>$doctsechuleid,
 				"consultant_fee"=>$consulting_charge,
 				"available_date"=>$availdate,
-				"opinion_due_date"=>date("Y-m-d",strtotime("+15 day",strtotime($availdate))),
+				"opinion_due_date"=>date("Y-m-d",strtotime($this->opinionduedatewithin,strtotime($availdate))),
 				"satatus"=>'0',
 				"ispaymentdone"=>'0',
 				"createdate"=>date("Y-m-d H:i:s"),
@@ -680,6 +681,29 @@ class PatientDetailsController extends AppController {
 					$patientcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
 					$this->PatientDetail->Patient->updateAll($patientupddata,$patientcond);
 					
+					//get the case details for sending email to the patient
+					
+					$upcond['DoctorCase.ispaymentdone']='1';
+					$doctorcase = $this->DoctorCase->find('first',array('recursive'=>'1','conditions'=>$upcond));
+					
+					if(is_array($doctorcase) && count($doctorcase)>0){
+						$doctorname=(isset($doctorcase['Doctor']['name']))?$doctorcase['Doctor']['name']:'';
+						$patientname=(isset($doctorcase['Patient']['name']))?$doctorcase['Patient']['name']:'';
+						$patientemail = (isset($doctorcase['Patient']['email']))?$doctorcase['Patient']['email']:'';
+						//if patient email found
+						if($patientemail!=''){
+							$data = array(
+								'name'=>$patientname,
+								'available_date'=>$doctorcase['DoctorCase']['available_date'],
+								'opinion_due_date'=>$doctorcase['DoctorCase']['opinion_due_date'],
+								'consultant_fee'=>$doctorcase['DoctorCase']['consultant_fee'],
+								'diagonisis'=>$doctorcase['DoctorCase']['diagonisis'],
+								'doctorname'=>$doctorname,
+							);
+							
+							$this->sitemailsend($mailtype=2,$from=array(),$to=$patientemail,$message="EDC Email",$data);
+						}
+					}
 					//old
 					//$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
 					//$this->PatientDetail->Patient->saveField('detailsformsubmit','6');
@@ -739,8 +763,8 @@ class PatientDetailsController extends AppController {
 				$this->request->data['PatientDetail']['performance']=$performances[$this->request->data['RadioGroup1']];
 			}
 			$this->request->data['PatientDetail']['patient_id']=$this->Session->read("loggedpatientid");
-			
-			//$this->PatientDetail->create();
+			//pr($this->request->data);
+			$this->PatientDetail->create();
 			if ($this->PatientDetail->save($this->request->data)) {
 				//$this->Session->setFlash(__('The patient detail has been saved.'));
 				//return $this->redirect(array('action' => 'index'));

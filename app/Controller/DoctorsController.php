@@ -713,7 +713,8 @@ ADMIN SECTION START FROM HERE
 	public function admin_view($id = null) {
 		$this->validateadminsession();
 		if (!$this->Doctor->exists($id)) {
-			throw new NotFoundException(__('Invalid doctor'));
+			//throw new NotFoundException(__('Invalid doctor'));
+			$this->redirect(array('action'=>'index'));
 		}
 		$options = array('conditions' => array('Doctor.' . $this->Doctor->primaryKey => $id));
 		$this->set('doctor', $this->Doctor->find('first', $options));
@@ -789,7 +790,7 @@ ADMIN SECTION START FROM HERE
 								$this->DoctorSpecializetion->save($data);
 							}
 						}
-						$this->Session->setFlash(__('The doctor has been saved.'));
+						//$this->Session->setFlash(__('The doctor has been saved.'));
 						return $this->redirect(array('action' => 'index'));
 					} else {
 						$this->Session->setFlash(__('The doctor could not be saved. Please, try again.'));

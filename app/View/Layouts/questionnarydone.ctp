@@ -41,8 +41,9 @@ $cakeVersion = __d('cake_dev', '');
     </div>
   </div>
   <div class="payment">
+	<div style="text-align: center;padding-bottom: 10px;">
 	<?php echo $this->Session->flash(); ?>
-	
+	</div>
   	<?php echo $this->fetch('content'); ?>
   </div>
 </div>
