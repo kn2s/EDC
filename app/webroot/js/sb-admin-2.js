@@ -159,3 +159,15 @@ $(document).on('click','.js-sampleopinion',function(){
 		alert("Alfeild required");
 	}
 });
+
+$(document).on('click','.js-reference',function(){
+	//reference
+	e.preventDefault();
+	var allFieldvalidate=isAlRequiredFieldEntered($("#reference"));
+	if(allFieldvalidate){
+		$("#reference").submit();
+	}
+	else{
+		alert("Alfeild required");
+	}
+});

@@ -25,7 +25,8 @@ class ReferencesController extends AppController {
 		$this->layout="smallheader";
 		/*$this->Reference->recursive = 0;
 		$this->set('references', $this->Paginator->paginate());*/
-		$references = array();
+		$cond = array('Reference.is_deleted'=>'0');
+		$references = $this->Reference->find('first',array('recursive'=>'0','conditions'=>$cond,'order'=>array('Reference.id'=>'DESC')));
 		$this->set('references', $references);
 	}
 
@@ -36,20 +37,20 @@ class ReferencesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	/*public function view($id = null) {
 		if (!$this->Reference->exists($id)) {
 			throw new NotFoundException(__('Invalid reference'));
 		}
 		$options = array('conditions' => array('Reference.' . $this->Reference->primaryKey => $id));
 		$this->set('reference', $this->Reference->find('first', $options));
-	}
+	}*/
 
 /**
  * add method
  *
  * @return void
  */
-	public function add() {
+	/*public function add() {
 		if ($this->request->is('post')) {
 			$this->Reference->create();
 			if ($this->Reference->save($this->request->data)) {
@@ -59,7 +60,7 @@ class ReferencesController extends AppController {
 				$this->Session->setFlash(__('The reference could not be saved. Please, try again.'));
 			}
 		}
-	}
+	}*/
 
 /**
  * edit method
@@ -68,7 +69,7 @@ class ReferencesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	/*public function edit($id = null) {
 		if (!$this->Reference->exists($id)) {
 			throw new NotFoundException(__('Invalid reference'));
 		}
@@ -83,7 +84,7 @@ class ReferencesController extends AppController {
 			$options = array('conditions' => array('Reference.' . $this->Reference->primaryKey => $id));
 			$this->request->data = $this->Reference->find('first', $options);
 		}
-	}
+	}*/
 
 /**
  * delete method
@@ -92,7 +93,7 @@ class ReferencesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	/*public function delete($id = null) {
 		$this->Reference->id = $id;
 		if (!$this->Reference->exists()) {
 			throw new NotFoundException(__('Invalid reference'));
@@ -104,7 +105,7 @@ class ReferencesController extends AppController {
 			$this->Session->setFlash(__('The reference could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}
+	}*/
 
 /**
  * admin_index method
@@ -112,8 +113,12 @@ class ReferencesController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout="admin";
 		$this->Reference->recursive = 0;
-		$this->set('references', $this->Paginator->paginate());
+		$conds = array('Reference.is_deleted'=>'0');
+		$reffeces = $this->Reference->find('first',array('recursive'=>'1','conditions'=>$conds)); //$this->Paginator->paginate()
+		//$this->set('reference',$reffeces);
+		$this->request->data = $reffeces;
 	}
 
 /**
@@ -156,9 +161,11 @@ class ReferencesController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
-		if (!$this->Reference->exists($id)) {
+		$this->validateadminsession();
+		/*if (!$this->Reference->exists($id)) {
 			throw new NotFoundException(__('Invalid reference'));
-		}
+		}*/
+		
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Reference->save($this->request->data)) {
 				$this->Session->setFlash(__('The reference has been saved.'));
@@ -167,9 +174,11 @@ class ReferencesController extends AppController {
 				$this->Session->setFlash(__('The reference could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Reference.' . $this->Reference->primaryKey => $id));
-			$this->request->data = $this->Reference->find('first', $options);
+			//$options = array('conditions' => array('Reference.' . $this->Reference->primaryKey => $id));
+			//$this->request->data = $this->Reference->find('first', $options);
+			$this->Session->setFlash(__('The reference could not be saved. Please, try again.'));
 		}
+		return $this->redirect(array('action' => 'index'));
 	}
 
 /**

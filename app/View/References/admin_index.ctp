@@ -1,48 +1,52 @@
-<div class="references index">
-	<h2><?php echo __('References'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('reference_data'); ?></th>
-			<th><?php echo $this->Paginator->sort('createdate'); ?></th>
-			<th><?php echo $this->Paginator->sort('is_deleted'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($references as $reference): ?>
-	<tr>
-		<td><?php echo h($reference['Reference']['id']); ?>&nbsp;</td>
-		<td><?php echo h($reference['Reference']['reference_data']); ?>&nbsp;</td>
-		<td><?php echo h($reference['Reference']['createdate']); ?>&nbsp;</td>
-		<td><?php echo h($reference['Reference']['is_deleted']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $reference['Reference']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $reference['Reference']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $reference['Reference']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $reference['Reference']['id']))); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
+<div style="text-align:center;">
+	<?php echo $this->Session->flash();?>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Reference'), array('action' => 'add')); ?></li>
-	</ul>
+<?php 
+	//pr($reference);
+?>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Reference</h1>
+	</div>
+<!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+<div class="col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			Reference
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-lg-6">
+						<!-- create by php form fields $reference['Reference'] -->
+						<?php
+							echo $this->Form->create('Reference',array('action'=>'edit','id'=>'reference'));
+							echo $this->Form->input('Reference.id',array('type'=>'hidden'));
+							echo $this->Form->input('Reference.reference_data',array('type'=>'hidden','div'=>'form-group','label'=>'','class'=>'form-control', 'placeholder'=>''));
+							
+							echo $this->Form->input('Reference.chemotherapy',array('type'=>'textarea','div'=>'form-group','label'=>'*What is Chemotherapy?','class'=>'form-control', 'placeholder'=>'Wright some thing Chemotherapy','required'=>'true'));//
+							echo $this->Form->input('Reference.radiotherapy',array('type'=>'textarea','div'=>'form-group','label'=>'*What is Radiotherapy?','class'=>'form-control', 'placeholder'=>'Wright some thing Radiotherapy','required'=>'true'));//
+							echo $this->Form->input('Reference.targeted_therapy',array('type'=>'textarea','div'=>'form-group','label'=>'*What is Targeted Therapy?','class'=>'form-control', 'placeholder'=>'Wright some thing Targeted Therapy','required'=>'true'));//
+							echo $this->Form->input('Reference.immunotherapy',array('type'=>'textarea','div'=>'form-group','label'=>'*What is Immunotherapy?','class'=>'form-control', 'placeholder'=>'Wright some thing Immunotherapy','required'=>'true'));//
+							echo $this->Form->input('Reference.clinical_trials',array('type'=>'textarea','div'=>'form-group','label'=>'*What is Clinical Trials?','class'=>'form-control', 'placeholder'=>'Wright some thing Clinical Trials?','required'=>'true'));//
+						?>
+						<!-- end from field creations -->
+						<button type="submit" class="btn btn-default js-reference">Update Refference</button>
+						<button type="reset" class="btn btn-default">Reset Opinion</button>
+						<button type="reset" class="btn btn-back">Back</button>
+					</form>
+				</div>
+				<!-- /.col-lg-6 (nested) -->
+			   
+				</div>
+				<!-- /.col-lg-6 (nested) -->
+			</div>
+			<!-- /.row (nested) -->
+		</div>
+		<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
 </div>
