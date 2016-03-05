@@ -138,33 +138,74 @@ class SampleQuestionnairesController extends AppController {
 		);
 		$social_history = array(
 			'smocking'=>array(
-				'quantity'=>'',
+				'quantity'=>'1',
 				'period'=>'',
-				'preriod_from'=>'',
-				'preriod_to'=>'',
-				'unit'=>''
+				'preriod_from'=>'2010-11-14',
+				'preriod_to'=>'2011-10-20',
+				'unit'=>'in a month'
 			),
 			'alcohol'=>array(
-				'alcohol_type'=>'',
-				'quantity'=>'',
-				'unit'=>''
+				'alcohol_type'=>'bear',
+				'quantity'=>'500',
+				'unit'=>'in a year'
 			),
 			'alcohol_period'=>'',
-			'alcohol_period_from'=>'',
-			'alcohol_period_to'=>'',
-			'comments'=>''
+			'alcohol_period_from'=>'2009-01-11',
+			'alcohol_period_to'=>'20015-01-11',
+			'comments'=>'are alcohar and social life'
 		);
+		$about_the_illness = array(
+			'principle_diagnosis_id'=>'1',
+			'principle_diagnosis_name'=>'',
+			'date_of_diagnosis'=>'2012-11-11',
+			'diagnosis_history'=>'uhsd hdsui huidsh isdhishduh dg yuegfew wewe7f ',
+			'oncologist_recommendation'=>'w 78ef w78fw7eyngs vsiuheyyew8',
+			'last_examanation_date'=>'2014-10-30',
+			'have_tumor_marker'=>'no',
+			'tumor_marker'=>array(
+				'tumor_type'=>'shfj',
+				'tumor_date'=>'sdbfjkds',
+				'result'=>'skdfjksdfjk s kjds '
+			)
+		);
+		$past_history=array(
+			'cancer_history'=>array(
+				'diagnosis_type'=>'',
+				'date_of_diagnosis'=>'',
+			),
+			'surgical_history'=>array(
+				'surgical_type'=>'',
+				'date_of_surgical'=>'',
+			),
+			'hospitalizations'=>array(
+				'reason'=>'',
+				'date_of_hospltalize'=>'',
+				'period_of_hospltalize'=>'',
+			),
+			'family_cancer'=>array(
+				'relation'=>'',
+				'cancer_type'=>'',
+				'diagoniazed_age'=>'',
+			),
+			'comment'=>''
+		);
+		
 		$this->request->data=array(
 			'SampleQuestionnaire'=>$SampleQuestionnaire,
 			'QPatientDetails'=>$patientdetails,
 			'QSocialHistory'=>$social_history,
+			'QAboutTheIll'=>$about_the_illness,
+			'QPastHistory'=>$past_history
 		);
 		$months=array('01','02','03','04','05','06','07','08','09','10','11','12');
 		$performance_status=array();
 		$units=array();
+		$alldiagonisises=array();
+		
 		$this->set('months',$months);
 		$this->set('performance_status',$performance_status);
 		$this->set('units',$units);
+		$this->set('alldiagonisises',$alldiagonisises);
 	}
 
 /**

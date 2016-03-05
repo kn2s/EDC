@@ -173,50 +173,74 @@ class AppController extends Controller {
 	}
 	
 	public function sitemailsend($mailtype=0,$from=array(),$to="",$message="EDC Email",$data=array()){
-		
+		//get the admin configre email sections
+		$this->loadModel('Service');
+		$adminemails = $this->Service->find('first',array('fields'=>array('Service.sending_email','Service.receiving_email','Service.id')));
+		$adminname="EDC support team";
+		$adminsendemail="edc@support.com";
+		$adminrecieveemail="edc@support.com";
+		if(is_array($adminemails) && count($adminemails)>0){
+			$adminsendemail = (isset($adminemails['Service']['sending_email']) && $adminemails['Service']['sending_email']!='')?$adminemails['Service']['sending_email']:$adminsendemail;
+			$adminrecieveemail = isset($adminemails['Service']['receiving_email'])?$adminemails['Service']['receiving_email']:$adminrecieveemail;
+		}
 		$Email = new CakeEmail($this->mailTransportType);
+		
 		if(!is_array($from) || count($from)==0){
-			$from=array('edc@support.com'=>'EDC support team');
+			$from=array($adminsendemail=>adminname);
 		}
-		if(!filter_var($to,FILTER_VALIDATE_EMAIL)){
-			$to="edcadmin@support.com";
+		//
+		if($to==''){
+			//admin will reciev the email
+			$to=$adminrecieveemail;
 		}
-		//for test
-		//$to="mrintoryal@yahoo.in";
-		
-		//mail type
-		$subjects="We thanksfull to you being with us";
-		$templatenameview="admintemp";
-		switch($mailtype){
-			case 1:
-				//regiatration
-				$subjects="You are registered successfully";
-				$templatenameview="registration";
-			break;
-			case 2:
-				//patient appoinment confirm
-				$subjects="Your appointment schedule confirm for consultant";
-				$templatenameview="appointment";
+		//if reviever email is valid then
+		if(filter_var($to,FILTER_VALIDATE_EMAIL)){
+			//mail type
+			$subjects="We thanksfull to you being with us";
+			$templatenameview="admintemp";
+			switch($mailtype){
+				case 1:
+					//regiatration
+					$subjects="You are registered successfully";
+					$templatenameview="registration";
 				break;
-			case 3:
-				$subjects="Your doctor give the opinion about your case";
-				$templatenameview="caseopinion";
-				break;
-			case 4:
-				$subjects="Your doctor allow you to edit your questionnair";
-				$templatenameview="doctalloweditquestionnair";
-				break;
-			default:
-				break;
+				case 2:
+					//patient appoinment confirm
+					$subjects="Your appointment schedule confirm for consultant";
+					$templatenameview="appointment";
+					break;
+				case 3:
+					//opinion give
+					$subjects="Your doctor give the opinion about your case";
+					$templatenameview="caseopinion";
+					break;
+				case 4:
+					//doctor allow to modify
+					$subjects="Your doctor allow you to edit your questionnair";
+					$templatenameview="doctalloweditquestionnair";
+					break;
+				case 5:
+					//patient give reply to the doctor message
+					$subjects="Your patient give reply to you";
+					$templatenameview="patientreply";
+					break;
+				case 6:
+					//patient re update the questionnair
+					$subjects="Your patient update his/her questionnair details";
+					$templatenameview="patientquestionnairupdate";
+					break;
+				default:
+					break;
+			}
+			$Email->from($from);
+			$Email->to($to);
+			//hear need to keep the admin as bcc
+			$Email->bcc($adminrecieveemail);
+			$Email->subject($subjects);
+			$Email->template($templatenameview,'emain');
+			$Email->emailFormat('html');
+			$Email->viewVars($data);
+			$Email->send();
 		}
-		$Email->from($from);
-		$Email->to($to);
-		
-		$Email->subject($subjects);
-		$Email->template($templatenameview,'emain');
-		$Email->emailFormat('html');
-		$Email->viewVars($data);
-		//$Email->delivery = 'smtp';
-		$Email->send();
 	}
 }

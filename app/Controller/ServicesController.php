@@ -51,5 +51,16 @@ class ServicesController extends AppController {
 		}
 		$this->request->data = $this->Service->find('first');
 	}
-
+/**
+ * admin_emailsetting method
+ */
+	public function admin_emailsetting(){
+		$this->layout='admin';
+		$this->validateadminsession();
+		if ($this->request->is(array('post', 'put'))) {
+			$this->Service->create();
+			$this->Service->save($this->request->data);
+		}
+		$this->request->data = $this->Service->find('first',array('fields'=>array('Service.sending_email','Service.receiving_email','Service.id')));
+	}
 }
