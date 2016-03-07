@@ -1,15 +1,6 @@
 <?php
 	
-	//pr($patientalldeatils); rishiagarwal@test.ac
-	
-	$isdoctorcaseassing=true;
-	$clas ="js-preview";
-	$clshd ="";
-	if(isset($patientalldeatils['PatientCase']['id']) && $patientalldeatils['PatientCase']['id']>0){
-		$clas="";
-		$clshd ="display:none;";
-		$isdoctorcaseassing=false;
-	}
+	//pr($patientalldeatils); //rishiagarwal@test.ac
 ?>
 		
 		<div class="details">
@@ -24,7 +15,7 @@
 						<label class="blue">Full Name</label>
 					</div>
 					<div class="width2">
-						<label><?php echo isset($patientalldeatils['PatientDetail']['name'])?$patientalldeatils['PatientDetail']['name']:'';?></label>
+						<label><?php echo isset($patientalldeatils['QPatientDetails']['name'])?$patientalldeatils['QPatientDetails']['name']:'';?></label>
 					</div>
 				</div>
 				<div class="row">
@@ -32,7 +23,7 @@
 						<label class="blue">Gender</label>
 					</div>
 					<div class="width2">
-						<label><?php echo isset($patientalldeatils['PatientDetail']['gender'])?$patientalldeatils['PatientDetail']['gender']:'';?></label>
+						<label><?php echo isset($patientalldeatils['QPatientDetails']['gender'])?$patientalldeatils['QPatientDetails']['gender']:'';?></label>
 					</div>
 				</div>
 				<div class="row">
@@ -41,11 +32,7 @@
 					</div>
 					<div class="width2">
 						<label><?php 
-							$day = isset($patientalldeatils['PatientDetail']['dob_day'])?$patientalldeatils['PatientDetail']['dob_day']:'1';
-							$month = isset($patientalldeatils['PatientDetail']['dob_month'])?$patientalldeatils['PatientDetail']['dob_month']:'1';
-							$year = isset($patientalldeatils['PatientDetail']['dob_year'])?$patientalldeatils['PatientDetail']['dob_year']:'1973';
-							$dob = $day."-".$month."-".$year;
-						echo date("d M Y",strtotime($dob));
+							echo isset($patientalldeatils['QPatientDetails']['dob_txt'])?date("d M Y",strtotime($patientalldeatils['QPatientDetails']['dob_txt'])):'';	
 						?></label>
 					</div>
 				</div>
@@ -55,10 +42,7 @@
 					</div>
 					<div class="width2">
 						<label><?php 
-							$city = isset($patientalldeatils['PatientDetail']['city'])?$patientalldeatils['PatientDetail']['city'].", ":'';
-							$state = isset($patientalldeatils['PatientDetail']['state'])?$patientalldeatils['PatientDetail']['state'].", ":'';
-							$country = isset($patientalldeatils['PatientDetail']['Country']['name'])?$patientalldeatils['PatientDetail']['Country']['name']:'';
-							echo $city.$state.$country;
+							echo isset($patientalldeatils['QPatientDetails']['place'])?$patientalldeatils['QPatientDetails']['place']:'';
 						?></label>
 					</div>
 				</div>
@@ -68,7 +52,7 @@
 					</div>
 					<div class="width2">
 						<label><?php 
-							echo isset($patientalldeatils['PatientDetail']['weight'])?$patientalldeatils['PatientDetail']['weight']." KG ":'';
+							echo isset($patientalldeatils['QPatientDetails']['weight'])?$patientalldeatils['QPatientDetails']['weight']." KG ":'';
 						?></label>
 					</div>
 				</div>
@@ -78,7 +62,7 @@
 					</div>
 					<div class="width2">
 						<label><?php 
-							echo isset($patientalldeatils['PatientDetail']['height'])?$patientalldeatils['PatientDetail']['height']." CM ":'';
+							echo isset($patientalldeatils['QPatientDetails']['height'])?$patientalldeatils['QPatientDetails']['height']." CM ":'';
 						?></label>
 					</div>
 				</div>
@@ -92,12 +76,13 @@
 						<label class="blue">Reaction</label>
 					</div>
 				</div>
-				<?php 
-					$drugalergies = isset($patientalldeatils['PatientDetail']['DrugAlergy'])?$patientalldeatils['PatientDetail']['DrugAlergy']:array();
-					if(is_array($drugalergies) && count($drugalergies)>0){
-						foreach($drugalergies as $drugalergy){
-							$name=isset($drugalergy['name'])?$drugalergy['name']:'';
-							$report=isset($drugalergy['reaction'])?$drugalergy['reaction']:'';
+				<?php
+					$drugalergiesnames = isset($patientalldeatils['QPatientDetails']['drug_name'])?explode(',',$patientalldeatils['QPatientDetails']['drug_name']):array();
+					$drugalergiesreactions = isset($patientalldeatils['QPatientDetails']['reaction'])?explode(',',$patientalldeatils['QPatientDetails']['reaction']):array();
+					
+					if(is_array($drugalergiesnames) && count($drugalergiesnames)>0){
+						foreach($drugalergiesnames as $key=>$name){
+							$report=isset($drugalergiesreactions[$key])?$drugalergiesreactions[$key]:'';
 						?>
 							<div class="row">
 								<div class="width1">
@@ -119,14 +104,9 @@
 						<label class="blue">Current Performence Status</label>
 					</div>
 					<div class="width2">
-						<label><?php $pers = isset($patientalldeatils['PatientDetail']['performance'])?$patientalldeatils['PatientDetail']['performance']:''; 
-							$persstr = explode("_",$pers);
-							if(is_array($persstr) && count($persstr)>0){
-								echo $persstr[0];
-							}
-							else{
-								echo $persstr;
-							}
+						<label><?php 
+							$pers = isset($patientalldeatils['QPatientDetails']['performance_status'])?$patientalldeatils['QPatientDetails']['performance_status']:'0'; 
+							echo isset($performance_status[$pers])?$performance_status[$pers]:'';
 						?></label>
 					</div>
 				</div>
@@ -135,7 +115,7 @@
 						<label class="blue">Comment about Performence Status</label>
 					</div>
 					<div class="width2">
-						<label><?php echo isset($patientalldeatils['PatientDetail']['performance_comment'])?$patientalldeatils['PatientDetail']['performance_comment']:'';?></label>
+						<label><?php echo isset($patientalldeatils['QPatientDetails']['performance_status_comment'])?$patientalldeatils['QPatientDetails']['performance_status_comment']:'';?></label>
 					</div>
 				</div>
 			</div>
@@ -156,32 +136,31 @@
 					</div>
 				</div>
 				<?php 
-					$smokings = isset($patientalldeatils['Socialactivity']['Smoking'])?$patientalldeatils['Socialactivity']['Smoking']:array();
+					$smokings = isset($patientalldeatils['QSocialHistory']['smocking'])?$patientalldeatils['QSocialHistory']['smocking']:array();
+					
 					if(is_array($smokings) && count($smokings)>0){
-						foreach($smokings as $smoking){
-							$quantiry = isset($smoking['quantity'])?$smoking['quantity']." in a day":'0 in a day';
+						//foreach($smokings as $smoking){
+						$smoking = $smokings;
+							$quantiry = isset($smoking['quantity'])?$smoking['quantity']:'0';
+							$unit = isset($smoking['unit'])?$smoking['unit']:'in a day';
 							
-							$Periodstartmonth = isset($smoking['frommonth'])?$smoking['frommonth']:'1';
-							$Periodstartyear = isset($smoking['fromyear'])?$smoking['fromyear']:'1973';
-							$startdate = "1-".$Periodstartmonth."-".$Periodstartyear;
+							$startdate = isset($smoking['preriod_from'])?$smoking['preriod_from']:'';;
 							
-							$Periodendmonth = isset($smoking['tomonth'])?$smoking['tomonth']:'1';
-							$Periodendyear = isset($smoking['toyear'])?$smoking['toyear']:'1977';
-							$enddate = "1-".$Periodendmonth."-".$Periodendyear;
+							$enddate = isset($smoking['preriod_to'])?$smoking['preriod_to']:'';;
 							
-							$preriodstr = date("d M Y",strtotime($startdate));
-							$preriodend = date("d M Y",strtotime($enddate));
+							$preriodstr = ($startdate!='')?date("d M Y",strtotime($startdate)):'';
+							$preriodend = ($enddate!='')?date("d M Y",strtotime($enddate)):'';
 							?>
 								<div class="row">
 									<div class="width1">
-										<label><?=$quantiry?></label>
+										<label><?=$quantiry." ".$unit?></label>
 									</div>
 									<div class="width2">
-										<label><?PHP echo $preriodstr." - ".$preriodend;?></label>
+										<label><?php echo $preriodstr." - ".$preriodend;?></label>
 									</div>
 								</div>
 							<?php
-						}
+						//}
 					}
 				?>
 				
@@ -196,10 +175,11 @@
 					</div>
 				</div>
 				<?php 
-					$alcohals = isset($patientalldeatils['Socialactivity']['Alcohol'])?$patientalldeatils['Socialactivity']['Alcohol']:array();
+					$alcohals = isset($patientalldeatils['QSocialHistory']['alcohol'])?$patientalldeatils['QSocialHistory']['alcohol']:array();
 					if(is_array($alcohals) && count($alcohals)>0){
-						foreach($alcohals as $alcohal){
-							$name=isset($alcohal['alcoholname'])?$alcohal['alcoholname']:'';
+						//foreach($alcohals as $alcohal){
+						$alcohal=$alcohals;
+							$name=isset($alcohal['alcohol_type'])?$alcohal['alcohol_type']:'';
 							$quant=isset($alcohal['quantity'])?$alcohal['quantity']." ML in a day":'0 ML in a day';
 							?>
 							<div class="row">
@@ -211,7 +191,7 @@
 								</div>
 							</div>
 							<?php
-						}
+						//}
 					}
 				?>
 				
@@ -221,17 +201,12 @@
 					</div>
 					<div class="width2">
 						<label><?php 
-							$startmonth = isset($patientalldeatils['Socialactivity']['alcohalstartmonth'])?$patientalldeatils['Socialactivity']['alcohalstartmonth']:'1';
-							$startyear = isset($patientalldeatils['Socialactivity']['alcohalstartyear'])?$patientalldeatils['Socialactivity']['alcohalstartyear']:'1973';
-							$startdate = "1-".$startmonth."-".$startyear;
+							$startdate =isset($patientalldeatils['QSocialHistory']['alcohol_period_from'])?$patientalldeatils['QSocialHistory']['alcohol_period_from']:'';
+							$enddate =isset($patientalldeatils['QSocialHistory']['alcohol_period_to'])?$patientalldeatils['QSocialHistory']['alcohol_period_to']:'';
 							
-							$endmonth = isset($patientalldeatils['Socialactivity']['alcohalendmonth'])?$patientalldeatils['Socialactivity']['alcohalendmonth']:'1';
-							$endyear = isset($patientalldeatils['Socialactivity']['alcohalendyear'])?$patientalldeatils['Socialactivity']['alcohalendyear']:'1977';
-							$enddate = "1-".$endmonth."-".$endyear;
-							
-							$preriodstr = date("d M Y",strtotime($startdate));
-							$preriodend = date("d M Y",strtotime($enddate));
-							echo $preriodstr." - ".$preriodend;
+							$preriodstr = ($startdate!='')?date("d M Y",strtotime($startdate)):'';
+							$preriodend = ($enddate!='')?" - ".date("d M Y",strtotime($enddate)):'';
+							echo $preriodstr."".$preriodend;
 						?></label>
 					</div>
 				</div>
@@ -242,7 +217,7 @@
 						<label class="blue">Additional Comments</label>
 					</div>
 					<div class="width2">
-						<label><?php echo isset($patientalldeatils['Socialactivity']['comment'])?$patientalldeatils['Socialactivity']['comment']:'';?></label>
+						<label><?php echo isset($patientalldeatils['QSocialHistory']['comments'])?$patientalldeatils['QSocialHistory']['comments']:'';?></label>
 					</div>
 				</div>
 			</div>
@@ -259,8 +234,7 @@
 					</div>
 					<div class="width2">
 						<label><?php 
-						//pr($patientalldeatils);
-							echo isset($patientalldeatils['AboutIllness']['Specialization']['name'])?$patientalldeatils['AboutIllness']['Specialization']['name']:'';
+							echo isset($patientalldeatils['QAboutTheIll']['principle_diagnosis_name'])?$patientalldeatils['QAboutTheIll']['principle_diagnosis_name']:'';
 						?></label>
 					</div>
 				</div>
@@ -270,13 +244,10 @@
 					</div>
 					<div class="width2">
 						<label>
-						<?php 
-							$startmonth = isset($patientalldeatils['AboutIllness']['startdiagomonth'])?$patientalldeatils['AboutIllness']['startdiagomonth']:'1';
-							$startyear = isset($patientalldeatils['AboutIllness']['startdiagoyear'])?$patientalldeatils['AboutIllness']['startdiagoyear']:'1973';
-							$startday = isset($patientalldeatils['AboutIllness']['startdiagoday'])?$patientalldeatils['AboutIllness']['startdiagoday']:'1';
-							$startdate = $startday."-".$startmonth."-".$startyear;
+						<?php
+							$startdate = isset($patientalldeatils['QAboutTheIll']['date_of_diagnosis'])?$patientalldeatils['QAboutTheIll']['date_of_diagnosis']:'';
 							
-							$preriodstr = date("d M, Y",strtotime($startdate));
+							$preriodstr = ($startdate!='')?date("d M, Y",strtotime($startdate)):'';
 							echo $preriodstr;
 						?>
 						</label>
@@ -287,7 +258,7 @@
 						<label class="blue">Give a detailed history of how diagnosis was made</label>
 					</div>
 					<div class="width2">
-						<label><?php echo isset($patientalldeatils['AboutIllness']['diagodetails'])?$patientalldeatils['AboutIllness']['diagodetails']:'-';?></label>
+						<label><?php echo isset($patientalldeatils['QAboutTheIll']['diagnosis_history'])?$patientalldeatils['QAboutTheIll']['diagnosis_history']:'-';?></label>
 					</div>
 				</div>
 				<div class="row">
@@ -295,7 +266,7 @@
 						<label class="blue">What is your oncologist's recommendation?</label>
 					</div>
 					<div class="width2">
-						<label><?php echo isset($patientalldeatils['AboutIllness']['diagorecomandation'])?$patientalldeatils['AboutIllness']['diagorecomandation']:'-';?></label>
+						<label><?php echo isset($patientalldeatils['QAboutTheIll']['oncologist_recommendation'])?$patientalldeatils['QAboutTheIll']['oncologist_recommendation']:'-';?></label>
 					</div>
 				</div>
 				<div class="row">
@@ -304,12 +275,9 @@
 					</div>
 					<div class="width2">
 						<label><?php 
-							$startmonth = isset($patientalldeatils['AboutIllness']['enddiagomonth'])?$patientalldeatils['AboutIllness']['enddiagomonth']:'1';
-							$startyear = isset($patientalldeatils['AboutIllness']['enddiagoyear'])?$patientalldeatils['AboutIllness']['enddiagoyear']:'1973';
-							$startday = isset($patientalldeatils['AboutIllness']['enddiagoday'])?$patientalldeatils['AboutIllness']['enddiagoday']:'1';
-							$startdate = $startday."-".$startmonth."-".$startyear;
+							$startdate = isset($patientalldeatils['QAboutTheIll']['last_examanation_date'])?$patientalldeatils['QAboutTheIll']['last_examanation_date']:'';
 							
-							$preriodstr = date("d M, Y",strtotime($startdate));
+							$preriodstr =($startdate!='')?date("d M, Y",strtotime($startdate)):'';
 							echo $preriodstr;
 						?></label>
 					</div>
@@ -320,7 +288,7 @@
 					</div>
 					<div class="width2">
 						<label><?php  
-							echo (isset($patientalldeatils['AboutIllness']['istumarmarker']) && $patientalldeatils['AboutIllness']['istumarmarker']==1)?'Yes':'No';
+							echo (isset($patientalldeatils['QAboutTheIll']['have_tumor_marker']) && $patientalldeatils['QAboutTheIll']['have_tumor_marker']=='yes')?'Yes':'No';
 						?></label>
 					</div>
 				</div>
@@ -336,16 +304,16 @@
 					</div>
 				</div>
 				<?php 
-					$tumarMarkers = isset($patientalldeatils['AboutIllness']['TumarMarker'])?$patientalldeatils['AboutIllness']['TumarMarker']:array();
+					$tumarMarkers = isset($patientalldeatils['QAboutTheIll']['tumor_marker'])?$patientalldeatils['QAboutTheIll']['tumor_marker']:array();
 					if(is_array($tumarMarkers) && count($tumarMarkers)>0){
-						foreach($tumarMarkers as $tumarMarker){
-							$name = isset($tumarMarker['name'])?$tumarMarker['name']:'';
-							$result = isset($tumarMarker['tumorresult'])?$tumarMarker['tumorresult']:'';
-							$startmonth = isset($tumarMarker['tumormonth'])?$tumarMarker['tumormonth']:'1';
-							$startyear = isset($tumarMarker['tumoryear'])?$tumarMarker['tumoryear']:'1973';
-							$startdate = "1-".$startmonth."-".$startyear;
+						//foreach($tumarMarkers as $tumarMarker){
+							$tumarMarker = $tumarMarkers;
+							$name = isset($tumarMarker['tumor_type'])?$tumarMarker['tumor_type']:'';
+							$result = isset($tumarMarker['result'])?$tumarMarker['result']:'';
 							
-							$dates = date("M, Y",strtotime($startdate));
+							$startdate = isset($tumarMarker['tumor_date'])?$tumarMarker['tumor_date']:'';
+							
+							$dates = ($startdate!='')?date("M, Y",strtotime($startdate)):'';
 							?>
 							<div class="row">
 								<div class="width1">
@@ -359,7 +327,7 @@
 								</div>
 							</div>
 							<?php
-						}
+						//}
 					}
 				?>
 				
@@ -382,28 +350,18 @@
 				</div>
 				<?php 
 					
-					$cancerhistories = isset($patientalldeatils['PatientPastHistory']['cancer_history'])?unserialize($patientalldeatils['PatientPastHistory']['cancer_history']):array();
+					$cancerhistories = isset($patientalldeatils['QPastHistory']['cancer_history'])?$patientalldeatils['QPastHistory']['cancer_history']:array();
+					
 					if(is_array($cancerhistories) && count($cancerhistories)>0){
-						$diagnosis_names = $cancerhistories['diagnosis_name'];
-						$diagnosis_days = isset($cancerhistories['diagnosis_day'])?$cancerhistories['diagnosis_day']:array();
-						$diagnosis_months = $cancerhistories['diagnosis_month'];
-						$diagnosis_years = $cancerhistories['diagnosis_year'];
+						$diagnosis_names = explode(",",$cancerhistories['diagnosis_type']);
+						$startdates = explode(",",$cancerhistories['date_of_diagnosis']);
 						
 						for($i=0;$i<count($diagnosis_names);$i++){
 							$diagnosis_name = $diagnosis_names[$i];
-							$diagnosis_day = isset($diagnosis_days[$i])?$diagnosis_days[$i]:'';
-							$diagnosis_month = isset($diagnosis_months[$i])?$diagnosis_months[$i]:'';
-							$diagnosis_year = isset($diagnosis_years[$i])?$diagnosis_years[$i]:'';
-							if($diagnosis_day=='' || $diagnosis_month=='' || $diagnosis_year==''){
-								$dates='';
-							}
-							else{
-								$startdate = $diagnosis_day."-".$diagnosis_month."-".$diagnosis_year;
-								$dates = date("d M, Y",strtotime($startdate));
-							}
+							$startdate = isset($startdates[$i])?$startdates[$i]:'';
+							$dates = ($startdate!='')?date("d M, Y",strtotime($startdate)):'';
 							
-							
-							?>
+						?>
 							<div class="row">
 								<div class="width1">
 									<label><?=$diagnosis_name?></label>
@@ -429,27 +387,15 @@
 					</div>
 				</div>
 				<?php 
-					$surgicalhistories = isset($patientalldeatils['PatientPastHistory']['surgical_history'])?unserialize($patientalldeatils['PatientPastHistory']['surgical_history']):array();
+					$surgicalhistories = isset($patientalldeatils['QPastHistory']['surgical_history'])?$patientalldeatils['QPastHistory']['surgical_history']:array();
 					if(is_array($surgicalhistories) && count($surgicalhistories)>0){
-						$surgery_names =$surgicalhistories['surgery_name'];
-						$surgery_days = isset($surgicalhistories['surgery_day'])?$surgicalhistories['surgery_day']:array();
-						$surgery_months =$surgicalhistories['surgery_month'];
-						$surgery_years =$surgicalhistories['surgery_year'];
+						$surgery_names =explode(",",$surgicalhistories['surgical_type']);
+						$startdates =explode(",",$surgicalhistories['date_of_surgical']);
 						
 						for($j=0;$j<count($surgery_names);$j++){
 							$surgery_name = $surgery_names[$j];
-							$surgery_day = isset($surgery_days[$j])?$surgery_days[$j]:'';
-							$surgery_month = isset($surgery_months[$j])?$surgery_months[$j]:'';
-							$surgery_year =isset($surgery_years[$j])?$surgery_years[$j]:'';
-							
-							if($surgery_day=='' || $surgery_month=='' || $surgery_year==''){
-								$dates='';
-							}
-							else{
-								$startdate = $surgery_day."-".$surgery_month."-".$surgery_year;
-								$dates = date("d M, Y",strtotime($startdate));
-							}
-							
+							$startdate = isset($startdates[$j])?$startdates[$j]:'';
+							$dates = ($startdate!='')?date("d M, Y",strtotime($startdate)):'';
 						?>
 							<div class="row">
 								<div class="width1">
@@ -478,28 +424,17 @@
 					</div>
 				</div>
 				<?php 
-					$hospitalizations = isset($patientalldeatils['PatientPastHistory']['hospitalization'])?unserialize($patientalldeatils['PatientPastHistory']['hospitalization']):array();
+					$hospitalizations = isset($patientalldeatils['QPastHistory']['hospitalizations'])?$patientalldeatils['QPastHistory']['hospitalizations']:array();
 					if(is_array($hospitalizations) && count($hospitalizations)>0){
-						$hospitaliz_resones = $hospitalizations['hospitaliz_resone'];
-						$hospitaliz_days = isset($hospitalizations['hospitaliz_day'])?$hospitalizations['hospitaliz_day']:array();
-						$hospitaliz_months = $hospitalizations['hospitaliz_month'];
-						$hospitaliz_years = $hospitalizations['hospitaliz_year'];
-						$hospitaliz_dayss = $hospitalizations['hospitaliz_days'];
-						
+						$hospitaliz_resones = explode(",",$hospitalizations['reason']);
+						$startdates = explode(",",$hospitalizations['date_of_hospltalize']);
+						$hospitaliz_days = explode(",",$hospitalizations['period_of_hospltalize']);
 						for($k=0;$k<count($hospitaliz_resones);$k++){
 							$hospitaliz_resone = isset($hospitaliz_resones[$k])?$hospitaliz_resones[$k]:'';
-							$hospitaliz_day = isset($hospitaliz_days[$k])?$hospitaliz_days[$k]:'';
-							$hospitaliz_month = isset($hospitaliz_months[$k])?$hospitaliz_months[$k]:'';
-							$hospitaliz_year = isset($hospitaliz_years[$k])?$hospitaliz_years[$k]:'';
-							$hospitaliz_days = isset($hospitaliz_dayss[$k])?$hospitaliz_dayss[$k]:'0';
+							$hospitaliz_day = isset($hospitaliz_days[$k])?$hospitaliz_days[$k]:'0';
+							$startdate = isset($startdates[$k])?$startdates[$k]:'';
+							$dates = ($startdate!='')?date("d M, Y",strtotime($startdate)):'';
 							
-							if($hospitaliz_day=='' || $hospitaliz_month=='' || $hospitaliz_year==''){
-								$dates='';
-							}
-							else{
-								$startdate = $hospitaliz_day."-".$hospitaliz_month."-".$surgery_year;
-								$dates = date("d M, Y",strtotime($startdate));
-							}
 							?>
 							<div class="row">
 								<div class="width1">
@@ -509,10 +444,10 @@
 									<label><?=$dates?></label>
 								</div>
 								<div class="width3">
-									<label><?=$hospitaliz_days?> Days</label>
+									<label><?=$hospitaliz_day?> Days</label>
 								</div>
 							</div>
-							<?PHP
+							<?php
 						}	
 					}
 				?>
@@ -531,11 +466,11 @@
 					</div>
 				</div>
 				<?php 
-					$family_cancer_histories = isset($patientalldeatils['PatientPastHistory']['family_cancer_history'])?unserialize($patientalldeatils['PatientPastHistory']['family_cancer_history']):array();
+					$family_cancer_histories = isset($patientalldeatils['QPastHistory']['family_cancer'])?$patientalldeatils['QPastHistory']['family_cancer']:array();
 					if(is_array($family_cancer_histories) && count($family_cancer_histories)>0){
-						$relation_withs = $family_cancer_histories['relation_with'];
-						$cancer_types = $family_cancer_histories['cancer_type'];
-						$age_of_diagonisiss = $family_cancer_histories['age_of_diagonisis'];
+						$relation_withs =explode(",",$family_cancer_histories['relation']);
+						$cancer_types = explode(",",$family_cancer_histories['cancer_type']);
+						$age_of_diagonisiss = explode(",",$family_cancer_histories['diagoniazed_age']);
 						
 						for($l=0;$l<count($relation_withs);$l++){
 							$relation_with = isset($relation_withs[$l])?$relation_withs[$l]:'';
@@ -563,7 +498,7 @@
 						<label class="blue">Any specific comment about the medical history</label>
 					</div>
 					<div class="width2">
-						<label><?php echo isset($patientalldeatils['PatientPastHistory']['comments'])?$patientalldeatils['PatientPastHistory']['comments']:''?></label>
+						<label><?php echo isset($patientalldeatils['QPastHistory']['comment'])?$patientalldeatils['QPastHistory']['comment']:''?></label>
 					</div>
 				</div>
 			</div>
@@ -588,26 +523,20 @@
 				<div class="clear20"></div>
 				<h3>Blood &amp; Laboratory Tests (Hemoglobin, CBC, BMP etc.)</h3>
 				<?php 
-					$bloodreports = isset($patientalldeatils['PatientDocument']['bloodreport'])?unserialize($patientalldeatils['PatientDocument']['bloodreport']):array();
+					$bloodreports = isset($patientalldeatils['QTestReport']['blood_laboritory'])?$patientalldeatils['QTestReport']['blood_laboritory']:array();
+					
 					if(is_array($bloodreports) && count($bloodreports)>0){
-						$tests = isset($bloodreports['test'])?$bloodreports['test']:array();
-						$monts = isset($bloodreports['month'])?$bloodreports['month']:array();
-						$yearss = isset($bloodreports['year'])?$bloodreports['year']:array();
-						$flnames = isset($bloodreports['flname'])?$bloodreports['flname']:array();
-						$flispresents = isset($bloodreports['flispresent'])?$bloodreports['flispresent']:array();
+						$tests = isset($bloodreports['test_name'])?explode(",",$bloodreports['test_name']):array();
+						$flnames = isset($bloodreports['test_report'])?explode(",",$bloodreports['test_report']):array();
+						$startdates = isset($bloodreports['test_date'])?explode(",",$bloodreports['test_date']):array();
+						
+						$comments="document not uploaded";
+						
 						for($i=0; $i<count($tests);$i++){
 							$test = isset($tests[$i])?$tests[$i]:'';
-							$mont = isset($monts[$i])?$monts[$i]:'1';
-							$year = isset($yearss[$i])?$yearss[$i]:'1977';
+							$startdate = isset($startdates[$i])?$startdates[$i]:'';
 							$flname = isset($flnames[$i])?$flnames[$i]:'';
-							$flispresent = isset($flispresents[$i])?$flispresents[$i]:'0';
-							$comments="";
-							if($flispresent==1){
-								$comments="document not uploaded"; //comment sections
-							}
-							
-							$startdate = "1-".$mont."-".$year;
-							$dates = date("M, Y",strtotime($startdate));
+							$dates = ($startdate!='')?date("M, Y",strtotime($startdate)):'';
 							
 							?>
 								<div class="row">
@@ -618,7 +547,7 @@
 										<label><?=$dates?></label>
 									</div>
 									<div class="width3">
-										<?php if($flispresent==1){
+										<?php if($flname==''){
 										?>
 										<label><?=$comments?></label>
 										<?php
@@ -638,25 +567,20 @@
 				<div class="clear20"></div>
 				<h3>Imaging Tests (X-Ray, CT Scan, MRI etc.)</h3>
 				<?php 
-					$imagingreports = isset($patientalldeatils['PatientDocument']['imagingreport'])?unserialize($patientalldeatils['PatientDocument']['imagingreport']):array();
+					$imagingreports = isset($patientalldeatils['QTestReport']['imaging_test'])?$patientalldeatils['QTestReport']['imaging_test']:array();
 					if(is_array($imagingreports) && count($imagingreports)>0){
-						$imgtests = isset($imagingreports['test'])?$imagingreports['test']:array();
-						$imgmonths = isset($imagingreports['month'])?$imagingreports['month']:array();
-						$imgyears = isset($imagingreports['year'])?$imagingreports['year']:array();
-						$imgfilenames = isset($imagingreports['flname'])?$imagingreports['flname']:array();
-						$imgfileispresents = isset($imagingreports['flispresent'])?$imagingreports['flispresent']:array();
+						$imgtests = isset($imagingreports['test_name'])?explode(",",$imagingreports['test_name']):array();
+						$imgfilenames = isset($imagingreports['test_report'])?explode(",",$imagingreports['test_report']):array();
+						$startdates = isset($imagingreports['test_date'])?explode(",",$imagingreports['test_date']):array();
+						
+						$comments="document not uploaded";
+						
 						for($k=0;$k<count($imgtests);$k++){
 							$imgtest = isset($imgtests[$k])?$imgtests[$k]:'';
-							$imgmonth = isset($imgmonths[$k])?$imgmonths[$k]:'1';
-							$imgyear = isset($imgyears[$k])?$imgyears[$k]:'1977';
+							$startdate = isset($startdates[$k])?$startdates[$k]:'';
 							$imgfilename = isset($imgfilenames[$k])?$imgfilenames[$k]:'';
-							$imgfileispresent = isset($imgfileispresents[$k])?$imgfileispresents[$k]:'0';
-							$comments='';
-							if($imgfileispresent==1){
-								$comments="document not uploaded";//
-							}
-							$startdate = "1-".$imgmonth."-".$imgyear;
-							$dates = date("M, Y",strtotime($startdate));
+							
+							$dates =($startdate!='')?date("M, Y",strtotime($startdate)):'';
 							
 							?>
 								<div class="row">
@@ -667,7 +591,7 @@
 										<label><?=$dates?></label>
 									</div>
 									<div class="width3">
-										<?php if($imgfileispresent==1){
+										<?php if($imgfilename==''){
 										?>
 										<label><?=$comments?></label>
 										<?php
@@ -687,25 +611,18 @@
 				<div class="clear20"></div>
 				<h3>Pathology Tests (Biopsy, FNA etc.)</h3>
 				<?php 
-					$pathologyreports = isset($patientalldeatils['PatientDocument']['pathologyreport'])?unserialize($patientalldeatils['PatientDocument']['pathologyreport']):array();
+					$pathologyreports = isset($patientalldeatils['QTestReport']['pathologyreport'])?$patientalldeatils['QTestReport']['pathologyreport']:array();
 					if(is_array($pathologyreports) && count($pathologyreports)>0){
-						$pathtests = isset($pathologyreports['test'])?$pathologyreports['test']:array();
-						$pathmonts = isset($pathologyreports['month'])?$pathologyreports['month']:array();
-						$pathyears = isset($pathologyreports['year'])?$pathologyreports['year']:array();
-						$pathflnames = isset($pathologyreports['flname'])?$pathologyreports['flname']:array();
-						$pathflispresents = isset($pathologyreports['flispresent'])?$pathologyreports['flispresent']:array();
+						$pathtests = isset($pathologyreports['test_name'])?expolde(",",$pathologyreports['test_name']):array();
+						$startdates = isset($pathologyreports['test_date'])?expolde(",",$pathologyreports['test_date']):array();
+						$pathflnames = isset($pathologyreports['test_report'])?expolde(",",$pathologyreports['test_report']):array();
+						$comments="document not uploaded";//
 						for($i=0; $i<count($pathtests);$i++){
 							$pathtest = isset($pathtests[$i])?$pathtests[$i]:'';
-							$pathmont = isset($pathmonts[$i])?$pathmonts[$i]:'1';
-							$pathyear = isset($pathyears[$i])?$pathyears[$i]:'1977';
+							$startdate = isset($startdates[$i])?$startdates[$i]:'';
 							$pathflname = isset($pathflnames[$i])?$pathflnames[$i]:'';
-							$pathflispresent = isset($pathflispresents[$i])?$pathflispresents[$i]:'0';
-							$comments='';
-							if($pathflispresent==1){
-								$comments="document not uploaded";//
-							}
-							$startdate = "1-".$pathmont."-".$pathyear;
-							$dates = date("M, Y",strtotime($startdate));
+							
+							$dates =($startdate!='')?date("M, Y",strtotime($startdate)):'';
 							?>
 								<div class="row">
 									<div class="width1">
@@ -715,7 +632,7 @@
 										<label><?=$dates?></label>
 									</div>
 									<div class="width3">
-										<?php if($pathflispresent==1){
+										<?php if($pathflname==''){
 										?>
 										<label><?=$comments?></label>
 										<?php
@@ -737,7 +654,7 @@
 						<label class="blue">Any specific questions you want to ask the doctor</label>
 					</div>
 					<div class="width2">
-						<label><?php echo isset($patientalldeatils['PatientDocument']['comment'])?$patientalldeatils['PatientDocument']['comment']:'';?></label>
+						<label><?php echo isset($patientalldeatils['QTestReport']['comment'])?$patientalldeatils['QTestReport']['comment']:'';?></label>
 					</div>
 				</div>
 			</div>

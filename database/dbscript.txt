@@ -158,3 +158,13 @@ today(04-03-16):
 ALTER TABLE `ec_services` ADD `sending_email` VARCHAR(254) NOT NULL AFTER `consulting_charge`, ADD `receiving_email` VARCHAR(254) NOT NULL AFTER `sending_email`;
 
 
+today(06-03016):
+================
+ALTER TABLE `ec_services` ADD `payment_mode` INT(1) NOT NULL DEFAULT '0' COMMENT '0=test , 1=live' AFTER `receiving_email`, ADD `payment_account` VARCHAR(254) NOT NULL AFTER `payment_mode`;
+
+
+today(07-03-16):
+================
+ALTER TABLE `ec_doctor_cases` ADD `transaction_id` VARCHAR(254) NOT NULL AFTER `ispaymentdone`;
+
+ALTER TABLE `ec_doctor_cases` ADD `tsn_datails` TEXT NOT NULL AFTER `transaction_id`;

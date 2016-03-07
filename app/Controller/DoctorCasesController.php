@@ -291,7 +291,7 @@ class DoctorCasesController extends AppController {
 			$this->DoctorCase->updateAll($updata,$updatecon);
 			//now update the patients details as new one
 			$patientupdate = array('Patient.detailsformsubmit'=>'5','Patient.doctallowtoeditquetionair'=>'0','Patient.is_questionnair_closed'=>'1');
-			$updcond = array('Patient.ispatient'=>'1');
+			$updcond = array('Patient.ispatient'=>'1','Patient.id'=>$patient_ids);
 			$this->DoctorCase->Patient->updateAll($patientupdate,$updcond);
 		}
 		die(json_encode(array('status'=>'1','message'=>'case cloasd','closingdata'=>$cashedetails)));
@@ -314,10 +314,24 @@ class DoctorCasesController extends AppController {
 			$patient_ids  = array_values($cashedetails);
 			//now update the patients details as deactivate and delete the account
 			$patientupdate = array('Patient.isdeleted'=>'1','Patient.isactive'=>'0');
-			$updcond = array('Patient.ispatient'=>'1');
+			$updcond = array('Patient.ispatient'=>'1','Patient.id'=>$patient_ids);
 			$this->DoctorCase->Patient->updateAll($patientupdate,$updcond);
 		}
 		die(json_encode(array('status'=>'1','message'=>'patient deactivated','closingdata'=>$cashedetails)));
 	}
 	
+/**
+ * makecaseasarchaive method
+ */
+	public function makecaseasarchaive($doctor_id=0){
+		$updatecon = array(
+			'DoctorCase.is_deleted'=>'0',
+			'DoctorCase.isclosed'=>'1',
+			'DoctorCase.satatus'=>'4', //opinion given
+			'DoctorCase.deactivatedata <='=>date("Y-m-d",strtotime("-1 month")) //to days case need to block
+		);
+		if($doctor_id>0){
+			
+		}
+	}
 }

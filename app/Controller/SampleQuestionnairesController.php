@@ -22,8 +22,9 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->SampleQuestionnaire->recursive = 0;
-		$this->set('sampleQuestionnaires', $this->Paginator->paginate());
+		/*$this->SampleQuestionnaire->recursive = 0;
+		$this->set('sampleQuestionnaires', $this->Paginator->paginate());*/
+		$this->gotodashboard();
 	}
 
 /**
@@ -34,11 +35,12 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->SampleQuestionnaire->exists($id)) {
+		/*if (!$this->SampleQuestionnaire->exists($id)) {
 			throw new NotFoundException(__('Invalid sample questionnaire'));
 		}
 		$options = array('conditions' => array('SampleQuestionnaire.' . $this->SampleQuestionnaire->primaryKey => $id));
-		$this->set('sampleQuestionnaire', $this->SampleQuestionnaire->find('first', $options));
+		$this->set('sampleQuestionnaire', $this->SampleQuestionnaire->find('first', $options));*/
+		$this->gotodashboard();
 	}
 
 /**
@@ -47,7 +49,7 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function add() {
-		if ($this->request->is('post')) {
+		/*if ($this->request->is('post')) {
 			$this->SampleQuestionnaire->create();
 			if ($this->SampleQuestionnaire->save($this->request->data)) {
 				$this->Session->setFlash(__('The sample questionnaire has been saved.'));
@@ -55,7 +57,8 @@ class SampleQuestionnairesController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The sample questionnaire could not be saved. Please, try again.'));
 			}
-		}
+		}*/
+		$this->gotodashboard();
 	}
 
 /**
@@ -66,7 +69,7 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		if (!$this->SampleQuestionnaire->exists($id)) {
+		/*if (!$this->SampleQuestionnaire->exists($id)) {
 			throw new NotFoundException(__('Invalid sample questionnaire'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
@@ -79,7 +82,8 @@ class SampleQuestionnairesController extends AppController {
 		} else {
 			$options = array('conditions' => array('SampleQuestionnaire.' . $this->SampleQuestionnaire->primaryKey => $id));
 			$this->request->data = $this->SampleQuestionnaire->find('first', $options);
-		}
+		}*/
+		$this->gotodashboard();
 	}
 
 /**
@@ -90,7 +94,8 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->SampleQuestionnaire->id = $id;
+		$this->gotodashboard();
+		/*$this->SampleQuestionnaire->id = $id;
 		if (!$this->SampleQuestionnaire->exists()) {
 			throw new NotFoundException(__('Invalid sample questionnaire'));
 		}
@@ -100,7 +105,7 @@ class SampleQuestionnairesController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The sample questionnaire could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(array('action' => 'index'));*/
 	}
 
 /**
@@ -110,12 +115,27 @@ class SampleQuestionnairesController extends AppController {
  */
 	public function admin_index() {
 		$this->layout="admin";
+		$this->loadModel('Specialization');
 		/*$this->SampleQuestionnaire->recursive = 0;
 		$this->set('sampleQuestionnaires', $this->Paginator->paginate());*/
 		
 		$options = array('conditions' => array('SampleQuestionnaire.is_deleted'=>'0'),'order'=>array('SampleQuestionnaire.id'=>'DESC'));
 		$SampleQuestionnaire = $this->SampleQuestionnaire->find('first', $options);
-		$patientdetails = array(
+		$patientdetails=array();
+		$social_history=array();
+		$about_the_illness=array();
+		$past_history=array();
+		$test_report=array();
+		
+		if(is_array($SampleQuestionnaire) && count($SampleQuestionnaire)>0){
+			$patientdetails = unserialize($SampleQuestionnaire['SampleQuestionnaire']['patient_detail']);
+			$social_history = unserialize($SampleQuestionnaire['SampleQuestionnaire']['social_history']);
+			$about_the_illness = unserialize($SampleQuestionnaire['SampleQuestionnaire']['about_the_illness']);
+			$past_history = unserialize($SampleQuestionnaire['SampleQuestionnaire']['past_history']);
+			$test_report = unserialize($SampleQuestionnaire['SampleQuestionnaire']['test_report']);
+		}
+		
+		/*$patientdetails = array(
 			'name'=>'ok insert',
 			'gender'=>'Male',
 			'dob_txt'=>'',
@@ -189,18 +209,48 @@ class SampleQuestionnairesController extends AppController {
 			),
 			'comment'=>''
 		);
+		$test_report = array(
+			'blood_laboritory'=>array(
+				'test_name'=>'',
+				'test_date'=>'',
+				'test_report'=>''
+			),
+			'imaging_test'=>array(
+				'test_name'=>'',
+				'test_date'=>'',
+				'test_report'=>''
+			),
+			'pathology_test'=>array(
+				'test_name'=>'',
+				'test_date'=>'',
+				'test_report'=>''
+			),
+			'comment'=>''
+		);*/
 		
 		$this->request->data=array(
 			'SampleQuestionnaire'=>$SampleQuestionnaire,
 			'QPatientDetails'=>$patientdetails,
 			'QSocialHistory'=>$social_history,
 			'QAboutTheIll'=>$about_the_illness,
-			'QPastHistory'=>$past_history
+			'QPastHistory'=>$past_history,
+			'QTestReport'=>$test_report
 		);
 		$months=array('01','02','03','04','05','06','07','08','09','10','11','12');
-		$performance_status=array();
+		$performance_status=array(
+			'0'=>'Patient is fully active, able to carry on all pre-disease performance without restriction',
+			'1'=>'Patient is restricted in physically strenuous activity but ambulatory and able to carry out work of a light or sedentary nature, e.g., light house work, office work',
+			'3'=>'Patient is ambulatory and capable of all self-care but unable to carry out any work activities. Up and about more than 50% of waking hours (excluding the normal sleeping time).',
+			'4'=>'Patient is capable of only limited self-care, confined to bed or chair more than 50% of waking hours (excluding the normal sleeping time)',
+			'5'=>'Patient is completely disabled. Cannot carry on any self-care. Totally confined to bed or chair.'
+		);
 		$units=array();
 		$alldiagonisises=array();
+		$this->Specialization->displayField="name";
+		$specializations = $this->Specialization->find('list',array('conditions'=>array('Specialization.isdeleted'=>'0')));
+		if(is_array($specializations) && count($specializations)>0){
+			$alldiagonisises=$specializations;
+		}
 		
 		$this->set('months',$months);
 		$this->set('performance_status',$performance_status);
@@ -216,11 +266,12 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
-		if (!$this->SampleQuestionnaire->exists($id)) {
+		/*if (!$this->SampleQuestionnaire->exists($id)) {
 			throw new NotFoundException(__('Invalid sample questionnaire'));
 		}
 		$options = array('conditions' => array('SampleQuestionnaire.' . $this->SampleQuestionnaire->primaryKey => $id));
-		$this->set('sampleQuestionnaire', $this->SampleQuestionnaire->find('first', $options));
+		$this->set('sampleQuestionnaire', $this->SampleQuestionnaire->find('first', $options));*/
+		$this->gotodashboard();
 	}
 
 /**
@@ -229,7 +280,7 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function admin_add() {
-		if ($this->request->is('post')) {
+		/*if ($this->request->is('post')) {
 			$this->SampleQuestionnaire->create();
 			if ($this->SampleQuestionnaire->save($this->request->data)) {
 				$this->Session->setFlash(__('The sample questionnaire has been saved.'));
@@ -237,7 +288,8 @@ class SampleQuestionnairesController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The sample questionnaire could not be saved. Please, try again.'));
 			}
-		}
+		}*/
+		$this->gotodashboard();
 	}
 
 /**
@@ -248,20 +300,26 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
-		if (!$this->SampleQuestionnaire->exists($id)) {
-			throw new NotFoundException(__('Invalid sample questionnaire'));
-		}
+		
 		if ($this->request->is(array('post', 'put'))) {
+			//make all the data 
+			$this->request->data['SampleQuestionnaire']['patient_detail']=serialize($this->request->data['QPatientDetails']);
+			$this->request->data['SampleQuestionnaire']['social_history']=serialize($this->request->data['QSocialHistory']);
+			$this->request->data['SampleQuestionnaire']['about_the_illness']=serialize($this->request->data['QAboutTheIll']);
+			$this->request->data['SampleQuestionnaire']['past_history']=serialize($this->request->data['QPastHistory']);
+			$this->request->data['SampleQuestionnaire']['test_report']=serialize($this->request->data['QTestReport']);
+			$this->request->data['SampleQuestionnaire']['createtime']=time();
+			
+			//pr($this->request->data);
+			//die();
 			if ($this->SampleQuestionnaire->save($this->request->data)) {
 				$this->Session->setFlash(__('The sample questionnaire has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				
 			} else {
 				$this->Session->setFlash(__('The sample questionnaire could not be saved. Please, try again.'));
 			}
-		} else {
-			$options = array('conditions' => array('SampleQuestionnaire.' . $this->SampleQuestionnaire->primaryKey => $id));
-			$this->request->data = $this->SampleQuestionnaire->find('first', $options);
 		}
+		return $this->redirect(array('action' => 'index'));
 	}
 
 /**
@@ -272,7 +330,9 @@ class SampleQuestionnairesController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
-		$this->SampleQuestionnaire->id = $id;
+		$this->gotodashboard();
+		
+		/*$this->SampleQuestionnaire->id = $id;
 		if (!$this->SampleQuestionnaire->exists()) {
 			throw new NotFoundException(__('Invalid sample questionnaire'));
 		}
@@ -282,6 +342,6 @@ class SampleQuestionnairesController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The sample questionnaire could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(array('action' => 'index'));*/
 	}
 }

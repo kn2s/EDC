@@ -63,4 +63,18 @@ class ServicesController extends AppController {
 		}
 		$this->request->data = $this->Service->find('first',array('fields'=>array('Service.sending_email','Service.receiving_email','Service.id')));
 	}
+	
+/**
+ * admin_paypalsetting method
+ */
+	public function admin_paypalsetting(){
+		$this->layout='admin';
+		$this->validateadminsession();
+		if ($this->request->is(array('post', 'put'))) {
+			$this->Service->create();
+			$this->Service->save($this->request->data);
+		}
+		$this->request->data = $this->Service->find('first',array('fields'=>array('Service.payment_mode','Service.payment_account','Service.id')));
+	}
+	
 }

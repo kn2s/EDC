@@ -4,7 +4,7 @@
 	$images="man.png";
 	
 	$status='AWAITING INPUT';
-	$duedate = isset($casedetails['DoctorCase']['opinion_due_date'])?$casedetails['DoctorCase']['opinion_due_date']:date("Y-m-d",strtotime("+21 day"));
+	$duedate = isset($casedetails['DoctorCase']['opinion_due_date'])?$casedetails['DoctorCase']['opinion_due_date']:'';
 	$diagonisis = isset($casedetails['DoctorCase']['diagonisis'])?$casedetails['DoctorCase']['diagonisis']:'';
 	$idss = isset($casedetails['DoctorCase']['id'])?$casedetails['DoctorCase']['id']:0;
 	$status = isset($casedetails['DoctorCase']['satatus'])?$casedetails['DoctorCase']['satatus']:'0';
@@ -31,6 +31,16 @@
 		default:
 			$status = "Unread";
 			break;
+	}
+	//if the opinion due date expire
+	if($casedetails['DoctorCase']['satatus']<4){
+		if($duedate!=''){
+			$duetime = strtotime($duedate);
+			$curtime = time();
+			if($curtime>$duetime){
+				$status="OPINION DUE";
+			}
+		}
 	}
 	$ispatientdetailsshown = (isset($ispatient) && $ispatient==1)?1:0;
 	

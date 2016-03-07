@@ -226,9 +226,13 @@ class AppController extends Controller {
 					break;
 				case 6:
 					//patient re update the questionnair
-					$subjects="Your patient update his/her questionnair details";
+					$subjects="Your patient update questionnair details";
 					$templatenameview="patientquestionnairupdate";
 					break;
+				case 7:
+					//paypal account not set so noify the admin about that
+					$subjects="Paypal marchant account dose not set.";
+					$templatenameview="paypalnotset";
 				default:
 					break;
 			}

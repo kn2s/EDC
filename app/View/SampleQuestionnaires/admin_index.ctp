@@ -1,61 +1,3 @@
-<!--<div class="sampleQuestionnaires index">
-	<h2><?php echo __('Sample Questionnaires'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('patient_detail'); ?></th>
-			<th><?php echo $this->Paginator->sort('social_history'); ?></th>
-			<th><?php echo $this->Paginator->sort('about_the_illness'); ?></th>
-			<th><?php echo $this->Paginator->sort('past_history'); ?></th>
-			<th><?php echo $this->Paginator->sort('test_report'); ?></th>
-			<th><?php echo $this->Paginator->sort('createtime'); ?></th>
-			<th><?php echo $this->Paginator->sort('is_deleted'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($sampleQuestionnaires as $sampleQuestionnaire): ?>
-	<tr>
-		<td><?php echo h($sampleQuestionnaire['SampleQuestionnaire']['id']); ?>&nbsp;</td>
-		<td><?php echo h($sampleQuestionnaire['SampleQuestionnaire']['patient_detail']); ?>&nbsp;</td>
-		<td><?php echo h($sampleQuestionnaire['SampleQuestionnaire']['social_history']); ?>&nbsp;</td>
-		<td><?php echo h($sampleQuestionnaire['SampleQuestionnaire']['about_the_illness']); ?>&nbsp;</td>
-		<td><?php echo h($sampleQuestionnaire['SampleQuestionnaire']['past_history']); ?>&nbsp;</td>
-		<td><?php echo h($sampleQuestionnaire['SampleQuestionnaire']['test_report']); ?>&nbsp;</td>
-		<td><?php echo h($sampleQuestionnaire['SampleQuestionnaire']['createtime']); ?>&nbsp;</td>
-		<td><?php echo h($sampleQuestionnaire['SampleQuestionnaire']['is_deleted']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $sampleQuestionnaire['SampleQuestionnaire']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $sampleQuestionnaire['SampleQuestionnaire']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $sampleQuestionnaire['SampleQuestionnaire']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $sampleQuestionnaire['SampleQuestionnaire']['id']))); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Sample Questionnaire'), array('action' => 'add')); ?></li>
-	</ul>
-</div>
--->
-
 <?php 
 	//unit 
 	$allunits=array(
@@ -64,7 +6,7 @@
 		'in a year'=>'in a year'
 	);
 	//mahe the data array of the basic details of the patient_detail
-	$patientdetails = array(
+	/*$patientdetails = array(
 		'name'=>'',
 		'gender'=>'',
 		'dob_txt'=>'',
@@ -136,9 +78,10 @@
 			'diagoniazed_age'=>'',
 		),
 		'comment'=>''
-	);
+	);*/
+	
 	//data pr
-	pr($this->request->data);
+	//pr($this->request->data);
 ?>
 
 
@@ -159,7 +102,7 @@
 	echo $this->Form->create('SampleQuestionnaire',array('action'=>'edit','id'=>'samplequestionnaire'));
 	echo $this->Form->input('SampleQuestionnaire.id',array('type'=>'hidden'));
 ?>
-		<div class="panel panel-default" style="display:none;">
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				Patient Details
 			</div>
@@ -170,7 +113,7 @@
 							<?php
 								echo $this->Form->input('QPatientDetails.name',array('type'=>'text','div'=>'form-group','label'=>'*Full Name','class'=>'form-control', 'placeholder'=>'Full Name','required'=>'true'));
 								echo $this->Form->input('QPatientDetails.gender',array('options'=>array('Male'=>'Male','Female'=>'Female'),'div'=>'form-group','label'=>'*Gender','class'=>'form-control','required'=>'true'));//,'required'=>'true'
-								echo $this->Form->input('QPatientDetails.dob_txt',array('type'=>'text','label'=>'*Date Of Birth','class'=>'form-control','required'=>'true','placeholder'=>'mm-dd-yyyy'));//,'required'=>'true'
+								echo $this->Form->input('QPatientDetails.dob_txt',array('type'=>'text','label'=>'*Date Of Birth','class'=>'form-control','required'=>'true','placeholder'=>'yyyy-mm-dd'));//,'required'=>'true'
 								
 								echo $this->Form->input('QPatientDetails.place',array('type'=>'textarea','div'=>'form-group','label'=>'*Address','class'=>'form-control', 'placeholder'=>'Address','required'=>'true'));
 								echo $this->Form->input('QPatientDetails.weight',array('type'=>'text','div'=>'form-group','label'=>'*Weight','class'=>'form-control', 'placeholder'=>'0 KG','required'=>'true'));
@@ -178,7 +121,7 @@
 								
 								echo $this->Form->input('QPatientDetails.drug_name',array('type'=>'text','div'=>'form-group','label'=>'Drug Name','class'=>'form-control', 'placeholder'=>'Drug Name'));
 								echo $this->Form->input('QPatientDetails.reaction',array('type'=>'text','div'=>'form-group','label'=>'Reaction','class'=>'form-control', 'placeholder'=>'Reaction'));
-								echo $this->Form->input('QPatientDetails.performance_status',array('options'=>$performance_status,'div'=>'form-group','label'=>'*Performance Status','class'=>'form-control','placeholder'=>'Performance Status','required'=>'true'));
+								echo $this->Form->input('QPatientDetails.performance_status',array('options'=>$performance_status,'div'=>'form-group','label'=>'*Performance Status','class'=>'form-control','placeholder'=>'Performance Status'));
 								echo $this->Form->input('QPatientDetails.performance_status_comment',array('type'=>'textarea','div'=>'form-group','label'=>'Performance Status Comment','class'=>'form-control','placeholder'=>'Performance Status Comment'));//
 							?>
 					</div>
@@ -229,7 +172,7 @@
 		
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				About The illness
+				About The Illness
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -237,9 +180,10 @@
 					 <!-- create by php form fields -->
 					
 							<?php
-							
-								echo $this->Form->input('QAboutTheIll.principle_diagnosis_name',array('type'=>'hidden','div'=>'form-group','label'=>'Principle Diagonisis','class'=>'form-control', 'placeholder'=>'Principle Diagonisis'));
-								echo $this->Form->input('QAboutTheIll.principle_diagnosis_id',array('options'=>$alldiagonisises,'div'=>'form-group','label'=>'Principle Diagonisis','class'=>'form-control', 'placeholder'=>'Principle Diagonisis'));
+								$nameval = isset($this->request->data['QAboutTheIll']['principle_diagnosis_id'])?$this->request->data['QAboutTheIll']['principle_diagnosis_id']:0;
+								$diagval=isset($alldiagonisises[$nameval])?$alldiagonisises[$nameval]:'';
+								echo $this->Form->input('QAboutTheIll.principle_diagnosis_name',array('type'=>'hidden','div'=>'form-group','label'=>'Principle Diagonisis','class'=>'form-control', 'placeholder'=>'Principle Diagonisis','value'=>$diagval,'id'=>'diagnonamrdis'));
+								echo $this->Form->input('QAboutTheIll.principle_diagnosis_id',array('options'=>$alldiagonisises,'div'=>'form-group','label'=>'Principle Diagonisis','class'=>'form-control', 'placeholder'=>'Principle Diagonisis','id'=>'dignonameid'));
 								echo $this->Form->input('QAboutTheIll.date_of_diagnosis',array('type'=>'text','div'=>'form-group','label'=>'Date Of Diagnosis','class'=>'form-control', 'placeholder'=>'Date Of Diagnosis'));//,'required'=>'true'
 								
 								echo $this->Form->input('QAboutTheIll.diagnosis_history',array('type'=>'textarea','div'=>'form-group','label'=>'How diagnosis was made','class'=>'form-control', 'placeholder'=>'Give a detailed history of how diagnosis was made'));
@@ -275,7 +219,7 @@
 							
 								echo "<label>Any past medical or cancer history?</label>";
 								echo $this->Form->input('QPastHistory.cancer_history.diagnosis_type',array('type'=>'text','div'=>'form-group','label'=>'Diagnosis','class'=>'form-control', 'placeholder'=>'Diagnosis'));
-								echo $this->Form->input('QPastHistory.cancer_history.date_of_diagnosis',array('options'=>$alldiagonisises,'div'=>'form-group','label'=>'Date of diagnosis','class'=>'form-control', 'placeholder'=>'Date Of Diagnosis'));
+								echo $this->Form->input('QPastHistory.cancer_history.date_of_diagnosis',array('type'=>'text','div'=>'form-group','label'=>'Date of diagnosis','class'=>'form-control', 'placeholder'=>'Date Of Diagnosis'));
 								
 								echo "<label>Any past surgical history?</label>";
 								echo $this->Form->input('QPastHistory.surgical_history.surgical_type',array('type'=>'text','div'=>'form-group','label'=>'Surgical','class'=>'form-control', 'placeholder'=>'Surgical'));//,'required'=>'true'
@@ -292,23 +236,62 @@
 								echo $this->Form->input('QPastHistory.family_cancer.diagoniazed_age',array('type'=>'text','div'=>'form-group','label'=>'At what age it was diagnosed?','class'=>'form-control', 'placeholder'=>'At what age it was diagnosed?'));
 								
 								
-								echo $this->Form->input('QPastHistory.comment.',array('type'=>'textarea','div'=>'form-group','label'=>'Result','class'=>'form-control', 'placeholder'=>'Any specific comment about the medical history'));
+								echo $this->Form->input('QPastHistory.comment',array('type'=>'textarea','div'=>'form-group','label'=>'Result','class'=>'form-control', 'placeholder'=>'Any specific comment about the medical history'));
 							?>
 					</div>
-					<!-- /.col-lg-6 (nested) -->
-				   
 				</div>
-					
-					<!-- /.col-lg-6 (nested) -->
 			</div>
-				<!-- /.row (nested) -->
 		</div>
-			<!-- /.panel-body -->
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Test Reports
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-lg-6">
+					 <!-- create by php form fields -->
+					
+							<?php
+							
+								echo "<label>Blood & Laboratory Tests (Hemoglobin, CBC, BMP etc.)</label>";
+								echo $this->Form->input('QTestReport.blood_laboritory.test_name',array('type'=>'text','div'=>'form-group','label'=>'Test Name','class'=>'form-control', 'placeholder'=>'Test Name'));
+								echo $this->Form->input('QTestReport.blood_laboritory.test_date',array('type'=>'text','div'=>'form-group','label'=>'Test Date','class'=>'form-control', 'placeholder'=>'Test Date'));
+								echo $this->Form->input('QTestReport.blood_laboritory.test_report',array('type'=>'text','div'=>'form-group','label'=>'Test Report','class'=>'form-control', 'placeholder'=>'Test Report'));
+								
+								echo "<label>Imaging Tests (X-Ray, CT Scan, MRI etc.)</label>";
+								echo $this->Form->input('QTestReport.imaging_test.test_name',array('type'=>'text','div'=>'form-group','label'=>'Test Name','class'=>'form-control', 'placeholder'=>'Test Name'));//,'required'=>'true'
+								echo $this->Form->input('QTestReport.imaging_test.test_date',array('type'=>'text','div'=>'form-group','label'=>'Test Date','class'=>'form-control', 'placeholder'=>'Test Date'));
+								echo $this->Form->input('QTestReport.imaging_test.test_report',array('type'=>'text','div'=>'form-group','label'=>'Test Report','class'=>'form-control', 'placeholder'=>'Test Report'));
+								
+								echo "<label>Pathology Tests (Biopsy, FNA etc.)</label>";
+								echo $this->Form->input('QTestReport.pathology_test.test_name',array('type'=>'text','div'=>'form-group','label'=>'Test Name','class'=>'form-control', 'placeholder'=>'Test Name'));
+								echo $this->Form->input('QTestReport.pathology_test.test_date',array('type'=>'text','div'=>'form-group','label'=>'Test Date','class'=>'form-control','placeholder'=>'Test Date'));
+								echo $this->Form->input('QTestReport.pathology_test.test_report',array('type'=>'text','div'=>'form-group','label'=>'Test Report','class'=>'form-control', 'placeholder'=>'Test Report'));//
+								
+								echo $this->Form->input('QTestReport.comment',array('type'=>'textarea','div'=>'form-group','label'=>'Comment','class'=>'form-control', 'placeholder'=>'Any specific questions you want to ask the doctor'));
+							?>
+					</div>
+				</div>
+			</div>
+		</div>
 			<!-- foem end sections -->
-	<button type="submit" class="btn btn-default js-samplequestionnaire">Update Opinion</button>
-	<button type="reset" class="btn btn-default">Reset Opinion</button>
+	<button type="submit" class="btn btn-default js-samplequestionnaire">Update Questionnaire</button>
+	<button type="reset" class="btn btn-default">Reset Questionnaire</button>
 	<button type="reset" class="btn btn-back">Back</button>
 	</form>
 	</div>
 	<!-- /.panel -->
 </div>
+
+<script>
+	$(document).ready(function(){
+		$("#dignonameid").bind('change',changediagnoname);
+		//
+	});
+	function changediagnoname(e){
+		var optval = $("#dignonameid option:selected").html();
+		//alert(optval);
+		$("#diagnonamrdis").val(optval);
+	}
+</script>

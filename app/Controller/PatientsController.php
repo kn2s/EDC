@@ -827,7 +827,7 @@ class PatientsController extends AppController {
  */
 	public function samplequestioner(){
 		$this->layout="sampledefault";
-		$patientalldeatils=array();
+		/*$patientalldeatils=array();
 		//now for testing section
 		$this->Patient->bindModel(array(
 		'hasOne'=>array(
@@ -947,7 +947,52 @@ class PatientsController extends AppController {
 	'Patient.email'=>'rishiagarwal@test.ac','Patient.is_questionnair_closed'=>'1','Patient.isactive'=>'0');
 	$patientalldeatils = $this->Patient->find('first',array('recursive'=>'2','conditions'=>$cond));
 	//pr($patientalldeatils);
-	//die();
+	//die();*/
+		$this->loadModel('SampleQuestionnaire');
+		$this->loadModel('Specialization');
+		$options = array('conditions' => array('SampleQuestionnaire.is_deleted'=>'0'),'order'=>array('SampleQuestionnaire.id'=>'DESC'));
+		$SampleQuestionnaire = $this->SampleQuestionnaire->find('first', $options);
+		$patientdetails=array();
+		$social_history=array();
+		$about_the_illness=array();
+		$past_history=array();
+		$test_report=array();
+		
+		if(is_array($SampleQuestionnaire) && count($SampleQuestionnaire)>0){
+			$patientdetails = unserialize($SampleQuestionnaire['SampleQuestionnaire']['patient_detail']);
+			$social_history = unserialize($SampleQuestionnaire['SampleQuestionnaire']['social_history']);
+			$about_the_illness = unserialize($SampleQuestionnaire['SampleQuestionnaire']['about_the_illness']);
+			$past_history = unserialize($SampleQuestionnaire['SampleQuestionnaire']['past_history']);
+			$test_report = unserialize($SampleQuestionnaire['SampleQuestionnaire']['test_report']);
+		}
+		$patientalldeatils=array(
+			'SampleQuestionnaire'=>$SampleQuestionnaire,
+			'QPatientDetails'=>$patientdetails,
+			'QSocialHistory'=>$social_history,
+			'QAboutTheIll'=>$about_the_illness,
+			'QPastHistory'=>$past_history,
+			'QTestReport'=>$test_report
+		);
+		//$months=array('01','02','03','04','05','06','07','08','09','10','11','12');
+		$performance_status=array(
+			'0'=>'Patient is fully active, able to carry on all pre-disease performance without restriction',
+			'1'=>'Patient is restricted in physically strenuous activity but ambulatory and able to carry out work of a light or sedentary nature, e.g., light house work, office work',
+			'3'=>'Patient is ambulatory and capable of all self-care but unable to carry out any work activities. Up and about more than 50% of waking hours (excluding the normal sleeping time).',
+			'4'=>'Patient is capable of only limited self-care, confined to bed or chair more than 50% of waking hours (excluding the normal sleeping time)',
+			'5'=>'Patient is completely disabled. Cannot carry on any self-care. Totally confined to bed or chair.'
+		);
+		//$units=array();
+		$alldiagonisises=array();
+		$this->Specialization->displayField="name";
+		$specializations = $this->Specialization->find('list',array('conditions'=>array('Specialization.isdeleted'=>'0')));
+		if(is_array($specializations) && count($specializations)>0){
+			$alldiagonisises=$specializations;
+		}
+		
+		//$this->set('months',$months);
+		$this->set('performance_status',$performance_status);
+		//$this->set('units',$units);
+		$this->set('alldiagonisises',$alldiagonisises);
 		$this->set('patientalldeatils',$patientalldeatils);
 	}
 	
@@ -990,5 +1035,122 @@ class PatientsController extends AppController {
 		
 		$this->sitemailsend($mailtype=1,$from=array("mytext@hh.com"=>'ha ha'),$to="mrintoryal@yahoo.in",$message="registration",$data=array('name'=>'aksath'));
 		die(json_encode(array('status'=>"error",'message'=>$message)));
+	}
+	
+	function paypalpayment(){
+		$cancel_return = "http://localhost/EDC/patients/paymentcancel";
+		$return = "http://localhost/EDC/patients/paymentsuccess";
+		$configdata=array(
+			'item_name'=>'test item',
+			'item_number'=>'1',
+			'amount'=>'200',
+			'currency_code'=>'USD',
+			'cancel_return'=>$cancel_return,
+			'return'=>$return,
+		);
+		$paypal_url='https://www.sandbox.paypal.com/cgi-bin/webscr';
+		//$paypal_url='https://www.paypal.com/cgi-bin/webscr';
+		$paypal_id='mrintoryal_business@yahoo.in';
+		
+		$this->set('configdata',$configdata);
+		$this->set('paypal_url',$paypal_url);
+		$this->set('paypal_id',$paypal_id);
+	}
+	public function paymentsucces(){
+		$item_number = isset($_REQUEST['item_number'])?$_REQUEST['item_number']:''; 
+		$txn_id = isset($_REQUEST['tx'])?$_REQUEST['tx']:'';
+		$payment_gross = isset($_REQUEST['amt'])?$_REQUEST['amt']:'';
+		$currency_code = isset($_REQUEST['cc'])?$_REQUEST['cc']:'';
+		$payment_status = isset($_REQUEST['st'])?$_REQUEST['st']:'';
+		$custom = isset($_REQUEST['custom'])?$_REQUEST['custom']:'0';
+		if(!empty($txn_id) && $custom>0){
+			$this->loadModel('DoctorCase');
+			$caseid=$custom;
+			$tsn_datails = serialize($_REQUEST);
+			$updata = array('DoctorCase.ispaymentdone'=>'1','DoctorCase.transaction_id'=>$txn_id,'DoctorCase.tsn_datails'=>$tsn_datails);
+			$upcond = array('DoctorCase.id'=>$caseid);//'DoctorCase.schedule_doctor_id'=>$scheduledcotid,
+			$this->DoctorCase->updateAll($updata,$upcond);
+			//after update the case 
+			$upcond['DoctorCase.ispaymentdone']='1';
+			$doctorcase = $this->DoctorCase->find('first',array('recursive'=>'1','conditions'=>$upcond));
+			if(is_array($doctorcase) && count($doctorcase)>0){
+				$doctorname=(isset($doctorcase['Doctor']['name']))?$doctorcase['Doctor']['name']:'';
+				$patientname=(isset($doctorcase['Patient']['name']))?$doctorcase['Patient']['name']:'';
+				$patientid=(isset($doctorcase['Patient']['id']))?$doctorcase['Patient']['id']:'0';
+				$patientemail = (isset($doctorcase['Patient']['email']))?$doctorcase['Patient']['email']:'';
+				//if patient email found
+				if($patientemail!=''){
+					$data = array(
+						'name'=>$patientname,
+						'available_date'=>$doctorcase['DoctorCase']['available_date'],
+						'opinion_due_date'=>$doctorcase['DoctorCase']['opinion_due_date'],
+						'consultant_fee'=>$doctorcase['DoctorCase']['consultant_fee'],
+						'diagonisis'=>$doctorcase['DoctorCase']['diagonisis'],
+						'doctorname'=>$doctorname,
+					);
+					
+					$this->sitemailsend($mailtype=2,$from=array(),$to=$patientemail,$message="EDC Email",$data);
+				}
+				//update the doctor schedule 
+				$scheduledcotid=$doctorcase['DoctorCase']['schedule_doctor_id'];
+				if($scheduledcotid>0){
+					$this->loadModel('ScheduleDoctor');
+					
+					$this->ScheduleDoctor->bindModel(array(
+						'belongsTo'=>array(
+							'Doct'=>array(
+								'className'=>'Patient',
+								'foreignKey'=>'doct_id',
+								'fields'=>array('Doct.id','Doct.name')
+							)
+						)
+					));
+					//now bind DoctotDetails
+					$this->ScheduleDoctor->Doct->bindModel(array(
+						'hasOne'=>array(
+							'DoctorDetail'=>array(
+								'className'=>'Doctor',
+								'foreignKey'=>'patient_id',
+								'fields'=>array('DoctorDetail.id','DoctorDetail.maxappointment')
+							)
+						)
+					));
+					//get the details of the schedule doctore
+					$updcond = array('ScheduleDoctor.id'=>$scheduledcotid);
+					$scheduledoct = $this->ScheduleDoctor->find('first',array('recursive'=>'2','conditions'=>$updcond));
+					if(is_array($scheduledoct) && count($scheduledoct)>0){
+						// now update the count of the doct of assign patient details 
+						// update section
+						$totalassignment = $scheduledoct['ScheduleDoctor']['assignment'];
+						$maxassignment = isset($scheduledoct['Doct']['DoctorDetail']['maxappointment'])?$scheduledoct['Doct']['DoctorDetail']['maxappointment']:'1';
+						$appointmentfull=0;
+						if(($totalassignment+1)>=$maxassignment){
+							//
+							$appointmentfull=1;
+						}
+						$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1','ScheduleDoctor.assingmentfull'=>$appointmentfull);
+						
+						$this->ScheduleDoctor->updateAll($updat,$updcond);
+						
+					}
+				}
+				//
+				//now update the form submit count in patient tables
+				//new
+				$patientupddata = array('Patient.detailsformsubmit'=>'6','Patient.is_questionnair_closed'=>'0');
+				$patientcond = array('Patient.id'=>$patientid);
+				$this->Patient->updateAll($patientupddata,$patientcond);
+			}
+			$this->redirect(array('controller'=>'patients','action'=>'dashboard'));
+		}
+		else{
+			//die("payment error");
+			$this->Session->setFlash(__('Sorry some thing wrong.'));
+			$this->redirect(array('controller'=>'patientDetails''action'=>'patientconsultant'));
+		}
+	}
+	public function paymentcancel(){
+		$this->Session->setFlash(__('Payment cancelled.'));
+		$this->redirect(array('controller'=>'patientDetails''action'=>'patientconsultant'));
 	}
 }

@@ -14,7 +14,7 @@ $controllername = ucwords($this->params->params['controller']);
 		<?php echo $cakeDescription ?>:
 		<?php echo $this->fetch('title'); ?>
 	</title>
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>
+	<!--<link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>-->
 	<?php
 		echo $this->Html->meta('icon');
 		
@@ -196,12 +196,12 @@ $controllername = ucwords($this->params->params['controller']);
                             <!-- /.nav-second-level -->
                         </li>
 						<li>
-                           <!--<a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Questionnaire Samples<span class="fa arrow"></span></a>
+                           <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Questionnaire Samples<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
 									<?php echo $this->Html->link('Samples',array('controller'=>'SampleQuestionnaires','action'=>'index','full_base'=>true),array('escape'=>false));?>
                                 </li>
-                            </ul>-->
+                            </ul>
                             <!-- /.nav-second-level -->
                         </li>
 						<li>
@@ -214,8 +214,18 @@ $controllername = ucwords($this->params->params['controller']);
                             <!-- /.nav-second-level -->
                         </li>
 						<li>
-                          <?php echo $this->Html->link('<i class="fa fa-table fa-fw"></i>Email Setting<span class="fa"></span>',array('controller'=>'services','action'=>'emailsetting','full_base'=>true),array('escape'=>false));?>
+                           <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Settings<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+								  <?php echo $this->Html->link('Email',array('controller'=>'services','action'=>'emailsetting','full_base'=>true),array('escape'=>false));?>
+								</li>
+								<li>
+								  <?php echo $this->Html->link('Paypal',array('controller'=>'services','action'=>'paypalsetting','full_base'=>true),array('escape'=>false));?>
+								</li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
+						
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
