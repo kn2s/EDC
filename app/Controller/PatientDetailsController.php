@@ -769,7 +769,7 @@ class PatientDetailsController extends AppController {
 								'return'=>$return,
 								'case_id'=>$caseid
 							);
-							$paypal_id=($paymentdetails['Service']['payment_account'];
+							$paypal_id=($paymentdetails['Service']['payment_account']);
 							
 							$paypal_url='https://www.sandbox.paypal.com/cgi-bin/webscr';
 							if($mode==1){

@@ -768,12 +768,12 @@ class PatientsController extends AppController {
 					'finderQuery' => '',
 					'counterQuery' => ''
 				),
-				'PatientCase'=>array(
-					'className'=>'DoctorCase',
-					'foreignKey'=>'patient_id',
-					'conditions'=>array('PatientCase.ispaymentdone'=>'1','PatientCase.isclosed'=>'0','PatientCase.doctor_id >'=>'0'),
-					'fields'=>'',
-					'order'=>array('PatientCase.id'=>'DESC')
+				'PatientCase'=> array(
+					'className'=> 'DoctorCase',
+					'foreignKey'=> 'patient_id',
+					'conditions'=> array('PatientCase.ispaymentdone'=>'1','PatientCase.isclosed'=>'0','PatientCase.doctor_id >'=>'0'),
+					'fields'=> '',
+					'order'=> array('PatientCase.id'=>'DESC')
 				)
 			)
 		));
