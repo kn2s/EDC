@@ -1146,11 +1146,11 @@ class PatientsController extends AppController {
 		else{
 			//die("payment error");
 			$this->Session->setFlash(__('Sorry some thing wrong.'));
-			$this->redirect(array('controller'=>'patientDetails''action'=>'patientconsultant'));
+			$this->redirect(array('controller'=>'patientDetails','action'=>'patientconsultant'));
 		}
 	}
 	public function paymentcancel(){
 		$this->Session->setFlash(__('Payment cancelled.'));
-		$this->redirect(array('controller'=>'patientDetails''action'=>'patientconsultant'));
+		$this->redirect(array('controller'=>'patientDetails','action'=>'patientconsultant'));
 	}
 }

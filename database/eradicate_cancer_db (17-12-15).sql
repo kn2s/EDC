@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `ec_doctor_cases` (
   `satatus` int(2) NOT NULL DEFAULT '0' COMMENT '0=un read,1=pending,2=awating input,3=opnion due,4=delay',
   `diagonisis` varchar(256) NOT NULL,
   `ispaymentdone` int(1) NOT NULL DEFAULT '0',
-  `createdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `createdate` datetime NOT NULL 
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
