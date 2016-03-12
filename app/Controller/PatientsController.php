@@ -28,7 +28,6 @@ class PatientsController extends AppController {
 		$this->loadModel('Homepagecontent');
 		$doctors = $this->Doctor->find('all',array('recursive'=>'0','limit'=>'54','order'=>array('Doctor.id'=>'asc')));
 		$doctorss = $this->Doctor->find('all',array('recursive'=>'0','limit'=>'54','order'=>array('Doctor.id'=>'asc')));
-		
 		$this->set('doctors',array_merge($doctors,$doctorss));
 		$this->set('homepagecontent', $this->Homepagecontent->find('first'));
 		

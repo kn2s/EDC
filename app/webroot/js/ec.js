@@ -1882,3 +1882,86 @@ $(document).on('change','#atachedfile',function(e){
 		}
 	});
 });
+
+//contact us page sections
+$(document).on('click','.js-contactus',function(e){
+	e.preventDefault();
+	var formValid=true;
+	var name='';
+	var email='';
+	$.each($(".sgnufld"),function(i,item){
+		var txtval = $(item).val();
+		var par = $(item).parent();
+		var parclass = $(par).attr('class');
+		//console.log(parclass);
+		if(parclass=='mailId' || parclass=='mailId bb40'){
+			if(isEmail(txtval)){
+				$(par).attr('style','border-bottom:1px solid #cbcbcb;');
+				email=txtval;
+			}
+			else{
+				$(par).attr('style','border-bottom:1px solid red;');
+				formValid=false;
+			}
+		}
+		else{
+			if(txtval==''){
+				$(par).attr('style','border-bottom:1px solid red;');
+				formValid=false;
+			}
+			else{
+				$(par).attr('style','border-bottom:1px solid #cbcbcb;');
+				name=txtval;
+			}
+		}
+	});
+	
+	if(formValid==true){
+		//do the ajax call
+		var callurl = baseurl+"/ContactUss/contact";
+		
+		$.ajax({
+			url:callurl,
+			type:'post',
+			dataType:'json',
+			data:{email:email,name:name},
+			success:function(response){
+				console.log(response);
+				alert(response.message);
+			},
+			error:function(response){
+				console.log(response);
+			}
+		});
+	}
+	
+});
+$(document).on('focusout','.vldinput',function(e){
+	//cbcbcb
+	var txtval = $(e.currentTarget).val();
+	var par = $(e.currentTarget).parent();
+	var parclass = $(par).attr('class');
+	//console.log(parclass);
+	if(parclass=='mailId' || parclass=='mailId bb40'){
+		if(isEmail(txtval)){
+			$(par).attr('style','border-bottom:1px solid #cbcbcb;');
+		}
+		else{
+			$(par).attr('style','border-bottom:1px solid red;');
+		}
+	}
+	else{
+		if(txtval==''){
+			$(par).attr('style','border-bottom:1px solid red;');
+		}
+		else{
+			$(par).attr('style','border-bottom:1px solid #cbcbcb;');
+		}
+	}
+	
+});
+
+function isEmail(email) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+}

@@ -47,6 +47,8 @@
 			<li><a href="javascript:void(0)">Recent Advances</a></li>
 			<li><?php echo $this->Html->link('My Account',array('controller'=>'patients','action'=>'account','full_base'=>false),
 			array('class'=>($activecontrolleraction=='patientsaccount')?'active':''));?></li>
+			<li><?php echo $this->Html->link('Contact Us',array('controller'=>'contactUss','action'=>'index','full_base'=>false),
+			array('class'=>($activecontrolleraction=='contactussindex')?'active':''));?></li>
 		<?php
 			}
 		?>

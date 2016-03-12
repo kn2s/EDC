@@ -186,7 +186,7 @@ class AppController extends Controller {
 		$Email = new CakeEmail($this->mailTransportType);
 		
 		if(!is_array($from) || count($from)==0){
-			$from=array($adminsendemail=>adminname);
+			$from=array($adminsendemail=>$adminname);
 		}
 		//
 		if($to==''){
@@ -233,6 +233,10 @@ class AppController extends Controller {
 					//paypal account not set so noify the admin about that
 					$subjects="Paypal marchant account dose not set.";
 					$templatenameview="paypalnotset";
+				case 8:
+					$subjects="Someone try to contact with you";
+					$templatenameview="contactus";
+					break;
 				default:
 					break;
 			}
