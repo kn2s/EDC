@@ -750,7 +750,7 @@ class PatientDetailsController extends AppController {
 					//get the live data from the admin
 					$this->loadModel('Service');
 					$fieldname = array('Service.payment_mode','Service.payment_account','Service.id','Service.consulting_charge');
-					$paymentdetails = $thhis->Service->find('first',array('fields'=>$fieldname));
+					$paymentdetails = $this->Service->find('first',array('fields'=>$fieldname));
 					$ispayaccountpresent=0;
 					if(is_array($paymentdetails) && count($paymentdetails)>0){
 						if(isset($paymentdetails['Service']['payment_account']) && $paymentdetails['Service']['payment_account']!=''){
