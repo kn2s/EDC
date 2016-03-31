@@ -12,6 +12,12 @@ $activecontrolleraction =strtolower( $this->params->params['controller']."".$thi
 if($activecontrolleraction=="referencesindex"){
 	$footercls="inner referencesFooter";
 }
+elseif($activecontrolleraction=="serviceshowitwork"){
+	$footercls="";
+	$wappercls="myDashBord";
+}
+else{
+}
 ?>
 <!DOCTYPE html>
 <html class="no-js">

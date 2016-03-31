@@ -1889,6 +1889,7 @@ $(document).on('click','.js-contactus',function(e){
 	var formValid=true;
 	var name='';
 	var email='';
+	var message="";
 	$.each($(".sgnufld"),function(i,item){
 		var txtval = $(item).val();
 		var par = $(item).parent();
@@ -1911,22 +1912,31 @@ $(document).on('click','.js-contactus',function(e){
 			}
 			else{
 				$(par).attr('style','border-bottom:1px solid #cbcbcb;');
-				name=txtval;
+				if(parclass=="bb40 mt10"){
+					message=txtval;
+				}
+				else{
+					name=txtval;
+				}
+				
 			}
 		}
 	});
 	
 	if(formValid==true){
 		//do the ajax call
-		var callurl = baseurl+"/ContactUss/contact";
+		var callurl = baseurl+"/Contactus/contact";
 		
 		$.ajax({
 			url:callurl,
 			type:'post',
 			dataType:'json',
-			data:{email:email,name:name},
+			data:{email:email,name:name,message:message},
 			success:function(response){
 				console.log(response);
+				$.each($(".sgnufld"),function(i,item){
+					$(item).val('');
+				});
 				alert(response.message);
 			},
 			error:function(response){

@@ -237,6 +237,9 @@ class AppController extends Controller {
 					$subjects="Someone try to contact with you";
 					$templatenameview="contactus";
 					break;
+				case 9:
+					$subject="EDC password recovery";
+					$templatenameview="forgotpassword";	
 				default:
 					break;
 			}

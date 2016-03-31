@@ -29,6 +29,13 @@ class ServicesController extends AppController {
 		$this->set('homepagecontent', $this->Homepagecontent->find('first'));
 	}
 	
+/**
+ * howitwork method
+ */
+	public function howitwork(){
+		$this->layout="smallheader";
+	}
+	
 //admin section
 /**
  * admin_add method

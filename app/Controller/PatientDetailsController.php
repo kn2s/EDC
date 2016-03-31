@@ -754,6 +754,7 @@ class PatientDetailsController extends AppController {
 					$ispayaccountpresent=0;
 					if(is_array($paymentdetails) && count($paymentdetails)>0){
 						if(isset($paymentdetails['Service']['payment_account']) && $paymentdetails['Service']['payment_account']!=''){
+							$ispayaccountpresent=1;
 							$mode = $paymentdetails['Service']['payment_mode'];
 							$amount = $paymentdetails['Service']['consulting_charge'];
 							$baseurls = FULL_BASE_URL.$this->base."/";

@@ -68,6 +68,20 @@ $cakeVersion = __d('cake_dev', '');
         <div class="clear"></div>
     </div>
   </div>
+  <?php
+	$activecontrolleraction =strtolower( $this->params->params['controller']."".$this->params->params['action']);
+	if($activecontrolleraction!="patientssamplequestioner"){
+	?>
+	<div class="disclaimer">
+  	<div class="container">
+  		<p><span>Disclaimer:</span> This second opinion is based on the information provided and should be strictly considered expert opinion, limited by lack of face-to-face contact and physical examination. We have no control over the investigation reports interpreted by other physicians or your accessibility or affordability of suggested treatment. You must discuss the report, suggested treatment and any side effects with your treating physician and it is up to his or her judgment and level of expertise to follow or alter our suggestions. Your physician is welcome to join hands with us in your care.</p>
+    </div>
+  </div>
+	<?php
+	}
+  ?>
+  
+  
 </div>
 
 <div id="sqlsection"></div>

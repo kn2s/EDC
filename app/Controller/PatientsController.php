@@ -1152,4 +1152,101 @@ class PatientsController extends AppController {
 		$this->Session->setFlash(__('Payment cancelled.'));
 		$this->redirect(array('controller'=>'patientDetails','action'=>'patientconsultant'));
 	}
+	
+/**
+ * forgotpassword method
+ */
+	public function forgotpassword(){
+		$this->layout="smallheader";
+		if($this->request->is('post')){
+			$email = isset($this->request->data['email'])?$this->request->data['email']:'';
+			//validation
+			$validate=true;
+			if($email==''){
+				$this->Session->setFlash(__('Enter your registered email id.'),'default',array('class'=>'error'));
+				$validate=false;
+			}
+			else{
+				if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+					$validate=false;
+					$this->Session->setFlash(__('Enter valid email format.'),'default',array('class'=>'error'));
+				}
+			}
+			
+			if($validate){
+				//find the email is registered or not
+				$cond = array('Patient.email'=>$email,'Patient.isdeleted'=>'0','Patient.isactive'=>'1');
+				$patient = $this->Patient->find('first',array('conditions'=>$cond));
+				if(is_array($patient) && count($patient)>0){
+					$name = isset($patient['Patient']['name'])?$patient['Patient']['name']:'';
+					$oldpassv = isset($patient['Patient']['dpdfldshow'])?$patient['Patient']['dpdfldshow']:'';
+					$oldpass = isset($patient['Patient']['password'])?$patient['Patient']['password']:'';
+					$nax = base64_encode($email."_*".$oldpass);
+					$resetpass = FULL_BASE_URL.$this->base."/Patients/resetpassword/".$nax;
+					//die();
+					$data = array(
+						'name'=>$name,
+						'link'=>$resetpass,
+						'oldpass'=>$oldpassv
+					);
+					
+					$this->Session->setFlash(__('We send you a password reset link into your email.'),'default',array('class'=>'success'));
+					//send mail for reset the password
+					$this->sitemailsend($mailtype=9,$from=array(),$to=$email,"User want to connect with you",$data);
+				}
+				else{
+					$this->Session->setFlash(__('Your email id not registered.'),'default',array('class'=>'error'));
+				}
+			}
+		}
+	}
+	
+/**
+ * resetpassword method
+ * @param string $nax
+ */
+	public function resetpassword($nax=null){
+		$this->layout="smallheader";
+		if($this->request->is('post')){
+			$newpass = isset($this->request->data['nwpass'])?$this->request->data['nwpass']:'';
+			$newcmpass = isset($this->request->data['nwcmpass'])?$this->request->data['nwcmpass']:'';
+			$emailpass = explode("_*",base64_decode($nax));
+			if(is_array($emailpass) && count($emailpass)==2){
+				$email=$emailpass[0];
+				$oldpass=$emailpass[1];
+				$cond = array('Patient.email'=>$email,'Patient.password'=>$oldpass,'Patient.isdeleted'=>'0','Patient.isactive'=>'1');
+				$patient = $this->Patient->find('first',array('conditions'=>$cond));
+				if(is_array($patient) && count($patient)>0){
+					$patient_id = $patient['Patient']['id'];
+					if($newpass!=''){
+						if($newpass==$newcmpass){
+							//now update the password
+							$updata = array(
+								'Patient.password'=>"'".md5($newpass)."'",
+								'Patient.dpdfldshow'=>"'".$newpass."'"
+							);
+							$cond['Patient.id']=$patient_id;
+							$this->Patient->updateAll($updata,$cond);
+							//update password
+							$this->Session->setFlash(__('Your password reset successfully.'),'default',array('class'=>'success'));
+						}
+						else{
+							$this->Session->setFlash(__('Confirm password does not matched.'),'default',array('class'=>'error'));
+						}
+					}
+					else{
+						$this->Session->setFlash(__('Please enter your new password.'),'default',array('class'=>'error'));
+					}
+				}
+				else{
+					$this->Session->setFlash(__(' Link expired.'),'default',array('class'=>'error'));
+				}
+			}
+			else{
+				$this->Session->setFlash(__('Invalid Link.'),'default',array('class'=>'error'));
+			}
+		}
+		$this->set('nax',$nax);
+	}
+	
 }

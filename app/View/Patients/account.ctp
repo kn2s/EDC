@@ -3,7 +3,11 @@
   <section class="myAccountLogin">
   	<div class="clear"></div>
   	<div class="container940">
-	<?php echo $this->Session->flash(); ?>
+	
+	<div style="text-align: center; padding-top: 10px;">
+		<?php echo $this->Session->flash(); ?>
+	</div>
+	
     	<section class="signIn">
         	<h2>Sign in</h2>
             <div class="formCont">
@@ -17,7 +21,7 @@
 				<label id="loginerror" style="color:red;"></label>
 			</form>
                 <div class="clear"></div>
-                <a href="javascript:void(0)">Forgot your password?</a>
+				<?php echo $this->Html->link(__('Forgot your password?'),array('action'=>'forgotpassword'));?>
             </div>
 			
         </section>

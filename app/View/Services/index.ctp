@@ -75,7 +75,8 @@
         	<div class="blueCircle smooth2">
             	<h3><span>$<?php echo (isset($services['Service']['consulting_charge']))?$services['Service']['consulting_charge']:'0.00';?></span>Consulting fees<br>will be charged for<br> these services</h3>
             </div>
-            <a href="#" class="whiteCircle smooth2"><h3>Check, How it works</h3></a>
+            <!--<a href="#" class="whiteCircle smooth2"><h3>Check, How it works</h3></a>-->
+			<?php echo $this->Html->link(__('<h3>Check, How it works</h3>'),array('controller'=>'services','action'=>'howitwork'),array('class'=>'whiteCircle smooth2','escape'=>false)); ?>
         </div>
     </section>
     <section class="patientText iconPart" style="z-index:8;">
