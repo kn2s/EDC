@@ -179,6 +179,8 @@ class AppController extends Controller {
 		$adminname="EDC support team";
 		$adminsendemail="edc@support.com";
 		$adminrecieveemail="edc@support.com";
+		$bodymessage="";
+		
 		if(is_array($adminemails) && count($adminemails)>0){
 			$adminsendemail = (isset($adminemails['Service']['sending_email']) && $adminemails['Service']['sending_email']!='')?$adminemails['Service']['sending_email']:$adminsendemail;
 			$adminrecieveemail = isset($adminemails['Service']['receiving_email'])?$adminemails['Service']['receiving_email']:$adminrecieveemail;
@@ -203,7 +205,9 @@ class AppController extends Controller {
 					//regiatration
 					$subjects="You are registered successfully";
 					$templatenameview="registration";
-				break;
+					$data['signinlink']=FULL_BASE_URL.$this->base."/Patients/account";
+					$bodymessage="";
+					break;
 				case 2:
 					//patient appoinment confirm
 					$subjects="Your appointment schedule confirm for consultant";
@@ -221,7 +225,8 @@ class AppController extends Controller {
 					break;
 				case 5:
 					//patient give reply to the doctor message
-					$subjects="Your patient give reply to you";
+					//$subjects="Your patient give reply to you";
+					$subjects="You have received a communication from a patient";
 					$templatenameview="patientreply";
 					break;
 				case 6:
@@ -237,12 +242,33 @@ class AppController extends Controller {
 					$subjects="Someone try to contact with you";
 					$templatenameview="contactus";
 					break;
-				case 9:
-					$subject="EDC password recovery";
-					$templatenameview="forgotpassword";	
+				case 9: //password recovery
+					$subjects="EDC password recovery";
+					$templatenameview="forgotpassword";
+					break;
+				case 10: //new case assing
+					$subjects="You have been assigned a case , with due date";
+					$templatenameview="caseassign";
+					break;
+				case 11: //due alert
+					$subjects="You are due to submit an opinion within 2 days";
+					$templatenameview="opiniondue";
+					break;
+				case 12: //After opinion submission
+					$subjects="Thank you for submitting your opinion.";
+					$templatenameview="thanks";
+					break;
+				case 13: //Past Due opinion
+					$subjects="Doctor missed to gave opinion";
+					$templatenameview="opiniondueadmin";
+					break;
 				default:
 					break;
 			}
+			//now set the body message
+			
+			$data['bodymessage']=$bodymessage;
+			
 			$Email->from($from);
 			$Email->to($to);
 			//hear need to keep the admin as bcc
