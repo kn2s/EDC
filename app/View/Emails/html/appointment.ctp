@@ -7,7 +7,7 @@
 			echo $bodymessage;
 		}
 		else{
-			echo "This is your appointment. Accorning to your questionnairs information provided by you.";
+			//echo "This is your appointment. Accorning to your questionnairs information provided by you.";
 		}
 	?>
 	</p>

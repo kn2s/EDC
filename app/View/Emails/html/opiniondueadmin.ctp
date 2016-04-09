@@ -7,7 +7,7 @@
 			echo $bodymessage;
 		}
 		else{
-			echo "This case assign doctor missed to give opinion";
+			//echo "This case assign doctor missed to give opinion";
 		}
 	?>
 	</p>

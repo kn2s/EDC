@@ -197,6 +197,11 @@ class AppController extends Controller {
 		}
 		//if reviever email is valid then
 		if(filter_var($to,FILTER_VALIDATE_EMAIL)){
+			//get the boddy text and data from admin 
+			if($mailtype!=14){
+				$emaildata = $this->getemailbodytext($emailtype);
+				$bodymessage=isset($emaildata['body_txt'])?$emaildata['body_txt']:'';
+			}
 			//mail type
 			$subjects="We thanksfull to you being with us";
 			$templatenameview="admintemp";
@@ -206,7 +211,7 @@ class AppController extends Controller {
 					$subjects="You are registered successfully";
 					$templatenameview="registration";
 					$data['signinlink']=FULL_BASE_URL.$this->base."/Patients/account";
-					$bodymessage="";
+					//$bodymessage="";
 					break;
 				case 2:
 					//patient appoinment confirm
@@ -262,6 +267,10 @@ class AppController extends Controller {
 					$subjects="Doctor missed to gave opinion";
 					$templatenameview="opiniondueadmin";
 					break;
+				case 14://bulk mail from admin section
+					$subjects=$data['email_sub'];
+					$templatenameview="bulkmail";
+					$bodymessage=$data['email_body'];
 				default:
 					break;
 			}
@@ -279,5 +288,57 @@ class AppController extends Controller {
 			$Email->viewVars($data);
 			$Email->send();
 		}
+	}
+	
+	public function getemailbodytext($emailtype=0){
+		$this->loadmodel('EmailText');
+		$retdata=array('body_txt'=>'');
+		$emailtexts = $this->EmailText->find('first');
+		if(is_array($emailtexts) && count($emailtexts)>0){
+			$body_txt='';
+			switch($emailtype){
+				case 1:
+					$body_txt=isset($emailtexts['EmailText']['registration'])?$emailtexts['EmailText']['registration']:'';
+					break;
+				case 2:
+					$body_txt=isset($emailtexts['EmailText']['appointment_confirm'])?$emailtexts['EmailText']['appointment_confirm']:'';
+					break;
+				case 3:
+					$body_txt=isset($emailtexts['EmailText']['opinion_submited'])?$emailtexts['EmailText']['opinion_submited']:'';
+					break;
+				case 4:
+					$body_txt=isset($emailtexts['EmailText']['doc_allow_modify'])?$emailtexts['EmailText']['doc_allow_modify']:'';
+					break;
+				case 5:
+					$body_txt=isset($emailtexts['EmailText']['communication_recieve'])?$emailtexts['EmailText']['communication_recieve']:'';
+					break;
+				case 6:
+					$body_txt=isset($emailtexts['EmailText']['quesionair_modify'])?$emailtexts['EmailText']['quesionair_modify']:'';
+					break;
+				case 8:
+					$body_txt=isset($emailtexts['EmailText']['contact_us'])?$emailtexts['EmailText']['contact_us']:'';
+					break;
+				case 9:
+					$body_txt=isset($emailtexts['EmailText']['password_recovery'])?$emailtexts['EmailText']['password_recovery']:'';
+					break;
+				case 10:
+					$body_txt=isset($emailtexts['EmailText']['case_assign'])?$emailtexts['EmailText']['case_assign']:'';
+					break;
+				case 11:
+					$body_txt=isset($emailtexts['EmailText']['opinion_due_alert'])?$emailtexts['EmailText']['opinion_due_alert']:'';
+					break;
+				case 12:
+					$body_txt=isset($emailtexts['EmailText']['opinion_thanks'])?$emailtexts['EmailText']['opinion_thanks']:'';
+					break;
+				case 13:
+					$body_txt=isset($emailtexts['EmailText']['opinion_missed'])?$emailtexts['EmailText']['opinion_missed']:'';
+					break;
+				default:
+					break;
+				
+			}
+			$retdata['body_txt']=$body_txt;
+		}
+		return $retdata;
 	}
 }

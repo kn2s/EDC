@@ -7,7 +7,7 @@
 			echo $bodymessage;
 		}
 		else{
-			echo "You have to give your opinion widthin due date";
+			//echo "You have to give your opinion widthin due date";
 		}
 	?>
 	</p>

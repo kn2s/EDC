@@ -226,6 +226,26 @@ $controllername = ucwords($this->params->params['controller']);
                             <!-- /.nav-second-level -->
                         </li>
 						
+						<li>
+                           <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Email Message setting<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+								  <?php echo $this->Html->link('Email Message',array('controller'=>'EmailTexts','action'=>'index','full_base'=>true),array('escape'=>false));?>
+								</li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+						
+						<li>
+                           <a href="javascript:void(0)"><i class="fa fa-table fa-fw"></i>Mass Emailling<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+								  <?php echo $this->Html->link('Send Email',array('controller'=>'EmailTexts','action'=>'sendemail','full_base'=>true),array('escape'=>false));?>
+								</li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+						
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

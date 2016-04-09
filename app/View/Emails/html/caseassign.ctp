@@ -7,7 +7,7 @@
 			echo $bodymessage;
 		}
 		else{
-			echo "This is your new assign case.";
+			//echo "This is your new assign case.";
 		}
 	?>
 	</p>
