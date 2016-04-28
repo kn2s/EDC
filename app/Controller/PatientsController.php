@@ -1056,17 +1056,22 @@ class PatientsController extends AppController {
 		$this->set('paypal_id',$paypal_id);
 	}
 	public function paymentsucces(){
+		
+		if(isset($_GET)){
+			echo "get data ";
+			pr($_GET);
+		}
 		$item_number = isset($_REQUEST['item_number'])?$_REQUEST['item_number']:''; 
 		$txn_id = isset($_REQUEST['tx'])?$_REQUEST['tx']:'';
 		$payment_gross = isset($_REQUEST['amt'])?$_REQUEST['amt']:'';
 		$currency_code = isset($_REQUEST['cc'])?$_REQUEST['cc']:'';
 		$payment_status = isset($_REQUEST['st'])?$_REQUEST['st']:'';
-		$custom = isset($_REQUEST['custom'])?$_REQUEST['custom']:'0';
+		$custom = isset($_REQUEST['cm'])?$_REQUEST['cm']:'0';
 		if(!empty($txn_id) && $custom>0){
 			$this->loadModel('DoctorCase');
 			$caseid=$custom;
 			$tsn_datails = serialize($_REQUEST);
-			$updata = array('DoctorCase.ispaymentdone'=>'1','DoctorCase.transaction_id'=>$txn_id,'DoctorCase.tsn_datails'=>$tsn_datails);
+			$updata = array('DoctorCase.ispaymentdone'=>'1','DoctorCase.transaction_id'=>"'".$txn_id."'",'DoctorCase.tsn_datails'=>"'".$tsn_datails."'");
 			$upcond = array('DoctorCase.id'=>$caseid);//'DoctorCase.schedule_doctor_id'=>$scheduledcotid,
 			$this->DoctorCase->updateAll($updata,$upcond);
 			//after update the case 
@@ -1130,7 +1135,6 @@ class PatientsController extends AppController {
 						$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1','ScheduleDoctor.assingmentfull'=>$appointmentfull);
 						
 						$this->ScheduleDoctor->updateAll($updat,$updcond);
-						
 					}
 				}
 				//
@@ -1139,18 +1143,29 @@ class PatientsController extends AppController {
 				$patientupddata = array('Patient.detailsformsubmit'=>'6','Patient.is_questionnair_closed'=>'0');
 				$patientcond = array('Patient.id'=>$patientid);
 				$this->Patient->updateAll($patientupddata,$patientcond);
+				$this->Session->setFlash(__('Your payment successfully done. Transaction id : '.$txn_id));
 			}
-			$this->redirect(array('controller'=>'patients','action'=>'dashboard'));
+			else{
+				//invalid data response
+				$this->Session->setFlash(__('Your payment done'));
+			}
+			//$this->redirect(array('controller'=>'patients','action'=>'dashboard'));
+			
+			$this->redirect(array('controller'=>'patientDetails','action'=>'patientconsultant'));
 		}
 		else{
 			//die("payment error");
-			$this->Session->setFlash(__('Sorry some thing wrong.'));
+			$this->Session->setFlash(__('Sorry something wrong.'));
 			$this->redirect(array('controller'=>'patientDetails','action'=>'patientconsultant'));
 		}
 	}
 	public function paymentcancel(){
 		$this->Session->setFlash(__('Payment cancelled.'));
 		$this->redirect(array('controller'=>'patientDetails','action'=>'patientconsultant'));
+	}
+	
+	public function paymentsucces_notify(){
+		
 	}
 	
 /**

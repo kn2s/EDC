@@ -199,7 +199,7 @@ class AppController extends Controller {
 		if(filter_var($to,FILTER_VALIDATE_EMAIL)){
 			//get the boddy text and data from admin 
 			if($mailtype!=14){
-				$emaildata = $this->getemailbodytext($emailtype);
+				$emaildata = $this->getemailbodytext($mailtype);
 				$bodymessage=isset($emaildata['body_txt'])?$emaildata['body_txt']:'';
 			}
 			//mail type

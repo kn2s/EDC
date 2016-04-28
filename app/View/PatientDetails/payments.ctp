@@ -1,3 +1,6 @@
+<?php 
+	//pr($configdata);
+?>
 <div style="display:none;">
 <form action="<?php echo $paypal_url; ?>" method="post" name="frmPayPal1">
     <input type="hidden" name="business" value="<?php echo $paypal_id; ?>">
@@ -9,14 +12,19 @@
     <input type="hidden" name="currency_code" value="<?=$configdata['currency_code']?>">
 	<input type="hidden" name="custom" value="<?=$configdata['case_id']?>">
 	
+	<input type="hidden" name="rm" value="2">
+	
+	<input type="hidden" name="cancel_return" value="<?=$configdata['cancel_return']?>">
+    <input type="hidden" name="return" value="<?=$configdata['return']?>">
+    <input type="hidden" name="notify_url" value="<?=$configdata['notify_url']?>">
+	
 	<!--<input type="hidden" name="cpp_header_image" value="http://www.phpgang.com/wp-content/uploads/gang.jpg">
 	<input type="hidden" name="credits" value="510">
 	<input type="hidden" name="handling" value="0">
 	<input type="hidden" name="userid" value="1">
 	-->
     
-    <input type="hidden" name="cancel_return" value="<?=$configdata['cancel_return']?>">
-    <input type="hidden" name="return" value="<?=$configdata['return']?>">
+    
 	
     <!--<input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
     <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">-->

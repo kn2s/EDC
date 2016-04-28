@@ -241,6 +241,7 @@ class PatientDetailsController extends AppController {
 	}*/
 	
 	$years = $this->siteyeargenerator();
+	
 	$this->Session->write("quesformno","3");
 	$this->set(compact('months','years','days'));
 	$cond = array('PatientPastHistory.patient_id'=>$this->Session->read('loggedpatientid'));
@@ -265,10 +266,13 @@ class PatientDetailsController extends AppController {
 		$months[$i]=$i;
 	}
 	
-	for($k=(date('Y')-90);$k<date('Y');$k++){
+	/*for($k=(date('Y')-90);$k<date('Y');$k++){
 		//array_push($years,$k);
 		$years[$k]=$k;
-	}
+	}*/
+	
+	$years = $this->siteyeargenerator();
+	
 	$this->set(compact('months','years'));
 	$this->Session->write("quesformno","4");
 	$cond = array('PatientDocument.patient_id'=>$this->Session->read('loggedpatientid'));
@@ -664,6 +668,7 @@ class PatientDetailsController extends AppController {
   * payments method
   */
 	public function payments($caseid=0,$scheduledcotid=0){
+		$this->layout="blanks";
 		$this->userloginsessionchecked();
 		$this->loadModel('DoctorCase');
 		$this->loadModel('ScheduleDoctor');
@@ -763,8 +768,10 @@ class PatientDetailsController extends AppController {
 							$amount = $paymentdetails['Service']['consulting_charge'];
 							$baseurls = FULL_BASE_URL.$this->base."/";
 							//$cancel_return = "http://localhost/EDC/patients/paymentcancel";
-							$cancel_return =$baseurls."patients/dashboard";
+							$cancel_return =$baseurls."patients/paymentcancel";
 							$return = $baseurls."patients/paymentsucces";
+							$notify_url = $baseurls."patients/paymentsucces_notify";
+							
 							$configdata=array(
 								'item_name'=>'Consultant fee',
 								'item_number'=>'1',
@@ -772,7 +779,8 @@ class PatientDetailsController extends AppController {
 								'currency_code'=>'USD',
 								'cancel_return'=>$cancel_return,
 								'return'=>$return,
-								'case_id'=>$caseid
+								'notify_url'=>$notify_url,
+								'case_id'=>$caseid,
 							);
 							$paypal_id=($paymentdetails['Service']['payment_account']);
 							
@@ -783,6 +791,14 @@ class PatientDetailsController extends AppController {
 							$this->set('configdata',$configdata);
 							$this->set('paypal_url',$paypal_url);
 							$this->set('paypal_id',$paypal_id);
+							//
+							$formnumber=0;
+							$this->Session->write("lastquestionformno",$formnumber);
+							
+							if($this->Session->check("quesformno")){
+								$formnumber = $this->Session->read("quesformno");
+							}
+							$this->set('patientinfo',$formnumber);
 						}
 					}
 					if($ispayaccountpresent==0){

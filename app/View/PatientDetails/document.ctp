@@ -112,13 +112,14 @@
 								<label class="blue">Date</label>
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
+								<div class="dateparent">
 								<?php 
 									echo $this->Form->input('BloodTest.month][',array(
 										'div'=>false,
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields datevalidate',
 										'value'=>$mont
 									));
 									
@@ -127,10 +128,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields datevalidate',
 										'value'=>$year
 									));
 								?>
+								</div>
 							</div>
 							<div class="report ml20">
 								<label class="blue">Report</label>
@@ -164,13 +166,14 @@
 							<div class="datesTwo ml20">
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
+								<div class="dateparent">
 								<?php 
 									echo $this->Form->input('BloodTest.month][',array(
 										'div'=>false,
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields datevalidate',
 										'value'=>$mont
 									));
 									
@@ -179,10 +182,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields datevalidate',
 										'value'=>$year
 									));
 								?>
+								</div>
 							</div>
 							<div class="report ml20">
 								<?php 
@@ -240,13 +244,14 @@
 								<label class="blue">Date</label>
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
+								<div class="dateparent">
 								<?php 
 									echo $this->Form->input('ImagingTest.month][',array(
 										'div'=>false,
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields datevalidate',
 										'value'=>$imgmonth
 									));
 									
@@ -255,10 +260,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields datevalidate',
 										'value'=>$imgyear
 									));
 								?>
+								</div>
 							</div>
 							<div class="report ml20">
 								<label class="blue">Report</label>
@@ -287,13 +293,14 @@
 								<input type="text" placeholder="Hint Text" name="data[ImagingTest][test][]" value="<?=$imgtest?>" />
 							</div>
 							<div class="datesTwo ml20">
+							<div class="dateparent">
 								<?php 
 									echo $this->Form->input('ImagingTest.month][',array(
 										'div'=>false,
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields datevalidate',
 										'value'=>$imgmonth
 									));
 									
@@ -302,10 +309,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields datevalidate',
 										'value'=>$imgyear
 									));
 								?>
+								</div>
 							</div>
 							<div class="report ml20">
 								<label class="blue">Report</label>
@@ -358,13 +366,14 @@
 						</div>	
 						<div class="datesTwo ml20">
 							<label class="blue">Date</label>
+							<div class="dateparent">
 							<?php 
 								echo $this->Form->input('Pathology.month][',array(
 									'div'=>false,
 									'label'=>false,
 									'options'=>$months,
 									'default'=>'0',
-									'class'=>'month savaliedatefields',
+									'class'=>'month savaliedatefields datevalidate',
 									'value'=>$pathmont
 								));
 								
@@ -373,10 +382,11 @@
 									'label'=>false,
 									'options'=>$years,
 									'default'=>'0',
-									'class'=>'year savaliedatefields',
+									'class'=>'year savaliedatefields datevalidate',
 									'value'=>$pathyear
 								));
 							?>
+							</div>
 						</div>
 						<div class="report ml20">
 							<label class="blue">Report</label>
@@ -427,13 +437,14 @@
 						</div>	
 						<div class="datesTwo ml20">
 							<label class="blue">Date</label>
+							<div class="dateparent">
 							<?php 
 								echo $this->Form->input('OtherTest.month][',array(
 									'div'=>false,
 									'label'=>false,
 									'options'=>$months,
 									'default'=>'0',
-									'class'=>'month savaliedatefields',
+									'class'=>'month savaliedatefields datevalidate',
 									'value'=>$ohmont
 								));
 								
@@ -442,10 +453,11 @@
 									'label'=>false,
 									'options'=>$years,
 									'default'=>'0',
-									'class'=>'year savaliedatefields',
+									'class'=>'year savaliedatefields datevalidate',
 									'value'=>$ohyear
 								));
 							?>
+							</div>
 						</div>
 						<div class="report ml20">
 							<label class="blue">Report</label>
