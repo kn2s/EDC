@@ -25,6 +25,9 @@ $cakeVersion = __d('cake_dev', '');
 		var devleftPosition='';
 		var devTopPosition='0';
 		var pagefor="<?=$patientinfo?>";
+		var gcyear=parseInt("<?=date('Y')?>");
+		var gcmonth=parseInt("<?=date('m')?>");
+		var gcday=parseInt("<?=date('d')?>");
 		$(document).ready(function(){
 			$("#sqlsection").hide();
 			$("#preloaderdv").show();

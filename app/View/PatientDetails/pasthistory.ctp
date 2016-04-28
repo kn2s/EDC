@@ -119,6 +119,7 @@
 							</div>
 							<div class="datesThree ml20">
 								<label class="blue">Date of Diagnosis</label>
+								<div class="dateparent">
 								<?php
 									
 									echo $this->Form->input('CancerDetails.diagnosis_day][',array(
@@ -126,7 +127,7 @@
 										'label'=>false,
 										'options'=>$days,
 										'default'=>'0',
-										'class'=>'date savaliedatefields',
+										'class'=>'date savaliedatefields  datevalidate',
 										'value'=>$diagnosis_day
 									));
 									
@@ -135,7 +136,7 @@
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields  datevalidate',
 										'value'=>$diagnosis_month
 									));
 									
@@ -144,10 +145,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields  datevalidate',
 										'value'=>$diagnosis_year
 									));
 								?>
+								</div>
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
 							</div>
@@ -164,6 +166,7 @@
 								<div class="datesThree ml20">
 									<!--<select class="month"><option>Month</option></select>
 									<select class="year"><option>Year</option></select>-->
+									<div class="dateparent">
 									<?php 
 										
 										echo $this->Form->input('CancerDetails.diagnosis_day][',array(
@@ -171,7 +174,7 @@
 											'label'=>false,
 											'options'=>$days,
 											'default'=>'0',
-											'class'=>'date savaliedatefields',
+											'class'=>'date savaliedatefields  datevalidate',
 											'value'=>$diagnosis_day
 										));
 										echo $this->Form->input('CancerDetails.diagnosis_month][',array(
@@ -179,7 +182,7 @@
 											'label'=>false,
 											'options'=>$months,
 											'default'=>'0',
-											'class'=>'month savaliedatefields',
+											'class'=>'month savaliedatefields  datevalidate',
 											'value'=>$diagnosis_month
 										));
 										
@@ -188,10 +191,11 @@
 											'label'=>false,
 											'options'=>$years,
 											'default'=>'0',
-											'class'=>'year savaliedatefields',
+											'class'=>'year savaliedatefields  datevalidate',
 											'value'=>$diagnosis_year
 										));
 									?>
+									</div>
 								</div>
 							<?php
 						}
@@ -231,6 +235,7 @@
 								<label class="blue">Date of Surgery</label>
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
+								<div class="dateparent">
 								<?php
 									
 									echo $this->Form->input('SurgeryDetail.surgery_day][',array(
@@ -238,7 +243,7 @@
 										'label'=>false,
 										'options'=>$days,
 										'default'=>'0',
-										'class'=>'date savaliedatefields',
+										'class'=>'date savaliedatefields  datevalidate',
 										'value'=>$surgery_day
 									));
 									
@@ -247,7 +252,7 @@
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields  datevalidate',
 										'value'=>$surgery_month
 									));
 									
@@ -256,10 +261,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields  datevalidate',
 										'value'=>$surgery_year
 									));
 								?>
+								</div>
 							</div>
 							<div id="surgerymorediv">
 						<?php
@@ -273,6 +279,7 @@
 							<div class="datesThree ml20">
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
+								<div class="dateparent">
 								<?php
 									
 									echo $this->Form->input('SurgeryDetail.surgery_day][',array(
@@ -280,7 +287,7 @@
 										'label'=>false,
 										'options'=>$days,
 										'default'=>'0',
-										'class'=>'date savaliedatefields',
+										'class'=>'date savaliedatefields  datevalidate',
 										'value'=>$surgery_day
 									));
 									
@@ -289,7 +296,7 @@
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields  datevalidate',
 										'value'=>$surgery_month
 									));
 									
@@ -298,10 +305,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields  datevalidate',
 										'value'=>$surgery_year
 									));
 								?>
+								</div>
 							</div>
 						<?php
 						}
@@ -341,6 +349,7 @@
 								<label class="blue">Date of hospitalizations</label>
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
+								<div class="dateparent">
 								<?php 
 									
 									echo $this->Form->input('HostpitalDetails.hospitaliz_day][',array(
@@ -348,7 +357,7 @@
 										'label'=>false,
 										'options'=>$days,
 										'default'=>'0',
-										'class'=>'date savaliedatefields',
+										'class'=>'date savaliedatefields  datevalidate',
 										'value'=>$hospitaliz_day
 									));
 									
@@ -357,7 +366,7 @@
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields  datevalidate',
 										'value'=>$hospitaliz_month
 									));
 									
@@ -366,10 +375,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields  datevalidate',
 										'value'=>$hospitaliz_year
 									));
 								?>
+								</div>
 							</div>
 							<div class="diagnosis ml20">
 								<label class="blue">Period of hospitalizations</label>
@@ -387,6 +397,7 @@
 							<div class="datesThree ml20">
 								<!--<select class="month"><option>Month</option></select>
 								<select class="year"><option>Year</option></select>-->
+								<div class="dateparent">
 								<?php 
 									
 									echo $this->Form->input('HostpitalDetails.hospitaliz_day][',array(
@@ -394,7 +405,7 @@
 										'label'=>false,
 										'options'=>$days,
 										'default'=>'0',
-										'class'=>'date savaliedatefields',
+										'class'=>'date savaliedatefields  datevalidate',
 										'value'=>$hospitaliz_day
 									));
 									
@@ -403,7 +414,7 @@
 										'label'=>false,
 										'options'=>$months,
 										'default'=>'0',
-										'class'=>'month savaliedatefields',
+										'class'=>'month savaliedatefields  datevalidate',
 										'value'=>$hospitaliz_month
 									));
 									
@@ -412,10 +423,11 @@
 										'label'=>false,
 										'options'=>$years,
 										'default'=>'0',
-										'class'=>'year savaliedatefields',
+										'class'=>'year savaliedatefields  datevalidate',
 										'value'=>$hospitaliz_year
 									));
 								?>
+								</div>
 							</div>
 							<div class="diagnosis ml20">
 								<input type="text" placeholder="0" class="days" name="data[HostpitalDetails][hospitaliz_days]" value="<?=$hospitaliz_days?>">

@@ -1,3 +1,4 @@
+
 <div class="statusPart">
 	<ul>
 		<!--<li><?php echo $this->Html->link('Patient Details',array('controller'=>'patientDetails','action'=>'index'),array('escape'=>false,'class'=>'done'));?>
@@ -121,14 +122,14 @@
                 </div>
                 <div class="period ml20">
                 	<label class="blue">Period</label>
-					
+					<div class="dateparent">
 					<?php 
 						echo $this->Form->input('Smoking.frommonth',array(
 							'div'=>false,
 							'label'=>false,
 							'options'=>$months,
 							'default'=>'0',
-							'class'=>'month savaliedatefields',
+							'class'=>'month savaliedatefields datevalidate',
 							'id'=>'sasmkstartmonth',
 							'value'=>$sasmkstartmonth
 						));
@@ -138,20 +139,22 @@
 							'label'=>false,
 							'options'=>$years,
 							'default'=>'0',
-							'class'=>'year savaliedatefields',
+							'class'=>'year savaliedatefields datevalidate',
 							'id'=>'sasmkstartyear',
 							'value'=>$sasmkendyear
 						));
 					
 					?>
+					</div>
 					<p class="dash">-</p>
+					<div class="dateparent">
 					<?php 
 						echo $this->Form->input('Smoking.tomonth',array(
 							'div'=>false,
 							'label'=>false,
 							'options'=>$months,
 							'default'=>'0',
-							'class'=>'month savaliedatefields',
+							'class'=>'month savaliedatefields datevalidate',
 							'id'=>'sasmkendmonth',
 							'value'=>$sasmkendmonth
 						));
@@ -161,12 +164,13 @@
 							'label'=>false,
 							'options'=>$years,
 							'default'=>'0',
-							'class'=>'year savaliedatefields',
+							'class'=>'year savaliedatefields datevalidate',
 							'id'=>'sasmkendyear',
 							'value'=>$sasmkendyear
 						));
 					
 					?>
+					</div>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -226,13 +230,14 @@
                 
 				<div class="period">
                 	<label class="blue">Period</label>
+					<div class="dateparent">
 					<?php 
 						echo $this->Form->input('alcohalstartmonth',array(
 							'div'=>false,
 							'label'=>false,
 							'options'=>$months,
 							'default'=>'0',
-							'class'=>'month',
+							'class'=>'month datevalidate',
 							'id'=>'saalhlstartmonth',
 							'value'=>$saalhlstartmonth
 						));
@@ -242,20 +247,22 @@
 							'label'=>false,
 							'options'=>$years,
 							'default'=>'0',
-							'class'=>'year',
+							'class'=>'year datevalidate',
 							'id'=>'saalhlstartyear',
 							'value'=>$saalhlstartyear
 						));
 					
 					?>
+					</div>
 					<p class="dash">-</p>
+					<div class="dateparent">
 					<?php 
 						echo $this->Form->input('alcohalendmonth',array(
 							'div'=>false,
 							'label'=>false,
 							'options'=>$months,
 							'default'=>'0',
-							'class'=>'month',
+							'class'=>'month datevalidate',
 							'id'=>'saalhlendmonth',
 							'value'=>$saalhlendmonth
 						));
@@ -265,13 +272,13 @@
 							'label'=>false,
 							'options'=>$years,
 							'default'=>'0',
-							'class'=>'year',
+							'class'=>'year datevalidate',
 							'id'=>'saalhlendyear',
 							'value'=>$saalhlendyear
 						));
 					
 					?>
-					
+					</div>
                 </div>
                 <div class="clear"></div>
             </div>

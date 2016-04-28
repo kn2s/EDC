@@ -163,10 +163,12 @@ class PatientDetailsController extends AppController {
 			//array_push($days,$j);
 			$days[$j]=$j;
 		}
-		for($k=(date('Y')-90);$k<date('Y');$k++){
+		/*for($k=(date('Y')-90);$k<date('Y');$k++){
 			//array_push($years,$k);
 			$years[$k]=$k;
-		}
+		}*/
+		$years = $this->siteyeargenerator();
+		
 		//patients social activity
 		// set into the session 
 		$this->Session->write("quesformno","1");
@@ -197,10 +199,11 @@ class PatientDetailsController extends AppController {
 		//array_push($days,$j);
 		$days[$j]=$j;
 	}
-	for($k=(date('Y')-90);$k<date('Y');$k++){
+	/*for($k=(date('Y')-90);$k<date('Y');$k++){
 		//array_push($years,$k);
 		$years[$k]=$k;
-	}
+	}*/
+	$years = $this->siteyeargenerator();
 	$this->set(compact('months','days','years'));
 	$this->Session->write("quesformno","2");
 	// get if the data available in the table
@@ -232,11 +235,12 @@ class PatientDetailsController extends AppController {
 		//array_push($days,$j);
 		$days[$j]=$j;
 	}
-	for($k=(date('Y')-90);$k<date('Y');$k++){
+	/*for($k=(date('Y')-90);$k<date('Y');$k++){
 		//array_push($years,$k);
 		$years[$k]=$k;
-	}
+	}*/
 	
+	$years = $this->siteyeargenerator();
 	$this->Session->write("quesformno","3");
 	$this->set(compact('months','years','days'));
 	$cond = array('PatientPastHistory.patient_id'=>$this->Session->read('loggedpatientid'));

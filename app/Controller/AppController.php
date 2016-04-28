@@ -341,4 +341,28 @@ class AppController extends Controller {
 		}
 		return $retdata;
 	}
+	
+/**
+ * siteyeargenerator method
+ * @return array $years
+ */
+	public function siteyeargenerator(){
+		$years = array();
+		$min_year = date("Y",strtotime("-2 year"));
+		$max_year = date("Y");
+		$years['0']="year";
+		for($min_year; $min_year<=$max_year;$min_year++){
+			$years[$min_year]=$min_year;
+		}
+		return $years;
+	}
+	
+/**
+ * daymonthyearvalidation method
+ */
+	public function daymonthyearvalidation(){
+		
+	}
+	
+	
 }

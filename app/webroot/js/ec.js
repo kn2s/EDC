@@ -1130,9 +1130,9 @@ $(document).on('click','.js-addtumore',function(e){
 	var yearhtml = $(".year").html();
 	//console.log(mothhtml);
 	var fld = '<div class="diagnosis"><input type="text" placeholder="PSA, AFP, CEA, CA19-9, etc " name="data[TumarMarker][name][]"></div>\
-	<div class="datesTwo ml20">\
-		<select class="month" name="data[TumarMarker][tumormonth][]">'+mothhtml+'</select>\
-		<select class="year" name="data[TumarMarker][tumoryear][]">'+yearhtml+'</select></div>\
+	<div class="datesTwo ml20"><div class="dateparent">\
+		<select class="month datevalidate" name="data[TumarMarker][tumormonth][]">'+mothhtml+'</select>\
+		<select class="year datevalidate" name="data[TumarMarker][tumoryear][]">'+yearhtml+'</select></div></div>\
 		<div class="result ml20"><input type="text" placeholder="" name="data[TumarMarker][tumorresult][]"></div><div class="clear10"></div>';
 			
 	$("#moretumorecontainer").append(fld);
@@ -1156,9 +1156,10 @@ $(document).on('click','.js-morepastdetails',function(e){
 		htmls = '<div class="clear10">\
 		</div><div class="diagnosis">\
 		<input type="text" placeholder="Blood Cancer" name="data[CancerDetails][diagnosis_name][]">\
-		</div><div class="datesThree ml20"><select class="date" name="data[CancerDetails][diagnosis_day][]">'+dayhtml+'</select>\
-		<select class="month" name="data[CancerDetails][diagnosis_month][]">'+mothhtml+'</select>\
-		<select class="year" name="data[CancerDetails][diagnosis_year][]">'+yearhtml+'</select></div>';
+		</div><div class="datesThree ml20"><div class="dateparent">\
+		<select class="date js-illnessenddate datevalidate" name="data[CancerDetails][diagnosis_day][]">'+dayhtml+'</select>\
+		<select class="month js-illnessenddate datevalidate" name="data[CancerDetails][diagnosis_month][]">'+mothhtml+'</select>\
+		<select class="year js-illnessenddate datevalidate" name="data[CancerDetails][diagnosis_year][]">'+yearhtml+'</select></div></div>';
 		$("#cancermore").append(htmls);
 	}
 	
@@ -1166,19 +1167,19 @@ $(document).on('click','.js-morepastdetails',function(e){
 		//surgeries surgerymorediv
 		htmls = '<div class="clear10"></div>\<div class="diagnosis">\
 		<input type="text" name="data[SurgeryDetail][surgery_name][]"></div>\
-		<div class="datesThree ml20">\
-		<select class="date" name="data[SurgeryDetail][surgery_day][]">'+dayhtml+'</select>\
-		<select class="month" name="data[SurgeryDetail][surgery_month][]">'+mothhtml+'</select>\
-		<select class="year" name="data[SurgeryDetail][surgery_year][]">'+yearhtml+'</select></div>';
+		<div class="datesThree ml20"><div class="dateparent">\
+		<select class="date js-illnessenddate datevalidate" name="data[SurgeryDetail][surgery_day][]">'+dayhtml+'</select>\
+		<select class="month js-illnessenddate datevalidate" name="data[SurgeryDetail][surgery_month][]">'+mothhtml+'</select>\
+		<select class="year js-illnessenddate datevalidate" name="data[SurgeryDetail][surgery_year][]">'+yearhtml+'</select></div></div>';
 		
 		$("#surgerymorediv").append(htmls);
 	}
 	if(ids == 'hostmoreanc'){
 		htmls = '<div class="clear10"></div><div class="diagnosis">\
-		<input type="text" name="data[HostpitalDetails][hospitaliz_resone][]"></div><div class="datesThree ml20">\
-		<select class="date" name="data[HostpitalDetails][hospitaliz_day][]">'+dayhtml+'</select>\
-		<select class="month" name="data[HostpitalDetails][hospitaliz_month][]">'+mothhtml+'</select>\
-		<select class="year" name="data[HostpitalDetails][hospitaliz_year][]">'+yearhtml+'</select></div>\
+		<input type="text" name="data[HostpitalDetails][hospitaliz_resone][]"></div><div class="datesThree ml20"><div class="dateparent">\
+		<select class="date js-illnessenddate datevalidate" name="data[HostpitalDetails][hospitaliz_day][]">'+dayhtml+'</select>\
+		<select class="month js-illnessenddate datevalidate" name="data[HostpitalDetails][hospitaliz_month][]">'+mothhtml+'</select>\
+		<select class="year js-illnessenddate datevalidate" name="data[HostpitalDetails][hospitaliz_year][]">'+yearhtml+'</select></div></div>\
 		<div class="diagnosis ml20">\
 		<input type="text" placeholder="0" class="days" name="data[HostpitalDetails][hospitaliz_days]"></div>';
 		$("#hostMore").append(htmls);
@@ -1202,10 +1203,10 @@ $(document).on('click','.js-addmorebloodtest',function(e){
 	var mothhtml = $(".month").html();
 	var yearhtml = $(".year").html();
 	var htmls = '<div class="gender"><input type="text" placeholder="Hint Text" name="data[BloodTest][test][]"></div>\
-	<div class="datesTwo ml20">\
-	<select class="month" name="data[BloodTest][month][]">'+mothhtml+'</select>\
-	<select class="year" name="data[BloodTest][year][]">'+yearhtml+'</select>\
-	</div>\
+	<div class="datesTwo ml20"><div class="dateparent">\
+	<select class="month datevalidate" name="data[BloodTest][month][]">'+mothhtml+'</select>\
+	<select class="year datevalidate" name="data[BloodTest][year][]">'+yearhtml+'</select>\
+	</div></div>\
 	<div class="report ml20">\
 	<a href="javascript:void(0)" class="uploadReport js-imageupload">Upload report</a>\
 	<input class="flnamecontain" type="hidden" name="data[BloodTest][flname][]"/>\
@@ -1975,3 +1976,153 @@ function isEmail(email) {
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 }
+
+/**
+ * date validation 
+ */
+ $(document).on('change','.datevalidate',function(e){
+	
+	 var parclass = ".dateparent";
+	 var month="0";
+	 var day="0";
+	 var year="0";
+	 var parobj = $(e.currentTarget).parents(".dateparent");
+	 console.log(parobj);
+	 var dayObj='';
+	 var monthObj='';
+	 var yearObj='';
+	 
+	 //day found 
+	 if($(parobj).find(".date").length>0){
+		 dayObj = $(parobj).find(".date");
+		 day = $(dayObj).val();
+	 }
+	 //month
+	 if($(parobj).find(".month").length>0){
+		 monthObj = $(parobj).find(".month");
+		 month = $(monthObj).val();
+	 }
+	 //year 
+	 if($(parobj).find(".year").length>0){
+		 yearObj = $(parobj).find(".year");
+		 year = $(yearObj).val();
+	 }
+	 //
+	 if(dayObj!=''){
+		 dayvaluechange(dayObj,day,month,year);
+	 }
+	 console.log("day : "+day+ " month : "+month+" year : "+year+" c year : "+gcyear+" c month : "+gcmonth+" c day : "+gcday);
+	 var datevalid = currentdatevalidation(day,month,year);
+	 if(datevalid==false){
+		$(dayObj).val('0');
+		$(monthObj).val('0');
+		$(yearObj).val('0');
+		alert("Invalid date selection");
+	 }
+ });
+ 
+ function currentdatevalidation(testday,testmonth,testyear){
+	 console.log("testday : "+testday+" testmonth : "+testmonth+" testyear : "+testyear);
+	 testday = parseInt(testday);
+	 testmonth = parseInt(testmonth);
+	 testyear = parseInt(testyear);
+	 console.log("testday : "+testday+" testmonth : "+testmonth+" testyear : "+testyear);
+	 var valieddate=true;
+	 if(testyear==gcyear){
+		 console.log("year match");
+		 //same year
+		 if(testmonth>gcmonth){
+			 valieddate=false;
+		 }
+		 else{
+			 console.log("month match");
+			if(testday==0){
+				console.log("day 0 match found");
+				if(testmonth==gcmonth){
+					console.log("month 0 day match");
+					valieddate=false;
+				}
+			}
+			else{
+				if(testday >= gcday){
+					console.log("day match");
+					valieddate=false;
+				}
+			}
+		 }
+	 }
+	 return valieddate;
+ }
+ 
+ function dayvaluechange(dayobj,day,month,year){
+	var totalday=30;
+	if($.inArray([1,3,5,7,8,10,12],month)!=-1){
+		totalday=31;
+	}
+	else{
+		if(month==2){
+			if(isleepyear(year)){
+				totalday=29;
+			}
+			else{
+				totalday=28;
+			}
+		}
+		else{
+			totalday=30;
+		}
+	}
+	var options='<option value="0">Day</option>';
+	for(var i=1;i<=totalday;i++){
+		options+='<option value="'+i+'">'+i+'</option>';
+	}
+	$(dayobj).html(options).val(day);
+	
+	/*if(curid=='startdiagomonth'){
+		//moth
+		var totalday=30;
+		if($.inArray([1,3,5,7,8,10,12],month)!=-1){
+			totalday=31;
+		}
+		else{
+			if(month==2){
+				if(isleepyear(year)){
+					totalday=29;
+				}
+				else{
+					totalday=28;
+				}
+			}
+			else{
+				totalday=30;
+			}
+		}
+		var options='<option value="0">Day</option>';
+		for(var i=1;i<=totalday;i++){
+			options+='<option value="'+i+'">'+i+'</option>';
+		}
+		$("#enddiagoday").html(options).val(day);
+		//$(e.currentTarget).val(0);
+	}
+	else{
+		if(curid=='pdday'){
+			//day
+		}
+		else{
+			//year
+			if(month==2){
+				var totalday=28;
+				if(isleepyear(year)){
+					totalday=29;
+				}
+				
+				var options='<option value="0">Day</option>';
+				for(var i=1;i<=totalday;i++){
+					options+='<option value="'+i+'">'+i+'</option>';
+				}
+				$("#enddiagoday").html(options).val(day);
+			}
+		}
+	}*/
+	
+ }
