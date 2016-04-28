@@ -91,7 +91,35 @@ class AppController extends Controller {
 		}*/
 	}
 	public function gotodashboard(){
-		
+		$params = $this->params->params;
+		//pr($params);
+		if(isset($params['admin']) && $params['admin']==1){
+			//backend user
+			//now checked session
+			if(!$this->Session->check('loggedadminid') || $this->Session->read('loggedadminid')<1){
+				//admin session is expired 
+				$this->redirect(array('controller'=>'admins','action'=>'index'));
+			}
+			else{
+				$this->redirect(array('controller'=>'doctors','action'=>'index'));
+			}
+		}
+		else{
+			//front user
+			if($this->Session->check('loggeddoctid')){
+				//doct on line
+				$this->redirect(array('controller'=>'doctors','action'=>'dashboard'));
+			}
+			elseif($this->Session->check('loggedpatientid')){
+				//patient on line
+				$this->redirect(array('controller'=>'patients','action'=>'dashboard'));
+			}
+			else{
+				//both go to dash board
+				$this->redirect(array('controller'=>'patients','action'=>'account'));
+			}
+		}
+		//pr($this->params);
 	}
 /**
  * setadminsession method

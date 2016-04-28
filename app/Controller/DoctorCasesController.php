@@ -47,6 +47,7 @@ class DoctorCasesController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->gotodashboard();
 		/*if ($this->request->is('post')) {
 			$this->DoctorCase->create();
 			if ($this->DoctorCase->save($this->request->data)) {
@@ -160,9 +161,10 @@ class DoctorCasesController extends AppController {
 			$doctors = $this->DoctorCase->Patient->find('list',array('conditions'=>$cons,'order'=>array('Patient.name'=>'ASC')));
 		}
 		//$pcond = array("Doctor.ispatient"=>'0','Doctor.isdeleted'=>'0','Doctor.isactive'=>'1');
-		$dfltdoct = array("0"=>"Choose Doctor");
+		//$dfltdoct = array("0"=>"Choose Doctor");
 		//$doctors = $this->DoctorCase->Doctor->find('list',array('conditions'=>$pcond));
-		$doctors = array_merge($dfltdoct,$doctors);
+		$doctors[0] = "Choose Doctor";
+		ksort($doctors);
 		$this->set('doctors',$doctors);
 		$this->set('doctid',$doctid);
 	}
@@ -192,6 +194,7 @@ class DoctorCasesController extends AppController {
  */
 	public function admin_add() {
 		$this->gotodashboard();
+		die();
 		/*if ($this->request->is('post')) {
 			$this->DoctorCase->create();
 			if ($this->DoctorCase->save($this->request->data)) {
@@ -204,6 +207,7 @@ class DoctorCasesController extends AppController {
 		$patients = $this->DoctorCase->Patient->find('list');
 		$doctors = $this->DoctorCase->Doctor->find('list');
 		$this->set(compact('patients', 'doctors'));*/
+		die();
 	}
 
 /**
