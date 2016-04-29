@@ -1057,10 +1057,11 @@ class PatientsController extends AppController {
 	}
 	public function paymentsucces(){
 		
-		if(isset($_GET)){
+		/*if(isset($_GET)){
 			echo "get data ";
 			pr($_GET);
-		}
+		}*/
+		
 		$item_number = isset($_REQUEST['item_number'])?$_REQUEST['item_number']:''; 
 		$txn_id = isset($_REQUEST['tx'])?$_REQUEST['tx']:'';
 		$payment_gross = isset($_REQUEST['amt'])?$_REQUEST['amt']:'';
