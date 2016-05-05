@@ -61,24 +61,30 @@ $cakeVersion = __d('cake_dev', '');
     <div class="clear"></div>
     <div class="block">
     	<label>Assessment &amp; Explanation</label>
-        <input type="text" placeholder="Type Something" name="data[CaseOpinion][assessment]" >
-		
+        <!--<input type="text" placeholder="Type Something" name="data[CaseOpinion][assessment]" >-->
+		<textarea placeholder="Type Something" name="data[CaseOpinion][assessment]" ></textarea>
     </div>
     <div class="block">
     	<label>Prognosis</label>
-        <input type="text" placeholder="Type Something" name="data[CaseOpinion][prognosis]" >
+        <!--<input type="text" placeholder="Type Something" name="data[CaseOpinion][prognosis]" >-->
+		<textarea placeholder="Type Something" name="data[CaseOpinion][prognosis]" ></textarea>
     </div>
     <div class="block">
     	<label>Best Treatment Strategy</label>
-        <input type="text" placeholder="Type Something" name="data[CaseOpinion][treatmentstrategy]" >
+        <!--<input type="text" placeholder="Type Something" name="data[CaseOpinion][treatmentstrategy]" >-->
+		<textarea placeholder="Type Something" name="data[CaseOpinion][treatmentstrategy]" ></textarea>
     </div>
     <div class="block">
     	<label>Alternative Strategy</label>
-        <input type="text" placeholder="Type Something" name="data[CaseOpinion][alternativestrategy]" >
+        <!--<input type="text" placeholder="Type Something" name="data[CaseOpinion][alternativestrategy]" >-->
+		<textarea placeholder="Type Something" name="data[CaseOpinion][alternativestrategy]" ></textarea>
     </div>
     <div class="block">
     	<label>Comment</label>
         <textarea name="data[CaseOpinion][comment]" class="js-opinioncomments" >Type Something</textarea>
+    </div>
+	<div class="block">
+    	<label id="flsattaach"></label>
     </div>
 	<input type="file" name="opiniondoct" class="js-opiniondoc" style="display:none;">
 	<input type="hidden" name="data[CaseOpinion][attachementname]" id="attachementname">

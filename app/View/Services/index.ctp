@@ -84,8 +84,10 @@
         	<a href="<?php echo FULL_BASE_URL.$this->base."/patients/account"; ?>" class="createAccount">Create Account<br>&nbsp;</a>
             <a href="<?php echo FULL_BASE_URL.$this->base."/patients/samplequestioner"; ?>" class="sampleQuestion">View <br>Sample Questioner</a>
             <a href="<?php echo FULL_BASE_URL.$this->base."/patients/sampleopinion"; ?>" class="sampleOpinion">View <br>Sample Opinion</a>
-            <a href="mailto:<?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?>" class="writeUsAt">Write us at <br><?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?></a>
-        </div>
+            <a href="<?php echo FULL_BASE_URL.$this->base."/contactus"; ?>" class="writeUsAt">Contact us </br>&nbsp;</a>
+            <!--<a href="mailto:<?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?>" class="writeUsAt">Write us at <br><?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?></a>-->
+			<?php // echo $this->Html->link('Contact us',array('controller'=>'contactus','action'=>'index','full_base'=>true),array('class'=>'writeUsAt')); ?>
+		</div>
     </section>
 </section>
 
@@ -109,7 +111,9 @@
     <section class="patientText tcenter" style="z-index:7">
   		<div class="container">
         	<p class="bigText tcenter"><img src="images/icon10.png" alt=""> &nbsp;&nbsp;Interested to know more about collaboration?</p>
-            <a href="mailto:<?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?>" class="greenButton">Write us at <?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?></a>
-        </div>
+            <!--<a href="mailto:<?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?>" class="greenButton">Write us at <?php echo (isset($services['Service']['doc_colla_email']))?$services['Service']['doc_colla_email']:'';?></a>-->
+			
+			<?php echo $this->Html->link('Contact us',array('controller'=>'contactus','action'=>'index','full_base'=>true),array('class'=>'greenButton')); ?>
+		</div>
     </section>
 </section>

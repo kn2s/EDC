@@ -77,9 +77,10 @@ class CaseOpinionsController extends AppController {
  *
  * @throws NotFoundException
  * @param string $id
+ * @param string $is_new
  * @return void
  */
-	public function doctorview($id = null) {
+	public function doctorview($id = null,$is_new=0) {
 		$this->layout="doctopinionlayout";
 		$this->doctuserloginsessionchecked();
 		
@@ -107,9 +108,89 @@ class CaseOpinionsController extends AppController {
 		$this->CaseOpinion->DoctorCase->Doctor->unbindModel(array('hasMany'=>array('PatientDetail')));
 		$options = array('recursive'=>3,'conditions' => array('CaseOpinion.doctor_case_id'=> $id),'order'=>array('CaseOpinion.id'=>'DESC'));
 		$this->set('caseOpinion', $this->CaseOpinion->find('first', $options));
+		$this->set('is_new',$is_new);
 	}
 
-	
+/**
+ * approvedcancel method
+ */
+	public function approvedcancel(){
+		$this->doctuserloginsessionchecked();
+		header('Content-type:application/json');
+		$status=0;
+		$message="Invalid request";
+		if($this->request->is('post')){
+			$opinion_id = isset($this->request->data['opinion_id'])?$this->request->data['opinion_id']:0;
+			$isconfirm = isset($this->request->data['isconfirm'])?$this->request->data['isconfirm']:0;
+			//validate the opinion
+			$findcond = array(
+				'CaseOpinion.id'=>$opinion_id,
+				'CaseOpinion.is_deleted'=>'0',
+				'CaseOpinion.is_confirm'=>'0'
+			);
+			$caseOpinion  = $this->CaseOpinion->find('first',array('recursive'=>'2','conditions'=>$findcond));
+			//pr($caseOpinion);
+			if(is_array($caseOpinion) && count($caseOpinion)>0){
+				$doctcaseid = $caseOpinion['CaseOpinion']['doctor_case_id'];
+				$opinion_comment = $caseOpinion['CaseOpinion']['comment'];
+				if($isconfirm==1){
+					$message="Opinion has been confirmed successfully.";
+					$status='1';
+					$updata = array('CaseOpinion.is_confirm'=>'1');
+					$this->CaseOpinion->updateAll($updata,$findcond);
+					$isfound=0;
+					//mail sending section
+					if($isfound==0){
+						$today = date("Y-m-d");
+						$caseclosedate = date("Y-m-d",strtotime("+30 days"));
+						$casedeletedate = date("Y-m-d",strtotime("+60 days"));
+						//now update the case with opinion post (4)
+						$caseupcond=array('DoctorCase.id'=>$doctcaseid,'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"));
+						$this->CaseOpinion->DoctorCase->updateAll(
+						array("DoctorCase.satatus"=>'4','DoctorCase.closedate'=>"'".$caseclosedate."'",'DoctorCase.deactivatedata'=>"'".$casedeletedate."'"),
+						$caseupcond);
+						$casedoctor = $caseOpinion['DoctorCase'];
+						
+						if(is_array($casedoctor) && count($casedoctor)>0){
+							//send email section
+							$patientemail=(isset($casedoctor['Patient']['email']))?$casedoctor['Patient']['email']:'';
+							$patientname=(isset($casedoctor['Patient']['name']))?$casedoctor['Patient']['name']:'';
+							
+							//is patient is open the questionary edit permission them it remove
+							$patientcanedit = (isset($casedoctor['Patient']['doctallowtoeditquetionair']))?$casedoctor['Patient']['doctallowtoeditquetionair']:'1';
+							if($patientcanedit==1){
+								$patineupcon = array('Patient.id'=>$casedoctor['Patient']['id']);
+								$updata = array('Patient.doctallowtoeditquetionair'=>'0');
+								$this->CaseOpinion->DoctorCase->Patient->updateAll($updata,$patineupcon);
+							}
+							if($patientemail!=''){
+								$data=array(
+									'name'=>$patientname,
+									'case_close_date'=>$caseclosedate,
+									'opinion_issue_date'=>$today,
+									'case_delete_date'=>$casedeletedate,
+									'opinion_comment'=>$opinion_comment
+								);
+								//pr($data);
+								$this->sitemailsend($mailtype=3,$from=array(),$to=$patientemail,$messages="EDC Email Opinion",$data);
+							}
+						}
+					}
+				}
+				else{
+					$message="Opinion has been cancelled successfully.";
+					$status='1';
+					$updata = array('CaseOpinion.is_deleted'=>'1');
+					$this->CaseOpinion->updateAll($updata,$findcond);
+				}
+				//$status=0;
+			}
+			else{
+				$message="Invalid Information";
+			}
+		}
+		die(json_encode(array('status'=>$status,'message'=>$message)));
+	}
 	
 /**
  * add method
@@ -117,6 +198,8 @@ class CaseOpinionsController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->doctuserloginsessionchecked();
+		header('Content-type:application/json');
 		if ($this->request->is('post')) {
 			$status=0;
 			$message='';
@@ -125,21 +208,28 @@ class CaseOpinionsController extends AppController {
 			if(isset($this->request->data['CaseOpinion']['comment']) && $this->request->data['CaseOpinion']['comment']=="Type Something"){
 				$this->request->data['CaseOpinion']['comment']='';
 			}
-			$this->request->data['CaseOpinion']['cteratedatetime']=date("Y-m-d G:i:s");
+			$this->request->data['CaseOpinion']['cteratedatetime']=date("Y-m-d H:i:s");
 			//validate if the opinion already given
 			$doctcaseid = $this->request->data['CaseOpinion']['doctor_case_id'];
 			$isfound=0;
-			
-			$isfoundopinion = $this->CaseOpinion->find('first',array('conditions'=>array('CaseOpinion.doctor_case_id'=>$doctcaseid)));
+			$opinion_id=0;
+			$findcond = array(
+				'CaseOpinion.doctor_case_id'=>$doctcaseid,
+				'CaseOpinion.is_deleted'=>'0'
+			);
+			$isfoundopinion = $this->CaseOpinion->find('first',array('conditions'=>$findcond));
 			
 			if(is_array($isfoundopinion) && count($isfoundopinion)>0){
 				$this->request->data['CaseOpinion']['id']=$isfoundopinion['CaseOpinion']['id'];
+				$opinion_id=$isfoundopinion['CaseOpinion']['id'];
 				$isfound=1;
 			}
 			
 			if ($this->CaseOpinion->save($this->request->data)) {
+				$opinion_id=$this->CaseOpinion->id;
 				$status=1;
-				if($isfound==0){
+				$isfound=1;
+				/*if($isfound==0){
 					$today = date("Y-m-d");
 					$caseclosedate = date("Y-m-d",strtotime("+30 days"));
 					$casedeletedate = date("Y-m-d",strtotime("+60 days"));
@@ -174,9 +264,9 @@ class CaseOpinionsController extends AppController {
 							$this->sitemailsend($mailtype=3,$from=array(),$to=$patientemail,$messages="EDC Email Opinion",$data);
 						}
 					}
-				}
+				}*/
 			}
-			die(json_encode(array('status'=>$status,'message'=>$message)));
+			die(json_encode(array('status'=>$status,'message'=>$message,'id'=>$opinion_id)));
 		}
 	}
 	

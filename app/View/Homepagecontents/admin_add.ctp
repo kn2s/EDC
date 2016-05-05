@@ -1,4 +1,6 @@
+
 <div class="row">
+	<?php echo $this->Session->flash(); ?>
 	<div class="col-lg-12">
 		<h1 class="page-header">Home Page Content</h1>
 	</div>

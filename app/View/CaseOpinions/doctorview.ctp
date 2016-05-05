@@ -3,6 +3,15 @@
 	//pr($caseOpinion);
 ?>
 <div class="leftWhiteBox">
+<?php 
+	if(isset($is_new) && $is_new==1){
+	?>
+	<div class="box">
+		<p>Thank you for your opinion, Please confirm to able this opinion to patient</p>
+	</div>
+	<?php
+	}
+?>
 	<div class="box">
 		<div class="leftPart">
 			<h4>Assessment &amp; Explanation</h4>
@@ -50,6 +59,7 @@
 		</span></p>
 		</div>
 	</div>
+	
 	<div class="doctorsName">
 		<h4>Yours truly,</h4>
 		<h4><?php 
@@ -64,11 +74,21 @@
 			echo $str;
 		?></h4>
 	</div>
+	<?php 
+		if(!$caseOpinion['CaseOpinion']['is_confirm'] && !$caseOpinion['CaseOpinion']['is_deleted']){
+	?>
+	<div class="box">
+		<button opid="<?=$caseOpinion['CaseOpinion']['id']?>" for="confirm" class="blueButton js-opinionconcan" style="float:right; width:20%; margin-left:10px;"> Confirm </button>
+		<button opid="<?=$caseOpinion['CaseOpinion']['id']?>" for="cancel" class="blueButton js-opinionconcan" style="float:right; width:20%;"> Cancel </button>
+	</div>
+	<?php 
+		}
+	?>
 </div>
 <div class="rightGrayBox">
 	
 	<div class="details">
-		<p>patient</p>
+		<p>Patient</p>
 		<h4>Mr. <?=(isset($caseOpinion['DoctorCase']['Patient']['PatientDetail']['name']))?$caseOpinion['DoctorCase']['Patient']['PatientDetail']['name']:""?></h4>
 		<p>Date</p>
 		<h4><?=(isset($caseOpinion['DoctorCase']['opinion_due_date']))?date("d M Y",strtotime($caseOpinion['DoctorCase']['opinion_due_date'])):""?></h4>

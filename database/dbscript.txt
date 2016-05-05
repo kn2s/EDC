@@ -168,3 +168,13 @@ today(07-03-16):
 ALTER TABLE `ec_doctor_cases` ADD `transaction_id` VARCHAR(254) NOT NULL AFTER `ispaymentdone`;
 
 ALTER TABLE `ec_doctor_cases` ADD `tsn_datails` TEXT NOT NULL AFTER `transaction_id`;
+
+
+today(05-05-16):
+================
+
+ALTER TABLE `ec_case_opinions` ADD `is_confirm` INT(1) NOT NULL DEFAULT '0' AFTER `cteratedatetime`;
+
+ALTER TABLE `ec_case_opinions` ADD `is_deleted` INT(1) NOT NULL DEFAULT '0' AFTER `is_confirm`;
+
+

@@ -78,7 +78,7 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
 					break;
 			}
 		?>
-		<li><a href="javascript:void(0)" class="<?=$clss?>" sec="1">Patient Details</a></li>
+		<li><a href="javascript:void(0)" class="<?=$clss?>" sec="1">Patient's Details</a></li>
 		<li><a href="javascript:void(0)" class="<?=$socialcls?>" sec="2">Social History</a></li>
 		<li><a href="javascript:void(0)" class="<?=$illness?>" sec="3">About The Illness</a></li>
 		<li><a href="javascript:void(0)" class="<?=$pasthis?>" sec="4">Past History</a></li>
@@ -92,7 +92,7 @@ if(isset($patientDetails['DrugAlergy']) && is_array($patientDetails['DrugAlergy'
 
 
 <div id="pddetailss" class="pertionalcontainer">
-<h2>Patients Details</h2>
+<h2>Patient's details</h2>
 <?php echo $this->Form->create('PatientDetail',array('action'=>'add','id'=>'pddetailsfrm'));
 	echo $this->Form->hidden('id',array("id"=>"pdid","value"=>$pdid));
 	echo $this->Form->hidden('completed_per',array("id"=>"completed_per","value"=>'0'));

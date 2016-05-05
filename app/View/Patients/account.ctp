@@ -34,8 +34,8 @@
             	<div class="userName"><input type="text" name="data[Patient][name]" placeholder="Name" id="name" class="sgnufld"></div>
                 <div class="mailId"><input type="text" name="data[Patient][email]" placeholder="Email" id="email" class="sgnufld"></div>
                 <div class="pass"><input type="password" name="data[Patient][password]" placeholder="Password" id="spass" class="sgnufld"></div>
-                <div class="pass bb40"><input type="password" name="data[Patient][cpassword]" placeholder="Re enter" id="cpass" class="sgnufld"></div>
-                <label><input type="checkbox" name="data[Patient][terms]" value="1" id="chkbtn">Accept <a href="javascript:void(0)">terms and conditions</a></label>
+                <div class="pass bb40"><input type="password" name="data[Patient][cpassword]" placeholder="Re-enter password" id="cpass" class="sgnufld"></div>
+                <label><input type="checkbox" name="data[Patient][terms]" value="1" id="chkbtn">Please accept <a href="javascript:void(0)">Terms and Conditions</a></label>
                 <input type="button" class="blueButton js-signup" value="Register" >
 
 			</form>

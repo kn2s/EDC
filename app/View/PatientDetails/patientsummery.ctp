@@ -15,7 +15,7 @@
 	<div class="statusPart">
 		<ul>
 		
-			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="1">Patient Details</a></li>
+			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="1">Patient's Details</a></li>
 			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="2">Social History</a></li>
 			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="3">About The Illness</a></li>
 			<li><a href="javascript:void(0)" class="<?=$clas?> done" sec="4">Past History</a></li>
@@ -34,7 +34,7 @@
 		<div class="clear"></div>
 		<div class="details">
 			<div class="heiding">
-				<h2>Paitient Details</h2>
+				<h2>Paitient's details</h2>
 				<a href="javascript:void(0)" class="editBtn <?=$clas?>" sec="1" style="<?=$clshd?>" ></a>
 				<div class="clear"></div>
 			</div>

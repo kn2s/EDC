@@ -395,7 +395,8 @@ class DoctorsController extends AppController {
 			'hasMany'=>array(
 				'CaseOpinion'=>array(
 					'className'=>'CaseOpinion',
-					'foreignKey'=>'doctor_case_id'
+					'foreignKey'=>'doctor_case_id',
+					'conditions'=>array('CaseOpinion.is_deleted'=>'0')
 				)
 			)
 		));

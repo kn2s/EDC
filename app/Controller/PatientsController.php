@@ -1206,12 +1206,12 @@ class PatientsController extends AppController {
 						'oldpass'=>$oldpassv
 					);
 					
-					$this->Session->setFlash(__('We send you a password reset link into your email.'),'default',array('class'=>'success'));
+					$this->Session->setFlash(__('We have sent you a password reset link to your email.'),'default',array('class'=>'success'));
 					//send mail for reset the password
-					$this->sitemailsend($mailtype=9,$from=array(),$to=$email,"User want to connect with you",$data);
+					$this->sitemailsend($mailtype=9,$from=array(),$to=$email,"pasword reset link",$data);
 				}
 				else{
-					$this->Session->setFlash(__('Your email id not registered.'),'default',array('class'=>'error'));
+					$this->Session->setFlash(__('Your email id does not registered.'),'default',array('class'=>'error'));
 				}
 			}
 		}

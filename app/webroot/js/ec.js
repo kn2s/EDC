@@ -1661,6 +1661,7 @@ $(document).on('change','.js-opiniondoc',function(e){
 			console.log(response);
 			if(parseInt(response.status)==1){
 				$("#attachementname").val(response.attachementname);
+				$("#flsattaach").html("Attach File : "+response.attachementname);
 			}
 			else{
 			}
@@ -1670,6 +1671,7 @@ $(document).on('change','.js-opiniondoc',function(e){
 
 $(document).on('click','.js-caseopinionpost',function(e){
 	e.preventDefault();
+	$(e.currentTarget).hide();
 	$.ajax({
 		url:baseurl+"/CaseOpinions/add",
 		method:'post',
@@ -1679,9 +1681,11 @@ $(document).on('click','.js-caseopinionpost',function(e){
 		//contentType: false, // important
 		success:function(response){
 			console.log(response);
+			console.log(response);
 			if(parseInt(response.status)==1){
-				
-				$(".js-opinionpanel").trigger("click");
+				var opinionid=response.id;
+				//$(".js-opinionpanel").trigger("click");
+				window.location=baseurl+"/CaseOpinions/doctorview/"+opinionid+"/1";
 			}
 			else{
 				console.log('not saved the data');
@@ -2126,3 +2130,40 @@ function isEmail(email) {
 	}*/
 	
  }
+ 
+ //opinion confirmation and cancelation
+ $(document).on('click','.js-opinionconcan',function(e){
+	 var opinion_id  = $(e.currentTarget).attr('opid');
+	 var clkfor  = $(e.currentTarget).attr('for');
+	 var conmsg="";
+	 var isconfirm=0;
+	 var trgfunc="/CaseOpinions/approvedcancel"
+	 if(clkfor=="confirm"){
+		 conmsg="Are you sure, you want to confirmed the opinion";
+		 isconfirm=1;
+	 }
+	 else{
+		 conmsg="Are you sure, you want to cancelled the opinion";
+		 isconfirm=0;
+	 }
+	 if(confirm(conmsg)){
+		 $.ajax({
+			 url:baseurl+trgfunc,
+			 type:'post',
+			 dataType:'json',
+			 data:{opinion_id:opinion_id,isconfirm:isconfirm},
+			 success:function(response){
+				 console.log(response);
+				 console.log(response.status);
+				 console.log(response.message);
+				 if(response.status==1){
+					 $($(e.currentTarget).parent()).remove(); 
+				 }
+				 alert(response.message);
+			 },
+			 error:function(response){
+				 console.log(response);
+			 }
+		 });
+	 }
+ });

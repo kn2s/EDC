@@ -33,7 +33,7 @@
 		?>
 		
 	   
-		<li><a href="javascript:void(0)" class="js-preview done" sec="1">Patient Details</a></li>
+		<li><a href="javascript:void(0)" class="js-preview done" sec="1">Patient's Details</a></li>
 		<li><a href="javascript:void(0)" class="js-preview done" sec="2">Social History</a></li>
 		<li><a href="javascript:void(0)" class="current" sec="3">About The Illness</a></li>
 		<li><a href="javascript:void(0)" class="<?=$pasthis?>" sec="4">Past History</a></li>
@@ -173,7 +173,7 @@ if(isset($aboutIllnesses['TumarMarker']) && is_array($aboutIllnesses['TumarMarke
 				?>
 			</div>
 			<div class="clear10"></div>
-			<label class="blue">What is your oncologist's recommendation?(Optional)</label>
+			<label class="blue">What is your oncologist's recommendation? ( Optional )</label>
 			<div class="w700">
 				<?php 
 						echo $this->Form->input('diagorecomandation',array("type"=>"textarea","value"=>$diagorecomandation,'label'=>''));

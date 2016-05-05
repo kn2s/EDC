@@ -31,7 +31,7 @@
 			}
 		?>
 		
-		<li><a href="javascript:void(0)" class="js-preview done" sec="1">Patient Details</a></li>
+		<li><a href="javascript:void(0)" class="js-preview done" sec="1">Patient's Details</a></li>
 		<li><a href="javascript:void(0)" class="js-preview done" sec="2">Social History</a></li>
 		<li><a href="javascript:void(0)" class="js-preview done" sec="3">About The Illness</a></li>
 		<li><a href="javascript:void(0)" class="js-preview done" sec="4">Past History</a></li>
