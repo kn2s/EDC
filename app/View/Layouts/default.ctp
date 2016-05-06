@@ -43,7 +43,7 @@ $activecontrolleraction = $this->params->params['controller']."".$this->params->
 	  <?php echo $this->element('socialmedia')?>
 	  <ul>
         <li><?php echo $this->Html->link('Contact Us',array('controller'=>'contactus','action'=>'index','full_base'=>true)); ?></li>
-        <li><?php echo $this->Html->link('Terms & Conditions',array('controller'=>'praivacypolicy','action'=>'index','full_base'=>true)); ?></li>
+        <li><?php echo $this->Html->link('Terms & Conditions',array('controller'=>'TermConditions','action'=>'index','full_base'=>true)); ?></li>
       </ul>
       <p class="copy">Copyright &copy; Eradicate Cancer  2015 - 2020</p>
       <div class="clear"></div>
