@@ -27,7 +27,7 @@ echo $this->Html->script('jquery.bxslider.js');
 				}
 			}
 			else{
-				if(is_array($patient['PatientCase']) && count($patient['PatientCase'])>0){
+				if(isset($patient['PatientCase']['ispaymentdone']) && $patient['PatientCase']['ispaymentdone']==1){
 					echo $this->element('patientdashboardtwo',array("patient",$patient));
 				}
 				else{

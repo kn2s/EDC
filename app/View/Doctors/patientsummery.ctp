@@ -6,7 +6,7 @@
 		<div class="clear"></div>
 		<div class="details">
 			<div class="heiding">
-				<h2>Paitient Details</h2>
+				<h2>Patient Details</h2>
 				<div class="clear"></div>
 			</div>
 			<div class="clear5"></div>
@@ -109,7 +109,7 @@
 				<h3>Performance</h3>
 				<div class="row">
 					<div class="width1">
-						<label class="blue">Current Performence Status</label>
+						<label class="blue">Current Performance Status</label>
 					</div>
 					<div class="width2">
 						<label><?php $pers = isset($patientalldeatils['PatientDetail']['performance'])?$patientalldeatils['PatientDetail']['performance']:''; 
@@ -125,7 +125,7 @@
 				</div>
 				<div class="row">
 					<div class="width1">
-						<label class="blue">Comment about Performence Status</label>
+						<label class="blue">Comment about Performance Status</label>
 					</div>
 					<div class="width2">
 						<label><?php echo isset($patientalldeatils['PatientDetail']['performance_comment'])?$patientalldeatils['PatientDetail']['performance_comment']:'';?></label>
@@ -186,7 +186,7 @@
 						<label class="blue">Alcohol type</label>
 					</div>
 					<div class="width2">
-						<label class="blue">quantity</label>
+						<label class="blue">Quantity</label>
 					</div>
 				</div>
 				<?php 
@@ -322,7 +322,7 @@
 				</div>
 				<div class="row">
 					<div class="width1">
-						<label class="blue">What is your oncologist’s recommendation?</label>
+						<label class="blue">What is your oncologist's recommendation?</label>
 					</div>
 					<div class="width2">
 						<label><?php echo isset($patientalldeatils['AboutIllness']['diagorecomandation'])?$patientalldeatils['AboutIllness']['diagorecomandation']:'-';?></label>

@@ -29,7 +29,7 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Questionnare</h1>
+		<h1 class="page-header">Questionnaire</h1>
 	</div>
 	<!-- /.col-lg-12 -->
 </div>
@@ -42,7 +42,7 @@
 	<div class="panel panel-default">
 		<!-- /.panel-heading -->
 		<div class="panel-heading">
-			Patient Questionnare
+			Patient Questionnaire
 		</div>
 		<div class="panel-body">
 			<div class="dataTable_wrapper">
@@ -125,7 +125,7 @@
 							<th colspan='2'>Performance</th>
 						</tr>
 						<tr class="odd gradeX">
-							<th>Current Performence Status</th>
+							<th>Current Performance Status</th>
 							<td><?php 
 								if(isset($patientalldeatils['PatientDetail']['performance'])){
 									$prf = explode("_",$patientalldeatils['PatientDetail']['performance']);
@@ -134,7 +134,7 @@
 							?></td>
 						</tr>
 						<tr class="odd gradeX">
-							<th>Comment about Performence Status</th>
+							<th>Comment about Performance Status</th>
 							<td><?=(isset($patientalldeatils['PatientDetail']['performance_comment'])?$patientalldeatils['PatientDetail']['performance_comment']:'')?></td>
 						</tr>
 					</tbody>
@@ -185,7 +185,7 @@
 							<th colspan='2'>Alcohol</th>
 						</tr>
 						<tr class="odd gradeX">
-							<th>Alcohol type</th>
+							<th>Alcohol Type</th>
 							<th>Quantity</th>
 						</tr>
 						<?php 
@@ -212,7 +212,7 @@
 							}
 						?>
 						<tr class="odd gradeX">
-							<th>period</th>
+							<th>Period</th>
 							<td><?php
 							
 								$smonth = isset($alcohol['alcohalstartmonth'])?$alcohol['alcohalstartmonth']:'';
@@ -675,7 +675,7 @@
 					<table class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
-								<th colspan="2">Questionnare not submited</th>
+								<th colspan="2">Questionnaire not submited</th>
 								
 							</tr>
 						</thead>

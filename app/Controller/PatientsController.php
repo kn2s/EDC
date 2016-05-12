@@ -365,7 +365,12 @@ class PatientsController extends AppController {
 				'PatientCase'=>array(
 					'className'=>'DoctorCase',
 					'foreignKey'=>'patient_id',
-					'conditions'=>array('PatientCase.doctor_id >'=>'0','PatientCase.isclosed'=>'0','PatientCase.is_deleted'=>'0'),
+					'conditions'=>array(
+						'PatientCase.doctor_id >'=>'0',
+						'PatientCase.isclosed'=>'0',
+						'PatientCase.is_deleted'=>'0',
+						'PatientCase.ispaymentdone'=>'1'
+					),
 					'order'=>array('PatientCase.id'=>'DESC')
 				)
 			)
@@ -384,6 +389,21 @@ class PatientsController extends AppController {
 					'fields'=>array('DoctorDetail.image','DoctorDetail.id')
 				)
 			)
+		));
+		//has one opinion
+		$this->Patient->PatientCase->bindModel(
+			array(
+				'hasOne'=>array(
+					'CaseOpinion'=>array(
+						'className'=>'CaseOpinion',
+						'foreingKey'=>'doctor_case_id',
+						'conditions'=>array('CaseOpinion.is_deleted'=>'0','CaseOpinion.is_confirm'=>'1')
+					)
+				)
+			)
+		);
+		$this->Patient->PatientCase->CaseOpinion->unbindModel(array(
+			'belongsTo'=>array('DoctorCase')
 		));
 		//get user details
 		$fields = array('Patient.id','Patient.name','Patient.email','Patient.detailsformsubmit','Patient.detailsubmitpercent');

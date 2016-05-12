@@ -47,7 +47,7 @@ $(document).ready(function(){
   <section class="bodyBannerSlider appear">
   	<a href="<?=FULL_BASE_URL.$this->base?>/services" class="banner1">
     	<div class="container">
-    		<h3 class="smooth2">Fighiting Cancer?</h3>
+    		<h3 class="smooth2">Fighting Cancer?</h3>
         	<h4 class="smooth2">Consult with the <span>specialists</span> across the globe</h4>
         </div>
     </a>
@@ -75,7 +75,7 @@ $(document).ready(function(){
   
   <section class="secondOption" data-appear-top-offset="-300">
     <div class="container">
-      <h3>Get Second Opinion in <span>3 Stapes</span></h3>
+      <h3>Get Second Opinion in <span>3 Steps</span></h3>
       <div class="clear"></div>
       <div class="box1 smooth"><a href="<?php echo FULL_BASE_URL.$this->base."/patients/account"; ?>">
 	  <?php echo $this->Html->image('icon4.png',array('alt'=>'','class'=>'icon'));?>
@@ -85,9 +85,9 @@ $(document).ready(function(){
 		
       <div class="box2 smooth"><a href="<?php echo FULL_BASE_URL.$this->base."/patients/samplequestioner"; ?>"> <img src="images/icon5.png" class="icon2">
         <h2>Tell Us about the disease</h2>
-        <p>Fill up the online questioner and upload <br>
+        <p>Fill up the online questionnaire  and upload <br>
           the required documents</p>
-        <span class="link">View Sample Questioner</span></a> </div>
+        <span class="link">View Sample Questionnaire </span></a> </div>
 		
       <div class="box1 smooth"><a href="<?php echo FULL_BASE_URL.$this->base."/patients/sampleopinion"; ?>"> <img src="images/icon6.png" class="icon2">
         <h2>Get Opinion</h2>

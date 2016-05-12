@@ -105,25 +105,28 @@ $cakeVersion = __d('cake_dev', '');
 						?>
 						<li><a href="javascript:void(0)" class="js-doctoptions" vals="1">Questionnaire</a></li>
 						<li><a href="javascript:void(0)" class="current" vals="2">Communication</a></li>
-						<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>
+						<!--<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>-->
 						<?php
 							break;
 						case 3:
 						?>
 						<li><a href="javascript:void(0)" class="" vals="1">Questionnaire</a></li>
 						<li><a href="javascript:void(0)" class="" vals="2">Communication</a></li>
-						<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>
+						<!--<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>-->
 						<?php	
 							break;
 						default:
 						?>
 						<li><a href="javascript:void(0)" class="current" vals="1">Questionnaire</a></li>
 						<li><a href="javascript:void(0)" class="js-doctoptions" vals="2">Communication</a></li>
-						<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>
+						<!--<li><a href="javascript:void(0)" class="" vals="3">Refer</a></li>-->
+						
+						
 						<?php	
 							break;
 					}
 				?>
+				<li><?php echo $this->Html->link("Refer",array('controller'=>'References'));?></li>
 				<li class="opinion">
             	<?php 
 					if(isset($doctorCases['CaseOpinion']) && count($doctorCases['CaseOpinion'])>0){

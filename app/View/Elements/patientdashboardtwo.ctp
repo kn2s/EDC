@@ -6,6 +6,9 @@
 	$blktext = "The questionnaire is successfully submitted on ".$crtdate.".<br/> Doctor will get back to you, if any clarificaion required.";
 	$status = isset($patient['PatientCase']['satatus'])?$patient['PatientCase']['satatus']:0;
 	$hcls="";
+	if(isset($patient['PatientCase']['CaseOpinion']) && count($patient['PatientCase']['CaseOpinion'])>0){
+		$status=4;
+	}
 	//$status=4;
 	if($status==2){
 		$hcls="Message";
@@ -48,7 +51,7 @@
                 <h4>Till <?=($opinionduedate)?date("d M Y",strtotime("+30 day",strtotime($opinionduedate))):''?></h4>
             </div>
             <div class="oneThird">
-            	<p>Your Account Expires on</p>
+            	<p>Your Account Expired on</p>
                 <h4><?=($opinionduedate)?date("d M Y",strtotime("+4 month",strtotime($opinionduedate))):''?></h4>
             </div>
 			<?php
@@ -80,6 +83,6 @@
 		}
 
 		if($numberformpost>4){
-			echo $this->Html->link('Questionary(Keep a copy for your records)',array('controller'=>'Patients','action'=>'questionary','full_base'=>false),array('escape'=>false,'class'=>'Questionnaire'));
+			echo $this->Html->link('Questionnaire (Keep a copy for your records)',array('controller'=>'Patients','action'=>'questionary','full_base'=>false),array('escape'=>false,'class'=>'Questionnaire'));
 		}
 	?>

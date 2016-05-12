@@ -2141,12 +2141,7 @@ function isEmail(email) {
 	 if(clkfor=="confirm"){
 		 conmsg="Are you sure, you want to confirmed the opinion";
 		 isconfirm=1;
-	 }
-	 else{
-		 conmsg="Are you sure, you want to cancelled the opinion";
-		 isconfirm=0;
-	 }
-	 if(confirm(conmsg)){
+		 if(confirm(conmsg)){
 		 $.ajax({
 			 url:baseurl+trgfunc,
 			 type:'post',
@@ -2157,13 +2152,23 @@ function isEmail(email) {
 				 console.log(response.status);
 				 console.log(response.message);
 				 if(response.status==1){
-					 $($(e.currentTarget).parent()).remove(); 
+					 $($(e.currentTarget).parent()).remove();
+					 //alert("Your opinion saved successfully and delivered to the patient");
+					 $("#succmessage").html(response.message);
 				 }
-				 alert(response.message);
+				 else{
+					 alert(response.message);
+				 }
+				 
 			 },
 			 error:function(response){
 				 console.log(response);
 			 }
 		 });
+	 }
+	 }
+	 else{
+		 //conmsg="Are you sure, you want to cancelled the opinion";
+		 isconfirm=0;
 	 }
  });

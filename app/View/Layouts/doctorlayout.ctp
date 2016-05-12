@@ -57,7 +57,7 @@ $cakeVersion = __d('cake_dev', '');
                 <a href="javascript:void(0)" class="js-casefilter" val="1">Pending</a>          
 				<a href="javascript:void(0)" class="js-casefilter" val="2">Awaiting input</a>
                 <a href="javascript:void(0)" class="js-casefilter" val="4">Opinion Due</a>          
-				<a href="javascript:void(0)" class="js-casefilter" val="5">Deleied</a>
+				<a href="javascript:void(0)" class="js-casefilter" val="5">Deleted</a>
             </div>
         </div>
 		

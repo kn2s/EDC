@@ -431,10 +431,10 @@ class PatientDetailsController extends AppController {
 	$upcond = array('Patient.id'=>$this->Session->read("loggedpatientid"));
 	if($this->Session->read('lastquestionformno')>5){
 		//get the patient details if doct allow edite
-		$thhis->PatientDetail->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
+		$this->PatientDetail->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
 		//model bind
 		$this->PatientDetail->Patient->bindModel(array(
-			'belongsTo'=>array(
+			'hasOne'=>array(
 				'PatientCase'=>array(
 					'className'=>'DoctorCase',
 					'foreignKey'=>'patient_id',
@@ -443,7 +443,9 @@ class PatientDetailsController extends AppController {
 				)
 			)
 		));
+		
 		$patient = $this->PatientDetail->Patient->find('first',array('recursive'=>'2','conditions'=>$upcond));
+		//pr($patient);
 		if(is_array($patient) && count($patient)>0){
 			if($patient['Patient']['doctallowtoeditquetionair']==1){
 				//get the doctor information

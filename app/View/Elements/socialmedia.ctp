@@ -1,5 +1,6 @@
 <?php 
-$sociallinks = $this->requestAction('app/socialmedialinks');
+ $sociallinks = $this->requestAction('app/socialmedialinks');
+ //pr($sociallinks);
 ?>
 
 <div class="followus">

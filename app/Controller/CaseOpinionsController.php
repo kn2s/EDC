@@ -60,7 +60,17 @@ class CaseOpinionsController extends AppController {
 		));
 		$this->CaseOpinion->DoctorCase->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
 		$this->CaseOpinion->DoctorCase->Doctor->unbindModel(array('hasMany'=>array('PatientDetail')));
-		$options = array('recursive'=>3,'conditions' => array('CaseOpinion.doctor_case_id'=> $id,'DoctorCase.is_deleted'=>'0','DoctorCase.isclosed'=>'0'),'order'=>array('CaseOpinion.id'=>'DESC'));
+		$options = array(
+			'recursive'=>3,
+			'conditions' => array(
+				'CaseOpinion.doctor_case_id'=> $id,
+				'CaseOpinion.is_deleted'=>'0',
+				'CaseOpinion.is_confirm'=>'1',
+				'DoctorCase.is_deleted'=>'0',
+				'DoctorCase.isclosed'=>'0'
+			),
+			'order'=>array('CaseOpinion.id'=>'DESC')
+		);
 		$caseopinion = $this->CaseOpinion->find('first', $options);
 		//pr($caseopinion);
 		if(is_array($caseopinion) && count($caseopinion)>0){
@@ -106,9 +116,54 @@ class CaseOpinionsController extends AppController {
 		));
 		$this->CaseOpinion->DoctorCase->Patient->unbindModel(array('hasMany'=>array('PatientDetail')));
 		$this->CaseOpinion->DoctorCase->Doctor->unbindModel(array('hasMany'=>array('PatientDetail')));
-		$options = array('recursive'=>3,'conditions' => array('CaseOpinion.doctor_case_id'=> $id),'order'=>array('CaseOpinion.id'=>'DESC'));
-		$this->set('caseOpinion', $this->CaseOpinion->find('first', $options));
+		
+		$options = array(
+			'recursive'=>3,
+			'conditions' => array(
+				'CaseOpinion.doctor_case_id'=> $id,
+				'CaseOpinion.is_deleted'=>'0'
+			),
+			'order'=>array('CaseOpinion.id'=>'DESC')
+		);
+		$caseOpiniion = $this->CaseOpinion->find('first', $options);
+		if(!isset($caseOpiniion['CaseOpinion']['id'])){
+			$this->Session->setFlash(__("Invalid Case Informatin"));
+			return $this->redirect(array('controller'=>'doctors','action'=>'dashboard'));
+		}
+		else{
+			$doct_id = isset($caseOpiniion['DoctorCase']['doctor_id'])?$caseOpiniion['DoctorCase']['doctor_id']:0;
+			if($doct_id==0 ||($doct_id!=$this->Session->read('loggeddoctid'))){
+				$this->Session->setFlash(__("Invalid Case Informatin"));
+				return $this->redirect(array('controller'=>'doctors','action'=>'dashboard'));
+			}
+		}
+		$this->set('caseOpinion',$caseOpiniion );
 		$this->set('is_new',$is_new);
+		//get other opinion of that users and the doctor 
+		$patient_id = isset($caseOpiniion['DoctorCase']['patient_id'])?$caseOpiniion['DoctorCase']['patient_id']:0;
+		$otheropinions=array();
+		if($patient_id>0){
+			$othcasescond =array(
+				'DoctorCase.patient_id'=>$patient_id,
+				'DoctorCase.doctor_id'=>$this->Session->read('loggeddoctid'),
+				'DoctorCase.ispaymentdone'=>'1',
+				'DoctorCase.is_deleted'=>'0'
+			);
+			$allcases = $this->CaseOpinion->DoctorCase->find('list',array('conditions'=>$othcasescond));
+			if(is_array($allcases) && count($allcases)>0){
+				$case_ids = array_keys($allcases);
+				//now find the opinions 
+				$findopi = array(
+					'CaseOpinion.doctor_case_id'=>$case_ids,
+					'CaseOpinion.is_deleted'=>'0'
+				);
+				$otheropinions = $this->CaseOpinion->find('all',array(
+					'recursive'=>'0',
+					'conditions'=>$findopi
+				));
+			}
+		}
+		$this->set('otheropinions',$otheropinions);
 	}
 
 /**
@@ -129,12 +184,12 @@ class CaseOpinionsController extends AppController {
 				'CaseOpinion.is_confirm'=>'0'
 			);
 			$caseOpinion  = $this->CaseOpinion->find('first',array('recursive'=>'2','conditions'=>$findcond));
-			//pr($caseOpinion);
+			
 			if(is_array($caseOpinion) && count($caseOpinion)>0){
 				$doctcaseid = $caseOpinion['CaseOpinion']['doctor_case_id'];
 				$opinion_comment = $caseOpinion['CaseOpinion']['comment'];
 				if($isconfirm==1){
-					$message="Opinion has been confirmed successfully.";
+					$message="Your opinion saved successfully and delivered to the patient";
 					$status='1';
 					$updata = array('CaseOpinion.is_confirm'=>'1');
 					$this->CaseOpinion->updateAll($updata,$findcond);
@@ -266,7 +321,7 @@ class CaseOpinionsController extends AppController {
 					}
 				}*/
 			}
-			die(json_encode(array('status'=>$status,'message'=>$message,'id'=>$opinion_id)));
+			die(json_encode(array('status'=>$status,'message'=>$message,'id'=>$doctcaseid)));
 		}
 	}
 	
