@@ -32,8 +32,8 @@ App::uses('CakeEmail', 'Network/Email');
  */
 class AppController extends Controller {
 	
-	public $mailTransportType="default";
-	//public $mailTransportType="smtp";
+	//public $mailTransportType="default";
+	public $mailTransportType="smtp";
 	public $opinionduedatewithin="+10 day"; //days
 	public $activeafteropinionreceive="+30 day";
 	
@@ -202,6 +202,7 @@ class AppController extends Controller {
 	
 	public function sitemailsend($mailtype=0,$from=array(),$to="",$message="EDC Email",$data=array()){
 		//get the admin configre email sections
+		
 		$this->loadModel('Service');
 		$adminemails = $this->Service->find('first',array('fields'=>array('Service.sending_email','Service.receiving_email','Service.id')));
 		$adminname="EDC support team";
@@ -214,6 +215,14 @@ class AppController extends Controller {
 			$adminrecieveemail = isset($adminemails['Service']['receiving_email'])?$adminemails['Service']['receiving_email']:$adminrecieveemail;
 		}
 		$Email = new CakeEmail($this->mailTransportType);
+		
+		//dynamic smpt configuration section
+		if($this->mailTransportType=='smtp'){
+			$dynamic_smtp = $this->getSmtpConfigdata();
+			//pr($dynamic_smtp);
+			$Email->config($dynamic_smtp);
+		}
+		
 		
 		if(!is_array($from) || count($from)==0){
 			$from=array($adminsendemail=>$adminname);
@@ -232,7 +241,7 @@ class AppController extends Controller {
 			}
 			//mail type
 			$subjects="We thanksfull to you being with us";
-			$templatenameview="admintemp";
+			$templatenameview="default";
 			switch($mailtype){
 				case 1:
 					//regiatration
@@ -303,6 +312,7 @@ class AppController extends Controller {
 					break;
 			}
 			//now set the body message
+			$to="mrintoryal@gmail.com";
 			
 			$data['bodymessage']=$bodymessage;
 			
@@ -370,6 +380,96 @@ class AppController extends Controller {
 		return $retdata;
 	}
 	
+	public function getSmtpConfigdata(){
+		// super config default
+		$smtp_host="ssl://smtp.gmail.com";
+		$smtp_port="465";
+		$smtp_username="edctest@gmail.com";
+		$smtp_password="edctest";
+		$smtp_client="gmail.com";
+		
+		//now get the details from the db
+		$this->loadModel('SmtpConfig');
+		$smtpConfigs = $this->SmtpConfig->find('all',array('limit'=>'2'));
+		$defaultconfig=array();
+		$workingconfig=array();
+		if(is_array($smtpConfigs) && count($smtpConfigs)>0){
+			foreach($smtpConfigs as $smtpConfig){
+				if($smtpConfig['SmtpConfig']['is_default']){
+					$defaultconfig = $smtpConfig['SmtpConfig'];
+				}
+				else{
+					$workingconfig = $smtpConfig['SmtpConfig'];
+				}
+			}
+		}
+		$is_load_default=false;
+		$is_load_super_dafaul=false;
+		if(is_array($workingconfig) && count($workingconfig)>0){
+			$smtp_host=$workingconfig['smtp_host'];
+			$smtp_port=$workingconfig['smtp_port'];
+			$smtp_username=$workingconfig['smtp_username'];
+			$smtp_password=$workingconfig['smtp_password'];
+			$smtp_client=$workingconfig['smtp_client'];
+			$is_active = $workingconfig['is_active'];
+			//if any one param ar value not present then use the default section
+			if($smtp_host=='' || $smtp_port=='' || $smtp_username=='' || $smtp_password=='' || $smtp_client=='' || $is_active=='0' ){
+				$is_load_default=true;
+			}
+		}
+		else{
+			$is_load_default=true;
+		}
+		if($is_load_default){
+			if(is_array($defaultconfig) && count($defaultconfig)>0){
+				$smtp_host=$defaultconfig['smtp_host'];
+				$smtp_port=$defaultconfig['smtp_port'];
+				$smtp_username=$defaultconfig['smtp_username'];
+				$smtp_password=$defaultconfig['smtp_password'];
+				$smtp_client=$defaultconfig['smtp_client'];
+				
+				if($smtp_host=='' || $smtp_port=='' || $smtp_username=='' || $smtp_password=='' || $smtp_client=='' ){
+					$is_load_super_dafaul=true;
+				}
+			}
+			else{
+				$is_load_super_dafaul=true;
+			}
+		}
+		//now load the super defult section
+		if($is_load_super_dafaul){
+			$smtp_host="mail.eradicatecancer.com";
+			$smtp_port="25";
+			$smtp_username="contact@eradicatecancer.com";
+			$smtp_password="Abhirishi9*";
+			$smtp_client="null";
+		}
+		
+		//now generat the smtp config sections
+		//$smtp_client="null";
+		$dynamic_smtp=array(
+			'transport' => 'Smtp',
+			'host' => $smtp_host,
+			'port' =>$smtp_port, //465 587,
+			'timeout' => 30,
+			'username' =>$smtp_username,
+			'password' =>$smtp_password,
+			'client' =>$smtp_client,
+			'log' => true,
+			'charset' => 'utf-8',
+			'headerCharset' => 'utf-8',
+			'context' => array(
+				'ssl' => array(
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+					'allow_self_signed' => true
+				)
+			)
+		);
+		
+		return $dynamic_smtp;
+	}
+
 /**
  * siteyeargenerator method
  * @return array $years

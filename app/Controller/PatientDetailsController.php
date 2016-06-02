@@ -137,10 +137,13 @@ class PatientDetailsController extends AppController {
 			//array_push($days,$j);
 			$days[$j]=$j;
 		}
-		for($k=(date('Y')-90);$k<date('Y');$k++){
+		$eightteenyears = date('Y',strtotime('-18 years'));
+		for($k=($eightteenyears-110);$k<$eightteenyears;$k++){
 			//array_push($years,$k);
 			$years[$k]=$k;
 		}
+		pr($eightteenyears);
+		die();
 		$this->set(compact('countries','months','days','years'));
 	}
 	
@@ -704,7 +707,166 @@ class PatientDetailsController extends AppController {
 				$crttime = $scheduledoct['ScheduleDoctor']['lastangajtime'];
 				$fiveminbuffer = time()-(5*60);
 				if($crttime>=$fiveminbuffer){
-					//valied transaction secions
+					//now make the payment section
+					//get the live data from the admin
+					$this->loadModel('Service');
+					$fieldname = array('Service.payment_mode','Service.payment_account','Service.id','Service.consulting_charge','Service.payment_on_off');
+					$paymentdetails = $this->Service->find('first',array('fields'=>$fieldname));
+					$ispayaccountpresent=0;
+					if(is_array($paymentdetails) && count($paymentdetails)>0){
+						if(isset($paymentdetails['Service']['payment_account']) && $paymentdetails['Service']['payment_account']!=''){
+							if($paymentdetails['Service']['payment_on_off']){
+								$ispayaccountpresent=1;
+								$mode = $paymentdetails['Service']['payment_mode'];
+								$amount = $paymentdetails['Service']['consulting_charge'];
+								$baseurls = FULL_BASE_URL.$this->base."/";
+								//$cancel_return = "http://localhost/EDC/patients/paymentcancel";
+								$cancel_return =$baseurls."patients/paymentcancel";
+								$return = $baseurls."patients/paymentsucces";
+								$notify_url = $baseurls."patients/paymentsucces_notify";
+								
+								$configdata=array(
+									'item_name'=>'Consultant fee',
+									'item_number'=>'1',
+									'amount'=>$amount,
+									'currency_code'=>'USD',
+									'cancel_return'=>$cancel_return,
+									'return'=>$return,
+									'notify_url'=>$notify_url,
+									'case_id'=>$caseid,
+								);
+								$paypal_id=($paymentdetails['Service']['payment_account']);
+								
+								$paypal_url='https://www.sandbox.paypal.com/cgi-bin/webscr';
+								if($mode==1){
+									$paypal_url='https://www.paypal.com/cgi-bin/webscr';
+								}
+								$this->set('configdata',$configdata);
+								$this->set('paypal_url',$paypal_url);
+								$this->set('paypal_id',$paypal_id);
+								//
+								$formnumber=0;
+								$this->Session->write("lastquestionformno",$formnumber);
+								
+								if($this->Session->check("quesformno")){
+									$formnumber = $this->Session->read("quesformno");
+								}
+								$this->set('patientinfo',$formnumber);
+							}
+							else{
+								//custome data for no payment zone
+								$txn_id="EDC_".time();
+								$tsn_datails='';
+								
+								// this section if payple payment sercive is off
+								$updata = array('DoctorCase.ispaymentdone'=>'1','DoctorCase.transaction_id'=>"'".$txn_id."'",'DoctorCase.tsn_datails'=>"'".$tsn_datails."'");
+								$upcond = array('DoctorCase.id'=>$caseid);//'DoctorCase.schedule_doctor_id'=>$scheduledcotid,
+								$this->DoctorCase->updateAll($updata,$upcond);
+								//after update the case 
+								$upcond['DoctorCase.ispaymentdone']='1';
+								$doctorcase = $this->DoctorCase->find('first',array('recursive'=>'1','conditions'=>$upcond));
+								if(is_array($doctorcase) && count($doctorcase)>0){
+									$doctorname=(isset($doctorcase['Doctor']['name']))?$doctorcase['Doctor']['name']:'';
+									$patientname=(isset($doctorcase['Patient']['name']))?$doctorcase['Patient']['name']:'';
+									$patientid=(isset($doctorcase['Patient']['id']))?$doctorcase['Patient']['id']:'0';
+									$patientemail = (isset($doctorcase['Patient']['email']))?$doctorcase['Patient']['email']:'';
+									//if patient email found
+									if($patientemail!=''){
+										$data = array(
+											'name'=>$patientname,
+											'available_date'=>$doctorcase['DoctorCase']['available_date'],
+											'opinion_due_date'=>$doctorcase['DoctorCase']['opinion_due_date'],
+											'consultant_fee'=>$doctorcase['DoctorCase']['consultant_fee'],
+											'diagonisis'=>$doctorcase['DoctorCase']['diagonisis'],
+											'doctorname'=>$doctorname,
+										);
+										
+										$this->sitemailsend($mailtype=2,$from=array(),$to=$patientemail,$message="EDC Email",$data);
+									}
+									//update the doctor schedule 
+									$scheduledcotid=$doctorcase['DoctorCase']['schedule_doctor_id'];
+									if($scheduledcotid>0){
+										$this->loadModel('ScheduleDoctor');
+										
+										$this->ScheduleDoctor->bindModel(array(
+											'belongsTo'=>array(
+												'Doct'=>array(
+													'className'=>'Patient',
+													'foreignKey'=>'doct_id',
+													'fields'=>array('Doct.id','Doct.name')
+												)
+											)
+										));
+										//now bind DoctotDetails
+										$this->ScheduleDoctor->Doct->bindModel(array(
+											'hasOne'=>array(
+												'DoctorDetail'=>array(
+													'className'=>'Doctor',
+													'foreignKey'=>'patient_id',
+													'fields'=>array('DoctorDetail.id','DoctorDetail.maxappointment')
+												)
+											)
+										));
+										//get the details of the schedule doctore
+										$updcond = array('ScheduleDoctor.id'=>$scheduledcotid);
+										$scheduledoct = $this->ScheduleDoctor->find('first',array('recursive'=>'2','conditions'=>$updcond));
+										if(is_array($scheduledoct) && count($scheduledoct)>0){
+											// now update the count of the doct of assign patient details 
+											// update section
+											$totalassignment = $scheduledoct['ScheduleDoctor']['assignment'];
+											$maxassignment = isset($scheduledoct['Doct']['DoctorDetail']['maxappointment'])?$scheduledoct['Doct']['DoctorDetail']['maxappointment']:'1';
+											$appointmentfull=0;
+											if(($totalassignment+1)>=$maxassignment){
+												//
+												$appointmentfull=1;
+											}
+											$updat = array('ScheduleDoctor.assignment'=>'ScheduleDoctor.assignment+1','ScheduleDoctor.assingmentfull'=>$appointmentfull);
+											
+											$this->ScheduleDoctor->updateAll($updat,$updcond);
+										}
+									}
+									//
+									//now update the form submit count in patient tables
+									//new
+									$patientupddata = array('Patient.detailsformsubmit'=>'6','Patient.is_questionnair_closed'=>'0');
+									$patientcond = array('Patient.id'=>$patientid);
+									$this->Patient->updateAll($patientupddata,$patientcond);
+									$this->Session->setFlash(__('Your payment successfully done. Transaction id : '.$txn_id));
+								}
+							}
+						}
+					}
+					if($ispayaccountpresent==0){
+						//paypal account not present
+						//send mail to admin
+						$this->sitemailsend($mailtype=7,$from=array(),$to="",$message="EDC Email paypal not set",$data=array());
+						
+						$this->Session->setFlash(__('Some thing gone wrong in payment process please take a look after few minutes.'));
+						$this->redirect(array('action'=>'patientconsultant'));
+					}
+					//$paypal_id='mrintoryal_business@yahoo.in';
+				}
+				else{
+					//transaction time out
+					$this->Session->setFlash(__('The payment section time out.'));
+					$this->redirect(array('action'=>'patientconsultant'));
+				}
+			}
+			else{
+				//invalied data pass 
+				$this->Session->setFlash(__('The details of case could not found .'));
+				$this->redirect(array('action'=>'patientconsultant'));
+			}
+		}
+		else{
+			$this->Session->setFlash(__('The details could not found.'));
+			$this->redirect(array('action'=>'patientconsultant'));
+		}
+	}
+ 
+	public function oldpaymentdone(){
+		/*
+		//valied transaction secions
 					//update the doctor case details 
 					/*$updata = array('DoctorCase.ispaymentdone'=>'1');
 					$upcond = array('DoctorCase.schedule_doctor_id'=>$scheduledcotid,'DoctorCase.id'=>$caseid);
@@ -757,78 +919,7 @@ class PatientDetailsController extends AppController {
 					//$this->Session->setFlash(__('The consultants saved.'));
 					$this->redirect(array('controller'=>'patients','action'=>'dashboard'));*/
 					
-					//now make the payment section
-					//get the live data from the admin
-					$this->loadModel('Service');
-					$fieldname = array('Service.payment_mode','Service.payment_account','Service.id','Service.consulting_charge');
-					$paymentdetails = $this->Service->find('first',array('fields'=>$fieldname));
-					$ispayaccountpresent=0;
-					if(is_array($paymentdetails) && count($paymentdetails)>0){
-						if(isset($paymentdetails['Service']['payment_account']) && $paymentdetails['Service']['payment_account']!=''){
-							$ispayaccountpresent=1;
-							$mode = $paymentdetails['Service']['payment_mode'];
-							$amount = $paymentdetails['Service']['consulting_charge'];
-							$baseurls = FULL_BASE_URL.$this->base."/";
-							//$cancel_return = "http://localhost/EDC/patients/paymentcancel";
-							$cancel_return =$baseurls."patients/paymentcancel";
-							$return = $baseurls."patients/paymentsucces";
-							$notify_url = $baseurls."patients/paymentsucces_notify";
-							
-							$configdata=array(
-								'item_name'=>'Consultant fee',
-								'item_number'=>'1',
-								'amount'=>$amount,
-								'currency_code'=>'USD',
-								'cancel_return'=>$cancel_return,
-								'return'=>$return,
-								'notify_url'=>$notify_url,
-								'case_id'=>$caseid,
-							);
-							$paypal_id=($paymentdetails['Service']['payment_account']);
-							
-							$paypal_url='https://www.sandbox.paypal.com/cgi-bin/webscr';
-							if($mode==1){
-								$paypal_url='https://www.paypal.com/cgi-bin/webscr';
-							}
-							$this->set('configdata',$configdata);
-							$this->set('paypal_url',$paypal_url);
-							$this->set('paypal_id',$paypal_id);
-							//
-							$formnumber=0;
-							$this->Session->write("lastquestionformno",$formnumber);
-							
-							if($this->Session->check("quesformno")){
-								$formnumber = $this->Session->read("quesformno");
-							}
-							$this->set('patientinfo',$formnumber);
-						}
-					}
-					if($ispayaccountpresent==0){
-						//paypal account not present
-						//send mail to admin
-						$this->sitemailsend($mailtype=7,$from=array(),$to="",$message="EDC Email paypal not set",$data=array());
-						
-						$this->Session->setFlash(__('Some thing gone wrong in payment process please take a look after few minutes.'));
-						$this->redirect(array('action'=>'patientconsultant'));
-					}
-					//$paypal_id='mrintoryal_business@yahoo.in';
-				}
-				else{
-					//transaction time out
-					$this->Session->setFlash(__('The payment section time out.'));
-					$this->redirect(array('action'=>'patientconsultant'));
-				}
-			}
-			else{
-				//invalied data pass 
-				$this->Session->setFlash(__('The details of case could not found .'));
-				$this->redirect(array('action'=>'patientconsultant'));
-			}
-		}
-		else{
-			$this->Session->setFlash(__('The details could not found.'));
-			$this->redirect(array('action'=>'patientconsultant'));
-		}
+		*/
 	}
  
 /**

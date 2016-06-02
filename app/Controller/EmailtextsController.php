@@ -64,7 +64,7 @@ class EmailTextsController extends AppController {
 						'email_body'=>$email_body
 					);
 					$to=$email;
-					$this->sitemailsend($mailtype=14,$from=array(),$to,$message="admin bulk mail",$data=array());
+					$this->sitemailsend($mailtype=14,$from=array(),$to,$message="admin bulk mail",$data);
 				}
 				$this->Session->setFlash(__('Email send to the users'),'default',array('class'=>'success'));
 			}

@@ -178,3 +178,9 @@ ALTER TABLE `ec_case_opinions` ADD `is_confirm` INT(1) NOT NULL DEFAULT '0' AFTE
 ALTER TABLE `ec_case_opinions` ADD `is_deleted` INT(1) NOT NULL DEFAULT '0' AFTER `is_confirm`;
 
 
+today(03-06-16):
+================
+
+ALTER TABLE `ec_services` ADD `payment_on_off` INT(1) NOT NULL DEFAULT '1' COMMENT '1=on , 0=off' AFTER `payment_account`;
+
+

@@ -219,6 +219,11 @@ $controllername = ucwords($this->params->params['controller']);
                                 <li>
 								  <?php echo $this->Html->link('Email',array('controller'=>'services','action'=>'emailsetting','full_base'=>true),array('escape'=>false));?>
 								</li>
+								
+								<li>
+								  <?php echo $this->Html->link('SMTP Email ',array('controller'=>'SmtpConfigs','action'=>'add','full_base'=>true),array('escape'=>false));?>
+								</li>
+								
 								<li>
 								  <?php echo $this->Html->link('Paypal',array('controller'=>'services','action'=>'paypalsetting','full_base'=>true),array('escape'=>false));?>
 								</li>

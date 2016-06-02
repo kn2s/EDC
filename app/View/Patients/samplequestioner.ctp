@@ -5,7 +5,7 @@
 		
 		<div class="details">
 			<div class="heiding">
-				<h2>Paitient Details</h2>
+				<h2>Patient Details</h2>
 				<div class="clear"></div>
 			</div>
 			<div class="clear5"></div>

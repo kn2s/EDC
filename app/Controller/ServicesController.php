@@ -81,7 +81,8 @@ class ServicesController extends AppController {
 			$this->Service->create();
 			$this->Service->save($this->request->data);
 		}
-		$this->request->data = $this->Service->find('first',array('fields'=>array('Service.payment_mode','Service.payment_account','Service.id')));
+		$this->request->data = $this->Service->find('first',array(
+		'fields'=>array('Service.payment_mode','Service.payment_account','Service.id','Service.payment_on_off')));
 	}
 	
 }

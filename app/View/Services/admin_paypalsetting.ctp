@@ -17,6 +17,7 @@
 							echo $this->Form->hidden('id');
 							echo $this->Form->input('payment_mode',array('options'=>array('0'=>'Test Mode','1'=>'Live Mode'),'div'=>'form-group','label'=>'Paypal Payment Mode','class'=>'form-control'));
 							echo $this->Form->input('payment_account',array('type'=>'text','div'=>'form-group','label'=>'Paypal Marchant Account','class'=>'form-control', 'placeholder'=>'Paypal Marchant Account'));
+							echo $this->Form->input('payment_on_off',array('options'=>array('0'=>'Off','1'=>'On'),'div'=>'form-group','label'=>'Paypal payment service','class'=>'form-control',));
 						 
 						?>
 						<!-- end from field creations -->

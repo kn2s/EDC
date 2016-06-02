@@ -25,7 +25,7 @@ margin-top:10px;
             	<div class="userName"><input type="text" name="name" placeholder="Name" id="name" class="sgnufld vldinput"></div>
                 <div class="mailId"><input type="text" name="email" placeholder="Email" id="email" class="sgnufld vldinput"></div>
                 <div class="bb40 mt10">
-				<textarea class="sgnufld txtareamy" name="message" placeholder="wright your message"></textarea>
+				<textarea class="sgnufld txtareamy" name="message" placeholder="write your message"></textarea>
 				</div>
 				<input type="button" class="blueButton js-contactus" value="Send" />
 
