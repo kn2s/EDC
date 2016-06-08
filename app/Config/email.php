@@ -66,6 +66,26 @@ class EmailConfig {
 		)
 	);
 	
+	/*public $gmail = array(
+		'transport' => 'Smtp',
+		'host' => 'smtp.gmail.com',
+		'port' =>465, //465 587,
+		'timeout' => 30,
+		'username' => 'cancereradicate@gmail.com',
+		'password' => 'password1234@',
+		'client' => "gmail.com",
+		'log' => false,
+		'charset' => 'utf-8',
+		'headerCharset' => 'utf-8',
+		'context' => array(
+			'ssl' => array(
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+				'allow_self_signed' => true
+			)
+		)
+	);*/
+	
 	/*public $smtp = array(
 		'transport' => 'Smtp',
 		'from' => array('you@localhost' => 'you_localhost'),

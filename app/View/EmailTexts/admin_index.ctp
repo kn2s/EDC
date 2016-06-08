@@ -30,7 +30,7 @@
 								
 								echo $this->Form->input('doc_allow_modify',array('type'=>'textarea','div'=>'form-group','class'=>'form-control', 'placeholder'=>'Document modify allowed text','required'=>'true'));
 								echo $this->Form->input('quesionair_modify',array('type'=>'textarea','div'=>'form-group','label'=>'Questionnair modify confirm','class'=>'form-control', 'placeholder'=>'Questionnair modify confirm body text','required'=>'true'));
-								echo $this->Form->input('communication_recieve',array('type'=>'textarea','div'=>'form-group','class'=>'form-control', 'placeholder'=>'communication received body text','required'=>'true'));
+								echo $this->Form->input('communication_recieve',array('type'=>'textarea','div'=>'form-group','class'=>'form-control', 'placeholder'=>'communication received body text','required'=>'true','label'=>'Communication Receive'));
 								
 								echo $this->Form->input('password_recovery',array('type'=>'textarea','div'=>'form-group','class'=>'form-control', 'placeholder'=>'Password recovery body text'));
 								echo $this->Form->input('case_assign',array('type'=>'textarea','div'=>'form-group','class'=>'form-control', 'placeholder'=>'Case assign body text'));

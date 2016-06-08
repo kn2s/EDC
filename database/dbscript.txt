@@ -184,3 +184,11 @@ today(03-06-16):
 ALTER TABLE `ec_services` ADD `payment_on_off` INT(1) NOT NULL DEFAULT '1' COMMENT '1=on , 0=off' AFTER `payment_account`;
 
 
+today(09-06-16):
+================
+
+ALTER TABLE `ec_doctor_cases` ADD `is_opnion_given` INT(1) NOT NULL DEFAULT '0' AFTER `satatus`;
+
+ALTER TABLE `ec_doctor_cases` ADD `is_opinion_alert_send` INT(1) NOT NULL DEFAULT '0' AFTER `is_deleted`;
+
+

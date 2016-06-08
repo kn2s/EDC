@@ -21,10 +21,10 @@ class DoctorsController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	/*public function index() {
 		$this->Doctor->recursive = 0;
 		$this->set('doctors', $this->Paginator->paginate());
-	}
+	}*/
 
 /**
  * view method
@@ -33,20 +33,20 @@ class DoctorsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	/*public function view($id = null) {
 		if (!$this->Doctor->exists($id)) {
 			throw new NotFoundException(__('Invalid doctor'));
 		}
 		$options = array('conditions' => array('Doctor.' . $this->Doctor->primaryKey => $id));
 		$this->set('doctor', $this->Doctor->find('first', $options));
-	}
+	}*/
 
 /**
  * add method
  *
  * @return void
  */
-	public function add() {
+	/*public function add() {
 		if ($this->request->is('post')) {
 			$this->Doctor->create();
 			if ($this->Doctor->save($this->request->data)) {
@@ -59,7 +59,7 @@ class DoctorsController extends AppController {
 		$patients = $this->Doctor->Patient->find('list');
 		$specializations = $this->Doctor->Specialization->find('list');
 		$this->set(compact('patients', 'specializations'));
-	}
+	}*/
 
 /**
  * edit method
@@ -68,7 +68,7 @@ class DoctorsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	/*public function edit($id = null) {
 		if (!$this->Doctor->exists($id)) {
 			throw new NotFoundException(__('Invalid doctor'));
 		}
@@ -86,7 +86,7 @@ class DoctorsController extends AppController {
 		$patients = $this->Doctor->Patient->find('list');
 		$specializations = $this->Doctor->Specialization->find('list');
 		$this->set(compact('patients', 'specializations'));
-	}
+	}*/
 
 /**
  * delete method
@@ -95,7 +95,7 @@ class DoctorsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	/*public function delete($id = null) {
 		$this->Doctor->id = $id;
 		if (!$this->Doctor->exists()) {
 			throw new NotFoundException(__('Invalid doctor'));
@@ -107,7 +107,7 @@ class DoctorsController extends AppController {
 			$this->Session->setFlash(__('The doctor could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}
+	}*/
 /**
  * dashboard method
  */
@@ -301,13 +301,18 @@ class DoctorsController extends AppController {
 				'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"),
 				'DoctorCase.ispaymentdone'=>'1',
 				'DoctorCase.isclosed'=>'0',
-				'DoctorCase.is_deleted'=>'0'
+				'DoctorCase.is_deleted'=>'0',
 			);
 			//change the filter log	
-			if($filterby==4){
+			if($filterby==4){ // opinion due
 				$conds['DoctorCase.satatus <']=4;
+				$conds['DoctorCase.is_opnion_given']='0';
+			}
+			elseif($filterby==5 || $filterby==6 ){ //deleted
+				$conds['DoctorCase.satatus']=$filterby;
 			}
 			else{
+				$conds['DoctorCase.is_opnion_given']='0';
 				$conds['DoctorCase.satatus']=$filterby;
 			}
 			//pr($conds);	
@@ -670,6 +675,7 @@ class DoctorsController extends AppController {
 		$this->doctusersessionremove();
 		$this->doctuserloginsessionchecked();
 	}
+ 
  
 /**
 ADMIN SECTION START FROM HERE
@@ -1042,6 +1048,8 @@ ADMIN SECTION START FROM HERE
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->layout='admin';
+		$this->validateadminsession();
 		$this->Doctor->Patient->id = $id;
 		if (!$this->Doctor->Patient->exists()) {
 			throw new NotFoundException(__('Invalid doctor'));

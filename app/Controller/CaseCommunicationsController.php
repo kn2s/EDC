@@ -53,7 +53,7 @@ class CaseCommunicationsController extends AppController {
 			$status=0;
 			$message='';
 			$commid=0;
-			$postdate=date("Y-m-d G:i:s");
+			$postdate=date("Y-m-d H:i:s");
 			//pr($this->request->data);
 			$this->CaseCommunication->create();
 			if(isset($this->request->data['CaseCommunication']['isquestionaryedit'])){
@@ -62,12 +62,20 @@ class CaseCommunicationsController extends AppController {
 			else{
 				$this->request->data['CaseCommunication']['isquestionaryedit']=0;
 			}
+			
 			$this->request->data['CaseCommunication']['createdate']=$postdate;
 			
 			if($this->Session->read('loggeddoctid')>0 && $this->request->data['CaseCommunication']['isdoctoresent']==1){
 				$this->request->data['CaseCommunication']['doct_id']=$this->Session->read('loggeddoctid');
 				$this->request->data['CaseCommunication']['isdoctoresent']=1;
 				if ($this->CaseCommunication->save($this->request->data)) {
+					//doctor details
+					$doctcond=array('Patient.id'=>$this->Session->read('loggeddoctid'));
+					$doctor = $this->CaseCommunication->Patient->find('first',array('recursive'=>'-1','conditions'=>$doctcond));
+					$doct_name='';
+					if(is_array($doctor) && count($doctor)>0){
+						$doct_name=$doctor['Patient']['name'];
+					}
 					$status=1;
 					$commid = $this->CaseCommunication->id;
 					$postdate = date("G:i - d M Y");
@@ -88,22 +96,43 @@ class CaseCommunicationsController extends AppController {
 						$this->CaseCommunication->Patient->unbindModel(array(
 							'hasMany'=>array('PatientDetail')
 						));
-						$patient = $this->CaseCommunication->Patient->find('first',array('conditions'=>$upcond));
+						$patient = $this->CaseCommunication->Patient->find('first',array('recursive'=>'-1','conditions'=>$upcond));
 						if(is_array($patient) && count($patient)>0){
 							$patientemail=$patient['Patient']['email'];
 							$patientname=$patient['Patient']['name'];
 							$data = array(
 								'name'=>$patientname,
-								'doctmessage'=>$this->request->data['CaseCommunication']['comment']
+								'doctmessage'=>$this->request->data['CaseCommunication']['comment'],
+								'who_do'=>$doct_name
 							);
 							if($patientemail!=''){
 								$this->sitemailsend($mailtype=4,$from=array(),$to=$patientemail,$message="EDC Email question edit",$data);
 							}
 						}
 					}
+					else{
+						//mail to the patient about the doct message
+						$upcond=array(
+							'Patient.id'=>$this->request->data['CaseCommunication']['patient_id']
+						);
+						$patient = $this->CaseCommunication->Patient->find('first',array('recursive'=>'-1','conditions'=>$upcond));
+						if(is_array($patient) && count($patient)>0){
+							$patientemail=$patient['Patient']['email'];
+							$patientname=$patient['Patient']['name'];
+							$data = array(
+								'name'=>$patientname,
+								'message'=>$this->request->data['CaseCommunication']['comment'],
+								'who_do'=>$doct_name
+							);
+							if($patientemail!=''){
+								$this->sitemailsend($mailtype=15,$from=array(),$to=$patientemail,$message="EDC Email doct communication",$data);
+							}
+						}
+					}
 				}
 			}
 			elseif($this->Session->read('loggedpatientid')>0){
+				
 				//post by patients
 				$this->request->data['CaseCommunication']['patient_id']=$this->Session->read('loggedpatientid');
 				$this->request->data['CaseCommunication']['isdoctoresent']=0;
@@ -113,6 +142,32 @@ class CaseCommunicationsController extends AppController {
 					$postdate = date("G:i - d M Y");
 					//now update the case with Input Recieved(3)
 					$this->CaseCommunication->DoctorCase->updateAll(array("DoctorCase.satatus"=>'3'),array('DoctorCase.id'=>$this->request->data['CaseCommunication']['doctor_case_id']));
+					// send email to the doctor for patient reply
+					$patientcond=array('Patient.id'=>$this->Session->read('loggedpatientid'));
+					$patient = $this->CaseCommunication->Patient->find('first',array('recursive'=>'-1','conditions'=>$patientcond));
+					$patient_name='';
+					if(is_array($patient) && count($patient)>0){
+						$patient_name = $patient['Patient']['name'];
+					}
+					//now get doct id
+					$doct_id = $this->request->data['CaseCommunication']['doct_id'];
+					if($doct_id>0){
+						$doctcond=array('Patient.id'=>$doct_id);
+						$doctor = $this->CaseCommunication->Patient->find('first',array('recursive'=>'-1','conditions'=>$doctcond));
+	
+						if(is_array($doctor) && count($doctor)>0){
+							$doct_name = $doctor['Patient']['name'];
+							$doct_email = $doctor['Patient']['email'];
+							$data = array(
+								'name'=>$doct_name,
+								'message'=>$this->request->data['CaseCommunication']['comment'],
+								'who_do'=>$patient_name
+							);
+							if($doct_email!=''){
+								$this->sitemailsend($mailtype=5,$from=array(),$to=$doct_email,$message="EDC Email patient communication",$data);
+							}
+						}
+					}
 				}
 			}
 			

@@ -24,8 +24,6 @@
 		<p style="margin:0 0 5px 10px;">Diagonisis Name : <?=$diagonisis?></p>
 		<p style="margin:0 0 5px 10px;">Appointment Date : <?=$available_date?></p>
 		<p style="margin:0 0 5px 10px;">Opinion Due Date : <?=$opinion_due_date?></p>
-		
-		<!--<p style="margin:0 0 5px 10px;">Consultant Fee : $<?=$consultant_fee?></p>-->
 	</div>
 	
 	<div style="clear:both;"></div>

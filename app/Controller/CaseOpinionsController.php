@@ -202,7 +202,12 @@ class CaseOpinionsController extends AppController {
 						//now update the case with opinion post (4)
 						$caseupcond=array('DoctorCase.id'=>$doctcaseid,'DoctorCase.doctor_id'=>$this->Session->read("loggeddoctid"));
 						$this->CaseOpinion->DoctorCase->updateAll(
-						array("DoctorCase.satatus"=>'4','DoctorCase.closedate'=>"'".$caseclosedate."'",'DoctorCase.deactivatedata'=>"'".$casedeletedate."'"),
+						array(
+							"DoctorCase.satatus"=>'4',
+							'DoctorCase.is_opnion_given'=>'1',
+							'DoctorCase.closedate'=>"'".$caseclosedate."'",
+							'DoctorCase.deactivatedata'=>"'".$casedeletedate."'"
+						),
 						$caseupcond);
 						$casedoctor = $caseOpinion['DoctorCase'];
 						
@@ -228,6 +233,22 @@ class CaseOpinionsController extends AppController {
 								);
 								//pr($data);
 								$this->sitemailsend($mailtype=3,$from=array(),$to=$patientemail,$messages="EDC Email Opinion",$data);
+							}
+							//now send the email to doctor
+							$doct_email = (isset($casedoctor['Doctor']['email']))?$casedoctor['Doctor']['email']:'';
+							$doct_name=(isset($casedoctor['Doctor']['name']))?$casedoctor['Doctor']['name']:'';
+							if($doct_email!=''){
+								$ddata=array(
+									'name'=>$doct_name,
+									'patientname'=>$patientname,
+									'case_id'=>$doctcaseid,
+									'case_close_date'=>$caseclosedate,
+									'opinion_issue_date'=>$today,
+									'case_delete_date'=>$casedeletedate,
+									'opinion_comment'=>$opinion_comment
+								);
+								//pr($data);
+								$this->sitemailsend($mailtype=12,$from=array(),$to=$doct_email,$messages="EDC Email Opinion",$ddata);
 							}
 						}
 					}

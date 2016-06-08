@@ -202,11 +202,12 @@ class AppController extends Controller {
 	
 	public function sitemailsend($mailtype=0,$from=array(),$to="",$message="EDC Email",$data=array()){
 		//get the admin configre email sections
+		
 		$this->loadModel('Service');
 		$adminemails = $this->Service->find('first',array('fields'=>array('Service.sending_email','Service.receiving_email','Service.id')));
-		$adminname="Eradicate Cancer";
-		$adminsendemail="Eradicate Cancer";
-		$adminrecieveemail="contact@eradicatecancer.com";
+		$adminname="EDC support team";
+		$adminsendemail="edc@support.com";
+		$adminrecieveemail="edc@support.com";
 		$bodymessage="";
 		
 		if(is_array($adminemails) && count($adminemails)>0){
@@ -214,12 +215,14 @@ class AppController extends Controller {
 			$adminrecieveemail = isset($adminemails['Service']['receiving_email'])?$adminemails['Service']['receiving_email']:$adminrecieveemail;
 		}
 		$Email = new CakeEmail($this->mailTransportType);
+		
 		//dynamic smpt configuration section
 		if($this->mailTransportType=='smtp'){
 			$dynamic_smtp = $this->getSmtpConfigdata();
 			//pr($dynamic_smtp);
 			$Email->config($dynamic_smtp);
 		}
+		
 		
 		if(!is_array($from) || count($from)==0){
 			$from=array($adminsendemail=>$adminname);
@@ -232,7 +235,7 @@ class AppController extends Controller {
 		//if reviever email is valid then
 		if(filter_var($to,FILTER_VALIDATE_EMAIL)){
 			//get the boddy text and data from admin 
-			if($mailtype!=14 && $mailtype!=16){
+			if($mailtype!=14){
 				$emaildata = $this->getemailbodytext($mailtype);
 				$bodymessage=isset($emaildata['body_txt'])?$emaildata['body_txt']:'';
 			}
@@ -266,8 +269,7 @@ class AppController extends Controller {
 					//patient give reply to the doctor message
 					//$subjects="Your patient give reply to you";
 					$subjects="You have received a communication from a patient";
-					//$templatenameview="patientreply";
-					$templatenameview="doctpatientcommuniction";
+					$templatenameview="patientreply";
 					break;
 				case 6:
 					//patient re update the questionnair
@@ -287,7 +289,7 @@ class AppController extends Controller {
 					$templatenameview="forgotpassword";
 					break;
 				case 10: //new case assing
-					$subjects="You have been assigned with a case , with due date";
+					$subjects="You have been assigned a case , with due date";
 					$templatenameview="caseassign";
 					break;
 				case 11: //due alert
@@ -299,35 +301,19 @@ class AppController extends Controller {
 					$templatenameview="thanks";
 					break;
 				case 13: //Past Due opinion
-					$subjects="You missed to gave an opinion";
-					$templatenameview="opinionmissed";
+					$subjects="Doctor missed to gave opinion";
+					$templatenameview="opiniondueadmin";
 					break;
 				case 14://bulk mail from admin section
 					$subjects=$data['email_sub'];
 					$templatenameview="bulkmail";
 					$bodymessage=$data['email_body'];
-				case 15:
-					//doctor send communication 
-					$subjects="You have received a communication from your doctor";
-					$templatenameview="doctpatientcommuniction";
-					break;
-				case 16: // opinion 2 day pre alert for admin
-					$subjects="Doctor need to submit an opinion within 2 days";
-					$templatenameview="opiniondue";
-					$bodymessage=isset($data['doct_name'])?$data['doct_name']:'Doctor';
-					$bodymessage.=" need to be post an opinion.";
-					break;
-				case 17: // opinion missed alert for admin
-					$subjects="Doctor missed to gave an opinion";
-					$templatenameview="opinionmissed";
-					$bodymessage=isset($data['doct_name'])?$data['doct_name']:'Doctor';
-					$bodymessage.=" missed to post an opinion.";
-					break;
 				default:
 					break;
 			}
-			//now set the body message
+			
 			$data['bodymessage']=$bodymessage;
+			
 			$Email->from($from);
 			$Email->to($to);
 			//hear need to keep the admin as bcc
@@ -341,7 +327,7 @@ class AppController extends Controller {
 	}
 	
 	public function getemailbodytext($emailtype=0){
-		$this->loadModel('EmailText');
+		$this->loadmodel('EmailText');
 		$retdata=array('body_txt'=>'');
 		$emailtexts = $this->EmailText->find('first');
 		if(is_array($emailtexts) && count($emailtexts)>0){
@@ -382,9 +368,6 @@ class AppController extends Controller {
 					break;
 				case 13:
 					$body_txt=isset($emailtexts['EmailText']['opinion_missed'])?$emailtexts['EmailText']['opinion_missed']:'';
-					break;
-				case 15:
-					$body_txt=isset($emailtexts['EmailText']['communication_recieve'])?$emailtexts['EmailText']['communication_recieve']:'';
 					break;
 				default:
 					break;
@@ -466,11 +449,11 @@ class AppController extends Controller {
 			'transport' => 'Smtp',
 			'host' => $smtp_host,
 			'port' =>$smtp_port, //465 587,
-			'timeout' => 60,
+			'timeout' => 30,
 			'username' =>$smtp_username,
 			'password' =>$smtp_password,
 			'client' =>$smtp_client,
-			'log' => false,
+			'log' => true,
 			'charset' => 'utf-8',
 			'headerCharset' => 'utf-8',
 			'context' => array(
@@ -484,7 +467,7 @@ class AppController extends Controller {
 		
 		return $dynamic_smtp;
 	}
-	
+
 /**
  * siteyeargenerator method
  * @return array $years
@@ -507,165 +490,5 @@ class AppController extends Controller {
 		
 	}
 	
-/**
- * opinionsendremainder method
- * @param string $doctor_id
- * @return void
- */
-	public function opinionsendremainder($doctor_id=0){
-		$this->loadModel('DoctorCase');
-		$startdate = date("Y-m-d",strtotime("+2 days"));
-		$findcond = array(
-			'DoctorCase.is_deleted'=>'0',
-			'DoctorCase.isclosed'=>'0',
-			'DoctorCase.is_opnion_given'=>'0',
-			'DoctorCase.ispaymentdone'=>'1',
-			'DoctorCase.is_opinion_alert_send'=>'0',
-			'DoctorCase.opinion_due_date'=>$startdate,
-		);
-		$limit=60;
-		
-		if($doctor_id>0){
-			$findcond['DoctorCase.doctor_id']=$doctor_id;
-			$limit=20;
-		}
-		//now find the case detaild
-		$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'0','conditions'=>$findcond,'limit'=>$limit));
-		//pr($doctorCases);
-		
-		if(is_array($doctorCases) && count($doctorCases)>0){
-			foreach($doctorCases as $doctorCase){
-				$patient = isset($doctorCase['Patient'])?$doctorCase['Patient']:array();
-				$doctor = isset($doctorCase['Doctor'])?$doctorCase['Doctor']:array();
-				$case = isset($doctorCase['DoctorCase'])?$doctorCase['DoctorCase']:array();
-				
-				// doctor detail
-				$doct_name = isset($doctor['name'])?$doctor['name']:'';
-				$doct_email = isset($doctor['email'])?$doctor['email']:'';
-				//patient name
-				$patient_name = isset($patient['name'])?$patient['name']:'';
-				
-				//case details
-				$case_id = isset($case['id'])?$case['id']:0;
-				$diagonisis = isset($case['diagonisis'])?$case['diagonisis']:'';
-				$available_date = isset($case['available_date'])?$case['available_date']:'';
-				$opinion_due_date = isset($case['opinion_due_date'])?$case['opinion_due_date']:'';
-				$ddata = array(
-					'name'=>$doct_name,
-					'case_id'=>$case_id,
-					'patientname'=>$patient_name,
-					'diagonisis'=>$diagonisis,
-					'available_date'=>$available_date,
-					'opinion_due_date'=>$opinion_due_date
-				);
-				if($doct_email!=''){
-					$this->sitemailsend($mailtype='11',$from=array(),$to=$doct_email,$message="",$ddata);
-				}
-				//admin section mail
-				$adata = array(
-					'name'=>'Admin',
-					'doct_name'=>$doct_name,
-					'case_id'=>$case_id,
-					'patientname'=>$patient_name,
-					'diagonisis'=>$diagonisis,
-					'available_date'=>$available_date,
-					'opinion_due_date'=>$opinion_due_date
-				);
-				//now get send to the admin 
-				$this->sitemailsend($mailtype='16',$from=array(),$to='',$message="",$adata);
-				
-				//now need to update the case as alert send
-				$upcond = array(
-					'DoctorCase.id'=>$case_id
-				);
-				$updata = array(
-					'DoctorCase.is_opinion_alert_send'=>'1'
-				);
-				$this->DoctorCase->updateAll($updata,$upcond);
-			}
-		}
-		//die();
-	}
 	
-/**
- * opinionmissedremainder method
- * @param string $doctor_id
- * @return void
- */
-	public function opinionmissedremainder($doctor_id=0){
-		$this->loadModel('DoctorCase');
-		//$startdate = date("Y-m-d",strtotime("+1 days"));
-		$startdate = date("Y-m-d");
-		$findcond = array(
-			'DoctorCase.is_deleted'=>'0',
-			'DoctorCase.isclosed'=>'0',
-			'DoctorCase.is_opnion_given'=>'0',
-			'DoctorCase.ispaymentdone'=>'1',
-			'DoctorCase.is_opinion_alert_send !='=>'2',
-			'DoctorCase.opinion_due_date <'=>$startdate
-		);
-		$limit=60;
-		
-		if($doctor_id>0){
-			$findcond['DoctorCase.doctor_id']=$doctor_id;
-			$limit=20;
-		}
-		//now find the case detaild
-		$doctorCases = $this->DoctorCase->find('all',array('recursive'=>'0','conditions'=>$findcond,'limit'=>$limit));
-		//pr($doctorCases);
-		
-		if(is_array($doctorCases) && count($doctorCases)>0){
-			foreach($doctorCases as $doctorCase){
-				$patient = isset($doctorCase['Patient'])?$doctorCase['Patient']:array();
-				$doctor = isset($doctorCase['Doctor'])?$doctorCase['Doctor']:array();
-				$case = isset($doctorCase['DoctorCase'])?$doctorCase['DoctorCase']:array();
-				
-				// doctor detail
-				$doct_name = isset($doctor['name'])?$doctor['name']:'';
-				$doct_email = isset($doctor['email'])?$doctor['email']:'';
-				//patient name
-				$patient_name = isset($patient['name'])?$patient['name']:'';
-				
-				//case details
-				$case_id = isset($case['id'])?$case['id']:0;
-				$diagonisis = isset($case['diagonisis'])?$case['diagonisis']:'';
-				$available_date = isset($case['available_date'])?$case['available_date']:'';
-				$opinion_due_date = isset($case['opinion_due_date'])?$case['opinion_due_date']:'';
-				$ddata = array(
-					'name'=>$doct_name,
-					'case_id'=>$case_id,
-					'patientname'=>$patient_name,
-					'diagonisis'=>$diagonisis,
-					'available_date'=>$available_date,
-					'opinion_due_date'=>$opinion_due_date
-				);
-				if($doct_email!=''){
-					$this->sitemailsend($mailtype='13',$from=array(),$to=$doct_email,$message="",$ddata);
-				}
-				//admin section mail
-				$adata = array(
-					'name'=>'Admin',
-					'doct_name'=>$doct_name,
-					'case_id'=>$case_id,
-					'patientname'=>$patient_name,
-					'diagonisis'=>$diagonisis,
-					'available_date'=>$available_date,
-					'opinion_due_date'=>$opinion_due_date
-				);
-				//now get send to the admin 
-				$this->sitemailsend($mailtype='17',$from=array(),$to='',$message="",$adata);
-				
-				//now need to update the case as alert send
-				$upcond = array(
-					'DoctorCase.id'=>$case_id
-				);
-				$updata = array(
-					'DoctorCase.is_opinion_alert_send'=>'2'
-				);
-				$this->DoctorCase->updateAll($updata,$upcond);
-			}
-		}
-		//die();
-	}
-
 }

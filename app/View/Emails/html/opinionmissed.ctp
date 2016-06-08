@@ -6,9 +6,6 @@
 		if(isset($bodymessage) && $bodymessage!=''){
 			echo $bodymessage;
 		}
-		else{
-			//echo "You have to give your opinion widthin due date";
-		}
 	?>
 	</p>
 	<div style="clear:both;"></div>
@@ -31,7 +28,6 @@
 		<p style="margin:0 0 5px 10px;">Diagonisis Name : <?=$diagonisis?></p>
 		<p style="margin:0 0 5px 10px;">Appointment Date : <?=$available_date?></p>
 		<p style="margin:0 0 5px 10px;">Opinion Due Date : <?=$opinion_due_date?></p>
-		
 	</div>
 	
 	<div style="clear:both;"></div>

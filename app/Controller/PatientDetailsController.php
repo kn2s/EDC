@@ -142,9 +142,9 @@ class PatientDetailsController extends AppController {
 			//array_push($years,$k);
 			$years[$k]=$k;
 		}
-		pr($eightteenyears);
-		die();
-		$this->set(compact('countries','months','days','years'));
+		//pr($eightteenyears);
+		//die();
+		$this->set(compact('months','days','years'));
 	}
 	
 /**
@@ -715,8 +715,9 @@ class PatientDetailsController extends AppController {
 					$ispayaccountpresent=0;
 					if(is_array($paymentdetails) && count($paymentdetails)>0){
 						if(isset($paymentdetails['Service']['payment_account']) && $paymentdetails['Service']['payment_account']!=''){
+							$ispayaccountpresent=1;
 							if($paymentdetails['Service']['payment_on_off']){
-								$ispayaccountpresent=1;
+								
 								$mode = $paymentdetails['Service']['payment_mode'];
 								$amount = $paymentdetails['Service']['consulting_charge'];
 								$baseurls = FULL_BASE_URL.$this->base."/";
@@ -779,9 +780,24 @@ class PatientDetailsController extends AppController {
 											'consultant_fee'=>$doctorcase['DoctorCase']['consultant_fee'],
 											'diagonisis'=>$doctorcase['DoctorCase']['diagonisis'],
 											'doctorname'=>$doctorname,
+											'case_id'=>$doctorcase['DoctorCase']['id']
 										);
 										
 										$this->sitemailsend($mailtype=2,$from=array(),$to=$patientemail,$message="EDC Email",$data);
+									}
+									// doctor reveive a mail about the case 
+									$doctor_email = (isset($doctorcase['Doctor']['email']))?$doctorcase['Doctor']['email']:'';
+									if($doctor_email!=''){
+										$ddata = array(
+											'name'=>$doctorname,
+											'available_date'=>$doctorcase['DoctorCase']['available_date'],
+											'opinion_due_date'=>$doctorcase['DoctorCase']['opinion_due_date'],
+											'consultant_fee'=>$doctorcase['DoctorCase']['consultant_fee'],
+											'diagonisis'=>$doctorcase['DoctorCase']['diagonisis'],
+											'patientname'=>$patientname,
+											'case_id'=>$doctorcase['DoctorCase']['id']
+										);
+										$this->sitemailsend($mailtype=10,$from=array(),$to=$doctor_email,$message="EDC case assign Email",$ddata);
 									}
 									//update the doctor schedule 
 									$scheduledcotid=$doctorcase['DoctorCase']['schedule_doctor_id'];
@@ -830,8 +846,9 @@ class PatientDetailsController extends AppController {
 									//new
 									$patientupddata = array('Patient.detailsformsubmit'=>'6','Patient.is_questionnair_closed'=>'0');
 									$patientcond = array('Patient.id'=>$patientid);
-									$this->Patient->updateAll($patientupddata,$patientcond);
-									$this->Session->setFlash(__('Your payment successfully done. Transaction id : '.$txn_id));
+									$this->PatientDetail->Patient->updateAll($patientupddata,$patientcond);
+									$this->Session->setFlash(__('Your questionnaire submitted successfully. Transaction id : '.$txn_id));
+									$this->redirect(array('action'=>'patientconsultant'));
 								}
 							}
 						}
@@ -844,7 +861,6 @@ class PatientDetailsController extends AppController {
 						$this->Session->setFlash(__('Some thing gone wrong in payment process please take a look after few minutes.'));
 						$this->redirect(array('action'=>'patientconsultant'));
 					}
-					//$paypal_id='mrintoryal_business@yahoo.in';
 				}
 				else{
 					//transaction time out
@@ -859,7 +875,7 @@ class PatientDetailsController extends AppController {
 			}
 		}
 		else{
-			$this->Session->setFlash(__('The details could not found.'));
+			$this->Session->setFlash(__('The details are missing.'));
 			$this->redirect(array('action'=>'patientconsultant'));
 		}
 	}
@@ -917,7 +933,7 @@ class PatientDetailsController extends AppController {
 					//$this->PatientDetail->Patient->id=$this->Session->read("loggedpatientid");
 					//$this->PatientDetail->Patient->saveField('detailsformsubmit','6');
 					//$this->Session->setFlash(__('The consultants saved.'));
-					$this->redirect(array('controller'=>'patients','action'=>'dashboard'));*/
+					$this->redirect(array('controller'=>'patients','action'=>'dashboard'));
 					
 		*/
 	}

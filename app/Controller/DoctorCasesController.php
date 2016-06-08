@@ -194,7 +194,7 @@ class DoctorCasesController extends AppController {
  */
 	public function admin_add() {
 		$this->gotodashboard();
-		die();
+		//die();
 		/*if ($this->request->is('post')) {
 			$this->DoctorCase->create();
 			if ($this->DoctorCase->save($this->request->data)) {
@@ -207,7 +207,7 @@ class DoctorCasesController extends AppController {
 		$patients = $this->DoctorCase->Patient->find('list');
 		$doctors = $this->DoctorCase->Doctor->find('list');
 		$this->set(compact('patients', 'doctors'));*/
-		die();
+		//die();
 	}
 
 /**
@@ -280,7 +280,8 @@ class DoctorCasesController extends AppController {
 		$updatecon = array(
 			'DoctorCase.is_deleted'=>'0',
 			'DoctorCase.isclosed'=>'0',
-			'DoctorCase.satatus'=>'4', //opinion given
+			//'DoctorCase.satatus'=>'4', //opinion given
+			'DoctorCase.is_opnion_given'=>'1', //opinion given
 			'DoctorCase.closedate <='=>date("Y-m-d") //to days case need to block
 		);
 		
@@ -308,10 +309,9 @@ class DoctorCasesController extends AppController {
 		$updatecon = array(
 			'DoctorCase.is_deleted'=>'0',
 			'DoctorCase.isclosed'=>'1',
-			'DoctorCase.satatus'=>'4', //opinion given
+			'DoctorCase.is_opnion_given'=>'1', //opinion given
 			'DoctorCase.deactivatedata <='=>date("Y-m-d") //to days case need to block
 		);
-		
 		$this->DoctorCase->displayField="patient_id";
 		$cashedetails = $this->DoctorCase->find('list',array('conditions'=>$updatecon,'limit'=>60));
 		if(is_array($cashedetails) && count($cashedetails)>0 ){
@@ -331,7 +331,8 @@ class DoctorCasesController extends AppController {
 		$updatecon = array(
 			'DoctorCase.is_deleted'=>'0',
 			'DoctorCase.isclosed'=>'1',
-			'DoctorCase.satatus'=>'4', //opinion given
+			//'DoctorCase.satatus'=>'4', //opinion given
+			'DoctorCase.is_opnion_given'=>'1', //opinion given
 			'DoctorCase.deactivatedata <='=>date("Y-m-d",strtotime("-1 month")) //to days case need to block
 		);
 		if($doctor_id>0){
